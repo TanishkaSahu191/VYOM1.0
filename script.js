@@ -4206,6 +4206,9 @@
       }
       if (window.SpaceshipEngine) {
         window.SpaceshipEngine.init();
+        if (window.SpaceshipEngine.onShow) {
+          window.SpaceshipEngine.onShow();
+        }
       }
     }
   }

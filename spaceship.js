@@ -238,6 +238,14 @@
       this.animate();
     }
 
+    onShow() {
+      if (!this.camera || !this.renderer) return;
+      const w = window.innerWidth, h = window.innerHeight;
+      this.camera.aspect = w / h;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(w, h);
+    }
+
     // ------------------------------------------
     // SCENE & LIGHTING
     // ------------------------------------------
@@ -549,11 +557,16 @@
       });
     }
     setMission(tag, text, hint) {
-      document.getElementById('shipMission').classList.add('is-open');
-      document.getElementById('shipMissionTag').textContent = tag;
-      document.getElementById('shipMissionText').textContent = text;
-      document.getElementById('shipMissionHint').textContent = hint || '';
-      document.getElementById('shipChoices').innerHTML = '';
+      const m = document.getElementById('shipMission');
+      if (m) m.classList.add('is-open');
+      const tagEl = document.getElementById('shipMissionTag');
+      if (tagEl) tagEl.textContent = tag;
+      const textEl = document.getElementById('shipMissionText');
+      if (textEl) textEl.textContent = text;
+      const hintEl = document.getElementById('shipMissionHint');
+      if (hintEl) hintEl.textContent = hint || '';
+      const choicesEl = document.getElementById('shipChoices');
+      if (choicesEl) choicesEl.innerHTML = '';
     }
     hideMission() { const m = document.getElementById('shipMission'); if (m) m.classList.remove('is-open'); }
     ask(tag, text, choices, hint) {
@@ -561,6 +574,7 @@
       return new Promise(res => {
         this.setMission(tag, text, hint);
         const wrap = document.getElementById('shipChoices');
+        if (!wrap) { res(choices[0] ? choices[0].key : null); return; }
         choices.forEach(c => {
           const b = document.createElement('button'); b.type = 'button'; b.className = 'ship-choice'; b.textContent = c.label;
           b.addEventListener('click', () => { this.audio.playClickSound(); wrap.innerHTML = ''; if (this.run === r) res(c.key); });
@@ -586,9 +600,11 @@
     // ------------------------------------------
     showIntro() {
       this.introShown = true;
-      this.freeWalk = true;
-      this.resetAstro(0, 0, 2.5, 0);
-      this.setLightingMode('day');
+      this.dialog({
+        title: 'Life in Space: 4 Educational Challenges',
+        html: '<p>Welcome aboard the crew habitat! Discover how daily life works in <b>zero gravity</b> across 4 challenges: <b>sleeping, brushing teeth, grooming, and eating</b>.</p><ul><li>Make the right decisions to protect crew safety and conserve life-support resources.</li><li>Each mistake costs one of your <b>3 lives</b>.</li><li>Explore the dock with <span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span>, drag to orbit the camera, and click units on the left to inspect them.</li></ul>',
+        btn: 'Begin Astronaut Mission'
+      }).then(() => this.beginMission());
     }
     beginMission() {
       this.run++; this.lives = CONFIG.lives; this.stage = 0; this.done = {}; this.freeWalk = false; this.hideMission(); this.pouch.userData.carry = false; this.shake = 0;

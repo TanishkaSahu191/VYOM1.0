@@ -1828,8 +1828,110 @@
        7. PHASE 6: MY SPACESHIP (PHOTOREALISTIC 3D ISS INTERIOR)
        ======================================================== -->
   <section id="spaceshipStage" class="spaceship-stage" aria-label="My Spaceship 3D Interior" style="display: none;">
-    <!-- 3D WebGL Canvas (Pure 3D Model View) -->
+    <!-- 3D WebGL Canvas -->
     <canvas id="spaceshipCanvas"></canvas>
+
+    <!-- Top Status & ECLSS Header Bar -->
+    <header class="ship-top-bar">
+      <div class="ship-brand-group">
+        <span class="ship-emblem">🛸</span>
+        <div>
+          <div class="ship-main-title">Life in Space: Crew Habitat</div>
+          <div class="ship-sub-title">SLEEPING · BATHING · FOOD · CONTROL</div>
+        </div>
+      </div>
+
+      <!-- Life Support Telemetry -->
+      <div class="ship-eclss-bar">
+        <div class="ship-eclss-item">
+          <span class="ship-status-dot"></span>
+          <span>ECLSS NOMINAL</span>
+        </div>
+        <span>•</span>
+        <div>PRESSURE: <strong>101.3 kPa</strong></div>
+        <span>•</span>
+        <div>O₂: <strong>21.2%</strong></div>
+        <span>•</span>
+        <div>CO₂: <strong>0.3%</strong></div>
+        <span>•</span>
+        <div>CABIN TEMP: <strong>21.5°C</strong></div>
+      </div>
+
+      <!-- Controls & Lighting Mode -->
+      <div class="ship-top-actions">
+        <div class="ship-light-toggle-group">
+          <button class="ship-light-pill active" data-mode="day" type="button" title="Day Operational Lighting (5000K Soft White)">☀️ Day</button>
+          <button class="ship-light-pill" data-mode="night" type="button" title="Night Crew Rest Mode (2700K Warm Amber)">🌙 Rest</button>
+          <button class="ship-light-pill emergency" data-mode="emergency" type="button" title="Emergency Depressurization Red Alert">🚨 Emergency</button>
+        </div>
+        <button class="ship-btn" id="shipAudioBtn" type="button" title="Toggle cabin ventilation hum">🔊 Audio: ON</button>
+      </div>
+    </header>
+
+    <!-- Left Crew Units Bar (replaces the old Viewports section) -->
+    <aside class="ship-presets-bar" aria-label="Crew Units">
+      <div class="ship-bar-head">CREW UNITS:</div>
+      <button class="ship-preset-btn active" data-preset="dock" type="button"><span>🚪</span><span>Dock Area</span></button>
+      <button class="ship-preset-btn" data-preset="sleep" type="button"><span>🛏️</span><span>Sleeping Unit</span></button>
+      <button class="ship-preset-btn" data-preset="bath" type="button"><span>🪥</span><span>Bathing Unit</span></button>
+      <button class="ship-preset-btn" data-preset="food" type="button"><span>🍲</span><span>Food Unit</span></button>
+      <button class="ship-preset-btn" data-preset="control" type="button"><span>🎛️</span><span>Control Room</span></button>
+    </aside>
+
+    <!-- Game HUD: lives + challenge progress -->
+    <div class="ship-hud" aria-live="polite">
+      <span id="shipLives" title="Lives">❤️❤️❤️</span>
+      <span id="shipStageLabel">Challenge 1 / 4</span>
+      <span id="shipPips"><i></i><i></i><i></i><i></i></span>
+      <button class="ship-btn" id="shipRestartBtn" type="button" title="Restart mission">↻</button>
+    </div>
+
+    <!-- Challenge / choice card -->
+    <div class="ship-mission" id="shipMission" role="region" aria-label="Current challenge">
+      <div class="ship-mission-tag" id="shipMissionTag">Challenge</div>
+      <p class="ship-mission-text" id="shipMissionText"></p>
+      <div class="ship-choices" id="shipChoices"></div>
+      <div class="ship-mission-hint" id="shipMissionHint"></div>
+    </div>
+
+    <div class="ship-toast" id="shipToast" role="status"></div>
+    <div class="ship-flash" id="shipFlash"></div>
+
+    <!-- Story / result dialog (filled by spaceship.js) -->
+    <div class="ship-dialog-overlay" id="shipDialog"><div class="ship-dialog-box" id="shipDialogBox"></div></div>
+
+    <!-- Floating Hotspot Inspector Card -->
+    <aside class="ship-inspector-card" id="shipInspectorCard" aria-label="Component Telemetry">
+      <div class="ship-card-header">
+        <span class="ship-card-title" id="shipInspectTitle">Component Inspector</span>
+        <button class="ship-btn" id="shipInspectClose" type="button" style="padding: 2px 6px;">✕</button>
+      </div>
+      <div class="ship-card-sub" id="shipInspectSub">TELEMETRY DATA</div>
+      <p class="ship-card-desc" id="shipInspectDesc">
+        Pick a crew unit on the left to look around and learn what it is for.
+      </p>
+      <div class="ship-card-specs">
+        <div class="ship-spec-row">
+          <span>OPERATIONAL STATE:</span>
+          <span id="shipSpecStatus">NOMINAL</span>
+        </div>
+        <div class="ship-spec-row">
+          <span>ATMOSPHERE / TELEMETRY:</span>
+          <span id="shipSpecPressure">101.3 kPa</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Bottom Controls Hint Bar -->
+    <div class="ship-controls-bar">
+      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Walk (dock area)</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Mouse Drag</span> Look Around</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Scroll</span> Zoom FOV</span>
+      <span>•</span>
+      <span style="color: #38bdf8;">Click glowing items when prompted</span>
+    </div>
   </section>
 
   <!-- Local Offline Three.js Engine -->
