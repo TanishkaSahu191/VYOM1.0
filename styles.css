@@ -2490,43 +2490,9 @@ body.on-launchpad .global-phase-nav {
   display: block;
 }
 
-/* Pilot & Copilot Seats Layer (Foreground Parallax) */
+/* Pilot & Copilot Seats Layer (Foreground Parallax - Removed per user request) */
 .cockpit-seats-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 7;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.cockpit-seat {
-  position: absolute;
-  bottom: -20px;
-  will-change: transform;
-  transition: transform 70ms cubic-bezier(0.1, 0.9, 0.2, 1);
-  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95));
-}
-
-.cockpit-seat img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.seat-pilot-left {
-  left: 2%;
-  width: 22vw;
-  max-width: 320px;
-  min-width: 190px;
-}
-
-.seat-copilot-right {
-  right: 2%;
-  width: 22vw;
-  max-width: 320px;
-  min-width: 190px;
+  display: none !important;
 }
 
 /* --- Closed-Caption Subtitle Bar (Bottom Center - Removed) --- */

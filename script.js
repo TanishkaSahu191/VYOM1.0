@@ -2446,12 +2446,7 @@
 
 
 
-      // Phase 7: Multi-Plane 3D Parallax on Cockpit Interior Structure
-      if (seatPilotLeft && seatCopilotRight) {
-        const sTransform = `translate3d(${normMouseX * 24}px, ${normMouseY * 14}px, 0)`;
-        seatPilotLeft.style.transform = sTransform;
-        seatCopilotRight.style.transform = sTransform;
-      }
+      // Phase 7: Multi-Plane 3D Parallax on Cockpit Interior Structure (Seats removed per user request)
       if (cockpitDashboardOverlay) {
         const tiltX = -normMouseY * 6;
         const tiltY = normMouseX * 7;
