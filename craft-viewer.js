@@ -1545,118 +1545,19 @@
   }
 
   // =========================================================================
-  // COMPONENTS LIST & LABELS OVERLAY
+  // COMPONENTS LIST & LABELS OVERLAY (Pure 3D Model View - Content Suppressed)
   // =========================================================================
   function buildComponentsList(craftId) {
-    const data = SPACECRAFT_3D_DATA[craftId];
-    if (!data) return;
-
     if (!compListEl) compListEl = document.getElementById('craft3DComponentsList');
     if (!labelsOverlayEl) labelsOverlayEl = document.getElementById('craft3DLabelsOverlay');
 
-    compListEl.innerHTML = '';
-    labelsOverlayEl.innerHTML = '';
+    if (compListEl) compListEl.innerHTML = '';
+    if (labelsOverlayEl) labelsOverlayEl.innerHTML = '';
     pinElements = [];
-
-    data.components.forEach((comp, idx) => {
-      // 1. Sidebar List Item
-      const item = document.createElement('div');
-      item.className = `craft3d-comp-item ${idx === 0 ? 'is-active' : ''}`;
-      item.setAttribute('data-id', comp.id);
-
-      item.innerHTML = `
-        <span class="comp-item-num">${comp.num}</span>
-        <div class="comp-item-text">
-          <span class="comp-item-name">${comp.name}</span>
-          <span class="comp-item-sub">${comp.system}</span>
-        </div>
-      `;
-
-      item.addEventListener('click', () => {
-        selectActiveComponent(comp.id);
-      });
-
-      compListEl.appendChild(item);
-
-      // 2. 3D Floating Pin Element
-      const pin = document.createElement('div');
-      pin.className = `craft3d-pin ${idx === 0 ? 'is-active' : ''}`;
-      pin.setAttribute('data-id', comp.id);
-
-      pin.innerHTML = `
-        <div class="pin-marker">
-          <span class="pin-num">${comp.num}</span>
-          <span class="pin-pulse"></span>
-        </div>
-        <div class="pin-card">
-          <span class="pin-system">${comp.system}</span>
-          <span class="pin-title">${comp.name}</span>
-        </div>
-      `;
-
-      pin.addEventListener('click', (e) => {
-        e.stopPropagation();
-        selectActiveComponent(comp.id);
-      });
-
-      labelsOverlayEl.appendChild(pin);
-
-      pinElements.push({
-        comp: comp,
-        el: pin,
-        pos3D: new THREE.Vector3(comp.pos[0], comp.pos[1], comp.pos[2])
-      });
-    });
-
-    // Default select first component
-    if (data.components.length > 0) {
-      selectActiveComponent(data.components[0].id);
-    }
   }
 
   function selectActiveComponent(compId) {
     activeCompId = compId;
-    const data = SPACECRAFT_3D_DATA[currentCraftId];
-    if (!data) return;
-
-    const comp = data.components.find(c => c.id === compId);
-    if (!comp) return;
-
-    // Update active class in sidebar items
-    const allItems = compListEl.querySelectorAll('.craft3d-comp-item');
-    allItems.forEach(it => {
-      it.classList.toggle('is-active', it.getAttribute('data-id') === compId);
-    });
-
-    // Update active class in 3D pins
-    pinElements.forEach(p => {
-      p.el.classList.toggle('is-active', p.comp.id === compId);
-    });
-
-    // Update Detail Card
-    const idxEl = document.getElementById('craft3DDetailIndex');
-    const nameEl = document.getElementById('craft3DDetailName');
-    const descEl = document.getElementById('craft3DDetailDesc');
-    const specsEl = document.getElementById('craft3DDetailSpecs');
-
-    if (idxEl) idxEl.textContent = `SUBSYSTEM 0${comp.num} // ${comp.system.toUpperCase()}`;
-    if (nameEl) nameEl.textContent = comp.name;
-    if (descEl) descEl.textContent = comp.desc;
-
-    if (specsEl) {
-      specsEl.innerHTML = comp.specs.map(s => `
-        <div class="detail-spec-cell">
-          <span class="detail-spec-lbl">${s.label}</span>
-          <span class="detail-spec-val">${s.val}</span>
-        </div>
-      `).join('');
-    }
-
-    // Smoothly rotate craft so component faces the camera
-    const compPos = new THREE.Vector3(comp.pos[0], comp.pos[1], comp.pos[2]);
-    const ang = Math.atan2(compPos.x, compPos.z);
-    targetRotY = -ang;
-
     if (window.audio && window.audio.playBeep) {
       window.audio.playBeep(1250, 0.03);
     }

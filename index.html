@@ -395,11 +395,10 @@
           <div class="craft3d-header-left">
             <div class="craft3d-meta-row">
               <span class="agency-badge" id="craft3DAgencyBadge">NASA // USA</span>
-              <span class="craft3d-sub-badge">3D ROTATABLE MODEL & LABELS</span>
+              <span class="craft3d-sub-badge">3D MODEL</span>
             </div>
             <div class="craft3d-title-group">
               <h2 class="craft3d-title" id="craft3DTitle">Orion MPCV</h2>
-              <span class="craft3d-subtitle" id="craft3DSubtitle">Deep Space Lunar Crew Exploration Vehicle</span>
             </div>
           </div>
 
@@ -413,11 +412,11 @@
           <button id="btnCloseCraft3D" class="craft3d-close-btn" type="button" title="Close 3D Inspector">✕</button>
         </div>
 
-        <!-- 3D Viewport + Component Explorer Body -->
+        <!-- 3D Viewport Body (Pure 3D Model Only) -->
         <div class="craft3d-body">
           <div class="craft3d-viewport-container" id="craft3DViewportContainer">
             <canvas id="craft3DCanvas"></canvas>
-            <div class="craft3d-labels-overlay" id="craft3DLabelsOverlay"></div>
+            <div class="craft3d-labels-overlay" id="craft3DLabelsOverlay" style="display: none;"></div>
 
             <!-- Viewport Bottom HUD Controls -->
             <div class="craft3d-viewport-controls">
@@ -433,42 +432,10 @@
                 </button>
               </div>
               <div class="craft3d-hint-pill">
-                <span>Drag to Rotate • Scroll to Zoom • Click Pin to Inspect</span>
+                <span>Drag to Rotate • Scroll to Zoom</span>
               </div>
             </div>
           </div>
-
-          <!-- Components Sidebar -->
-          <div class="craft3d-sidebar">
-            <div class="craft3d-sidebar-header">
-              <span class="sidebar-kicker">EXPLORE ALL SUBSYSTEMS</span>
-              <h3 class="sidebar-title">Annotated Components</h3>
-              <p class="sidebar-desc">Click any component below or on the 3D model to inspect verified flight engineering telemetry.</p>
-            </div>
-
-            <div class="craft3d-components-list" id="craft3DComponentsList">
-              <!-- Dynamically populated -->
-            </div>
-
-            <!-- Active Component Detail Dossier -->
-            <div class="craft3d-detail-card" id="craft3DDetailCard">
-              <div class="detail-badge" id="craft3DDetailIndex">SUBSYSTEM 01</div>
-              <h4 class="detail-name" id="craft3DDetailName">Crew Module</h4>
-              <p class="detail-desc" id="craft3DDetailDesc">Detailed component engineering telemetry.</p>
-              <div class="detail-specs-grid" id="craft3DDetailSpecs"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="craft3d-footer">
-          <div class="craft3d-footer-info">
-            <span class="info-dot"></span>
-            <span id="craft3DFooterStatus">All telemetry verified with ISRO & NASA human spaceflight programmes.</span>
-          </div>
-          <button id="btnCraft3DSelectMission" class="btn-select-rocket" type="button">
-            <span>Select for Mission ➔</span>
-          </button>
         </div>
       </div>
     </div>

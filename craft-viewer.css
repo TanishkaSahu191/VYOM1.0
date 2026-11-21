@@ -187,10 +187,12 @@
   transform: scale(1.08);
 }
 
-/* Modal Body Layout */
+/* Modal Body Layout - Full Cinematic 3D Viewport Only */
 .craft3d-body {
-  display: grid;
-  grid-template-columns: 1fr 360px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -201,6 +203,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  flex: 1;
   min-height: 0;
   background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.9) 0%, rgba(3, 7, 18, 1) 100%);
   overflow: hidden;
@@ -217,12 +220,17 @@
   display: block;
 }
 
-/* 3D Labels Overlay Layer */
+/* Hide content sidebar, pins overlay, and telemetry footer so only 3D model is shown */
+.craft3d-sidebar {
+  display: none !important;
+}
+
 .craft3d-labels-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
+  display: none !important;
+}
+
+.craft3d-footer {
+  display: none !important;
 }
 
 /* Individual 3D Floating Pin */
