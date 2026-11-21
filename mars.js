@@ -24,7 +24,10 @@
     dayNightCycleDuration: 180, // seconds for full day/night
     baseBackpackCapacity: 4,
     scanRange: 12.0, // meters
-    depositDistance: 14.0 // meters from Hab Dome
+    depositDistance: 14.0, // meters from Hab Dome
+    solarRechargeRate: 1.5, // % per second when stationary in sunlight
+    slopeDrainMultiplier: 2.0, // 2x drain on steep slope
+    craterHazardDistance: 78.0 // meters from Hab
   };
 
   // ==========================================
@@ -457,6 +460,86 @@
       } catch (e) {}
     }
 
+    playDrillSound() {
+      if (this.isMuted) return;
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(320, this.ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.2);
+      } catch (e) {}
+    }
+
+    playTelemetryBeep() {
+      if (this.isMuted) return;
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const freqs = [659, 880, 1174, 1760];
+        freqs.forEach((f, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime + idx * 0.08);
+          gain.gain.setValueAtTime(0.09, this.ctx.currentTime + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.07);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.08);
+          osc.stop(this.ctx.currentTime + idx * 0.08 + 0.07);
+        });
+      } catch (e) {}
+    }
+
+    playSuccessChime() {
+      if (this.isMuted) return;
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((f, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.06);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + i * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.6);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + i * 0.06);
+          osc.stop(this.ctx.currentTime + 0.6);
+        });
+      } catch (e) {}
+    }
+
+    playAlarmSound() {
+      if (this.isMuted) return;
+      this.init();
+      if (!this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(450, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.22);
+      } catch (e) {}
+    }
+
     toggleMute() {
       this.isMuted = !this.isMuted;
       if (this.windGain) {
@@ -537,6 +620,27 @@
       this.activeDossierSample = 0;
       this.lastCollectedIndex = 0;
       this.toastTimeout = null;
+
+      // Real-Mission & Gamified Rover State
+      this.score = 0;
+      this.roverDamage = 0;
+      this.isLandingSeqActive = false;
+      this.landingSeqStep = 1;
+      this.landingTimer = null;
+      this.hasSeenLandingSeq = false;
+      this.drillState = {
+        active: false,
+        sampleIndex: null,
+        sampleMesh: null,
+        stage: 1,
+        pos: 15,
+        dir: 1,
+        speed: 75,
+        quality: 'Standard Core',
+        multiplier: 1.0
+      };
+      this.isSolarRecharging = false;
+      this.onSteepSlope = false;
     }
 
     init() {
@@ -556,6 +660,11 @@
       this.isInitialized = true;
       this.updateHUD();
       this.animate();
+
+      // Trigger Post-Touchdown Sequence on first load
+      if (!this.hasSeenLandingSeq) {
+        setTimeout(() => this.startLandingSequence(), 600);
+      }
     }
 
     // ------------------------------------------
@@ -952,37 +1061,8 @@
 
     collectCurrentSample() {
       if (!this.targetedSample) return;
-      if (this.player.backpack.length >= this.player.backpackMax) {
-        this.audio.playBeep(300, 0.15);
-        alert(this.lang === 'en' ? 'Backpack full! Return to Hab Dome to deposit samples.' : 'बैकपैक भर गया है! नमूने जमा करने के लिए बेस लौटें।');
-        return;
-      }
-
-      const sIndex = this.targetedSample.userData.sampleIndex;
-      const sData = TRANSLATIONS[this.lang].samples[sIndex];
-
-      this.targetedSample.userData.collected = true;
-      this.targetedSample.visible = false;
-      this.player.backpack.push(sIndex);
-      this.collectedSampleTypes.add(sData.id);
-      this.lastCollectedIndex = sIndex;
-
-      // Update corresponding mission
-      if (sData.id === 'basalt') this.missions.scanBasalt = true;
-      if (sData.id === 'hematite') this.missions.collectHematite = true;
-      if (sData.id === 'sandstone') this.missions.collectSandstone = true;
-      if (sData.id === 'ice') this.missions.findIce = true;
-      if (sData.id === 'fossil') this.missions.collectFossil = true;
-
-      this.audio.playCollectSound();
-
-      document.getElementById('marsScannerCard').classList.remove('is-open');
-      this.targetedSample = null;
-
-      // Trigger Discovery Toast Notification
-      this.showDiscoveryToast(sData);
-
-      this.updateHUD();
+      // Launch Interactive Coring Mini-Game
+      this.startDrillMiniGame(this.targetedSample);
     }
 
     showDiscoveryToast(sData) {
@@ -1316,6 +1396,41 @@
       setObjState(mIce, this.missions.findIce);
       setObjState(mFossil, this.missions.collectFossil);
       setObjState(mDeposit, this.missions.depositBase, '[✓]', '[ ]');
+
+      // Update Mission Score & Health HUD
+      const scoreEl = document.getElementById('marsScoreVal');
+      if (scoreEl) scoreEl.textContent = `${this.score} PTS`;
+
+      const healthValEl = document.getElementById('marsHealthVal');
+      const healthFillEl = document.getElementById('marsHealthFill');
+      const currentHealth = Math.round(Math.max(0, 100 - this.roverDamage));
+      if (healthValEl) {
+        healthValEl.textContent = `${currentHealth}%`;
+        healthValEl.style.color = currentHealth > 50 ? '#4ade80' : (currentHealth > 25 ? '#facc15' : '#ef4444');
+      }
+      if (healthFillEl) {
+        healthFillEl.style.width = `${currentHealth}%`;
+        healthFillEl.style.background = currentHealth > 50 ? '#22c55e' : (currentHealth > 25 ? '#eab308' : '#ef4444');
+      }
+
+      // Update Solar / Climate Status Indicator
+      const solarText = document.getElementById('marsSolarStatusText');
+      const solarBox = document.getElementById('marsSolarStatusBox');
+      if (solarText && solarBox) {
+        if (this.isSolarRecharging) {
+          solarText.textContent = '☀️ SOLAR RECHARGE ACTIVE (+1.5%/s)';
+          solarBox.className = 'mars-status-indicator';
+        } else if (this.onSteepSlope) {
+          solarText.textContent = '⚠️ STEEP SLOPE: 2× BATTERY DRAIN';
+          solarBox.className = 'mars-status-indicator is-danger';
+        } else if (this.isStormActive) {
+          solarText.textContent = '🌪️ DUST STORM: ZERO SOLAR POWER';
+          solarBox.className = 'mars-status-indicator is-cold';
+        } else {
+          solarText.textContent = '☀️ DIRECT SUNLIGHT (SOLAR OK)';
+          solarBox.className = 'mars-status-indicator';
+        }
+      }
     }
 
     speakIntel(text) {
@@ -1347,6 +1462,628 @@
       this.updateHUD();
     }
 
+
+    // ------------------------------------------
+    // REAL-MISSION POST-LANDING SEQUENCE (30s)
+    // ------------------------------------------
+    startLandingSequence() {
+      const modal = document.getElementById('marsLandingIntroModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      this.isLandingSeqActive = true;
+      this.landingSeqStep = 1;
+      this.renderLandingStep();
+
+      clearInterval(this.landingTimer);
+      this.landingTimer = setInterval(() => {
+        if (!this.isLandingSeqActive) {
+          clearInterval(this.landingTimer);
+          return;
+        }
+        if (this.landingSeqStep < 5) {
+          this.landingSeqStep++;
+          this.renderLandingStep();
+        } else {
+          clearInterval(this.landingTimer);
+        }
+      }, 5500);
+    }
+
+    renderLandingStep() {
+      for (let i = 1; i <= 5; i++) {
+        const pill = document.getElementById(`landStepPill${i}`);
+        if (!pill) continue;
+        pill.classList.remove('is-active', 'is-done');
+        if (i < this.landingSeqStep) pill.classList.add('is-done');
+        else if (i === this.landingSeqStep) pill.classList.add('is-active');
+      }
+
+      const container = document.getElementById('marsLandingStepContent');
+      if (!container) return;
+
+      const nextBtn = document.getElementById('btnNextLandingStep');
+
+      if (this.landingSeqStep === 1) {
+        this.audio.playBeep(320, 0.2, 'triangle');
+        container.innerHTML = `
+          <div class="landing-content-card">
+            <div style="font-size: 2.2rem; text-align: center;">🚀 ➔ 🔴</div>
+            <h3 style="font-size: 1.15rem; color: #f97316; margin: 0; text-align: center;">PHASE 1: TOUCHDOWN IN JEZERO CRATER</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
+              Sky Crane touchdown completed nominal! The descent stage cut its bridle cables and flew away to crash-land at a safe distance. 
+              The exploration rover is now resting stably on pristine Martian regolith.
+            </p>
+            <div style="background: rgba(249, 115, 22, 0.12); border: 1px solid rgba(249, 115, 22, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #fed7aa;">
+              📍 Landing Coordinates: 18.38° N, 77.58° E (Ancient Jezero River Delta) • Velocity: 0.0 m/s
+            </div>
+          </div>
+        `;
+        if (nextBtn) nextBtn.textContent = 'Next: Systems Check ➔';
+      } else if (this.landingSeqStep === 2) {
+        this.audio.playTelemetryBeep();
+        container.innerHTML = `
+          <div class="landing-content-card">
+            <h3 style="font-size: 1.15rem; color: #22c55e; margin: 0; text-align: center;">PHASE 2: AUTONOMOUS SYSTEMS HEALTH CHECK</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.4; margin: 0;">
+              Before attempting any movement, the onboard computer runs critical diagnostic selftests across all avionics and mobility sub-systems:
+            </p>
+            <div class="landing-check-grid">
+              <div class="diag-item">
+                <span class="diag-icon">⚡</span>
+                <div><div class="diag-name">BATTERY / RTG</div><div class="diag-val" style="color: #4ade80;">100% NOMINAL ✅</div></div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-icon">📡</span>
+                <div><div class="diag-name">UHF ANTENNA</div><div class="diag-val" style="color: #38bdf8;">ALIGNED & ONLINE ✅</div></div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-icon">⚙️</span>
+                <div><div class="diag-name">6 TITANIUM WHEELS</div><div class="diag-val" style="color: #4ade80;">ACTUATORS UNLOCKED ✅</div></div>
+              </div>
+              <div class="diag-item">
+                <span class="diag-icon">📷</span>
+                <div><div class="diag-name">MAST & HAZCAMS</div><div class="diag-val" style="color: #facc15;">CALIBRATED & READY ✅</div></div>
+              </div>
+            </div>
+          </div>
+        `;
+        if (nextBtn) nextBtn.textContent = 'Next: Signal Earth ➔';
+      } else if (this.landingSeqStep === 3) {
+        this.audio.playTelemetryBeep();
+        container.innerHTML = `
+          <div class="landing-content-card">
+            <div style="font-size: 2.2rem; text-align: center;">📡 〰️〰️ (~14 min) 〰️〰️ 🌍</div>
+            <h3 style="font-size: 1.15rem; color: #38bdf8; margin: 0; text-align: center;">PHASE 3: TRANSMITTING "SAFE LANDING" TO EARTH</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
+              The high-gain antenna sends the historic telemetry packet: <em>"TOUCHDOWN CONFIRMED • ROVER SAFE ON MARS!"</em>
+            </p>
+            <div style="background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #a5f3fc;">
+              💡 Real Science Fact: Radio signals travel at the speed of light (300,000 km/s). 
+              Because Mars is ~225 million km away, this message takes <strong>14 minutes and 6 seconds</strong> to reach Ground Control on Earth!
+            </div>
+          </div>
+        `;
+        if (nextBtn) nextBtn.textContent = 'Next: Deploy Instruments ➔';
+      } else if (this.landingSeqStep === 4) {
+        this.audio.playScanSound();
+        container.innerHTML = `
+          <div class="landing-content-card">
+            <div style="font-size: 2.2rem; text-align: center;">🔭 ☀️ 🤖</div>
+            <h3 style="font-size: 1.15rem; color: #eab308; margin: 0; text-align: center;">PHASE 4: SOLAR DEPLOYMENT & 360° TERRAIN SCAN</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
+              The rover raises its remote sensing mast 2 meters high. MastCam-Z rotates 360 degrees to photograph the landing site, identifying safe drive corridors, boulder fields, and distant crater rim slopes.
+            </p>
+            <div style="background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #fef08a;">
+              📸 Panoramic NavCam scan complete: 4 primary science targets and 2 hazard slopes cataloged on Tactical Radar.
+            </div>
+          </div>
+        `;
+        if (nextBtn) nextBtn.textContent = 'Next: First Drive ➔';
+      } else if (this.landingSeqStep === 5) {
+        this.audio.playSuccessChime();
+        container.innerHTML = `
+          <div class="landing-content-card">
+            <div style="font-size: 2.2rem; text-align: center;">🎮 🚜 🌟</div>
+            <h3 style="font-size: 1.15rem; color: #22c55e; margin: 0; text-align: center;">PHASE 5: AUTHORIZATION FOR FIRST DRIVE</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
+              Ground control transmits: <strong>"ROVER IS GO FOR SURFACE DRIVE!"</strong>
+            </p>
+            <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 8px; padding: 10px; font-size: 0.82rem; color: #bbf7d0; line-height: 1.5;">
+              <strong>🎮 CADET FLIGHT TUTORIAL:</strong><br/>
+              • <strong>Drive:</strong> Use <kbd class="mars-kbd">W</kbd><kbd class="mars-kbd">A</kbd><kbd class="mars-kbd">S</kbd><kbd class="mars-kbd">D</kbd> or Arrow Keys. Remember: <em>Every move consumes battery!</em><br/>
+              • <strong>Radar:</strong> Press <kbd class="mars-kbd">M</kbd> to open the Route Planner map.<br/>
+              • <strong>Recharge:</strong> Stop in sunlight to recharge solar power.<br/>
+              • <strong>Hazards:</strong> Avoid steep crater slopes that drain 2× battery and risk damage!
+            </div>
+          </div>
+        `;
+        if (nextBtn) nextBtn.textContent = '🚀 Take Control & Drive!';
+      }
+    }
+
+    nextLandingStep() {
+      if (this.landingSeqStep < 5) {
+        this.landingSeqStep++;
+        this.renderLandingStep();
+      } else {
+        this.finishLandingSequence();
+      }
+    }
+
+    finishLandingSequence() {
+      clearInterval(this.landingTimer);
+      this.isLandingSeqActive = false;
+      const modal = document.getElementById('marsLandingIntroModal');
+      if (modal) modal.style.display = 'none';
+
+      // Automatically place player in rover so they can drive right away!
+      if (!this.player.inRover) {
+        this.toggleRover();
+      }
+      this.hasSeenLandingSeq = true;
+      this.audio.playRoverEngine();
+      this.updateHUD();
+    }
+
+    // ------------------------------------------
+    // TACTICAL RADAR & ROUTE PLANNER
+    // ------------------------------------------
+    openMapModal() {
+      const modal = document.getElementById('marsMapModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      this.initRadarCanvas();
+      this.calculateSelectedRoute();
+    }
+
+    closeMapModal() {
+      const modal = document.getElementById('marsMapModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    toggleMapModal() {
+      const modal = document.getElementById('marsMapModal');
+      if (modal && modal.style.display === 'flex') {
+        this.closeMapModal();
+      } else {
+        this.openMapModal();
+      }
+    }
+
+    initRadarCanvas() {
+      const canvas = document.getElementById('marsRadarCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const scale = w / 320; // 320m world size
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Radar Concentric Range Rings
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.25)';
+      ctx.lineWidth = 1;
+      [40, 80, 120, 150].forEach(r => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * scale, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Crosshairs
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.15)';
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+      ctx.stroke();
+
+      // Steep Slope Zone (Red Donut Band between 65m and 95m)
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.14)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 95 * scale, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 65 * scale, 0, Math.PI * 2, true);
+      ctx.fill();
+
+      // Crater Drop Hazard Zone (Purple Ring 75-88m)
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.arc(cx, cy, 80 * scale, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Base Station at (0, 0)
+      ctx.fillStyle = '#22c55e';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#86efac';
+      ctx.font = '9px monospace';
+      ctx.fillText('HAB BASE', cx + 8, cy - 4);
+
+      // Rover Position
+      const activeObj = this.player.inRover ? this.roverGroup : this.astronautGroup;
+      const rx = cx + (activeObj ? activeObj.position.x * scale : 0);
+      const rz = cy + (activeObj ? activeObj.position.z * scale : 0);
+
+      // Draw Science Sample Pins
+      this.sampleMeshes.forEach((sGroup, i) => {
+        if (sGroup.userData.collected) return;
+        const sx = cx + sGroup.position.x * scale;
+        const sz = cy + sGroup.position.z * scale;
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath();
+        ctx.arc(sx, sz, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#fef08a';
+        ctx.font = '8px monospace';
+        const sData = TRANSLATIONS[this.lang].samples[sGroup.userData.sampleIndex];
+        ctx.fillText(sData.name.split(' ')[0], sx + 6, sz + 3);
+      });
+
+      // Draw Selected Target Waypoint Line
+      const selectEl = document.getElementById('marsTargetSelect');
+      const targetType = selectEl ? parseInt(selectEl.value, 10) : 0;
+      let targetMesh = this.sampleMeshes.find(s => !s.userData.collected && s.userData.sampleIndex === targetType);
+
+      if (targetMesh) {
+        const tx = cx + targetMesh.position.x * scale;
+        const tz = cy + targetMesh.position.z * scale;
+
+        // Route line
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 3]);
+        ctx.beginPath();
+        ctx.moveTo(rx, rz);
+        ctx.lineTo(tx, tz);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Pulsing Target Reticle
+        ctx.strokeStyle = '#38bdf8';
+        ctx.beginPath();
+        ctx.arc(tx, tz, 10, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Draw Rover Icon & Heading Arrow
+      ctx.fillStyle = '#06b6d4';
+      ctx.beginPath();
+      ctx.arc(rx, rz, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Heading pointer
+      const rot = activeObj ? activeObj.rotation.y : 0;
+      const hx = rx + Math.sin(rot) * 14;
+      const hz = rz + Math.cos(rot) * 14;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(rx, rz);
+      ctx.lineTo(hx, hz);
+      ctx.stroke();
+    }
+
+    calculateSelectedRoute() {
+      const selectEl = document.getElementById('marsTargetSelect');
+      if (!selectEl) return;
+      const targetType = parseInt(selectEl.value, 10);
+      const activeObj = this.player.inRover ? this.roverGroup : this.astronautGroup;
+      if (!activeObj) return;
+
+      const targetMesh = this.sampleMeshes.find(s => !s.userData.collected && s.userData.sampleIndex === targetType);
+      const distEl = document.getElementById('routeDistanceVal');
+      const batEl = document.getElementById('routeBatteryVal');
+      const diffEl = document.getElementById('routeDiffVal');
+      const rarEl = document.getElementById('routeRarityVal');
+      const advEl = document.getElementById('routeAdvisoryText');
+
+      const rarities = { 0: '1.0× (Common)', 1: '1.5× (Uncommon)', 2: '2.0× (Rare)', 3: '2.5× (Very Rare)', 4: '3.0× (Legendary)' };
+      if (rarEl) rarEl.textContent = rarities[targetType] || '1.0×';
+
+      if (!targetMesh) {
+        if (distEl) distEl.textContent = 'ALREADY COLLECTED';
+        if (batEl) batEl.textContent = '0%';
+        if (diffEl) diffEl.textContent = 'DONE';
+        if (advEl) advEl.textContent = 'Sample already cached and secured in rover rack!';
+        this.initRadarCanvas();
+        return;
+      }
+
+      const dist = activeObj.position.distanceTo(targetMesh.position);
+      if (distEl) distEl.textContent = `${Math.round(dist)} m`;
+
+      // Check if path passes through steep slope zone
+      const midX = (activeObj.position.x + targetMesh.position.x) / 2;
+      const midZ = (activeObj.position.z + targetMesh.position.z) / 2;
+      const midDist = Math.hypot(midX, midZ);
+      const crossesSlope = midDist > 65 && midDist < 95;
+
+      const baseBatteryCost = Math.round(dist * 0.22);
+      const totalCost = crossesSlope ? baseBatteryCost * 2 : baseBatteryCost;
+
+      if (batEl) batEl.textContent = `~${totalCost}%`;
+
+      if (crossesSlope) {
+        if (diffEl) { diffEl.textContent = 'STEEP SLOPE'; diffEl.style.color = '#ef4444'; }
+        if (advEl) {
+          advEl.innerHTML = `⚠️ <strong>High Battery Drain Alert!</strong> The direct route crosses Jezero Crater's steep rim slope (+100% battery burn and slip risk). <em>Recommendation: Follow the southern valley curve for a safer, low-energy path.</em>`;
+        }
+      } else {
+        if (diffEl) { diffEl.textContent = 'SMOOTH VALLEY'; diffEl.style.color = '#22c55e'; }
+        if (advEl) {
+          advEl.innerHTML = `✅ <strong>Optimal Route:</strong> Direct path stays across flat regolith plains. Low wheel resistance and minimal battery consumption.`;
+        }
+      }
+
+      this.initRadarCanvas();
+    }
+
+    // ------------------------------------------
+    // ROTARY-PERCUSSIVE CORING MINI-GAME (DRILL & SCOOP)
+    // ------------------------------------------
+    startDrillMiniGame(sampleMesh) {
+      if (!sampleMesh) return;
+      if (this.player.backpack.length >= this.player.backpackMax) {
+        this.audio.playBeep(300, 0.15);
+        alert(this.lang === 'en' ? 'Backpack full! Return to Hab Dome or transmit to Earth.' : 'कैश रैक भर गया है! बेस लौटें या डेटा ट्रांसमिट करें।');
+        return;
+      }
+
+      const modal = document.getElementById('marsDrillModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+
+      const sIndex = sampleMesh.userData.sampleIndex;
+      const sData = TRANSLATIONS[this.lang].samples[sIndex];
+
+      const titleEl = document.getElementById('drillModalTitle');
+      if (titleEl) titleEl.textContent = `🔬 Core Sample: ${sData.name}`;
+
+      this.drillState = {
+        active: true,
+        sampleIndex: sIndex,
+        sampleMesh: sampleMesh,
+        stage: 1,
+        pos: 15,
+        dir: 1,
+        speed: 75,
+        quality: 'Standard Core',
+        multiplier: 1.0
+      };
+
+      this.updateDrillStageUI();
+      this.runDrillNeedleLoop();
+    }
+
+    updateDrillStageUI() {
+      const p1 = document.getElementById('drillPhase1');
+      const p2 = document.getElementById('drillPhase2');
+      const p3 = document.getElementById('drillPhase3');
+      const st = document.getElementById('drillStatusText');
+      const btn = document.getElementById('btnExecuteDrill');
+
+      [p1, p2, p3].forEach((p, idx) => {
+        if (!p) return;
+        p.className = `drill-phase-chip ${idx + 1 === this.drillState.stage ? 'is-active' : ''} ${idx + 1 < this.drillState.stage ? 'is-done' : ''}`;
+      });
+
+      if (this.drillState.stage === 1) {
+        if (st) st.textContent = 'STEP 1: ALIGN SURFACE ABRASION TOOL (RAT)';
+        if (btn) btn.textContent = '⚡ ABRADE DUST LAYER [Space]';
+      } else if (this.drillState.stage === 2) {
+        if (st) st.textContent = 'STEP 2: ROTARY-PERCUSSIVE CORING (HIT GREEN ZONE)';
+        if (btn) btn.textContent = '⚡ DRILL CYLINDER CORE [Space]';
+      } else if (this.drillState.stage === 3) {
+        if (st) st.textContent = 'STEP 3: HERMETIC SAMPLE TUBE SEAL';
+        if (btn) btn.textContent = '🔒 SEAL TITANIUM CACHE TUBE [Space]';
+      }
+    }
+
+    runDrillNeedleLoop() {
+      if (!this.drillState.active) return;
+      const needle = document.getElementById('drillNeedle');
+
+      let lastTime = performance.now();
+      const loop = (now) => {
+        if (!this.drillState.active) return;
+        const dt = (now - lastTime) / 1000;
+        lastTime = now;
+
+        this.drillState.pos += this.drillState.dir * this.drillState.speed * dt;
+        if (this.drillState.pos >= 96) {
+          this.drillState.pos = 96;
+          this.drillState.dir = -1;
+        } else if (this.drillState.pos <= 4) {
+          this.drillState.pos = 4;
+          this.drillState.dir = 1;
+        }
+
+        if (needle) {
+          needle.style.left = `${this.drillState.pos}%`;
+        }
+
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+
+    executeDrillStep() {
+      if (!this.drillState.active) return;
+      const needlePos = this.drillState.pos;
+
+      // Check hit quality: Sweet spot is 38% - 62%
+      let stepQuality = 'rough';
+      if (needlePos >= 38 && needlePos <= 62) {
+        stepQuality = 'perfect';
+        this.audio.playSuccessChime();
+      } else if ((needlePos >= 22 && needlePos < 38) || (needlePos > 62 && needlePos <= 78)) {
+        stepQuality = 'good';
+        this.audio.playDrillSound();
+      } else {
+        this.audio.playBeep(250, 0.2, 'sawtooth');
+      }
+
+      if (this.drillState.stage === 2) {
+        if (stepQuality === 'perfect') {
+          this.drillState.multiplier = 1.5;
+          this.drillState.quality = 'Pristine Core (+50% Bonus)';
+        } else if (stepQuality === 'good') {
+          this.drillState.multiplier = 1.2;
+          this.drillState.quality = 'Standard Core (+20% Bonus)';
+        } else {
+          this.drillState.multiplier = 1.0;
+          this.drillState.quality = 'Fragmented Core';
+        }
+      }
+
+      const bit = document.getElementById('drillBitVisual');
+      if (bit) {
+        bit.classList.add('is-drilling');
+        setTimeout(() => bit.classList.remove('is-drilling'), 400);
+      }
+
+      if (this.drillState.stage < 3) {
+        this.drillState.stage++;
+        this.updateDrillStageUI();
+      } else {
+        // Complete Coring!
+        this.completeCoring();
+      }
+    }
+
+    completeCoring() {
+      this.drillState.active = false;
+      const modal = document.getElementById('marsDrillModal');
+      if (modal) modal.style.display = 'none';
+
+      const sIndex = this.drillState.sampleIndex;
+      const sMesh = this.drillState.sampleMesh;
+      const sData = TRANSLATIONS[this.lang].samples[sIndex];
+
+      if (sMesh) {
+        sMesh.userData.collected = true;
+        sMesh.visible = false;
+      }
+      this.player.backpack.push(sIndex);
+      this.collectedSampleTypes.add(sData.id);
+      this.lastCollectedIndex = sIndex;
+
+      // Update Missions
+      if (sData.id === 'basalt') this.missions.scanBasalt = true;
+      if (sData.id === 'hematite') this.missions.collectHematite = true;
+      if (sData.id === 'sandstone') this.missions.collectSandstone = true;
+      if (sData.id === 'ice') this.missions.findIce = true;
+      if (sData.id === 'fossil') this.missions.collectFossil = true;
+
+      // Calculate score points for this sample
+      const rarities = { basalt: 1.0, hematite: 1.5, sandstone: 2.0, ice: 2.5, fossil: 3.0 };
+      const rarity = rarities[sData.id] || 1.0;
+      const pointsEarned = Math.round(sData.credits * rarity * this.drillState.multiplier);
+      this.score += pointsEarned;
+
+      this.audio.playCollectSound();
+
+      // Show toast with quality rating
+      const toast = document.getElementById('marsToastDiscovery');
+      if (toast) {
+        const titleEl = document.getElementById('marsToastTitle');
+        const descEl = document.getElementById('marsToastDesc');
+        if (titleEl) titleEl.textContent = `Sample Core Secured: ${sData.name}!`;
+        if (descEl) descEl.textContent = `${this.drillState.quality} • +${pointsEarned} PTS added to score.`;
+        toast.style.display = 'flex';
+        clearTimeout(this.toastTimeout);
+        this.toastTimeout = setTimeout(() => toast.style.display = 'none', 5000);
+      }
+
+      const card = document.getElementById('marsScannerCard');
+      if (card) card.classList.remove('is-open');
+      this.targetedSample = null;
+
+      this.updateHUD();
+    }
+
+    // ------------------------------------------
+    // TELEMETRY TRANSMIT & MISSION REPORT
+    // ------------------------------------------
+    openTransmitModal() {
+      const modal = document.getElementById('marsTransmitModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      this.audio.playTelemetryBeep();
+
+      // Calculate score breakdown
+      const count = this.player.backpack.length;
+      let sampleCredits = 0;
+      this.player.backpack.forEach(idx => {
+        const s = TRANSLATIONS[this.lang].samples[idx];
+        if (s) sampleCredits += s.credits;
+      });
+
+      const rarityBonus = Math.round(sampleCredits * 0.5);
+      const batteryBonus = Math.round(this.player.battery * 1.5);
+      const damagePenalty = Math.round(this.roverDamage * 2.0);
+      const grandTotal = Math.max(0, sampleCredits + rarityBonus + batteryBonus - damagePenalty + this.score);
+
+      const samEl = document.getElementById('scoreSamplesVal');
+      const rarEl = document.getElementById('scoreRarityBonus');
+      const batEl = document.getElementById('scoreBatteryBonus');
+      const damEl = document.getElementById('scoreDamagePenalty');
+      const totEl = document.getElementById('scoreGrandTotal');
+
+      if (samEl) samEl.textContent = `${count} Samples (${sampleCredits} CR)`;
+      if (rarEl) rarEl.textContent = `+${rarityBonus} PTS`;
+      if (batEl) batEl.textContent = `+${batteryBonus} PTS (${Math.round(this.player.battery)}% Battery)`;
+      if (damEl) damEl.textContent = `-${damagePenalty} PTS (${Math.round(this.roverDamage)}% Damage)`;
+      if (totEl) totEl.textContent = `${grandTotal} PTS`;
+    }
+
+    closeTransmitModal() {
+      const modal = document.getElementById('marsTransmitModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    toggleTransmitModal() {
+      const modal = document.getElementById('marsTransmitModal');
+      if (modal && modal.style.display === 'flex') {
+        this.closeTransmitModal();
+      } else {
+        this.openTransmitModal();
+      }
+    }
+
+    confirmTransmission() {
+      if (this.player.backpack.length === 0) {
+        alert(this.lang === 'en' ? 'No new samples to transmit! Collect Martian rock samples first.' : 'ट्रांसमिट करने के लिए कोई नया नमूना नहीं है!');
+        this.closeTransmitModal();
+        return;
+      }
+
+      // Convert samples to credits
+      let earned = 0;
+      this.player.backpack.forEach(idx => {
+        const s = TRANSLATIONS[this.lang].samples[idx];
+        if (s) earned += s.credits;
+      });
+
+      this.player.credits += earned;
+      this.player.backpack = [];
+      this.missions.depositBase = true;
+
+      this.audio.playSuccessChime();
+      alert(this.lang === 'en'
+        ? `📡 TELEMETRY RECEIVED BY EARTH DSN!\n\nAll scientific sample data successfully beamed across 225,000,000 km to NASA & ISRO Ground Control.\nEarned +${earned} Mission Credits!`
+        : `📡 पृथ्वी नियंत्रण कक्ष द्वारा डेटा प्राप्त!\n\nसफलतापूर्वक +${earned} क्रेडिट्स प्राप्त हुए!`);
+
+      this.closeTransmitModal();
+      this.updateHUD();
+    }
+
     // ------------------------------------------
     // EVENT LISTENERS & CONTROLS
     // ------------------------------------------
@@ -1375,14 +2112,30 @@
         if (e.code === 'KeyE') this.collectCurrentSample();
         if (e.code === 'KeyR') this.toggleRover();
 
-        // KeyM or KeyL to toggle Sample Dossiers
-        if (e.code === 'KeyM' || e.code === 'KeyL') {
+        // KeyM toggles Tactical Route Planner Map
+        if (e.code === 'KeyM') {
+          this.toggleMapModal();
+        }
+
+        // KeyT toggles Earth Telemetry Transmission
+        if (e.code === 'KeyT') {
+          this.toggleTransmitModal();
+        }
+
+        // KeyL toggles Sample Dossiers
+        if (e.code === 'KeyL') {
           const modal = document.getElementById('marsSampleDossierModal');
           if (modal && modal.classList.contains('is-open')) {
             this.closeSampleDossier();
           } else {
             this.openSampleDossier(this.activeDossierSample);
           }
+        }
+
+        // Space triggers drill in coring mini-game
+        if (e.code === 'Space' && this.drillState.active) {
+          e.preventDefault();
+          this.executeDrillStep();
         }
       });
 
@@ -1399,6 +2152,54 @@
       document.getElementById('marsBtnCollect').addEventListener('click', () => this.collectCurrentSample());
       document.getElementById('marsBtnRover').addEventListener('click', () => this.toggleRover());
       document.getElementById('marsBtnUpgrades').addEventListener('click', () => this.openUpgradesModal());
+
+      // New Gameplay Buttons
+      const btnMap = document.getElementById('marsBtnMap');
+      if (btnMap) btnMap.addEventListener('click', () => this.openMapModal());
+
+      const btnCloseMap = document.getElementById('btnCloseMapModal');
+      if (btnCloseMap) btnCloseMap.addEventListener('click', () => this.closeMapModal());
+
+      const btnTransmit = document.getElementById('marsBtnTransmit');
+      if (btnTransmit) btnTransmit.addEventListener('click', () => this.openTransmitModal());
+
+      const btnCloseTransmit = document.getElementById('btnCloseTransmitModal');
+      if (btnCloseTransmit) btnCloseTransmit.addEventListener('click', () => this.closeTransmitModal());
+
+      const btnConfirmTrans = document.getElementById('btnConfirmTransmit');
+      if (btnConfirmTrans) btnConfirmTrans.addEventListener('click', () => this.confirmTransmission());
+
+      const btnLandingSeq = document.getElementById('marsBtnLandingSeq');
+      if (btnLandingSeq) btnLandingSeq.addEventListener('click', () => this.startLandingSequence());
+
+      const btnSkipLanding = document.getElementById('btnSkipLandingSeq');
+      if (btnSkipLanding) btnSkipLanding.addEventListener('click', () => this.finishLandingSequence());
+
+      const btnNextLanding = document.getElementById('btnNextLandingStep');
+      if (btnNextLanding) btnNextLanding.addEventListener('click', () => this.nextLandingStep());
+
+      const targetSelect = document.getElementById('marsTargetSelect');
+      if (targetSelect) targetSelect.addEventListener('change', () => this.calculateSelectedRoute());
+
+      const btnSetWp = document.getElementById('btnSetWaypoint');
+      if (btnSetWp) {
+        btnSetWp.addEventListener('click', () => {
+          this.closeMapModal();
+          this.audio.playTelemetryBeep();
+        });
+      }
+
+      const btnCloseDrill = document.getElementById('btnCloseDrillModal');
+      if (btnCloseDrill) {
+        btnCloseDrill.addEventListener('click', () => {
+          this.drillState.active = false;
+          const modal = document.getElementById('marsDrillModal');
+          if (modal) modal.style.display = 'none';
+        });
+      }
+
+      const btnExecDrill = document.getElementById('btnExecuteDrill');
+      if (btnExecDrill) btnExecDrill.addEventListener('click', () => this.executeDrillStep());
       document.getElementById('marsBtnRealMissions').addEventListener('click', () => this.openRealMissionsModal());
       document.getElementById('marsVoiceBtn').addEventListener('click', () => this.toggleVoice());
       document.getElementById('marsLangBtn').addEventListener('click', () => this.toggleLanguage());
@@ -1546,14 +2347,48 @@
         }
 
         // Oxygen & Battery Consumption
+        const slopeMult = this.onSteepSlope ? CONFIG.slopeDrainMultiplier : 1.0;
         if (!this.player.inRover) {
           const drain = this.keys.shift ? CONFIG.oxygenDrainRate * 1.6 : CONFIG.oxygenDrainRate;
           this.player.oxygen = Math.max(0, this.player.oxygen - drain * dt);
-          this.player.battery = Math.max(0, this.player.battery - CONFIG.batteryDrainRate * dt);
+          this.player.battery = Math.max(0, this.player.battery - CONFIG.batteryDrainRate * slopeMult * dt);
         } else {
           // In rover: rover battery drains, oxygen preserved
-          this.player.battery = Math.max(0, this.player.battery - (CONFIG.batteryDrainRate * 0.7) * dt);
+          this.player.battery = Math.max(0, this.player.battery - (CONFIG.batteryDrainRate * 0.7 * slopeMult) * dt);
         }
+      }
+
+      // Check Slope and Crater Rim Hazards
+      const distFromHab = Math.hypot(activeObj.position.x, activeObj.position.z);
+      const hazardBanner = document.getElementById('marsHazardBanner');
+      const hazardText = document.getElementById('marsHazardText');
+
+      if (distFromHab > 65 && distFromHab < 95) {
+        // Steep Slope Zone
+        this.onSteepSlope = true;
+        if (hazardBanner && hazardText) {
+          hazardBanner.style.display = 'flex';
+          hazardText.textContent = 'STEEP SLOPE DETECTED (2× BATTERY DRAIN)';
+        }
+      } else if (distFromHab >= 75 && distFromHab <= 88 && moveForward !== 0) {
+        // Crater Drop Hazard - damage over time if driving carelessly
+        this.roverDamage = Math.min(100, this.roverDamage + 3 * dt);
+        this.audio.playAlarmSound();
+        if (hazardBanner && hazardText) {
+          hazardBanner.style.display = 'flex';
+          hazardText.textContent = '🚨 DANGER: CRATER EDGE! STRUCTURAL DAMAGE!';
+        }
+      } else {
+        this.onSteepSlope = false;
+        if (hazardBanner) hazardBanner.style.display = 'none';
+      }
+
+      // Solar Recharge when stationary in direct sunlight
+      if (moveForward === 0 && !this.isStormActive && this.player.inRover) {
+        this.player.battery = Math.min(this.player.batteryMax, this.player.battery + CONFIG.solarRechargeRate * dt);
+        this.isSolarRecharging = true;
+      } else {
+        this.isSolarRecharging = false;
       }
 
       // Keep position within bounds (-160 to 160)

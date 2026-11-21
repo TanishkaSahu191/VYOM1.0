@@ -1608,8 +1608,14 @@
       </div>
 
       <div class="mars-actions-group">
+        <button class="mars-btn cyan" id="marsBtnMap" type="button"
+          title="Tactical Martian Radar & Route Planning Map">🗺️ Route Map [M]</button>
+        <button class="mars-btn gold" id="marsBtnTransmit" type="button"
+          title="Transmit Science Telemetry & Samples to Earth DSN">📡 Transmit [T]</button>
+        <button class="mars-btn" id="marsBtnLandingSeq" type="button"
+          title="Watch Real-Mission Post-Touchdown Sequence">🚀 Landing Check</button>
         <button class="mars-btn cyan" id="marsBtnSampleLog" type="button"
-          title="View Sample Dossiers & Field Missions">🔬 Sample Dossiers & Missions</button>
+          title="View Sample Dossiers & Field Missions">🔬 Dossiers</button>
         <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">🛠️ Hab Lab
           Upgrades</button>
         <button class="mars-btn" id="marsBtnRealMissions" type="button"
@@ -1655,7 +1661,38 @@
           <span style="color: #94a3b8;">-48°C (THERMAL OK)</span>
         </div>
       </div>
+
+      <!-- Real-Time Mission Score -->
+      <div class="mars-vital-gauge mars-score-gauge">
+        <div class="mars-gauge-meta">
+          <span>MISSION SCORE</span>
+          <span id="marsScoreVal" style="color: #22c55e; font-weight: bold; font-size: 1rem;">0 PTS</span>
+        </div>
+      </div>
+
+      <!-- Solar & Climate Status Indicator -->
+      <div class="mars-status-indicator" id="marsSolarStatusBox">
+        <span class="mars-status-dot" id="marsStatusDot"></span>
+        <span id="marsSolarStatusText">☀️ DIRECT SUNLIGHT (SOLAR OK)</span>
+      </div>
+
+      <!-- Rover Structural Health Gauge -->
+      <div class="mars-vital-gauge">
+        <div class="mars-gauge-meta">
+          <span>ROVER HEALTH</span>
+          <span id="marsHealthVal" style="color: #4ade80; font-weight: bold;">100%</span>
+        </div>
+        <div class="mars-gauge-track">
+          <div class="mars-gauge-fill" id="marsHealthFill" style="width: 100%; background: #22c55e;"></div>
+        </div>
+      </div>
     </aside>
+
+    <!-- Central Real-Time Hazard Alert Banner -->
+    <div class="mars-hazard-banner" id="marsHazardBanner" style="display: none;">
+      <span class="hazard-icon" id="marsHazardIcon">⚠️</span>
+      <span class="hazard-text" id="marsHazardText">STEEP SLOPE DETECTED (2× BATTERY DRAIN)</span>
+    </div>
 
     <!-- Right Mission Objectives Checklist -->
     <aside class="mars-objectives-card" aria-label="Mission Directives">
@@ -1849,6 +1886,247 @@
 
         <!-- Sample Detail Content View -->
         <div class="mars-dossier-content" id="marsDossierContent"></div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 1: REAL-MISSION POST-LANDING INTRO SEQUENCE (30s)
+         ======================================================== -->
+    <div class="mars-modal-overlay" id="marsLandingIntroModal" style="display: none;">
+      <div class="mars-modal-box mars-landing-modal-box">
+        <div class="mars-landing-hud-header">
+          <div class="mars-landing-badge">🔴 JEZERO CRATER TOUCHDOWN • T+00:00:00</div>
+          <h2 class="mars-landing-headline">ROVER POST-LANDING SEQUENCE</h2>
+          <p class="mars-landing-subline">Real-world autonomous landing protocol executed by Martian exploration rovers (Perseverance & Curiosity).</p>
+        </div>
+
+        <!-- 5-Step Progress Indicators -->
+        <div class="mars-landing-steps-track">
+          <div class="landing-step-pill is-active" id="landStepPill1">
+            <span class="step-num">1</span>
+            <span class="step-name">Touchdown</span>
+          </div>
+          <div class="landing-step-pill" id="landStepPill2">
+            <span class="step-num">2</span>
+            <span class="step-name">Health Check</span>
+          </div>
+          <div class="landing-step-pill" id="landStepPill3">
+            <span class="step-num">3</span>
+            <span class="step-name">Earth Signal</span>
+          </div>
+          <div class="landing-step-pill" id="landStepPill4">
+            <span class="step-num">4</span>
+            <span class="step-name">Deploy Mast</span>
+          </div>
+          <div class="landing-step-pill" id="landStepPill5">
+            <span class="step-num">5</span>
+            <span class="step-name">First Drive</span>
+          </div>
+        </div>
+
+        <!-- Step Content Viewport -->
+        <div class="mars-landing-step-content" id="marsLandingStepContent">
+          <!-- Dynamic Step Content Rendered by JS -->
+        </div>
+
+        <!-- Sequence Actions -->
+        <div class="mars-landing-actions">
+          <button class="mars-btn" id="btnSkipLandingSeq" type="button">⚡ Skip to Mission</button>
+          <button class="mars-btn gold" id="btnNextLandingStep" type="button">Next Phase ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 2: TACTICAL RADAR & ROUTE PLANNER MAP
+         ======================================================== -->
+    <div class="mars-modal-overlay" id="marsMapModal" style="display: none;">
+      <div class="mars-modal-box mars-map-modal-box">
+        <div class="mars-modal-header">
+          <div class="mars-modal-title">🗺️ Tactical Surface Radar & Route Planner</div>
+          <button class="mars-modal-close mars-btn" id="btnCloseMapModal" type="button">✕</button>
+        </div>
+        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 10px;">
+          Analyze Jezero Crater topography. Steep slopes consume 2× battery, while craters risk structural damage. Plan safe routes between science targets.
+        </p>
+
+        <div class="mars-map-layout">
+          <!-- Interactive Top-Down Canvas Radar -->
+          <div class="mars-radar-container">
+            <canvas id="marsRadarCanvas" width="460" height="460"></canvas>
+            <div class="mars-radar-legend">
+              <span><span class="legend-dot rover-dot"></span> Rover</span>
+              <span><span class="legend-dot hab-dot"></span> Base Hab</span>
+              <span><span class="legend-dot sample-dot"></span> Science Target</span>
+              <span><span class="legend-dot slope-dot"></span> Steep Slope (2× Drain)</span>
+              <span><span class="legend-dot crater-dot"></span> Crater Drop Hazard</span>
+            </div>
+          </div>
+
+          <!-- Route Planning & Target Intel Panel -->
+          <div class="mars-route-planner-panel">
+            <div class="route-panel-title">ROUTE PLANNER & INTEL</div>
+
+            <div class="target-selection-box">
+              <label for="marsTargetSelect" style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 4px;">SELECT SCIENCE TARGET:</label>
+              <select id="marsTargetSelect" class="mars-select">
+                <option value="0">Volcanic Basalt (Common • 1.0× Rarity)</option>
+                <option value="1">Hematite Blueberries (Uncommon • 1.5× Rarity)</option>
+                <option value="2">Delta Sandstone (Rare • 2.0× Rarity)</option>
+                <option value="3">Subsurface Cryo-Ice (Very Rare • 2.5× Rarity)</option>
+                <option value="4">Biogenic Stromatolite (Legendary • 3.0× Rarity)</option>
+              </select>
+            </div>
+
+            <div class="route-metrics-grid">
+              <div class="metric-card">
+                <span class="metric-label">DISTANCE</span>
+                <span class="metric-val" id="routeDistanceVal">-- m</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">EST. BATTERY COST</span>
+                <span class="metric-val" id="routeBatteryVal" style="color: #f59e0b;">-- %</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">TERRAIN DIFFICULTY</span>
+                <span class="metric-val" id="routeDiffVal" style="color: #22c55e;">SAFE</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">SCIENCE RARITY</span>
+                <span class="metric-val" id="routeRarityVal" style="color: #06b6d4;">1.0×</span>
+              </div>
+            </div>
+
+            <div class="route-advisory-box" id="routeAdvisoryBox">
+              <strong>🧭 NAVIGATION ADVISORY:</strong>
+              <p id="routeAdvisoryText">Select a target on the radar to calculate safe navigation routes and avoid high-hazard slopes.</p>
+            </div>
+
+            <button class="mars-btn gold" id="btnSetWaypoint" type="button" style="width: 100%; padding: 10px; font-weight: bold;">
+              🎯 Lock As Active Waypoint
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 3: ROTARY-PERCUSSIVE CORING MINI-GAME (DRILL & SCOOP)
+         ======================================================== -->
+    <div class="mars-modal-overlay" id="marsDrillModal" style="display: none;">
+      <div class="mars-modal-box mars-drill-modal-box">
+        <div class="mars-modal-header">
+          <div class="mars-modal-title" id="drillModalTitle">🔬 Sample Coring: Volcanic Basalt</div>
+          <button class="mars-modal-close mars-btn" id="btnCloseDrillModal" type="button">✕</button>
+        </div>
+        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;">
+          Operate the rover's robotic arm rotary-percussive drill! Stop the oscillating pressure needle inside the <strong>GREEN SWEET SPOT</strong> to extract a pristine sample core.
+        </p>
+
+        <!-- Coring Steps Indicator -->
+        <div class="drill-phases-row">
+          <div class="drill-phase-chip is-active" id="drillPhase1">1. Surface Abrasion</div>
+          <div class="drill-phase-chip" id="drillPhase2">2. Rotary Coring</div>
+          <div class="drill-phase-chip" id="drillPhase3">3. Hermetic Tube Seal</div>
+        </div>
+
+        <!-- 3D / Graphic Coring Rig Animation -->
+        <div class="drill-rig-display">
+          <div class="drill-arm-visual">
+            <div class="drill-motor" id="drillMotorVisual">⚙️</div>
+            <div class="drill-bit" id="drillBitVisual">🔩</div>
+            <div class="drill-rock" id="drillRockVisual">🪨</div>
+          </div>
+          <div class="drill-status-text" id="drillStatusText">ALIGNING DRILL BIT...</div>
+        </div>
+
+        <!-- Dynamic Oscillating Pressure Gauge -->
+        <div class="drill-meter-container">
+          <div class="drill-meter-labels">
+            <span>LOW RPM</span>
+            <span style="color: #22c55e; font-weight: bold;">OPTIMAL CORE ZONE</span>
+            <span>OVERHEAT</span>
+          </div>
+          <div class="drill-gauge-track">
+            <div class="drill-sweet-spot"></div>
+            <div class="drill-needle" id="drillNeedle"></div>
+          </div>
+        </div>
+
+        <!-- Drill Trigger Controls -->
+        <div class="drill-actions">
+          <button class="mars-btn gold drill-trigger-btn" id="btnExecuteDrill" type="button">
+            ⚡ DRILL / CORE NOW [Space]
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4: DEEP SPACE TELEMETRY TRANSMIT & MISSION SCORE
+         ======================================================== -->
+    <div class="mars-modal-overlay" id="marsTransmitModal" style="display: none;">
+      <div class="mars-modal-box mars-transmit-modal-box">
+        <div class="mars-modal-header">
+          <div class="mars-modal-title">📡 Deep Space Network Telemetry Transmission</div>
+          <button class="mars-modal-close mars-btn" id="btnCloseTransmitModal" type="button">✕</button>
+        </div>
+
+        <!-- Satellite Relay Diagram -->
+        <div class="transmit-relay-card">
+          <div class="relay-node">
+            <div class="relay-icon">🚜</div>
+            <div class="relay-label">Rover (Mars)</div>
+          </div>
+          <div class="relay-signal-line">
+            <div class="relay-beam"></div>
+            <span class="relay-text">UHF Direct (~14 min Light Delay)</span>
+          </div>
+          <div class="relay-node">
+            <div class="relay-icon">🛰️</div>
+            <div class="relay-label">MRO Orbiter</div>
+          </div>
+          <div class="relay-signal-line">
+            <div class="relay-beam"></div>
+            <span class="relay-text">X-Band DSN</span>
+          </div>
+          <div class="relay-node">
+            <div class="relay-icon">🌍</div>
+            <div class="relay-label">Earth Control</div>
+          </div>
+        </div>
+
+        <!-- Mission Score Breakdown Table -->
+        <div class="score-breakdown-card">
+          <h3 class="score-breakdown-title">MISSION PERFORMANCE REPORT</h3>
+          <div class="score-row">
+            <span>Samples Recovered:</span>
+            <span id="scoreSamplesVal" style="color: #06b6d4;">0 Samples (0 CR)</span>
+          </div>
+          <div class="score-row">
+            <span>Rarity & Core Quality Multiplier:</span>
+            <span id="scoreRarityBonus" style="color: #a855f7;">+0 PTS</span>
+          </div>
+          <div class="score-row">
+            <span>Battery Conservation Bonus:</span>
+            <span id="scoreBatteryBonus" style="color: #eab308;">+0 PTS</span>
+          </div>
+          <div class="score-row">
+            <span>Structural Damage Deductions:</span>
+            <span id="scoreDamagePenalty" style="color: #ef4444;">-0 PTS</span>
+          </div>
+          <div class="score-divider"></div>
+          <div class="score-row score-total-row">
+            <span>TOTAL CADET SCORE:</span>
+            <span id="scoreGrandTotal" style="color: #22c55e; font-size: 1.25rem;">0 PTS</span>
+          </div>
+        </div>
+
+        <div class="transmit-actions">
+          <button class="mars-btn gold" id="btnConfirmTransmit" type="button" style="width: 100%; padding: 11px; font-weight: bold;">
+            🚀 Confirm Transmission & Collect Scientific Credits
+          </button>
+        </div>
       </div>
     </div>
   </section>
