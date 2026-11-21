@@ -72,8 +72,6 @@
   const chandrayaanStage = document.getElementById('chandrayaanStage');
   const tabPhaseMars = document.getElementById('tabPhaseMars');
   const marsStage = document.getElementById('marsStage');
-  const tabPhaseSun = document.getElementById('tabPhaseSun');
-  const sunStage = document.getElementById('sunStage');
   const tabPhaseSpaceship = document.getElementById('tabPhaseSpaceship');
   const spaceshipStage = document.getElementById('spaceshipStage');
 
@@ -4093,7 +4091,7 @@
     document.body.classList.toggle('on-launchpad', phaseNum === 1);
 
     // 1. Update Tabs
-    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSun, tabPhaseSpaceship].forEach((tab, idx) => {
+    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSpaceship].forEach((tab, idx) => {
       if (tab) {
         const isActive = (idx + 1) === phaseNum;
         tab.classList.toggle('active', isActive);
@@ -4108,10 +4106,7 @@
     if (phaseNum !== 5 && marsStage) {
       marsStage.style.display = 'none';
     }
-    if (phaseNum !== 6 && sunStage) {
-      sunStage.style.display = 'none';
-    }
-    if (phaseNum !== 7 && spaceshipStage) {
+    if (phaseNum !== 6 && phaseNum !== 7 && spaceshipStage) {
       spaceshipStage.style.display = 'none';
     }
 
@@ -4172,7 +4167,6 @@
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
       if (marsStage) marsStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
       if (spaceshipStage) spaceshipStage.style.display = 'none';
 
       if (chandrayaanStage) {
@@ -4190,7 +4184,6 @@
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
       if (chandrayaanStage) chandrayaanStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
       if (spaceshipStage) spaceshipStage.style.display = 'none';
 
       if (marsStage) {
@@ -4200,8 +4193,8 @@
         window.MarsExplorerEngine.init();
       }
     }
-    // Phase 6: Tour to The Sun (Aditya-L1)
-    else if (phaseNum === 6) {
+    // Phase 6: My Spaceship (ISS Habitation Corridor)
+    else if (phaseNum === 6 || phaseNum === 7) {
       document.body.classList.remove('in-cockpit');
       document.body.classList.remove('destination-active');
       document.body.classList.remove('in-launch');
@@ -4209,25 +4202,6 @@
       if (destinationPage) destinationPage.style.display = 'none';
       if (chandrayaanStage) chandrayaanStage.style.display = 'none';
       if (marsStage) marsStage.style.display = 'none';
-      if (spaceshipStage) spaceshipStage.style.display = 'none';
-
-      if (sunStage) {
-        sunStage.style.display = 'flex';
-      }
-      if (window.AdityaL1Engine) {
-        window.AdityaL1Engine.init();
-      }
-    }
-    // Phase 7: My Spaceship (ISS Habitation Corridor)
-    else if (phaseNum === 7) {
-      document.body.classList.remove('in-cockpit');
-      document.body.classList.remove('destination-active');
-      document.body.classList.remove('in-launch');
-      if (cockpitStage) cockpitStage.style.display = 'none';
-      if (destinationPage) destinationPage.style.display = 'none';
-      if (chandrayaanStage) chandrayaanStage.style.display = 'none';
-      if (marsStage) marsStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
 
       if (spaceshipStage) {
         spaceshipStage.style.display = 'flex';
@@ -4246,8 +4220,7 @@
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
   if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));
   if (tabPhaseMars) tabPhaseMars.addEventListener('click', () => switchToPhase(5));
-  if (tabPhaseSun) tabPhaseSun.addEventListener('click', () => switchToPhase(6));
-  if (tabPhaseSpaceship) tabPhaseSpaceship.addEventListener('click', () => switchToPhase(7));
+  if (tabPhaseSpaceship) tabPhaseSpaceship.addEventListener('click', () => switchToPhase(6));
 
   // Connect Direct Phase 2 -> Phase 3 Transition Triggers
   if (btnProceedCockpit) {

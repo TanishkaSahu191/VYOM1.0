@@ -2670,6 +2670,7 @@ body.on-launchpad .global-phase-nav {
 
 /* --- Level Navigation Ribbon (Top Cockpit HUD) --- */
 .cockpit-level-ribbon {
+  display: none !important;
   position: static;
   transform: none;
   display: inline-flex;
