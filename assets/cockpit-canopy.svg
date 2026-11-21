@@ -42,12 +42,12 @@
   </defs>
 
   <!-- ==============================================
-       1. CANOPY SOLID HULL (Cutouts for Windows)
+       1. CANOPY SOLID HULL (Panoramic Wide Window Cutouts)
        ============================================== -->
   <g class="canopy-hull" filter="url(#cockpitBevel)">
     
-    <!-- Top Roof Console & Ceiling Header -->
-    <polygon points="0,0 1920,0 1920,150 1480,150 1450,110 1060,110 1030,150 890,150 860,110 470,110 440,150 0,150" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="2" />
+    <!-- Top Roof Console & Ceiling Header (Extended Widescreen Cutouts) -->
+    <polygon points="0,0 1920,0 1920,150 1680,150 1650,110 1060,110 1030,150 890,150 860,110 270,110 240,150 0,150" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="2" />
     
     <!-- Center Overhead Console (Between Skylights) -->
     <polygon points="860,0 1060,0 1040,160 880,160" fill="#0f172a" stroke="#334155" stroke-width="2" />
@@ -59,23 +59,22 @@
     <circle cx="990" cy="65" r="4" fill="#ef4444" opacity="0.9" />
     <rect x="900" y="90" width="120" height="3" fill="#38bdf8" opacity="0.6" />
 
-    <!-- Left Outer Wall & A-Pillar Structural Beam -->
-    <!-- Connects from roof down to dashboard -->
-    <polygon points="0,150 320,150 260,760 0,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
-    <polygon points="260,150 460,150 400,760 200,760" fill="url(#pillarLeftGrad)" stroke="#334155" stroke-width="2" />
+    <!-- Left Outer Wall & Slim A-Pillar (Pushed Outward for Wide Space View) -->
+    <polygon points="0,150 160,150 120,760 0,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
+    <polygon points="140,150 260,150 220,760 100,760" fill="url(#pillarLeftGrad)" stroke="#334155" stroke-width="2" />
     <!-- Left A-Pillar Cyan LED Accent Strip -->
-    <line x1="390" y1="160" x2="330" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
-    <line x1="280" y1="180" x2="220" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
+    <line x1="220" y1="160" x2="180" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
+    <line x1="160" y1="180" x2="120" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
 
-    <!-- Right Outer Wall & A-Pillar Structural Beam -->
-    <polygon points="1600,150 1920,150 1920,760 1660,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
-    <polygon points="1460,150 1660,150 1720,760 1520,760" fill="url(#pillarRightGrad)" stroke="#334155" stroke-width="2" />
+    <!-- Right Outer Wall & Slim A-Pillar (Pushed Outward for Wide Space View) -->
+    <polygon points="1760,150 1920,150 1920,760 1800,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
+    <polygon points="1660,150 1780,150 1820,760 1700,760" fill="url(#pillarRightGrad)" stroke="#334155" stroke-width="2" />
     <!-- Right A-Pillar Cyan LED Accent Strip -->
-    <line x1="1530" y1="160" x2="1590" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
-    <line x1="1640" y1="180" x2="1700" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
+    <line x1="1700" y1="160" x2="1740" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
+    <line x1="1760" y1="180" x2="1800" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
 
-    <!-- Top Windshield Cowling Arch -->
-    <path d="M 440,150 Q 960,175 1480,150 L 1460,170 Q 960,195 460,170 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" opacity="0.9" />
+    <!-- Top Windshield Cowling Arch (Widescreen Span) -->
+    <path d="M 240,150 Q 960,170 1680,150 L 1660,170 Q 960,190 260,170 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" opacity="0.9" />
 
     <!-- Window Sill Bottom Crossbeam -->
     <polygon points="0,740 1920,740 1920,780 0,780" fill="#090d16" stroke="#1e293b" stroke-width="1" />
@@ -86,20 +85,20 @@
        2. WINDOW GLASS SPECULAR & TINT OVERLAYS
        ============================================== -->
   <g class="canopy-glass" pointer-events="none">
-    <!-- Front Viewport Glass Sheen -->
-    <polygon points="460,170 1460,170 1520,740 400,740" fill="url(#glassSheenGrad)" opacity="0.6" />
+    <!-- Front Viewport Glass Sheen (Panoramic Span) -->
+    <polygon points="260,170 1660,170 1700,740 220,740" fill="url(#glassSheenGrad)" opacity="0.6" />
     <!-- Subtle Reflection Streaks across windshield -->
-    <path d="M 520,180 L 780,180 L 640,680 L 480,680 Z" fill="rgba(255, 255, 255, 0.03)" />
-    <path d="M 1120,180 L 1260,180 L 1420,680 L 1320,680 Z" fill="rgba(56, 189, 248, 0.025)" />
+    <path d="M 320,180 L 580,180 L 440,680 L 280,680 Z" fill="rgba(255, 255, 255, 0.03)" />
+    <path d="M 1320,180 L 1460,180 L 1620,680 L 1520,680 Z" fill="rgba(56, 189, 248, 0.025)" />
 
     <!-- Left Side Window Glass -->
-    <polygon points="40,160 260,160 200,690 30,690" fill="url(#glassSheenGrad)" opacity="0.5" />
+    <polygon points="20,160 140,160 100,690 15,690" fill="url(#glassSheenGrad)" opacity="0.5" />
     
     <!-- Right Side Window Glass -->
-    <polygon points="1660,160 1880,160 1890,690 1720,690" fill="url(#glassSheenGrad)" opacity="0.5" />
+    <polygon points="1780,160 1900,160 1905,690 1820,690" fill="url(#glassSheenGrad)" opacity="0.5" />
 
-    <!-- Overhead Skylights Glass -->
-    <polygon points="480,20 850,20 830,105 450,105" fill="url(#glassSheenGrad)" opacity="0.4" />
-    <polygon points="1070,20 1440,20 1470,105 1090,105" fill="url(#glassSheenGrad)" opacity="0.4" />
+    <!-- Overhead Skylights Glass (Widescreen) -->
+    <polygon points="280,20 850,20 830,105 250,105" fill="url(#glassSheenGrad)" opacity="0.4" />
+    <polygon points="1070,20 1640,20 1670,105 1090,105" fill="url(#glassSheenGrad)" opacity="0.4" />
   </g>
 </svg>
