@@ -1576,7 +1576,7 @@ body.destination-active .destination-page {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 18px 5px 12px;
+  padding: 5px 14px;
   max-width: 98vw;
   /* Claymorphism Capsule Dock */
   background: rgba(15, 23, 42, 0.9);
