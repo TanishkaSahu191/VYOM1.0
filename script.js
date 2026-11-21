@@ -1933,11 +1933,26 @@
     earthGroup = new THREE.Group();
     earthGroup.position.set(18, -4, -160);
 
-    const earthGeo = new THREE.SphereGeometry(25, 48, 48);
+    // 3D Earth using NASA 8K Topography, Bathymetry & Normal Relief Models
+    const texLoader = new THREE.TextureLoader();
+    const earthTexture = texLoader.load(
+      './assets/models/earth/textures/world.topo.bathy.8082px.jpeg',
+      (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+      },
+      undefined,
+      () => { if (earthMat) earthMat.map = createPlanetTexture('earth'); }
+    );
+    const earthNormal = texLoader.load('./assets/models/earth/textures/Earth_Normal.jpeg');
+
+    const earthGeo = new THREE.SphereGeometry(25, 64, 64);
     const earthMat = new THREE.MeshStandardMaterial({
-      map: createPlanetTexture('earth'),
-      roughness: 0.55,
-      metalness: 0.1
+      map: earthTexture,
+      normalMap: earthNormal,
+      normalScale: new THREE.Vector2(0.85, 0.85),
+      roughness: 0.58,
+      metalness: 0.05
     });
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     earthMesh.userData = { checkpointId: 'leo-satellites' };
@@ -2135,10 +2150,22 @@
     jupiterGroup = new THREE.Group();
     jupiterGroup.position.set(28, -8, -1480);
 
-    const jupiterGeo = new THREE.SphereGeometry(46, 48, 48);
+    // 3D Realistic Jupiter Model with Atmospheric Cloud Bands & Bump Depth Map
+    const jupiterTexture = texLoader.load(
+      './assets/models/jupiter/textures/Jupiter_Map.jpeg',
+      undefined,
+      undefined,
+      () => { if (jupiterMat) jupiterMat.map = createPlanetTexture('jupiter'); }
+    );
+    const jupiterBump = texLoader.load('./assets/models/jupiter/textures/Jupiter_Bump.jpg');
+
+    const jupiterGeo = new THREE.SphereGeometry(46, 64, 64);
     const jupiterMat = new THREE.MeshStandardMaterial({
-      map: createPlanetTexture('jupiter'),
-      roughness: 0.65
+      map: jupiterTexture,
+      bumpMap: jupiterBump,
+      bumpScale: 1.2,
+      roughness: 0.62,
+      metalness: 0.02
     });
     jupiterMesh = new THREE.Mesh(jupiterGeo, jupiterMat);
     jupiterMesh.userData = { checkpointId: 'jupiter' };
@@ -2269,33 +2296,50 @@
     blackHoleGroup = new THREE.Group();
     blackHoleGroup.position.set(0, 0, -3400);
 
-    // Event Horizon (Pure Black Sphere)
-    const horizonGeo = new THREE.SphereGeometry(18, 48, 48);
-    const horizonMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    // 3D Realistic Black Hole Models: Accretion Disk, Event Horizon Shadow Core & Photon Halo
+    const blackHoleDiskTex = texLoader.load(
+      './assets/models/blackhole/textures/blackholering_1_color.png',
+      undefined,
+      undefined,
+      () => { if (accretionDisk && accretionDisk.material) accretionDisk.material.map = createPlanetTexture('accretion-disk'); }
+    );
+    const blackHoleHaloTex = texLoader.load('./assets/models/blackhole/textures/blackholelight_1_color.png');
+    const blackHoleCoreTex = texLoader.load('./assets/models/blackhole/textures/planet.png');
+
+    // Event Horizon (Superdense Shadow Core)
+    const horizonGeo = new THREE.SphereGeometry(18, 64, 64);
+    const horizonMat = new THREE.MeshStandardMaterial({
+      map: blackHoleCoreTex,
+      color: 0x050505,
+      roughness: 0.95,
+      metalness: 0.05
+    });
     const eventHorizon = new THREE.Mesh(horizonGeo, horizonMat);
     eventHorizon.userData = { checkpointId: 'blackhole' };
     clickableObjects3D.push(eventHorizon);
     blackHoleGroup.add(eventHorizon);
 
     // Relativistic Swirling Accretion Disk
-    const diskGeo = new THREE.RingGeometry(22, 65, 64);
+    const diskGeo = new THREE.RingGeometry(21, 68, 64);
     const diskMat = new THREE.MeshBasicMaterial({
-      map: createPlanetTexture('accretion-disk'),
+      map: blackHoleDiskTex,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.92
+      opacity: 0.96,
+      blending: THREE.AdditiveBlending
     });
     const accretionDisk = new THREE.Mesh(diskGeo, diskMat);
     accretionDisk.rotation.x = Math.PI / 2.3;
     blackHoleGroup.add(accretionDisk);
 
     // Gravitational Lensing Photon Ring Halo
-    const lensingHaloGeo = new THREE.RingGeometry(18.2, 24.5, 64);
+    const lensingHaloGeo = new THREE.RingGeometry(18.2, 26, 64);
     const lensingHaloMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+      map: blackHoleHaloTex,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.85
+      opacity: 0.88,
+      blending: THREE.AdditiveBlending
     });
     const lensingHalo = new THREE.Mesh(lensingHaloGeo, lensingHaloMat);
     blackHoleGroup.add(lensingHalo);
