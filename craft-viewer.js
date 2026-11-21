@@ -1003,14 +1003,6 @@
         visual.style.cursor = 'pointer';
         visual.setAttribute('title', 'Click to inspect 3D rotatable model with labeled components');
 
-        // Add 3D Hint Tag if not present
-        if (!visual.querySelector('.visual-3d-hint')) {
-          const hint = document.createElement('div');
-          hint.className = 'visual-3d-hint';
-          hint.innerHTML = '<span class="hint-icon"></span><span>Inspect in 3D</span>';
-          visual.appendChild(hint);
-        }
-
         visual.addEventListener('click', (e) => {
           e.stopPropagation();
           openSpacecraft3DModal(craftId);
