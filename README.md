@@ -82,6 +82,32 @@ Students launch from Earth, step into a realistic spaceship cockpit, and journey
   * Real instruments interactive guide (ChaSTE, ILSA, RAMBHA, LIBS, APXS, SHAPE).
   * 5-question mission quiz with unlockable **ISRO Junior Lunar Scientist Certificate**.
 
+### Phase 5: Mars Explorer: Astronaut Mission (Fly to Mars)
+* **Martian Open World 3D Game**:
+  * Large, procedurally generated Martian surface featuring rolling rust-orange dunes, rocky crags, craters, and landing base station.
+  * Day and night atmospheric cycle with distant Sun, dusty butterscotch sky by day, deep starfield with Phobos and Deimos by night.
+  * Drifting wind particles and random dynamic Martian dust storms reducing visibility.
+* **Dual Exploration Modes**:
+  * **On-Foot EVA Astronaut**: Walk, sprint (`Shift`), jump, and monitor spacesuit life support.
+  * **Pressurized 6-Wheel Rover**: Enter and drive the exploration vehicle (`R` key) for high-speed travel across Jezero Crater with zero oxygen drain.
+* **Scientific Sampling & AI Rock Classifier**:
+  * Handheld Scanner (`F` key) detecting samples within 12 meters:
+    * Volcanic Basalt Rock
+    * Hematite Spherules ("Martian Blueberries" indicating ancient standing water)
+    * Layered Sedimentary Sandstone
+    * Subsurface Water Ice
+    * Possible Microbial Biogenic Spheroids
+  * AI spectral classification displaying confidence rating (e.g. 98.4%) and scientific fact cards.
+* **Survival & Base Lab Economy**:
+  * Vital meters for Oxygen (O₂), Suit Battery (⚡), and Suit Temperature (-48°C).
+  * Refill station at the Base Hab Dome airlock.
+  * Backpack inventory with cash-in for Mission Credits.
+  * Equipment upgrades: Oxygen Tank MK-II, Rover Turbo Motor, Quantum Spectrometer, Solar Super-Capacitor Battery.
+* **Educational Layer**:
+  * Real Missions Encyclopedia: NASA Perseverance & Curiosity, ISRO Mangalyaan (MOM), CNSA Tianwen-1, and UAE Hope Probe.
+  * Bilingual audio narration and UI (English & हिन्दी).
+  * Synthesized Web Audio API sound effects (Martian wind loop, scanner chirps, rover motor hum, airlock pressurization).
+
 ---
 
 ## 📁 Repository Structure
@@ -91,11 +117,13 @@ VYOM/
 ├── assets/
 │   ├── helmet-cutout.png      # High-res astronaut visor cutout asset
 │   └── three.min.js           # Local offline Three.js 3D library (WebGL)
-├── index.html                 # Hero stage, Mission Hangar, Cockpit & Chandrayaan-3
+├── index.html                 # Hero stage, Mission Hangar, Cockpit, Chandrayaan-3 & Fly to Mars
 ├── styles.css                 # Cosmic design system, responsive grid & cockpit HUD
 ├── script.js                  # Pure Three.js 3D cockpit, scroll engine, audio synth & narration
 ├── chandrayaan3.css           # Mission Chandrayaan-3 HUD, dialogs, quiz & pilot overlays
 ├── chandrayaan3.js            # Chandrayaan-3 3D engine, playable lander physics & quiz
+├── mars.css                   # Mars Explorer visor HUD, gauges, scanner reticle & upgrades shop
+├── mars.js                    # Mars Explorer 3D game engine, rover driving & survival systems
 ├── .gitignore                 # Clean Git tracking configuration
 └── README.md                  # Comprehensive documentation & phase roadmap
 ```
