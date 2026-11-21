@@ -1,0 +1,548 @@
+/* ========================================================
+   ADITYA-L1: JOURNEY TO THE SUN'S DOORSTEP DESIGN SYSTEM
+   Tour to The Sun - ISRO Solar Observatory - VYOM 1.0
+   ======================================================== */
+
+:root {
+  --sun-gold: #fbbf24;
+  --sun-amber: #f59e0b;
+  --sun-orange: #f97316;
+  --sun-flare: #ef4444;
+  --sun-corona: #06b6d4;
+  --sun-aurora: #10b981;
+  --sun-dark: #02040a;
+  --sun-panel: rgba(8, 12, 24, 0.84);
+  --sun-border: rgba(251, 191, 36, 0.3);
+  --sun-glow: rgba(251, 191, 36, 0.2);
+  --sun-mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  --sun-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Tour to The Sun Stage Viewport */
+.sun-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--sun-dark);
+  color: #fff;
+  font-family: var(--sun-sans);
+  overflow: hidden;
+  z-index: 100;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3D WebGL Canvas */
+#sunCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  outline: none;
+  touch-action: none;
+}
+
+/* Confetti Canvas for Halo Orbit Success */
+#sunConfettiCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  pointer-events: none;
+  display: none;
+}
+
+/* Top Nav Tab Customization for Phase 6 */
+.nav-tab.sun-nav-tab {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.15));
+  border-color: rgba(251, 191, 36, 0.4);
+}
+.nav-tab.sun-nav-tab:hover,
+.nav-tab.sun-nav-tab.active {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(249, 115, 22, 0.35));
+  border-color: var(--sun-gold);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.45);
+}
+.nav-tab.sun-nav-tab .tab-badge {
+  background: transparent;
+  font-size: 1.1rem;
+}
+
+/* Header Top Bar */
+.sun-top-bar {
+  position: absolute;
+  top: 58px; /* Below global nav */
+  left: 0;
+  right: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(4, 7, 18, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--sun-border);
+  z-index: 20;
+}
+
+.sun-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sun-emblem {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+}
+.sun-main-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, var(--sun-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sun-sub-title {
+  font-size: 0.7rem;
+  color: var(--sun-gold);
+  font-family: var(--sun-mono);
+  letter-spacing: 0.12em;
+}
+
+.sun-clock-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--sun-border);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: var(--sun-mono);
+  font-size: 0.8rem;
+  color: var(--sun-gold);
+}
+.sun-clock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  animation: sunPulse 1.5s infinite;
+}
+
+.sun-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sun-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--sun-border);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sun-mono);
+}
+.sun-btn:hover {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: var(--sun-gold);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+}
+.sun-btn.gold {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(249, 115, 22, 0.4));
+  border-color: var(--sun-gold);
+  color: #fef08a;
+}
+
+/* Stage Timeline Selector Strip */
+.sun-timeline-strip {
+  position: absolute;
+  top: 118px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  gap: 6px;
+  background: rgba(8, 12, 24, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--sun-border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  z-index: 20;
+  overflow-x: auto;
+}
+.sun-stage-pill {
+  flex: 1;
+  min-width: 105px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.sun-stage-pill:hover {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+.sun-stage-pill.active {
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.25), rgba(249, 115, 22, 0.2));
+  border-color: var(--sun-gold);
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.4);
+}
+.sun-stage-pill .pill-num {
+  font-size: 0.65rem;
+  font-family: var(--sun-mono);
+  color: var(--sun-gold);
+  font-weight: 700;
+}
+.sun-stage-pill .pill-title {
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+}
+
+/* Floating Mission Fact Card (Left Side) */
+.sun-fact-card {
+  position: absolute;
+  top: 180px;
+  left: 24px;
+  width: 380px;
+  max-width: calc(100vw - 48px);
+  background: var(--sun-panel);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--sun-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 24px var(--sun-glow);
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 20;
+  transition: all 0.3s;
+}
+.sun-card-badge {
+  font-family: var(--sun-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--sun-gold);
+  text-transform: uppercase;
+}
+.sun-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 6px 0 4px 0;
+  color: #ffffff;
+}
+.sun-card-sub {
+  font-size: 0.8rem;
+  color: var(--sun-corona);
+  font-family: var(--sun-mono);
+  margin-bottom: 12px;
+}
+.sun-card-body {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #e2e8f0;
+  margin-bottom: 14px;
+}
+.sun-facts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--sun-gold);
+  margin-bottom: 16px;
+}
+.sun-fact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+/* Flight Telemetry HUD (Right Side) */
+.sun-telemetry-hud {
+  position: absolute;
+  top: 180px;
+  right: 24px;
+  width: 280px;
+  background: var(--sun-panel);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--sun-border);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 20;
+}
+.sun-hud-header {
+  font-size: 0.72rem;
+  font-family: var(--sun-mono);
+  color: var(--sun-gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+}
+.sun-gauge-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sun-gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--sun-mono);
+}
+.sun-gauge-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+.sun-gauge-val {
+  font-weight: 700;
+  color: #fff;
+}
+.sun-gauge-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sun-gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  width: 60%;
+}
+
+/* Space Weather Guardian Mode (Playable Mini-Game Overlay) */
+.sun-guardian-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 125px 24px 20px 24px;
+}
+.sun-guardian-active .sun-guardian-overlay {
+  display: flex;
+}
+
+.sun-guardian-top {
+  display: flex;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+.sun-instrument-selector {
+  display: flex;
+  gap: 6px;
+  background: var(--sun-panel);
+  border: 1px solid var(--sun-border);
+  padding: 8px;
+  border-radius: 10px;
+}
+.sun-inst-tab {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  color: #e2e8f0;
+  font-family: var(--sun-mono);
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sun-inst-tab:hover {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: var(--sun-gold);
+}
+.sun-inst-tab.active {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(249, 115, 22, 0.4));
+  border-color: var(--sun-gold);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+}
+
+.sun-earth-defense-card {
+  background: var(--sun-panel);
+  border: 1px solid var(--sun-corona);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: var(--sun-mono);
+  min-width: 240px;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+}
+
+/* Alert Broadcast Trigger (Center Bottom) */
+.sun-alert-broadcast-bar {
+  align-self: center;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.sun-alert-btn {
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-family: var(--sun-mono);
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  border: 2px solid #fecaca;
+  color: #fff;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+  transition: all 0.2s;
+  animation: sunAlarmPulse 1.2s infinite;
+}
+.sun-alert-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
+}
+
+/* Modals */
+.sun-dialog-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(10px);
+  z-index: 70;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.sun-dialog-overlay.is-open {
+  display: flex;
+}
+.sun-dialog-box {
+  background: rgba(8, 12, 24, 0.96);
+  border: 1px solid var(--sun-border);
+  border-radius: 16px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--sun-glow);
+  padding: 24px;
+}
+.sun-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.sun-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Instruments Grid */
+.sun-inst-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.sun-inst-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.2s;
+}
+.sun-inst-item:hover {
+  border-color: var(--sun-gold);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+/* Bottom Progress Footer */
+.sun-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(4, 7, 18, 0.85);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--sun-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 20;
+}
+.sun-progress-track {
+  flex: 1;
+  max-width: 380px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0 20px;
+}
+.sun-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #10b981);
+  width: 16%;
+  transition: width 0.3s ease;
+}
+
+/* Keyframes */
+@keyframes sunPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+@keyframes sunAlarmPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .sun-fact-card {
+    width: auto;
+    right: 24px;
+    top: auto;
+    bottom: 56px;
+    max-height: 42vh;
+    overflow-y: auto;
+  }
+  .sun-telemetry-hud {
+    display: none;
+  }
+  .sun-instrument-selector {
+    overflow-x: auto;
+    max-width: 90vw;
+  }
+}

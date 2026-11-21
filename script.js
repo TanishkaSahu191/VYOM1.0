@@ -72,6 +72,8 @@
   const chandrayaanStage = document.getElementById('chandrayaanStage');
   const tabPhaseMars = document.getElementById('tabPhaseMars');
   const marsStage = document.getElementById('marsStage');
+  const tabPhaseSun = document.getElementById('tabPhaseSun');
+  const sunStage = document.getElementById('sunStage');
 
   // DOM REFERENCES - PHASE 3 (COCKPIT & SCROLL ENGINE)
   const cockpitStage = document.getElementById('cockpitStage');
@@ -4043,7 +4045,7 @@
 
   function switchToPhase(phaseNum) {
     // 1. Update Tabs
-    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars].forEach((tab, idx) => {
+    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSun].forEach((tab, idx) => {
       if (tab) {
         const isActive = (idx + 1) === phaseNum;
         tab.classList.toggle('active', isActive);
@@ -4057,6 +4059,9 @@
     }
     if (phaseNum !== 5 && marsStage) {
       marsStage.style.display = 'none';
+    }
+    if (phaseNum !== 6 && sunStage) {
+      sunStage.style.display = 'none';
     }
 
     // Phase 1: Launchpad
@@ -4115,6 +4120,8 @@
       document.body.classList.remove('in-launch');
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
+      if (marsStage) marsStage.style.display = 'none';
+      if (sunStage) sunStage.style.display = 'none';
 
       if (chandrayaanStage) {
         chandrayaanStage.style.display = 'flex';
@@ -4131,12 +4138,30 @@
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
       if (chandrayaanStage) chandrayaanStage.style.display = 'none';
+      if (sunStage) sunStage.style.display = 'none';
 
       if (marsStage) {
         marsStage.style.display = 'flex';
       }
       if (window.MarsExplorerEngine) {
         window.MarsExplorerEngine.init();
+      }
+    }
+    // Phase 6: Tour to The Sun (Aditya-L1)
+    else if (phaseNum === 6) {
+      document.body.classList.remove('in-cockpit');
+      document.body.classList.remove('destination-active');
+      document.body.classList.remove('in-launch');
+      if (cockpitStage) cockpitStage.style.display = 'none';
+      if (destinationPage) destinationPage.style.display = 'none';
+      if (chandrayaanStage) chandrayaanStage.style.display = 'none';
+      if (marsStage) marsStage.style.display = 'none';
+
+      if (sunStage) {
+        sunStage.style.display = 'flex';
+      }
+      if (window.AdityaL1Engine) {
+        window.AdityaL1Engine.init();
       }
     }
   }
@@ -4147,6 +4172,7 @@
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
   if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));
   if (tabPhaseMars) tabPhaseMars.addEventListener('click', () => switchToPhase(5));
+  if (tabPhaseSun) tabPhaseSun.addEventListener('click', () => switchToPhase(6));
 
   // Connect Direct Phase 2 -> Phase 3 Transition Triggers
   if (btnProceedCockpit) {

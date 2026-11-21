@@ -108,6 +108,28 @@ Students launch from Earth, step into a realistic spaceship cockpit, and journey
   * Bilingual audio narration and UI (English & हिन्दी).
   * Synthesized Web Audio API sound effects (Martian wind loop, scanner chirps, rover motor hum, airlock pressurization).
 
+### Phase 6: Aditya-L1: Journey to the Sun (Tour to The Sun)
+* **Full 3D Solar Observatory Simulation (6 Stages)**:
+  1. **Launch**: PSLV-C57 in XL configuration with 6 solid strap-ons launching from Sriharikota into an elliptical Earth orbit.
+  2. **Earth Orbit Raising**: 4 Liquid Apogee Motor burns (EBN 1-4) expanding apogee to 73,000 km.
+  3. **Trans-Lagrangian Point 1 Insertion (TL1I)**: Crucial injection burn slingshotting the spacecraft out of Earth orbit toward Sun-Earth L1.
+  4. **Deep Space Cruise Phase**: 110-day, 1.5 million km journey toward the Sun with mid-course correction burns.
+  5. **L1 Halo Orbit Insertion**: Capture into a periodic 3D Halo Orbit around the virtual L1 point (177.86-day period).
+  6. **24/7 Continuous Solar Science**: Zero-eclipse continuous observation of the Sun with data streaming to Earth.
+* **Playable Space Weather Guardian Mode**:
+  * Real-time monitoring of eruptive solar phenomena: Solar Flares, Coronal Mass Ejections (CMEs), and Solar Wind Surges.
+  * Multi-instrument switching:
+    * **VELC**: Coronal Mass Ejections (CMEs) tracking.
+    * **SUIT**: Solar Photosphere and Chromosphere UV Flares.
+    * **SoLEXS / HEL1OS**: Soft & Hard X-ray flare flux.
+    * **ASPEX / PAPA**: Solar wind proton, ion, and electron streams.
+    * **MAG**: Interplanetary magnetic field fluctuations.
+  * Send Early Warning Alerts to Earth to protect electrical power grids, orbiting GPS satellites, and ISS astronauts!
+* **Educational Layer**:
+  * Halo Orbit & Lagrange Point science explained with visual gravitational balance lines.
+  * 7 indigenous scientific payloads breakdown.
+  * 5-question solar mission quiz with unlockable **ISRO Solar Scientist & Space Weather Guardian Certificate**.
+
 ---
 
 ## 📁 Repository Structure
@@ -117,13 +139,15 @@ VYOM/
 ├── assets/
 │   ├── helmet-cutout.png      # High-res astronaut visor cutout asset
 │   └── three.min.js           # Local offline Three.js 3D library (WebGL)
-├── index.html                 # Hero stage, Mission Hangar, Cockpit, Chandrayaan-3 & Fly to Mars
+├── index.html                 # Platform stage router: Cockpit, Chandrayaan-3, Mars & Aditya-L1
 ├── styles.css                 # Cosmic design system, responsive grid & cockpit HUD
 ├── script.js                  # Pure Three.js 3D cockpit, scroll engine, audio synth & narration
 ├── chandrayaan3.css           # Mission Chandrayaan-3 HUD, dialogs, quiz & pilot overlays
 ├── chandrayaan3.js            # Chandrayaan-3 3D engine, playable lander physics & quiz
 ├── mars.css                   # Mars Explorer visor HUD, gauges, scanner reticle & upgrades shop
 ├── mars.js                    # Mars Explorer 3D game engine, rover driving & survival systems
+├── aditya.css                 # Aditya-L1 solar observatory HUD, CME alerts & guardian console
+├── aditya.js                  # Aditya-L1 3D simulation engine, halo orbit & CME defense mini-game
 ├── .gitignore                 # Clean Git tracking configuration
 └── README.md                  # Comprehensive documentation & phase roadmap
 ```
