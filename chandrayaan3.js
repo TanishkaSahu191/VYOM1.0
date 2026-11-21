@@ -1,13 +1,33 @@
 /**
- * ============================================================================
- * MISSION CHANDRAYAAN-3: 3D SIMULATION & LUNAR LANDING EXPERIENCE
- * Built for VYOM 1.0 - ISRO Space Exploration Protocol
- * Complete browser-based 3D simulation, interactive pilot mode & educational hub
- * ============================================================================
+ * MISSION CHANDRAYAAN-3 (VYOM) — rebuilt
+ * Flow: rocket launch -> orbit/Moon journey -> landing decisions (terrain hazards)
+ *       -> Pragyan rover -> pick destination, press Start -> US flag -> tap Armstrong's footprints.
+ * Pure Canvas 2D. Public API kept: window.Chandrayaan3Engine.init() / goToStage(n) / speakStageFact()
  */
-
 (function () {
   'use strict';
+  const $ = id => document.getElementById(id);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const sm = t => t * t * (3 - 2 * t);
+  const outE = t => 1 - Math.pow(1 - t, 3);
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const SEG = 3.2, FOOT = 26, MPP = 0.08; // seconds per space segment, lander foot offset, metres per pixel
+
+  const STAGES = [
+    ['Launch', '14 Jul 2023', 'LVM3-M4 lifts off from Satish Dhawan Space Centre, Sriharikota, and places Chandrayaan-3 in an elliptical Earth orbit of about 170 × 36,500 km.'],
+    ['Earth orbit raising', '15 Jul – 1 Aug', 'Five engine burns raise the orbit step by step. This builds up speed using Earth’s gravity, so the craft doesn’t need a huge amount of fuel at once.'],
+    ['Trans-Lunar Injection', '1 Aug', 'A big burn pushes the spacecraft out of Earth orbit onto a path toward the Moon.'],
+    ['Lunar Orbit Insertion', '5 – 16 Aug', 'The Moon’s gravity captures the craft. A series of burns lowers it to a circular orbit of about 100 × 100 km.'],
+    ['Lander separation', '17 Aug', 'Vikram, carrying the Pragyan rover, separates from the propulsion module. The module stays in orbit and keeps doing science.'],
+    ['Deboosting', '18 & 20 Aug', 'Two burns lower Vikram into a ~25 × 134 km orbit, so the landing site is closer.'],
+    ['Powered descent', '23 Aug · ~6:04 PM IST', 'Rough braking, attitude hold, then fine braking: Vikram slows from ~1.68 km/s, turns upright, and looks for safe ground.'],
+    ['Rover & experiments', 'Shiv Shakti Point', 'Pragyan rolls out and explores for about one lunar day (~14 Earth days), checking the surface and detecting sulphur and other elements.']
+  ];
+  const DESTS = [
+    { id: 'rocks', icon: '🪨', name: 'Boulder field', x: 520, fact: 'LIBS laser fired at the soil here: sulphur and other elements detected!' },
+    { id: 'crater', icon: '🕳️', name: 'Crater rim', x: 820, fact: 'Temperature probe: about +60 °C on the surface, but only about −10 °C just 8 cm below.' },
+    { id: 'flag', icon: '🇺🇸', name: 'USA flag', x: 1150, fact: '' }
 
   // ==========================================
   // 1. CONFIGURATION & TUNABLE PARAMETERS
@@ -367,1394 +387,554 @@
       expl: 'Correct! ISRO followed a "failure-based design philosophy", expanding the landing area to 4x2.4 km, upgrading leg suspension, and adding Laser Doppler Velocimeters.'
     }
   ];
+  const STARS = Array.from({ length: 140 }, () => ({ x: Math.random(), y: Math.random(), r: rnd(.4, 1.6), p: rnd(0, 6) }));
 
-  // ==========================================
-  // 5. AUDIO SYNTHESIZER (WEB AUDIO API)
-  // ==========================================
-  class AudioSynth {
-    constructor() {
-      this.ctx = null;
-      this.isMuted = false;
-    }
+  let cv, ctx, W = 0, H = 0, raf = 0, last = 0, ac = null, S = {}, voice = true, ready = false;
 
-    init() {
-      if (!this.ctx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) {
-          this.ctx = new AudioContext();
-        }
-      }
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume().catch(() => {});
-      }
-    }
+  /* ---------- helpers: audio, speech, UI ---------- */
+  function beep(f, d, type) {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(.07, ac.currentTime); g.gain.exponentialRampToValueAtTime(.001, ac.currentTime + d);
+      o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + d);
+    } catch (e) {}
+  }
+  function say(t) {
+    if (!voice || !t || !('speechSynthesis' in window)) return;
+    try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-IN'; speechSynthesis.speak(u); } catch (e) {}
+  }
+  function toast(m, ms) {
+    const t = $('c3Toast'); t.textContent = m; t.classList.add('is-on');
+    clearTimeout(S.tt); S.tt = setTimeout(() => t.classList.remove('is-on'), ms || 3600);
+  }
+  function big(t, ms) { const b = $('c3Big'); b.textContent = t; b.classList.toggle('is-on', !!t); S.bigT = t ? (ms || 0) : 0; }
+  const hint = t => { $('c3Hint').textContent = t; };
+  const hud = on => $('c3Hud').classList.toggle('is-on', on);
+  function setDesc(t) { $('c3StageDesc').textContent = t; say(t); }
+  function setAct(label, fn) {
+    const d = $('c3Dock');
+    if (!label) { d.classList.remove('is-on'); return; }
+    $('c3Act').textContent = label;
+    $('c3Act').onclick = () => { d.classList.remove('is-on'); beep(700, .08); fn(); };
+    d.classList.add('is-on');
+  }
+  function stageUI(n, h) {
+    S.stage = n; const s = STAGES[n - 1];
+    $('c3CardBadge').textContent = `STAGE ${n} OF 8`; $('c3StageName').textContent = s[0];
+    $('c3StageSub').textContent = s[1]; $('c3StageDesc').textContent = s[2];
+    document.querySelectorAll('.c3-stage-pill').forEach((p, i) => { p.classList.toggle('active', i + 1 === n); p.classList.toggle('done', i + 1 < n); });
+    $('c3BottomProgressFill').style.width = (n / 8 * 100) + '%';
+    $('c3BottomProgressText').textContent = `STAGE ${n} / 8: ${s[0].toUpperCase()}`;
+    $('c3BtnSkip').disabled = n >= 7;
+    if (h !== undefined) hint(h);
+    say(s[0] + '. ' + s[2]);
+  }
+  function result(icon, title, desc, btn, fn, bad) {
+    const r = $('c3Result');
+    r.className = 'c3-result-modal is-open ' + (bad ? 'fail' : 'success');
+    r.innerHTML = `<div class="c3-result-icon">${icon}</div><div class="c3-result-title">${title}</div><div class="c3-result-desc">${desc}</div><button class="c3-btn c3-btn-gold" id="c3ResBtn" type="button">${btn}</button>`;
+    $('c3ResBtn').onclick = () => { r.classList.remove('is-open'); fn(); };
+  }
+  function decide(tag, text, opts) {
+    const p = $('c3Decision'), box = $('c3DecOpts');
+    $('c3DecTag').textContent = tag; $('c3DecText').textContent = text; box.innerHTML = '';
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'c3-opt'; b.type = 'button'; b.innerHTML = `<strong>${o.t}</strong><span>${o.s}</span>`;
+      b.onclick = () => { p.classList.remove('is-open'); beep(660, .08); o.fn(); };
+      box.appendChild(b);
+    });
+    p.classList.add('is-open'); beep(520, .12);
+  }
+  function clearUI() {
+    ['c3Decision', 'c3Route', 'c3Result', 'c3Flash', 'c3Prints', 'c3Toast', 'c3Dock'].forEach(id => $(id).classList.remove('is-open', 'is-on'));
+    hud(false); big('');
+  }
 
-    playBeep(freq = 880, duration = 0.08, type = 'sine') {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + duration);
-      } catch (e) {}
-    }
-
-    playThrusterSound(duration = 0.2) {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-      try {
-        const bufferSize = this.ctx.sampleRate * duration;
-        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = (Math.random() * 2 - 1) * 0.15;
-        }
-        const noise = this.ctx.createBufferSource();
-        noise.buffer = buffer;
-
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(350, this.ctx.currentTime);
-        filter.Q.setValueAtTime(2.0, this.ctx.currentTime);
-
-        const gain = this.ctx.createGain();
-        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.ctx.destination);
-        noise.start();
-      } catch (e) {}
-    }
-
-    playLaunchRoar() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-      try {
-        // Deep sub-bass rumble + noise hiss
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(45, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(95, this.ctx.currentTime + 1.2);
-        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 1.5);
-        this.playThrusterSound(0.8);
-      } catch (e) {}
-    }
-
-    playTouchdownChime() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-      try {
-        // Grand celebratory arpeggio: C4 -> G4 -> C5 -> E5
-        const notes = [261.63, 392.00, 523.25, 659.25];
-        notes.forEach((freq, i) => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.15);
-          gain.gain.setValueAtTime(0, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.15, this.ctx.currentTime + i * 0.15);
-          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.15 + 0.6);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(this.ctx.currentTime + i * 0.15);
-          osc.stop(this.ctx.currentTime + i * 0.15 + 0.65);
-        });
-      } catch (e) {}
-    }
-
-    playCrashSound() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(140, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(20, this.ctx.currentTime + 0.5);
-        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.5);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.5);
-      } catch (e) {}
+  /* ---------- tweens ---------- */
+  function go(o, to, d, cb, ease) {
+    const f = {}; for (const k in to) f[k] = o[k];
+    S.tw.push({ o, to, f, t: 0, d, cb, e: ease || sm });
+  }
+  function stepTw(dt) {
+    for (const w of S.tw.slice()) {
+      if (!S.tw.includes(w)) continue;
+      w.t += dt; const p = clamp(w.t / w.d, 0, 1), e = w.e(p);
+      for (const k in w.to) w.o[k] = lerp(w.f[k], w.to[k], e);
+      if (p >= 1) { S.tw.splice(S.tw.indexOf(w), 1); if (w.cb) w.cb(); }
     }
   }
 
-  // ==========================================
-  // 6. MAIN CHANDRAYAAN-3 ENGINE CLASS
-  // ==========================================
-  class Chandrayaan3Engine {
-    constructor() {
-      this.audio = new AudioSynth();
-      this.lang = 'en';
-      this.stage = 1;
-      this.mode = 'story'; // 'story' | 'playable' | 'rover'
-      this.isVoiceEnabled = true;
-      this.isInitialized = false;
-
-      // Three.js References
-      this.scene = null;
-      this.camera = null;
-      this.renderer = null;
-      this.canvas = null;
-      this.animFrameId = null;
-
-      // 3D Objects in Scene
-      this.earthGroup = null;
-      this.moonGroup = null;
-      this.rocketGroup = null;
-      this.pmGroup = null;
-      this.landerGroup = null;
-      this.roverGroup = null;
-      this.orbitLinesGroup = null;
-      this.particleSystem = null;
-      this.particles = [];
-      this.dustParticles = [];
-      this.sunLight = null;
-
-      // Playable Landing Simulator State
-      this.sim = {
-        active: false,
-        altitude: CONFIG.startAltitude,
-        vy: 12.0,      // initial downward descent speed (m/s)
-        vx: 0.0,
-        x: 0.0,
-        fuel: CONFIG.initialFuel,
-        tilt: 0.0,     // degrees
-        thrustOn: false,
-        tiltLeft: false,
-        tiltRight: false,
-        landed: false,
-        crashed: false,
-        score: 0
-      };
-
-      // Pragyan Rover Driving State
-      this.roverSim = {
-        x: 0,
-        z: 3,
-        rotation: 0,
-        speed: 0,
-        keys: { w: false, s: false, a: false, d: false }
-      };
-
-      // Mission Clock
-      this.missionClockSec = 0;
-      this.clockTimer = null;
-
-      // Confetti canvas
-      this.confettiCanvas = null;
-      this.confettiCtx = null;
-      this.confettiPieces = [];
+  /* ---------- drawing primitives ---------- */
+  const circ = (x, y, r) => { ctx.beginPath(); ctx.arc(x, y, Math.max(0, r), 0, 6.2832); ctx.fill(); };
+  function stars(k) {
+    const t = performance.now() / 700; ctx.fillStyle = '#fff';
+    for (const s of STARS) { ctx.globalAlpha = k * (.45 + .45 * Math.sin(t + s.p)); ctx.fillRect(s.x * W, s.y * H * .9, s.r, s.r); }
+    ctx.globalAlpha = 1;
+  }
+  function tag(txt, x, y, col) {
+    ctx.font = '600 12px monospace'; const w = ctx.measureText(txt).width + 14;
+    ctx.fillStyle = 'rgba(3,7,18,.85)'; ctx.fillRect(x - w / 2, y - 12, w, 22);
+    ctx.strokeStyle = col || '#38bdf8'; ctx.lineWidth = 1; ctx.strokeRect(x - w / 2, y - 12, w, 22);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(txt, x, y + 4); ctx.textAlign = 'left';
+  }
+  function earth(x, y, r) {
+    const g = ctx.createRadialGradient(x - r * .35, y - r * .35, r * .1, x, y, r);
+    g.addColorStop(0, '#6db6ff'); g.addColorStop(1, '#0a2a70'); ctx.fillStyle = g; circ(x, y, r);
+    ctx.save(); ctx.clip(); ctx.fillStyle = '#34a05a'; const t = Math.sin(performance.now() / 9000) * r * .1;
+    [[.2, -.2, .38, .22], [-.35, .25, .3, .2], [.45, .35, .2, .14], [-.1, -.55, .25, .12]].forEach(c => { ctx.beginPath(); ctx.ellipse(x + c[0] * r + t, y + c[1] * r, c[2] * r, c[3] * r, .5, 0, 6.3); ctx.fill(); });
+    ctx.restore(); ctx.strokeStyle = 'rgba(120,190,255,.35)'; ctx.lineWidth = Math.max(2, r * .05); ctx.beginPath(); ctx.arc(x, y, r + 1, 0, 6.3); ctx.stroke();
+  }
+  function moon(x, y, r, pole) {
+    const g = ctx.createRadialGradient(x - r * .3, y - r * .3, r * .1, x, y, r);
+    g.addColorStop(0, '#e5e7eb'); g.addColorStop(1, '#6b7280'); ctx.fillStyle = g; circ(x, y, r);
+    ctx.fillStyle = 'rgba(0,0,0,.13)';
+    [[-.3, -.2, .18], [.25, .1, .22], [-.1, .4, .14], [.45, -.4, .12], [-.5, .2, .1]].forEach(c => circ(x + c[0] * r, y + c[1] * r, c[2] * r));
+    if (pole) { ctx.strokeStyle = '#ff9933'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y + r * .86, Math.max(3, r * .06), 0, 6.3); ctx.stroke(); }
+  }
+  function sat(x, y, s, rot) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot || 0); ctx.scale(s, s);
+    ctx.fillStyle = '#1e3a8a'; ctx.fillRect(-26, -3, 52, 6); ctx.fillStyle = '#d4af37'; ctx.fillRect(-8, -8, 16, 16);
+    ctx.strokeStyle = 'rgba(255,255,255,.4)'; ctx.strokeRect(-8, -8, 16, 16); ctx.restore();
+  }
+  function lander(x, y, tilt, fire, s) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(tilt * Math.PI / 180); ctx.scale(s, s);
+    if (fire > 0) {
+      const f = ctx.createLinearGradient(0, 16, 0, 75); f.addColorStop(0, '#fff'); f.addColorStop(.3, '#ffd34d'); f.addColorStop(1, 'rgba(255,80,0,0)');
+      ctx.fillStyle = f; ctx.beginPath(); ctx.moveTo(-12, 16); ctx.lineTo(12, 16); ctx.lineTo(0, 16 + 55 * fire * (.8 + Math.random() * .4)); ctx.fill();
     }
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3;
+    [-1, 1].forEach(d => { ctx.beginPath(); ctx.moveTo(d * 16, 10); ctx.lineTo(d * 30, 24); ctx.stroke(); ctx.fillStyle = '#64748b'; ctx.fillRect(d * 30 - 7, 23, 14, 3); });
+    ctx.fillStyle = '#d4af37'; ctx.fillRect(-18, -14, 36, 28); ctx.fillStyle = '#b8901f'; ctx.fillRect(-18, -14, 36, 5);
+    ctx.fillStyle = '#1e3a8a'; ctx.fillRect(-18, -6, 8, 14); ctx.fillStyle = '#334155'; ctx.fillRect(-12, 14, 24, 5);
+    ctx.restore();
+  }
+  function rover(x, y, dir, wheel) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(dir, 1);
+    ctx.fillStyle = '#d4af37'; ctx.fillRect(-18, -24, 36, 13);
+    ctx.save(); ctx.rotate(-.12); ctx.fillStyle = '#1e3a8a'; ctx.fillRect(-20, -30, 40, 4); ctx.restore();
+    ctx.fillStyle = '#94a3b8'; ctx.fillRect(10, -36, 3, 12); ctx.fillRect(7, -38, 9, 3);
+    [-18, 0, 18].forEach(dx => {
+      ctx.save(); ctx.translate(dx, -7); ctx.fillStyle = '#111827'; circ(0, 0, 7);
+      ctx.rotate(wheel); ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(6, 0); ctx.moveTo(0, -6); ctx.lineTo(0, 6); ctx.stroke(); ctx.restore();
+    });
+    ctx.restore();
+  }
+  function flag(x, y) {
+    ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(x, y + 2, 16, 4, 0, 0, 6.3); ctx.fill();
+    ctx.fillStyle = '#e5e7eb'; ctx.fillRect(x - 1.5, y - 74, 3, 74); ctx.fillRect(x - 1.5, y - 72, 42, 2);
+    for (let i = 0; i < 7; i++) { ctx.fillStyle = i % 2 ? '#fff' : '#b22234'; ctx.fillRect(x + 1, y - 70 + i * 3.2, 38, 3.2); }
+    ctx.fillStyle = '#3c3b6e'; ctx.fillRect(x + 1, y - 70, 16, 13);
+  }
+  function rocket(x, yb, fire, sep) {
+    ctx.save(); ctx.translate(x, yb);
+    if (fire > 0) {
+      const h = 95 * fire * (.85 + Math.random() * .3), g = ctx.createLinearGradient(0, 0, 0, h);
+      g.addColorStop(0, '#fff'); g.addColorStop(.25, '#ffe066'); g.addColorStop(1, 'rgba(255,80,0,0)'); ctx.fillStyle = g;
+      (sep ? [0] : [-22, 0, 22]).forEach(dx => { ctx.beginPath(); ctx.moveTo(dx - 8, 0); ctx.lineTo(dx + 8, 0); ctx.lineTo(dx, h); ctx.fill(); });
+    }
+    ctx.fillStyle = '#f1f5f9'; ctx.fillRect(-13, -150, 26, 150);
+    ctx.beginPath(); ctx.moveTo(-13, -150); ctx.quadraticCurveTo(-13, -185, 0, -205); ctx.quadraticCurveTo(13, -185, 13, -150); ctx.fill();
+    ['#ff9933', '#ffffff', '#138808'].forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(-13, -118 + i * 6, 26, 6); });
+    ctx.fillStyle = '#475569'; ctx.fillRect(-9, 0, 18, 8);
+    if (!sep) [-1, 1].forEach(d => {
+      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(d * 22 - 8, -100, 16, 100);
+      ctx.beginPath(); ctx.moveTo(d * 22 - 8, -100); ctx.lineTo(d * 22 + 8, -100); ctx.lineTo(d * 22, -120); ctx.fill();
+      ctx.fillStyle = '#475569'; ctx.fillRect(d * 22 - 6, 0, 12, 7);
+    });
+    ctx.restore();
+  }
 
-    init() {
-      if (this.isInitialized) return;
-      this.canvas = document.getElementById('c3Canvas');
-      if (!this.canvas) return;
+  /* ---------- particles / confetti ---------- */
+  function fxStep(dt) {
+    for (const p of S.fx) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
+    S.fx = S.fx.filter(p => p.life > 0);
+    for (const c of S.conf) { c.x += c.vx * dt; c.y += c.vy * dt; c.r += c.vr * dt; }
+    S.conf = S.conf.filter(c => c.y < H + 30);
+  }
+  function confetti() {
+    const cols = ['#FF9933', '#FFFFFF', '#138808', '#00F2FE', '#FBBF24'];
+    for (let i = 0; i < 130; i++) S.conf.push({ x: rnd(0, W), y: rnd(-250, -10), vx: rnd(-60, 60), vy: rnd(120, 260), r: rnd(0, 6), vr: rnd(-6, 6), s: rnd(6, 12), c: cols[i % 5] });
+  }
+  function drawConf() {
+    for (const c of S.conf) { ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(c.r); ctx.fillStyle = c.c; ctx.fillRect(-c.s / 2, -c.s / 3, c.s, c.s * .6); ctx.restore(); }
+  }
 
-      this.confettiCanvas = document.getElementById('c3ConfettiCanvas');
-      if (this.confettiCanvas) {
-        this.confettiCtx = this.confettiCanvas.getContext('2d');
+  /* =========================================================
+     SCENE 1: LAUNCH (stage 1)
+     ========================================================= */
+  function updLaunch(dt) {
+    const l = S.l;
+    if (l.ph === 'count') {
+      l.cd -= dt; const n = Math.ceil(l.cd);
+      if (n !== l.n && n > 0) { l.n = n; big('T-' + n); beep(440, .1); hint('Ignition sequence…'); }
+      if (l.cd <= 0) { l.ph = 'fly'; S.clockOn = true; big('LIFTOFF!', 1.8); beep(110, .8, 'sawtooth'); hint('LVM3-M4 is climbing…'); }
+    }
+    if (l.ph === 'fly') {
+      l.v += dt * 110; l.alt += l.v * dt;
+      for (let i = 0; i < 3; i++) S.fx.push({ x: rnd(-8, 8), y: l.alt + 6, vx: rnd(-45, 45), vy: -rnd(140, 260), life: .35, max: .35, r: rnd(4, 8), c: '255,190,70' });
+      if (l.alt < H * .9) for (let i = 0; i < 2; i++) S.fx.push({ x: rnd(-30, 30), y: rnd(0, 10), vx: rnd(-90, 90), vy: rnd(5, 40), life: 2.6, max: 2.6, r: rnd(14, 26), c: '215,215,222', smoke: true });
+      if (!l.sep && l.alt > H * .85) {
+        l.sep = true; toast('S200 boosters separate'); beep(300, .2, 'square');
+        l.bs = [-1, 1].map(d => ({ x: d * 22, y: l.alt, vx: d * 55, vy: l.v * .7, rot: 0, vr: d * .9 }));
       }
-
-      this.setupThreeScene();
-      this.setupSpacecraftModels();
-      this.setupOrbitLines();
-      this.setupEventListeners();
-      this.startMissionClock();
-
-      this.isInitialized = true;
-      this.goToStage(1);
-      this.animate();
+      if (l.alt > H * 1.9 && !S.pend) S.pend = startSpace;
     }
-
-    // ------------------------------------------
-    // 3D SCENE SETUP
-    // ------------------------------------------
-    setupThreeScene() {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color(0x02040a);
-
-      this.camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 2000);
-      this.camera.position.set(0, 15, 60);
-
-      this.renderer = new THREE.WebGLRenderer({
-        canvas: this.canvas,
-        antialias: true,
-        alpha: false,
-        powerPreference: 'high-performance'
-      });
-      this.renderer.setSize(width, height);
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      this.renderer.shadowMap.enabled = true;
-
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x223355, 0.7);
-      this.scene.add(ambientLight);
-
-      this.sunLight = new THREE.DirectionalLight(0xffffff, 1.8);
-      this.sunLight.position.set(200, 100, 150);
-      this.sunLight.castShadow = true;
-      this.scene.add(this.sunLight);
-
-      // Starfield
-      this.createStarfield();
-
-      // Earth & Moon
-      this.createEarth();
-      this.createMoon();
+    for (const b of l.bs) { b.x += b.vx * dt; b.y += b.vy * dt; b.vy -= 160 * dt; b.rot += b.vr * dt; }
+  }
+  function drawLaunch() {
+    const l = S.l, base = H * .82, gY = base + Math.max(0, l.alt - H * .4), k = clamp(l.alt / (H * 1.5), 0, 1);
+    const c = (a, b) => Math.round(lerp(a, b, k));
+    const g = ctx.createLinearGradient(0, 0, 0, gY);
+    g.addColorStop(0, `rgb(${c(24, 2)},${c(40, 4)},${c(96, 10)})`); g.addColorStop(1, `rgb(${c(255, 2)},${c(160, 4)},${c(90, 10)})`);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); stars(k);
+    ctx.fillStyle = '#1a2418'; ctx.fillRect(0, gY, W, H - gY + 2); ctx.fillStyle = '#2b3a28'; ctx.fillRect(0, gY, W, 4);
+    const cx = W / 2, sy = h => gY - h;
+    ctx.strokeStyle = '#64748b'; ctx.lineWidth = 3; ctx.strokeRect(cx + 46, sy(230), 22, 230);
+    for (let i = 0; i < 8; i++) { ctx.beginPath(); ctx.moveTo(cx + 46, sy(i * 29)); ctx.lineTo(cx + 68, sy((i + 1) * 29)); ctx.stroke(); }
+    ctx.fillStyle = '#334155'; ctx.fillRect(cx - 60, sy(10), 120, 10);
+    for (const p of S.fx) {
+      const a = clamp(p.life / p.max, 0, 1); ctx.globalAlpha = a * (p.smoke ? .55 : .9); ctx.fillStyle = `rgb(${p.c})`;
+      circ(cx + p.x, sy(p.y + 10), p.r * (p.smoke ? 1 + (1 - a) * 1.5 : 1));
     }
-
-    createStarfield() {
-      const count = 3000;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(count * 3);
-      const colors = new Float32Array(count * 3);
-
-      for (let i = 0; i < count; i++) {
-        const radius = 600 + Math.random() * 600;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-
-        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = radius * Math.cos(phi);
-
-        // Tint stars subtle white, blue, yellow
-        const tone = Math.random();
-        if (tone > 0.8) {
-          colors[i * 3] = 0.7; colors[i * 3 + 1] = 0.85; colors[i * 3 + 2] = 1.0;
-        } else if (tone > 0.6) {
-          colors[i * 3] = 1.0; colors[i * 3 + 1] = 0.9; colors[i * 3 + 2] = 0.7;
-        } else {
-          colors[i * 3] = 0.95; colors[i * 3 + 1] = 0.95; colors[i * 3 + 2] = 0.95;
-        }
-      }
-
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 1.6,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.9
-      });
-
-      const stars = new THREE.Points(geometry, material);
-      this.scene.add(stars);
+    ctx.globalAlpha = 1;
+    for (const b of l.bs) {
+      ctx.save(); ctx.translate(cx + b.x, sy(b.y + 10)); ctx.rotate(b.rot); ctx.fillStyle = '#e2e8f0'; ctx.fillRect(-8, -100, 16, 100);
+      ctx.beginPath(); ctx.moveTo(-8, -100); ctx.lineTo(8, -100); ctx.lineTo(0, -120); ctx.fill(); ctx.restore();
     }
+    const sh = l.ph === 'fly' && l.alt < H * .3 ? rnd(-1.5, 1.5) : (l.ph === 'count' && l.cd < 2 ? rnd(-.8, .8) : 0);
+    rocket(cx + sh, sy(l.alt + 10), l.ph === 'fly' ? 1 : (l.ph === 'count' && l.cd < 1.5 ? .4 : 0), l.sep);
+    if (l.ph === 'pad') tag('LVM3-M4 · Satish Dhawan Space Centre, Sriharikota', cx, base + 40, '#ff9933');
+  }
 
-    createEarth() {
-      this.earthGroup = new THREE.Group();
-
-      // Earth sphere with procedural ocean and continent shaders
-      const sphereGeo = new THREE.SphereGeometry(18, 64, 64);
-      const earthMat = new THREE.MeshPhongMaterial({
-        color: 0x1d4ed8,
-        specular: 0x3b82f6,
-        shininess: 25,
-        wireframe: false
-      });
-      const earthMesh = new THREE.Mesh(sphereGeo, earthMat);
-      this.earthGroup.add(earthMesh);
-
-      // Continent landmass patches
-      const continentGeo = new THREE.SphereGeometry(18.06, 32, 32);
-      const continentMat = new THREE.MeshLambertMaterial({
-        color: 0x15803d,
-        transparent: true,
-        opacity: 0.85
-      });
-      const continents = new THREE.Mesh(continentGeo, continentMat);
-      this.earthGroup.add(continents);
-
-      // Atmosphere Fresnel glow ring
-      const atmoGeo = new THREE.SphereGeometry(19.2, 32, 32);
-      const atmoMat = new THREE.MeshBasicMaterial({
-        color: 0x60a5fa,
-        transparent: true,
-        opacity: 0.18,
-        side: THREE.BackSide
-      });
-      const atmoMesh = new THREE.Mesh(atmoGeo, atmoMat);
-      this.earthGroup.add(atmoMesh);
-
-      this.earthGroup.position.set(-60, 0, -40);
-      this.scene.add(this.earthGroup);
+  /* =========================================================
+     SCENE 2: SPACE JOURNEY (stages 2-6)
+     ========================================================= */
+  function startSpace(seg) {
+    S.pend = null; S.sc = 'space'; S.sp = { seg: seg || 0, t: 0 }; S.fx = []; setAct(); big('');
+    stageUI(S.sp.seg + 2, 'Sit back — the spacecraft is on its way to the Moon…');
+  }
+  function updSpace(dt) {
+    const sp = S.sp; sp.t += dt;
+    if (sp.t >= SEG) {
+      if (sp.seg >= 4) { if (!S.pend) S.pend = startDescent; return; }
+      sp.seg++; sp.t = 0; stageUI(sp.seg + 2); beep(500 + sp.seg * 60, .1);
     }
-
-    createMoon() {
-      this.moonGroup = new THREE.Group();
-
-      // Lunar sphere with crater texture material
-      const moonGeo = new THREE.SphereGeometry(14, 64, 64);
-      const moonMat = new THREE.MeshStandardMaterial({
-        color: 0xcfd8dc,
-        roughness: 0.92,
-        metalness: 0.05
-      });
-      const moonMesh = new THREE.Mesh(moonGeo, moonMat);
-      this.moonGroup.add(moonMesh);
-
-      // South Pole Landing Marker (Shiv Shakti Point)
-      const markerGeo = new THREE.RingGeometry(0.3, 0.7, 32);
-      const markerMat = new THREE.MeshBasicMaterial({
-        color: 0xff9933,
-        side: THREE.DoubleSide
-      });
-      const marker = new THREE.Mesh(markerGeo, markerMat);
-      marker.rotation.x = Math.PI / 2;
-      marker.position.set(0, -13.95, 0); // South pole
-      this.moonGroup.add(marker);
-
-      // Ground plane grid for stage 6/7/8/9 surface
-      const terrainGeo = new THREE.PlaneGeometry(160, 160, 48, 48);
-      // Displace vertices to create authentic crater terrain
-      const pos = terrainGeo.attributes.position;
-      for (let i = 0; i < pos.count; i++) {
-        const vx = pos.getX(i);
-        const vy = pos.getY(i);
-        const dist = Math.sqrt(vx * vx + vy * vy);
-        // Flatter in center for landing zone, cratered around
-        const craterH = Math.sin(vx * 0.15) * Math.cos(vy * 0.15) * 1.5;
-        pos.setZ(i, (dist > 15 ? craterH : 0));
-      }
-      terrainGeo.computeVertexNormals();
-
-      const terrainMat = new THREE.MeshStandardMaterial({
-        color: 0x94a3b8,
-        roughness: 0.95,
-        wireframe: false
-      });
-      const terrain = new THREE.Mesh(terrainGeo, terrainMat);
-      terrain.rotation.x = -Math.PI / 2;
-      terrain.position.set(0, -10, 0);
-      terrain.receiveShadow = true;
-      terrain.name = 'lunarTerrain';
-      this.scene.add(terrain);
-
-      this.moonGroup.position.set(60, 0, -50);
-      this.scene.add(this.moonGroup);
-    }
-
-    // ------------------------------------------
-    // SPACECRAFT MODELS (LVM3, PM, VIKRAM, PRAGYAN)
-    // ------------------------------------------
-    setupSpacecraftModels() {
-      // 1. LVM3 M4 ROCKET MODEL
-      this.rocketGroup = new THREE.Group();
-
-      // Core L110 Liquid Stage (white cylinder)
-      const coreGeo = new THREE.CylinderGeometry(1.4, 1.4, 16, 24);
-      const coreMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
-      const core = new THREE.Mesh(coreGeo, coreMat);
-      this.rocketGroup.add(core);
-
-      // Nose Fairing (Ogive cone)
-      const fairingGeo = new THREE.ConeGeometry(1.4, 4.5, 24);
-      const fairingMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.3 });
-      const fairing = new THREE.Mesh(fairingGeo, fairingMat);
-      fairing.position.y = 10.25;
-      fairing.name = 'fairing';
-      this.rocketGroup.add(fairing);
-
-      // S200 Solid Strap-on Boosters (Twin Boosters)
-      [-2.4, 2.4].forEach(xOffset => {
-        const boosterGeo = new THREE.CylinderGeometry(0.85, 0.85, 13, 16);
-        const boosterMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0 });
-        const booster = new THREE.Mesh(boosterGeo, boosterMat);
-        booster.position.set(xOffset, -1.5, 0);
-
-        // Booster nose cone
-        const coneGeo = new THREE.ConeGeometry(0.85, 2.5, 16);
-        const cone = new THREE.Mesh(coneGeo, boosterMat);
-        cone.position.set(xOffset, 6.2, 0);
-
-        // Booster engine nozzle
-        const nozzleGeo = new THREE.CylinderGeometry(0.5, 0.9, 1.2, 16);
-        const nozzleMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8 });
-        const nozzle = new THREE.Mesh(nozzleGeo, nozzleMat);
-        nozzle.position.set(xOffset, -8.6, 0);
-
-        this.rocketGroup.add(booster);
-        this.rocketGroup.add(cone);
-        this.rocketGroup.add(nozzle);
-      });
-
-      // Orange Tricolor Band on Core
-      const bandGeo = new THREE.CylinderGeometry(1.42, 1.42, 1.2, 24);
-      const bandMat = new THREE.MeshBasicMaterial({ color: 0xff9933 });
-      const band = new THREE.Mesh(bandGeo, bandMat);
-      band.position.y = 5;
-      this.rocketGroup.add(band);
-
-      this.scene.add(this.rocketGroup);
-
-      // 2. PROPULSION MODULE (PM)
-      this.pmGroup = new THREE.Group();
-      const pmBodyGeo = new THREE.BoxGeometry(3.2, 2.8, 3.2);
-      const pmBodyMat = new THREE.MeshStandardMaterial({
-        color: 0xcca01d, // Gold MLI Foil
-        metalness: 0.85,
-        roughness: 0.25
-      });
-      const pmBody = new THREE.Mesh(pmBodyGeo, pmBodyMat);
-      this.pmGroup.add(pmBody);
-
-      // PM Solar Panel
-      const pmSolarGeo = new THREE.BoxGeometry(6.5, 0.1, 2.5);
-      const pmSolarMat = new THREE.MeshStandardMaterial({ color: 0x1e3a8a, metalness: 0.9, roughness: 0.2 });
-      const pmSolar = new THREE.Mesh(pmSolarGeo, pmSolarMat);
-      pmSolar.position.set(0, 0, 0);
-      this.pmGroup.add(pmSolar);
-
-      this.scene.add(this.pmGroup);
-
-      // 3. VIKRAM LANDER
-      this.landerGroup = new THREE.Group();
-
-      // Main gold box hull
-      const landerHullGeo = new THREE.BoxGeometry(2.6, 2.0, 2.6);
-      const landerHullMat = new THREE.MeshStandardMaterial({
-        color: 0xd4af37, // Metallic gold
-        metalness: 0.9,
-        roughness: 0.2
-      });
-      const landerHull = new THREE.Mesh(landerHullGeo, landerHullMat);
-      this.landerGroup.add(landerHull);
-
-      // Side Solar Panels
-      [-1.35, 1.35].forEach(x => {
-        const sideSolarGeo = new THREE.PlaneGeometry(1.8, 1.8);
-        const sideSolarMat = new THREE.MeshStandardMaterial({ color: 0x172554, side: THREE.DoubleSide });
-        const sideSolar = new THREE.Mesh(sideSolarGeo, sideSolarMat);
-        sideSolar.position.set(x, 0, 0);
-        sideSolar.rotation.y = Math.PI / 2;
-        this.landerGroup.add(sideSolar);
-      });
-
-      // 4 Landing Legs with circular footpads
-      const legPositions = [
-        [-1.6, -1.8, -1.6],
-        [1.6, -1.8, -1.6],
-        [-1.6, -1.8, 1.6],
-        [1.6, -1.8, 1.6]
-      ];
-      legPositions.forEach(p => {
-        const legGeo = new THREE.CylinderGeometry(0.08, 0.08, 1.8, 8);
-        const legMat = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.7 });
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(p[0], p[1], p[2]);
-        leg.rotation.z = p[0] > 0 ? -0.35 : 0.35;
-        leg.rotation.x = p[2] > 0 ? 0.35 : -0.35;
-
-        // Circular footpad
-        const padGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.08, 16);
-        const pad = new THREE.Mesh(padGeo, legMat);
-        pad.position.set(p[0] * 1.3, -2.4, p[2] * 1.3);
-        this.landerGroup.add(leg);
-        this.landerGroup.add(pad);
-      });
-
-      // Thruster Nozzles (4 Throttleable Liquid Engines)
-      [[-0.6, -0.6], [0.6, -0.6], [-0.6, 0.6], [0.6, 0.6]].forEach(pos => {
-        const nozzleGeo = new THREE.ConeGeometry(0.25, 0.5, 12);
-        const nozzleMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9 });
-        const nozzle = new THREE.Mesh(nozzleGeo, nozzleMat);
-        nozzle.position.set(pos[0], -1.1, pos[1]);
-        nozzle.rotation.x = Math.PI;
-        this.landerGroup.add(nozzle);
-      });
-
-      // Pragyan Deployment Ramp
-      const rampGeo = new THREE.BoxGeometry(1.6, 0.05, 3.2);
-      const rampMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
-      const ramp = new THREE.Mesh(rampGeo, rampMat);
-      ramp.position.set(0, -1.8, 2.2);
-      ramp.rotation.x = 0.55;
-      ramp.name = 'landerRamp';
-      this.landerGroup.add(ramp);
-
-      this.scene.add(this.landerGroup);
-
-      // 4. PRAGYAN ROVER (6-WHEEL ROCKER-BOGIE)
-      this.roverGroup = new THREE.Group();
-
-      // Chassis
-      const roverBodyGeo = new THREE.BoxGeometry(1.2, 0.5, 0.8);
-      const roverBodyMat = new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.8 });
-      const roverBody = new THREE.Mesh(roverBodyGeo, roverBodyMat);
-      this.roverGroup.add(roverBody);
-
-      // Solar Panel Mast
-      const rSolarGeo = new THREE.BoxGeometry(1.3, 0.05, 0.9);
-      const rSolarMat = new THREE.MeshStandardMaterial({ color: 0x1e3a8a, metalness: 0.9 });
-      const rSolar = new THREE.Mesh(rSolarGeo, rSolarMat);
-      rSolar.position.set(0, 0.35, 0);
-      rSolar.rotation.x = 0.2;
-      this.roverGroup.add(rSolar);
-
-      // 6 Wheels
-      const wheelGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.15, 16);
-      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.9 });
-      const wheelCoords = [
-        [-0.7, -0.3, -0.45], [0, -0.3, -0.45], [0.7, -0.3, -0.45],
-        [-0.7, -0.3, 0.45], [0, -0.3, 0.45], [0.7, -0.3, 0.45]
-      ];
-      wheelCoords.forEach(c => {
-        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
-        wheel.rotation.z = Math.PI / 2;
-        wheel.position.set(c[0], c[1], c[2]);
-        this.roverGroup.add(wheel);
-      });
-
-      this.scene.add(this.roverGroup);
-
-      // Particle Systems (Launch Plume & Thruster Burns)
-      this.setupParticleSystem();
-    }
-
-    setupParticleSystem() {
-      const pCount = 200;
-      const pGeo = new THREE.BufferGeometry();
-      const pPos = new Float32Array(pCount * 3);
-      const pColors = new Float32Array(pCount * 3);
-
-      for (let i = 0; i < pCount; i++) {
-        pPos[i * 3] = (Math.random() - 0.5) * 1.5;
-        pPos[i * 3 + 1] = -Math.random() * 8;
-        pPos[i * 3 + 2] = (Math.random() - 0.5) * 1.5;
-
-        // Orange to yellow flame gradient
-        pColors[i * 3] = 1.0;
-        pColors[i * 3 + 1] = 0.4 + Math.random() * 0.5;
-        pColors[i * 3 + 2] = 0.05;
-
-        this.particles.push({
-          x: pPos[i * 3],
-          y: pPos[i * 3 + 1],
-          z: pPos[i * 3 + 2],
-          vy: -0.3 - Math.random() * 0.4,
-          life: Math.random()
-        });
-      }
-
-      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-      pGeo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
-
-      const pMat = new THREE.PointsMaterial({
-        size: 1.4,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.85
-      });
-
-      this.particleSystem = new THREE.Points(pGeo, pMat);
-      this.scene.add(this.particleSystem);
-    }
-
-    setupOrbitLines() {
-      this.orbitLinesGroup = new THREE.Group();
-
-      // 5 Glowing Elliptical Orbits for Stage 2 (EBN 1-5)
-      const orbitRadii = [
-        { a: 22, b: 18, color: 0x38bdf8 },
-        { a: 28, b: 21, color: 0x00f2fe },
-        { a: 34, b: 24, color: 0x34d399 },
-        { a: 42, b: 27, color: 0xfbbf24 },
-        { a: 52, b: 30, color: 0xff9933 }
-      ];
-
-      orbitRadii.forEach(orb => {
-        const curve = new THREE.EllipseCurve(
-          -orb.a * 0.4, 0, // center
-          orb.a, orb.b,    // xRadius, yRadius
-          0, 2 * Math.PI,  // start, end angle
-          false, 0
-        );
-        const points = curve.getPoints(100);
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
-        const mat = new THREE.LineBasicMaterial({
-          color: orb.color,
-          transparent: true,
-          opacity: 0.75
-        });
-        const ellipse = new THREE.Line(geo, mat);
-        ellipse.rotation.x = Math.PI / 2.3;
-        ellipse.position.set(-60, 0, -40);
-        this.orbitLinesGroup.add(ellipse);
-      });
-
-      this.scene.add(this.orbitLinesGroup);
-    }
-
-    // ------------------------------------------
-    // STAGE NAVIGATION & CINEMATIC CAMERA CHOREOGRAPHY
-    // ------------------------------------------
-    goToStage(stageNum) {
-      if (stageNum < 1) stageNum = 1;
-      if (stageNum > 9) stageNum = 9;
-      this.stage = stageNum;
-
-      // Reset Simulator overlay if open
-      if (this.mode === 'playable') {
-        this.exitPlayableMode();
-      }
-
-      // Update UI Pills and Cards
-      this.updateStageUI();
-
-      // Audio feedback
-      this.audio.playBeep(800 + stageNum * 60, 0.06);
-
-      // Hide/Show Spacecraft according to stage
-      this.rocketGroup.visible = (stageNum === 1);
-      this.orbitLinesGroup.visible = (stageNum === 2);
-      this.pmGroup.visible = (stageNum >= 2 && stageNum <= 5);
-      this.landerGroup.visible = (stageNum >= 5);
-      this.roverGroup.visible = (stageNum >= 8);
-
-      const terrain = this.scene.getObjectByName('lunarTerrain');
-      if (terrain) terrain.visible = (stageNum >= 6);
-
-      // Camera & Spacecraft Layout Per Stage
-      switch (stageNum) {
-        case 1: // Launch
-          this.camera.position.set(0, 10, 42);
-          this.camera.lookAt(0, 8, 0);
-          this.rocketGroup.position.set(0, 0, 0);
-          this.rocketGroup.rotation.set(0, 0, 0);
-          this.particleSystem.position.set(0, -9.5, 0);
-          this.particleSystem.visible = true;
-          this.audio.playLaunchRoar();
-          break;
-
-        case 2: // Earth Orbit Raising
-          this.camera.position.set(-60, 45, 25);
-          this.camera.lookAt(-60, 0, -40);
-          this.pmGroup.position.set(-42, 5, -28);
-          this.particleSystem.visible = false;
-          break;
-
-        case 3: // Trans-Lunar Injection
-          this.camera.position.set(0, 30, 60);
-          this.camera.lookAt(0, 0, -45);
-          this.pmGroup.position.set(-10, 8, -30);
-          this.pmGroup.rotation.y = 0.8;
-          this.particleSystem.position.set(-10, 8, -32);
-          this.particleSystem.visible = true;
-          this.audio.playThrusterSound(0.6);
-          break;
-
-        case 4: // Lunar Orbit Insertion
-          this.camera.position.set(60, 25, -15);
-          this.camera.lookAt(60, 0, -50);
-          this.pmGroup.position.set(60, 16, -50);
-          this.particleSystem.visible = false;
-          break;
-
-        case 5: // Separation
-          this.camera.position.set(60, 14, -28);
-          this.camera.lookAt(60, 8, -50);
-          this.pmGroup.position.set(57, 10, -50);
-          this.landerGroup.position.set(63, 10, -50);
-          this.landerGroup.rotation.set(0, 0, 0);
-          this.particleSystem.visible = false;
-          break;
-
-        case 6: // Powered Descent
-          this.camera.position.set(0, 16, 28);
-          this.camera.lookAt(0, 4, 0);
-          this.landerGroup.position.set(0, 10, 0);
-          this.landerGroup.rotation.set(0.1, 0, 0);
-          this.particleSystem.position.set(0, 8.8, 0);
-          this.particleSystem.visible = true;
-          break;
-
-        case 7: // Touchdown
-          this.camera.position.set(0, 4, 18);
-          this.camera.lookAt(0, -5, 0);
-          this.landerGroup.position.set(0, -7.5, 0);
-          this.landerGroup.rotation.set(0, 0, 0);
-          this.particleSystem.visible = false;
-          this.triggerCelebration();
-          break;
-
-        case 8: // Pragyan Rollout
-          this.camera.position.set(0, 2, 14);
-          this.camera.lookAt(0, -6, 2);
-          this.landerGroup.position.set(0, -7.5, 0);
-          this.roverGroup.position.set(0, -9.2, 4.5);
-          this.roverGroup.rotation.set(0, 0, 0);
-          this.particleSystem.visible = false;
-          break;
-
-        case 9: // Surface Exploration
-          this.camera.position.set(0, 5, 18);
-          this.camera.lookAt(0, -7, 5);
-          this.landerGroup.position.set(0, -7.5, 0);
-          this.roverGroup.position.set(0, -9.5, 6);
-          this.particleSystem.visible = false;
-          document.getElementById('c3RoverHint').style.display = 'flex';
-          break;
-      }
-
-      if (stageNum !== 9) {
-        const hint = document.getElementById('c3RoverHint');
-        if (hint) hint.style.display = 'none';
-      }
-
-      // Voice Narration
-      this.speakStageFact();
-    }
-
-    updateStageUI() {
-      const langData = TRANSLATIONS[this.lang];
-      const stageData = langData.stages[this.stage - 1];
-
-      // Update Header Text
-      document.getElementById('c3MainTitle').textContent = langData.missionTitle;
-      document.getElementById('c3SubTitle').textContent = langData.missionSubtitle;
-
-      // Update Stage Timeline Strip
-      document.querySelectorAll('.c3-stage-pill').forEach(pill => {
-        const pStage = parseInt(pill.getAttribute('data-stage'), 10);
-        pill.classList.toggle('active', pStage === this.stage);
-      });
-
-      // Update Floating Fact Card
-      document.getElementById('c3CardBadge').textContent = `STAGE ${stageData.id} OF 9`;
-      document.getElementById('c3StageName').textContent = stageData.name;
-      document.getElementById('c3StageSub').textContent = stageData.sub;
-      document.getElementById('c3StageDesc').textContent = stageData.desc;
-
-      const factsContainer = document.getElementById('c3FactsList');
-      factsContainer.innerHTML = '';
-      stageData.facts.forEach(fact => {
-        const item = document.createElement('div');
-        item.className = 'c3-fact-item';
-        item.innerHTML = `<span class="c3-fact-item-icon">✦</span><span>${fact}</span>`;
-        factsContainer.appendChild(item);
-      });
-
-      // Update Bottom Progress Fill
-      const progressPercent = (this.stage / 9) * 100;
-      document.getElementById('c3BottomProgressFill').style.width = `${progressPercent}%`;
-      document.getElementById('c3BottomProgressText').textContent = `PHASE ${this.stage} / 9: ${stageData.name.toUpperCase()}`;
-
-      // Update Telemetry Panel
-      this.updateTelemetryHUD();
-    }
-
-    updateTelemetryHUD() {
-      const altitudes = [
-        '120 km', '41,762 km', '127,600 km', '100 km (Lunar)',
-        '100 km Circular', '800 m Descent', '0 m (Shiv Shakti)',
-        'Surface (Stationary)', 'Surface Exploration'
-      ];
-      const speeds = [
-        '9,800 km/h', '37,200 km/h', '38,500 km/h', '6,000 km/h',
-        '5,800 km/h', '140 m/s', '0.0 m/s', '0.0 m/s', '1 cm/s (Pragyan)'
-      ];
-
-      document.getElementById('c3ValAltitude').textContent = altitudes[this.stage - 1];
-      document.getElementById('c3ValSpeed').textContent = speeds[this.stage - 1];
-      document.getElementById('c3ValTarget').textContent = this.stage >= 4 ? 'LUNAR SOUTH POLE' : 'LUNAR TRAJECTORY';
-    }
-
-    // ------------------------------------------
-    // CELEBRATION EFFECTS (STAGE 7 TOUCHDOWN)
-    // ------------------------------------------
-    triggerCelebration() {
-      this.audio.playTouchdownChime();
-      if (!this.confettiCanvas || !this.confettiCtx) return;
-
-      this.confettiCanvas.style.display = 'block';
-      this.confettiCanvas.width = window.innerWidth;
-      this.confettiCanvas.height = window.innerHeight;
-
-      this.confettiPieces = [];
-      const colors = ['#FF9933', '#FFFFFF', '#138808', '#00F2FE', '#FBBF24'];
-      for (let i = 0; i < 160; i++) {
-        this.confettiPieces.push({
-          x: Math.random() * this.confettiCanvas.width,
-          y: -20 - Math.random() * 200,
-          size: 6 + Math.random() * 8,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          vx: (Math.random() - 0.5) * 4,
-          vy: 2 + Math.random() * 4,
-          rot: Math.random() * Math.PI * 2,
-          vrot: (Math.random() - 0.5) * 0.1
-        });
-      }
-
-      const animateConfetti = () => {
-        if (!this.confettiCtx || this.stage !== 7) {
-          if (this.confettiCanvas) this.confettiCanvas.style.display = 'none';
-          return;
-        }
-        this.confettiCtx.clearRect(0, 0, this.confettiCanvas.width, this.confettiCanvas.height);
-        let active = false;
-
-        this.confettiPieces.forEach(p => {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.rot += p.vrot;
-
-          this.confettiCtx.save();
-          this.confettiCtx.translate(p.x, p.y);
-          this.confettiCtx.rotate(p.rot);
-          this.confettiCtx.fillStyle = p.color;
-          this.confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-          this.confettiCtx.restore();
-
-          if (p.y < this.confettiCanvas.height + 20) active = true;
-        });
-
-        if (active && this.stage === 7) {
-          requestAnimationFrame(animateConfetti);
-        } else {
-          this.confettiCanvas.style.display = 'none';
-        }
-      };
-
-      animateConfetti();
-    }
-
-    // ------------------------------------------
-    // PLAYABLE LANDING SIMULATOR
-    // ------------------------------------------
-    startPlayableMode() {
-      this.mode = 'playable';
-      document.getElementById('chandrayaanStage').classList.add('c3-playable-active');
-
-      // Reset Simulator State
-      this.sim.active = true;
-      this.sim.altitude = CONFIG.startAltitude;
-      this.sim.vy = 14.0;
-      this.sim.vx = 0.0;
-      this.sim.x = 0.0;
-      this.sim.fuel = CONFIG.initialFuel;
-      this.sim.tilt = 0.0;
-      this.sim.thrustOn = false;
-      this.sim.landed = false;
-      this.sim.crashed = false;
-      this.sim.score = 0;
-
-      // Position 3D Lander for playable mode
-      this.landerGroup.visible = true;
-      this.rocketGroup.visible = false;
-      this.pmGroup.visible = false;
-      this.roverGroup.visible = false;
-
-      const terrain = this.scene.getObjectByName('lunarTerrain');
-      if (terrain) terrain.visible = true;
-
-      this.camera.position.set(0, 10, 32);
-      this.camera.lookAt(0, 0, 0);
-
-      document.getElementById('c3ResultModal').classList.remove('is-open');
-      this.audio.playBeep(900, 0.1);
-    }
-
-    exitPlayableMode() {
-      this.mode = 'story';
-      this.sim.active = false;
-      document.getElementById('chandrayaanStage').classList.remove('c3-playable-active');
-      document.getElementById('c3ResultModal').classList.remove('is-open');
-      this.goToStage(this.stage);
-    }
-
-    updatePlayablePhysics(dt) {
-      if (!this.sim.active || this.sim.landed || this.sim.crashed) return;
-
-      // Altitude and Gravity
-      let thrustAcc = 0;
-      if (this.sim.thrustOn && this.sim.fuel > 0) {
-        thrustAcc = CONFIG.mainThrustPower;
-        this.sim.fuel = Math.max(0, this.sim.fuel - CONFIG.fuelBurnRate * dt);
-        this.audio.playThrusterSound(0.05);
-
-        // Particle flame under lander
-        this.particleSystem.visible = true;
-        this.particleSystem.position.set(this.landerGroup.position.x, this.landerGroup.position.y - 1.2, this.landerGroup.position.z);
+  }
+  function drawSpace() {
+    const sp = S.sp, p = clamp(sp.t / SEG, 0, 1), M = Math.min(W, H);
+    ctx.fillStyle = '#02040a'; ctx.fillRect(0, 0, W, H); stars(1);
+    if (sp.seg === 0) {
+      const r = Math.min(H * .13, W / 7.2), ex = W / 2 - 2.1 * r, ey = H * .6, n = Math.min(5, 1 + Math.floor(p * 5));
+      const cols = ['#38bdf8', '#00f2fe', '#34d399', '#fbbf24', '#ff9933'];
+      const orb = i => { const pr = 1.2 * r, ar = (1.8 + i * .9) * r, a = (pr + ar) / 2, c = (ar - pr) / 2; return { a, b: Math.sqrt(pr * ar), c }; };
+      earth(ex, ey, r); moon(W * .92, H * .2, M * .03);
+      for (let i = 0; i < n; i++) { const o = orb(i); ctx.strokeStyle = cols[i]; ctx.globalAlpha = .8; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(ex + o.c, ey, o.a, o.b, 0, 0, 6.3); ctx.stroke(); }
+      ctx.globalAlpha = 1; const o = orb(n - 1), th = sp.t * 3.2 + Math.PI;
+      sat(ex + o.c + o.a * Math.cos(th), ey + o.b * Math.sin(th), .7, th + 1.57);
+      tag(`Engine burn ${n} of 5 · orbit gets bigger`, W / 2, H * .9, cols[n - 1]);
+    } else if (sp.seg === 1) {
+      const er = M * .09, ex = W * .14, ey = H * .62, mr = M * .045, mx = W * .86, my = H * .32;
+      earth(ex, ey, er); moon(mx, my, mr);
+      const P0 = [ex + er * .8, ey - er * .6], C = [W * .45, H * .06], P1 = [mx - mr, my];
+      const bz = t => [(1 - t) * (1 - t) * P0[0] + 2 * (1 - t) * t * C[0] + t * t * P1[0], (1 - t) * (1 - t) * P0[1] + 2 * (1 - t) * t * C[1] + t * t * P1[1]];
+      ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(0,242,254,.3)'; ctx.setLineDash([6, 8]); ctx.beginPath(); ctx.moveTo(P0[0], P0[1]); ctx.quadraticCurveTo(C[0], C[1], P1[0], P1[1]); ctx.stroke(); ctx.setLineDash([]);
+      const e = sm(p); ctx.strokeStyle = '#00f2fe'; ctx.beginPath(); for (let i = 0; i <= 30; i++) { const q = bz(e * i / 30); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); } ctx.stroke();
+      const q = bz(e), q2 = bz(Math.min(1, e + .02)); sat(q[0], q[1], .7, Math.atan2(q2[1] - q[1], q2[0] - q[0]));
+      tag('Trans-Lunar Injection · ≈ 384,000 km to go', W / 2, H * .9, '#00f2fe');
+    } else {
+      const mr = M * .17, mx = W / 2, my = H * .56;
+      moon(mx, my, mr, true); earth(W * .1, H * .2, M * .035);
+      if (sp.seg === 2) {
+        const R = lerp(3.4, 1.35, sm(p)) * mr, th = sp.t * 2.4;
+        ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.setLineDash([5, 7]); ctx.beginPath(); ctx.arc(mx, my, 1.35 * mr, 0, 6.3); ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(mx, my, R, 0, 6.3); ctx.stroke();
+        sat(mx + R * Math.cos(th), my + R * Math.sin(th), .7, th + 1.57);
+        tag(p > .8 ? 'Orbit lowered to ~100 × 100 km' : 'Retro burns · orbit shrinking', W / 2, H * .92, '#34d399');
+      } else if (sp.seg === 3) {
+        const R = 1.35 * mr, a = -2.2, bx = mx + R * Math.cos(a), by = my + R * Math.sin(a), d = sm(p) * 70;
+        sat(bx, by, .8, a + 1.57); sat(bx + d * .5, by + d * .85, .55, a + 1.57);
+        tag('Propulsion module', bx - 20, by - 30, '#ff9933'); tag('Vikram + Pragyan', bx + d * .5 + 70, by + d * .85 + 24, '#00f2fe');
+        tag(p > .5 ? 'Separated! The module stays in orbit' : 'Separating…', W / 2, H * .92, '#fbbf24');
       } else {
-        this.particleSystem.visible = false;
-      }
-
-      // Tilt attitude
-      if (this.sim.tiltLeft) this.sim.tilt -= CONFIG.rcsTorque * dt;
-      if (this.sim.tiltRight) this.sim.tilt += CONFIG.rcsTorque * dt;
-      this.sim.tilt = Math.max(-45, Math.min(45, this.sim.tilt));
-
-      // Resolve 2D vectors
-      const rad = (this.sim.tilt * Math.PI) / 180;
-      const verticalThrust = thrustAcc * Math.cos(rad);
-      const horizontalThrust = thrustAcc * Math.sin(rad);
-
-      // Moon downward gravity vs vertical engine thrust
-      const ay = verticalThrust - CONFIG.lunarGravity;
-      this.sim.vy -= ay * dt; // downwards velocity increases with gravity
-      this.sim.altitude -= this.sim.vy * dt;
-
-      // Horizontal acceleration
-      this.sim.vx += horizontalThrust * dt;
-      this.sim.x += this.sim.vx * dt;
-
-      // Sync 3D Lander model
-      const mappedY = -7.5 + (this.sim.altitude / CONFIG.startAltitude) * 22;
-      this.landerGroup.position.set(this.sim.x * 0.1, mappedY, 0);
-      this.landerGroup.rotation.z = -rad;
-
-      // Update Playable HUD
-      document.getElementById('c3PilotAlt').textContent = `${Math.max(0, Math.round(this.sim.altitude))} m`;
-      document.getElementById('c3PilotVSpd').textContent = `${this.sim.vy.toFixed(1)} m/s`;
-      document.getElementById('c3PilotHSpd').textContent = `${Math.abs(this.sim.vx).toFixed(1)} m/s`;
-      document.getElementById('c3PilotFuel').textContent = `${Math.round(this.sim.fuel)}%`;
-      document.getElementById('c3PilotTilt').textContent = `${this.sim.tilt.toFixed(1)}°`;
-
-      // Warning color coding
-      const vElem = document.getElementById('c3PilotVSpd');
-      if (this.sim.vy > CONFIG.maxSafeVerticalSpeed) {
-        vElem.style.color = '#ef4444'; // Red danger
-      } else {
-        vElem.style.color = '#22c55e'; // Green safe
-      }
-
-      // Touchdown Detection
-      if (this.sim.altitude <= 0) {
-        this.evaluateLanding();
-      }
-    }
-
-    evaluateLanding() {
-      this.sim.altitude = 0;
-      const isSoftVertical = (this.sim.vy <= CONFIG.maxSafeVerticalSpeed);
-      const isSoftHorizontal = (Math.abs(this.sim.vx) <= CONFIG.maxSafeHorizontalSpeed);
-      const isUpright = (Math.abs(this.sim.tilt) <= CONFIG.maxSafeTiltAngle);
-      const inZone = (Math.abs(this.sim.x) <= 250);
-
-      const modal = document.getElementById('c3ResultModal');
-      const icon = document.getElementById('c3ResultIcon');
-      const title = document.getElementById('c3ResultTitle');
-      const desc = document.getElementById('c3ResultDesc');
-
-      if (isSoftVertical && isSoftHorizontal && isUpright && inZone) {
-        // SUCCESSFUL SOFT TOUCHDOWN
-        this.sim.landed = true;
-        this.sim.score = Math.round(1000 + this.sim.fuel * 20 - this.sim.vy * 50);
-        this.audio.playTouchdownChime();
-        this.triggerCelebration();
-
-        modal.className = 'c3-result-modal is-open success';
-        icon.textContent = '🌕🎉';
-        title.textContent = this.lang === 'en' ? 'SOFT LANDING ACHIEVED!' : 'सफल सॉफ्ट लैंडिंग संपन्न!';
-        desc.textContent = this.lang === 'en'
-          ? `Incredible piloting! Vikram touched down softly at Shiv Shakti Point with a descent rate of ${this.sim.vy.toFixed(1)} m/s.`
-          : `शानदार पायलटिंग! विक्रम ने ${this.sim.vy.toFixed(1)} m/s की सुरक्षित गति से शिव शक्ति पॉइंट पर सफल लैंडिंग की।`;
-      } else {
-        // HARD LANDING / CRASH
-        this.sim.crashed = true;
-        this.audio.playCrashSound();
-
-        modal.className = 'c3-result-modal is-open fail';
-        icon.textContent = '💥⚠️';
-        title.textContent = this.lang === 'en' ? 'HARD IMPACT - TELEMETRY LOST' : 'हार्ड लैंडिंग - संपर्क टूटा';
-        desc.textContent = this.lang === 'en'
-          ? `Descent rate was ${this.sim.vy.toFixed(1)} m/s (Limit: 2.2 m/s). This was what happened in Chandrayaan-2. Learn from failure, adjust thrust, and try again!`
-          : `उतरने की गति ${this.sim.vy.toFixed(1)} m/s थी (सुरक्षित सीमा: 2.2 m/s)। चंद्रयान-2 में भी यही हुआ था। सीखिए और पुनः प्रयास कीजिए!`;
-      }
-
-      document.getElementById('c3StatFinalSpd').textContent = `${this.sim.vy.toFixed(1)} m/s`;
-      document.getElementById('c3StatFuelRem').textContent = `${Math.round(this.sim.fuel)}%`;
-      document.getElementById('c3StatTilt').textContent = `${this.sim.tilt.toFixed(1)}°`;
-      document.getElementById('c3StatScore').textContent = `${this.sim.score} PTS`;
-    }
-
-    // ------------------------------------------
-    // PRAGYAN ROVER DRIVING LOOP (STAGE 9)
-    // ------------------------------------------
-    updateRoverControls(dt) {
-      if (this.stage !== 9) return;
-      const k = this.roverSim.keys;
-      const moveSpeed = 3.5;
-      const turnSpeed = 2.0;
-
-      if (k.w) this.roverSim.speed = moveSpeed;
-      else if (k.s) this.roverSim.speed = -moveSpeed * 0.6;
-      else this.roverSim.speed *= 0.85;
-
-      if (k.a) this.roverSim.rotation += turnSpeed * dt;
-      if (k.d) this.roverSim.rotation -= turnSpeed * dt;
-
-      this.roverSim.x += Math.sin(this.roverSim.rotation) * this.roverSim.speed * dt;
-      this.roverSim.z += Math.cos(this.roverSim.rotation) * this.roverSim.speed * dt;
-
-      this.roverGroup.position.set(this.roverSim.x, -9.5, this.roverSim.z);
-      this.roverGroup.rotation.y = this.roverSim.rotation;
-    }
-
-    // ------------------------------------------
-    // VOICE NARRATION (WEB SPEECH API)
-    // ------------------------------------------
-    speakStageFact() {
-      if (!this.isVoiceEnabled || !('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-
-      const stageData = TRANSLATIONS[this.lang].stages[this.stage - 1];
-      const textToRead = `${stageData.name}. ${stageData.desc}`;
-
-      const utterance = new SpeechSynthesisUtterance(textToRead);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-
-      if (this.lang === 'hi') {
-        utterance.lang = 'hi-IN';
-      } else {
-        utterance.lang = 'en-IN';
-      }
-
-      try {
-        window.speechSynthesis.speak(utterance);
-      } catch (e) {}
-    }
-
-    toggleVoice() {
-      this.isVoiceEnabled = !this.isVoiceEnabled;
-      const btn = document.getElementById('c3VoiceToggle');
-      if (this.isVoiceEnabled) {
-        btn.textContent = TRANSLATIONS[this.lang].narratorOn;
-        this.speakStageFact();
-      } else {
-        btn.textContent = TRANSLATIONS[this.lang].narratorOff;
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      }
-    }
-
-    toggleLanguage() {
-      this.lang = (this.lang === 'en' ? 'hi' : 'en');
-      const langBtn = document.getElementById('c3LangToggle');
-      if (langBtn) langBtn.textContent = (this.lang === 'en' ? 'हिन्दी' : 'EN');
-
-      // Update Voice toggle text
-      const voiceBtn = document.getElementById('c3VoiceToggle');
-      if (voiceBtn) {
-        voiceBtn.textContent = this.isVoiceEnabled
-          ? TRANSLATIONS[this.lang].narratorOn
-          : TRANSLATIONS[this.lang].narratorOff;
-      }
-
-      this.updateStageUI();
-    }
-
-    // ------------------------------------------
-    // DIALOGS: INSTRUMENTS & QUIZ
-    // ------------------------------------------
-    openInstrumentsModal() {
-      const modal = document.getElementById('c3InstrumentsModal');
-      const grid = document.getElementById('c3InstrumentsGrid');
-      grid.innerHTML = '';
-
-      INSTRUMENTS.forEach(inst => {
-        const card = document.createElement('div');
-        card.className = 'c3-instrument-card';
-        card.innerHTML = `
-          <div class="c3-inst-badge">${inst.craft} • ${inst.badge}</div>
-          <div class="c3-inst-name">${inst.name} (${inst.fullName})</div>
-          <div class="c3-inst-desc">${inst.desc}</div>
-          <div style="margin-top: 8px; font-size: 0.78rem; color: #38bdf8; font-family: monospace;">
-            <strong>Discovery:</strong> ${inst.finding}
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      modal.classList.add('is-open');
-    }
-
-    openQuizModal() {
-      const modal = document.getElementById('c3QuizModal');
-      this.renderQuizQuestion(0, 0);
-      modal.classList.add('is-open');
-    }
-
-    renderQuizQuestion(qIdx, score) {
-      const container = document.getElementById('c3QuizContent');
-      if (qIdx >= QUIZ_QUESTIONS.length) {
-        // Quiz Complete - Award Certificate
-        container.innerHTML = `
-          <div class="c3-certificate">
-            <div class="c3-cert-badge">🏅🇮🇳</div>
-            <div class="c3-cert-title">ISRO JUNIOR LUNAR SCIENTIST</div>
-            <div class="c3-cert-subtitle">This certificate is awarded for mastering the science and engineering of Mission Chandrayaan-3!</div>
-            <div style="font-size: 1.1rem; color: #22c55e; font-weight: bold; margin-bottom: 12px;">
-              Final Score: ${score} / ${QUIZ_QUESTIONS.length} (${Math.round((score / QUIZ_QUESTIONS.length) * 100)}%)
-            </div>
-            <button class="c3-btn c3-btn-gold" id="btnRestartQuiz">Retake Mission Quiz</button>
-          </div>
-        `;
-        document.getElementById('btnRestartQuiz').addEventListener('click', () => {
-          this.renderQuizQuestion(0, 0);
-        });
-        return;
-      }
-
-      const q = QUIZ_QUESTIONS[qIdx];
-      container.innerHTML = `
-        <div class="c3-quiz-card">
-          <div style="font-size: 0.76rem; color: #ff9933; font-family: monospace; margin-bottom: 6px;">QUESTION ${qIdx + 1} OF ${QUIZ_QUESTIONS.length}</div>
-          <div class="c3-quiz-question">${q.q}</div>
-          <div class="c3-quiz-options" id="c3QuizOptions"></div>
-          <div id="c3QuizExpl" style="display: none; padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 12px;"></div>
-          <button class="c3-btn" id="btnNextQuizQ" style="display: none; margin-left: auto;">Next Question →</button>
-        </div>
-      `;
-
-      const optionsDiv = document.getElementById('c3QuizOptions');
-      const explDiv = document.getElementById('c3QuizExpl');
-      const nextBtn = document.getElementById('btnNextQuizQ');
-
-      q.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'c3-quiz-opt';
-        btn.textContent = opt;
-        btn.addEventListener('click', () => {
-          const isCorrect = (idx === q.correct);
-          btn.classList.add(isCorrect ? 'correct' : 'wrong');
-          this.audio.playBeep(isCorrect ? 880 : 320, 0.1);
-
-          // Disable other options
-          Array.from(optionsDiv.children).forEach(b => b.disabled = true);
-
-          // Show explanation
-          explDiv.style.display = 'block';
-          explDiv.style.background = isCorrect ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)';
-          explDiv.style.border = isCorrect ? '1px solid #22c55e' : '1px solid #ef4444';
-          explDiv.textContent = q.expl;
-
-          nextBtn.style.display = 'inline-flex';
-          nextBtn.onclick = () => {
-            this.renderQuizQuestion(qIdx + 1, score + (isCorrect ? 1 : 0));
-          };
-        });
-        optionsDiv.appendChild(btn);
-      });
-    }
-
-    openStoryComparisonModal() {
-      document.getElementById('c3StoryModal').classList.add('is-open');
-    }
-
-    // ------------------------------------------
-    // EVENT LISTENERS & INPUTS
-    // ------------------------------------------
-    setupEventListeners() {
-      window.addEventListener('resize', () => {
-        if (!this.camera || !this.renderer) return;
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        this.camera.aspect = w / h;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(w, h);
-      });
-
-      // Stage Navigation Buttons
-      document.getElementById('c3BtnPrev').addEventListener('click', () => this.goToStage(this.stage - 1));
-      document.getElementById('c3BtnNext').addEventListener('click', () => this.goToStage(this.stage + 1));
-
-      // Stage Pills Click
-      document.querySelectorAll('.c3-stage-pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-          const s = parseInt(pill.getAttribute('data-stage'), 10);
-          this.goToStage(s);
-        });
-      });
-
-      // Wheel / Scroll to advance stages
-      let lastScrollTime = 0;
-      window.addEventListener('wheel', (e) => {
-        const stageElem = document.getElementById('chandrayaanStage');
-        if (!stageElem || stageElem.style.display === 'none' || this.mode === 'playable') return;
-
-        const now = Date.now();
-        if (now - lastScrollTime < 700) return; // Debounce scroll
-        lastScrollTime = now;
-
-        if (e.deltaY > 20) {
-          this.goToStage(this.stage + 1);
-        } else if (e.deltaY < -20) {
-          this.goToStage(this.stage - 1);
-        }
-      }, { passive: true });
-
-      // Action Buttons
-      document.getElementById('c3BtnPlayable').addEventListener('click', () => this.startPlayableMode());
-      document.getElementById('c3BtnExitPlayable').addEventListener('click', () => this.exitPlayableMode());
-      document.getElementById('c3BtnRetryFlight').addEventListener('click', () => this.startPlayableMode());
-      document.getElementById('c3BtnInstruments').addEventListener('click', () => this.openInstrumentsModal());
-      document.getElementById('c3BtnQuiz').addEventListener('click', () => this.openQuizModal());
-      document.getElementById('c3BtnStoryCompare').addEventListener('click', () => this.openStoryComparisonModal());
-      document.getElementById('c3LangToggle').addEventListener('click', () => this.toggleLanguage());
-      document.getElementById('c3VoiceToggle').addEventListener('click', () => this.toggleVoice());
-
-      // Close Modals
-      document.querySelectorAll('.c3-dialog-close').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.target.closest('.c3-dialog-overlay').classList.remove('is-open');
-        });
-      });
-
-      // Keyboard Controls (Playable Simulator & Rover)
-      window.addEventListener('keydown', (e) => {
-        if (this.mode === 'playable') {
-          if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
-            this.sim.thrustOn = true;
-          }
-          if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
-            this.sim.tiltLeft = true;
-          }
-          if (e.code === 'KeyD' || e.code === 'ArrowRight') {
-            this.sim.tiltRight = true;
-          }
-        } else if (this.stage === 9) {
-          if (e.code === 'KeyW' || e.code === 'ArrowUp') this.roverSim.keys.w = true;
-          if (e.code === 'KeyS' || e.code === 'ArrowDown') this.roverSim.keys.s = true;
-          if (e.code === 'KeyA' || e.code === 'ArrowLeft') this.roverSim.keys.a = true;
-          if (e.code === 'KeyD' || e.code === 'ArrowRight') this.roverSim.keys.d = true;
-        }
-      });
-
-      window.addEventListener('keyup', (e) => {
-        if (this.mode === 'playable') {
-          if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
-            this.sim.thrustOn = false;
-          }
-          if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
-            this.sim.tiltLeft = false;
-          }
-          if (e.code === 'KeyD' || e.code === 'ArrowRight') {
-            this.sim.tiltRight = false;
-          }
-        } else if (this.stage === 9) {
-          if (e.code === 'KeyW' || e.code === 'ArrowUp') this.roverSim.keys.w = false;
-          if (e.code === 'KeyS' || e.code === 'ArrowDown') this.roverSim.keys.s = false;
-          if (e.code === 'KeyA' || e.code === 'ArrowLeft') this.roverSim.keys.a = false;
-          if (e.code === 'KeyD' || e.code === 'ArrowRight') this.roverSim.keys.d = false;
-        }
-      });
-
-      // Touch / On-screen Buttons for Mobile/Tablet
-      const thrustBtn = document.getElementById('c3TouchThrust');
-      const leftBtn = document.getElementById('c3TouchLeft');
-      const rightBtn = document.getElementById('c3TouchRight');
-
-      if (thrustBtn) {
-        thrustBtn.addEventListener('pointerdown', () => this.sim.thrustOn = true);
-        window.addEventListener('pointerup', () => this.sim.thrustOn = false);
-      }
-      if (leftBtn) {
-        leftBtn.addEventListener('pointerdown', () => this.sim.tiltLeft = true);
-        window.addEventListener('pointerup', () => this.sim.tiltLeft = false);
-      }
-      if (rightBtn) {
-        rightBtn.addEventListener('pointerdown', () => this.sim.tiltRight = true);
-        window.addEventListener('pointerup', () => this.sim.tiltRight = false);
-      }
-    }
-
-    startMissionClock() {
-      if (this.clockTimer) clearInterval(this.clockTimer);
-      this.clockTimer = setInterval(() => {
-        this.missionClockSec++;
-        const hrs = String(Math.floor(this.missionClockSec / 3600)).padStart(2, '0');
-        const mins = String(Math.floor((this.missionClockSec % 3600) / 60)).padStart(2, '0');
-        const secs = String(this.missionClockSec % 60).padStart(2, '0');
-        const clockElem = document.getElementById('c3MissionClock');
-        if (clockElem) clockElem.textContent = `T+ ${hrs}:${mins}:${secs}`;
-      }, 1000);
-    }
-
-    // ------------------------------------------
-    // MAIN 60 FPS ANIMATION LOOP
-    // ------------------------------------------
-    animate() {
-      this.animFrameId = requestAnimationFrame(() => this.animate());
-
-      const dt = 0.016; // ~60fps step
-
-      // 1. Slow Earth and Moon rotation
-      if (this.earthGroup) this.earthGroup.rotation.y += 0.001;
-      if (this.moonGroup) this.moonGroup.rotation.y += 0.0006;
-
-      // 2. Animate Rocket Launch / Separation in Stage 1
-      if (this.stage === 1 && this.rocketGroup) {
-        this.rocketGroup.position.y += 0.04;
-        if (this.rocketGroup.position.y > 40) this.rocketGroup.position.y = 0;
-        this.particleSystem.position.y = this.rocketGroup.position.y - 9.5;
-      }
-
-      // 3. Animate Particles
-      if (this.particleSystem && this.particleSystem.visible) {
-        const positions = this.particleSystem.geometry.attributes.position.array;
-        for (let i = 0; i < this.particles.length; i++) {
-          const p = this.particles[i];
-          p.y += p.vy;
-          if (p.y < -12) {
-            p.y = 0;
-            p.x = (Math.random() - 0.5) * 1.5;
-            p.z = (Math.random() - 0.5) * 1.5;
-          }
-          positions[i * 3] = p.x;
-          positions[i * 3 + 1] = p.y;
-          positions[i * 3 + 2] = p.z;
-        }
-        this.particleSystem.geometry.attributes.position.needsUpdate = true;
-      }
-
-      // 4. Update Playable Physics if active
-      if (this.mode === 'playable') {
-        this.updatePlayablePhysics(dt);
-      }
-
-      // 5. Update Pragyan Rover in Stage 9
-      if (this.stage === 9) {
-        this.updateRoverControls(dt);
-      }
-
-      // Render Scene
-      if (this.renderer && this.scene && this.camera) {
-        this.renderer.render(this.scene, this.camera);
+        const a = 1.6 * mr, b = 1.18 * mr, cy = my - .12 * mr, th = sp.t * 1.9 + 1.6;
+        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(mx, cy, a, b, 0, 0, 6.3); ctx.stroke();
+        sat(mx + a * Math.cos(th), cy + b * Math.sin(th), .6, th + 1.57);
+        tag(`Deboost burn ${p < .5 ? 1 : 2} (${p < .5 ? '18' : '20'} Aug) · ~25 × 134 km orbit`, W / 2, H * .92, '#fbbf24');
       }
     }
   }
 
-  // Export engine to window so script.js and HTML can invoke it
-  window.Chandrayaan3Engine = new Chandrayaan3Engine();
+  /* =========================================================
+     SCENE 3: LANDING WITH TERRAIN DECISIONS (stage 7)
+     ========================================================= */
+  const G0 = () => H * .8;
+  const gy = x => {
+    let y = 0; const T = S.T;
+    for (const c of T.cr) { const d = (x - c.x) / c.r; if (d > -1 && d < 1) y += c.d * (1 - d * d); }
+    if (T.bad) y -= 40 * sm(clamp((x - (T.bad.x - 100)) / 200, 0, 1));
+    return y;
+  };
+  const gs = x => G0() + gy(x);
+  function newTerrain() {
+    const badI = Math.random() < .5 ? 0 : 1, x1 = 360 + W * .18, x2 = 360 + W * .48;
+    const T = { cr: [{ x: 0, r: 120, d: 70 }, { x: -520, r: 100, d: 40 }, { x: -980, r: 140, d: 50 }, { x: 240, r: 55, d: 26 }, { x: x2 + 420, r: 150, d: 55 }], rocks: [], sites: [{ x: x1 }, { x: x2 }] };
+    T.sites[badI].bad = true; T.bad = T.sites[badI];
+    for (let i = 0; i < 7; i++) T.rocks.push({ x: T.bad.x + rnd(-95, 95), r: rnd(7, 16) });
+    for (let i = 0; i < 16; i++) { const x = rnd(-1300, x2 + 700); if (Math.abs(x - x1) > 140 && Math.abs(x - x2) > 140) T.rocks.push({ x, r: rnd(3, 8) }); }
+    return T;
+  }
+  function startDescent() {
+    S.pend = null; S.sc = 'descent'; S.tw = []; S.fx = []; S.conf = []; clearUI(); hud(true);
+    S.T = newTerrain(); S.d = { ph: 'brake', hz: 0 }; S.L = { x: -900, y: -80, tilt: -70, fire: 1 }; S.px = S.L.x; S.py = S.L.y; S.vx = S.vy = 0;
+    stageUI(7, 'Watch: rough braking phase…'); setDesc('Rough braking phase: Vikram fires its engines to slow down from ~1.68 km/s.');
+    go(S.L, { x: 0, y: H * .27 }, 5.5, () => {
+      S.d.ph = 'hold'; setDesc('Attitude hold phase: Vikram tilts from horizontal to vertical.');
+      go(S.L, { tilt: 0 }, 1.8, () => { S.d.ph = 'dec1'; S.L.fire = .35; decision1(); });
+    }, outE);
+  }
+  function decision1() {
+    S.d.hz = 1; hint('Hazard cameras spotted holes below — you decide!'); setDesc('Fine braking phase: hazard cameras scan the terrain. Landing needs flat, hole-free ground.');
+    const o = [{ t: '⬇ Land right here', s: 'Descend straight down', fn: crash1 }, { t: '➡ Move forward, choose another spot', s: 'Hover, fly ahead and scan again', fn: divert }];
+    if (Math.random() < .5) o.reverse();
+    decide('DECISION 1 OF 2 · HAZARD SCAN', 'The camera shows holes (craters) right below Vikram. How do you land?', o);
+  }
+  function crash1() {
+    S.d.hz = 0; S.d.ph = 'fall'; S.L.fire = .5; const nx = S.L.x + 40;
+    go(S.L, { x: nx, y: gs(nx) - FOOT, tilt: 28 }, 3.4, () => { S.L.fire = 0; fail('LANDED IN A HOLE', 'Vikram touched down inside a crater and tipped over. Landing needs flat ground — with holes below, the safe move is to fly forward a bit and pick another site.'); });
+  }
+  function divert() {
+    S.d.hz = 0; S.d.ph = 'divert'; hint('Moving forward to find a better site…'); S.L.fire = .7;
+    go(S.L, { tilt: 14 }, .7, () => go(S.L, { x: 360, y: H * .3 }, 3.2, () => go(S.L, { tilt: 0 }, .8, () => { S.L.fire = .35; decision2(); })));
+  }
+  function decision2() {
+    S.d.ph = 'dec2'; hint('Compare the two sites. Which is safer?'); setDesc('New terrain scanned. Compare the slope and boulders at each site.');
+    decide('DECISION 2 OF 2 · CHOOSE THE SITE', 'Two sites ahead. Read the slope and boulder data on each marker, then pick one.', [
+      { t: '📍 Land at Site 1', s: 'Left marker', fn: () => landAt(0) },
+      { t: '📍 Land at Site 2', s: 'Right marker', fn: () => landAt(1) }
+    ]);
+  }
+  function landAt(i) {
+    const s = S.T.sites[i]; S.d.ph = 'land'; S.L.fire = .6; hint('Fine braking… descending to the site');
+    go(S.L, { x: s.x, y: H * .45 }, 2.6, () => go(S.L, { y: gs(s.x) - FOOT, tilt: s.bad ? 16 : 0 }, 3.8, () => touch(s)));
+  }
+  function touch(s) {
+    S.L.fire = 0; beep(180, .15, 'square');
+    if (s.bad) { S.d.ph = 'fall'; go(S.L, { tilt: 42, x: S.L.x + 30 }, 1.1, () => fail('TIPPED OVER ON THE SLOPE', 'That site was steep and covered with boulders (slope above the ~12° limit). Choose the flatter, boulder-free site next time.')); return; }
+    S.d.ph = 'touch'; confetti(); [0, 1, 2, 3].forEach(i => setTimeout(() => beep([262, 392, 523, 659][i], .35, 'triangle'), i * 150));
+    for (let i = 0; i < 40; i++) S.fx.push({ x: s.x + rnd(-20, 20), y: gs(s.x) - 2, vx: rnd(-160, 160), vy: -rnd(5, 40), life: rnd(.8, 1.6), max: 1.6, r: rnd(3, 8), c: '200,200,205', smoke: true });
+    big('TOUCHDOWN!', 4000); hint('Soft landing achieved near the south pole!'); toast('Landed near 69.4° S · Shiv Shakti Point · 23 Aug 2023, ~6:04 PM IST', 6000);
+    setDesc('Soft landing! India is the first country to land near the Moon’s south pole.');
+    setAct('🚜 Deploy Pragyan rover', startSurface);
+  }
+  function fail(title, text) { beep(140, .5, 'sawtooth'); hint('Landing failed — try again!'); result('💥', title, text, '🔁 Try the landing again', startDescent, true); }
 
+  function updDescent(dt) {
+    const L = S.L, d = S.d, M = 1500 / H;
+    S.cam = L.x - W * .32;
+    if (dt > 0) { S.vx = lerp(S.vx, (L.x - S.px) / dt * M, .15); S.vy = lerp(S.vy, (L.y - S.py) / dt * M, .15); }
+    S.px = L.x; S.py = L.y;
+    const alt = Math.max(0, (gs(L.x) - L.y - FOOT) * M);
+    $('c3ValAlt').textContent = Math.round(alt) + ' m'; $('c3ValVy').textContent = Math.abs(S.vy).toFixed(1) + ' m/s';
+    $('c3ValVx').textContent = Math.abs(S.vx).toFixed(1) + ' m/s';
+    $('c3ValPhase').textContent = ({ brake: 'ROUGH BRAKING', hold: 'ATTITUDE HOLD', dec1: 'FINE BRAKING', divert: 'RETARGETING', dec2: 'SITE SELECTION', land: 'TERMINAL DESCENT', fall: 'DESCENT', touch: 'LANDED' })[d.ph] || '';
+    if (L.fire > 0 && gs(L.x) - L.y - FOOT < 130) S.fx.push({ x: L.x + rnd(-25, 25), y: gs(L.x) - 2, vx: rnd(-130, 130), vy: -rnd(5, 30), life: rnd(.6, 1.2), max: 1.2, r: rnd(3, 7), c: '200,200,205', smoke: true });
+  }
+  function drawDescent() {
+    const L = S.L, d = S.d, T = S.T, cx = S.cam, M = Math.min(W, H);
+    ctx.fillStyle = '#02040a'; ctx.fillRect(0, 0, W, H); stars(1); earth(W * .86, H * .16, M * .05);
+    const g = ctx.createLinearGradient(0, H * .6, 0, H); g.addColorStop(0, '#a3abb5'); g.addColorStop(1, '#343b48');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, H);
+    for (let sx = 0; sx <= W + 8; sx += 8) ctx.lineTo(sx, gs(cx + sx));
+    ctx.lineTo(W + 8, H); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#d1d5db'; ctx.lineWidth = 2; ctx.beginPath(); for (let sx = 0; sx <= W + 8; sx += 8) { const y = gs(cx + sx); sx ? ctx.lineTo(sx, y) : ctx.moveTo(sx, y); } ctx.stroke();
+    for (const r of T.rocks) { const sx = r.x - cx; if (sx < -30 || sx > W + 30) continue; ctx.fillStyle = '#6b7280'; ctx.beginPath(); ctx.ellipse(sx, gs(r.x) - r.r * .4, r.r * 1.3, r.r, 0, 0, 6.3); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(sx - r.r * .6, gs(r.x) - r.r * 1.1, r.r * .8, 2); }
+    if (d.hz) {
+      const sx = -cx; ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.ellipse(sx, G0() + 28, 135, 50, 0, 0, 6.3); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(239,68,68,.15)'; ctx.fill(); tag('⚠ HOLES · UNSAFE', sx, G0() - 30, '#ef4444');
+    }
+    if (['dec2', 'land', 'fall', 'touch'].includes(d.ph) && T.sites) T.sites.forEach((s, i) => {
+      const sx = s.x - cx, y = gs(s.x), blink = Math.sin(performance.now() / 250) > 0;
+      ctx.fillStyle = '#e5e7eb'; ctx.fillRect(sx - 1, y - 54, 2, 54); ctx.fillStyle = blink ? '#00f2fe' : '#0e7490'; circ(sx, y - 56, 5);
+      tag(`SITE ${i + 1} · slope ${s.bad ? '≈15°' : '≈2°'} · boulders: ${s.bad ? 'many' : 'few'}`, sx, y - 84, '#00f2fe');
+    });
+    if (d.ph === 'dec1' || d.ph === 'dec2') {
+      const lx = L.x - cx, gyy = gs(L.x); ctx.fillStyle = 'rgba(0,255,200,.07)'; ctx.beginPath(); ctx.moveTo(lx, L.y + 14); ctx.lineTo(lx - 130, gyy); ctx.lineTo(lx + 130, gyy); ctx.fill();
+      tag('HAZARD CAMERA · SCANNING', lx, L.y - 40, '#34d399');
+    }
+    for (const p of S.fx) { const a = clamp(p.life / p.max, 0, 1); ctx.globalAlpha = a * .6; ctx.fillStyle = `rgb(${p.c})`; circ(p.x - cx, p.y, p.r * (1 + (1 - a) * 1.5)); } ctx.globalAlpha = 1;
+    lander(L.x - cx, L.y, L.tilt, L.fire, 1);
+  }
+
+  /* =========================================================
+     SCENE 4: SURFACE — rover, destination, flag, footprints (stage 8)
+     ========================================================= */
+  const dest = id => DESTS.find(d => d.id === id);
+  function startSurface() {
+    S.pend = null; S.sc = 'surface'; S.tw = []; S.fx = []; S.sel = null; S.pr = 0; S.maxX = 0; S.flash = false; S.conf = [];
+    clearUI(); S.R = { x: -55, dir: 1, wheel: 0, ph: 'roll' }; S.cam = -W * .3;
+    stageUI(8, 'Pragyan is rolling out…');
+    go(S.R, { x: 120 }, 3, () => { S.R.ph = 'idle'; showRoute(); });
+  }
+  function showRoute() {
+    document.querySelectorAll('.c3-chip').forEach(c => c.classList.remove('sel'));
+    $('c3BtnStart').disabled = true; $('c3Route').classList.add('is-on'); S.sel = null;
+    hint('Pick a destination for Pragyan, then press Start. Hint: look for the US flag 🇺🇸');
+  }
+  function arrive(d) {
+    S.R.ph = 'idle'; S.sel = null; beep(880, .12);
+    if (d.id === 'flag') {
+      toast('You reached the US flag! Look at the ground near it…', 5000); hint('Footprints! Tap the glowing footprints 👇'); S.pr = .01;
+    } else { toast(d.icon + ' ' + d.fact, 6000); showRoute(); }
+  }
+  function updSurface(dt) {
+    const R = S.R; let tgt;
+    if (R.ph === 'idle' && S.sel) { const d = dest(S.sel); tgt = Math.min((R.x + d.x) / 2 - W / 2, R.x - W * .15); } else tgt = R.x - W * .35;
+    S.cam += (tgt - S.cam) * Math.min(1, dt * 2.5);
+    if (R.ph === 'drive') {
+      const d = dest(S.sel), dx = d.x - R.x, st = Math.min(75 * dt, Math.abs(dx));
+      R.dir = dx >= 0 ? 1 : -1; R.x += R.dir * st; R.wheel += R.dir * st * .12; S.maxX = Math.max(S.maxX, R.x);
+      if (Math.random() < .5) S.fx.push({ x: R.x - R.dir * 18, y: H * .74 - 2, vx: -R.dir * rnd(10, 40), vy: -rnd(5, 25), life: .8, max: .8, r: rnd(2, 4), c: '190,190,198', smoke: true });
+      if (Math.abs(dx) < .5) arrive(d);
+    }
+    if (S.pr > 0) S.pr = Math.min(1, S.pr + dt * 1.2);
+  }
+  function drawSurface() {
+    const R = S.R, hy = H * .58, by = H * .74, cam = S.cam, sx = x => x - cam, M = Math.min(W, H);
+    ctx.fillStyle = '#02040a'; ctx.fillRect(0, 0, W, H); stars(1); earth(W * .82, H * .16, M * .055);
+    ctx.fillStyle = '#1b2230'; ctx.beginPath(); ctx.moveTo(0, hy);
+    for (let x = 0; x <= W + 20; x += 20) { const wx = x + cam * .25; ctx.lineTo(x, hy - (18 + 30 * Math.abs(Math.sin(wx * .011)) + 16 * Math.abs(Math.sin(wx * .031 + 1)))); }
+    ctx.lineTo(W, hy); ctx.fill();
+    const g = ctx.createLinearGradient(0, hy, 0, H); g.addColorStop(0, '#8b929c'); g.addColorStop(1, '#2d3340'); ctx.fillStyle = g; ctx.fillRect(0, hy, W, H - hy);
+    for (let i = Math.floor(cam / 230) - 1; i < (cam + W) / 230 + 1; i++) {
+      const h1 = Math.abs(Math.sin(i * 127.1)), h2 = Math.abs(Math.sin(i * 311.7)), x = sx(i * 230 + h1 * 120), y = by + 30 + h2 * (H - by - 50);
+      ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.beginPath(); ctx.ellipse(x, y, 30 + h1 * 50, 6 + h2 * 8, 0, 0, 6.3); ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(0,0,0,.28)'; for (let x = 30; x < S.maxX; x += 14) { const px = sx(x); if (px > -10 && px < W + 10) { ctx.fillRect(px, by + 6, 6, 2); ctx.fillRect(px + 7, by + 12, 6, 2); } }
+    // Vikram + ramp
+    lander(sx(-70), by - FOOT, 0, 0, 1); ctx.strokeStyle = '#64748b'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(sx(-60), by - 24); ctx.lineTo(sx(-5), by); ctx.stroke();
+    tag('Vikram', sx(-70), by - 70, '#ff9933');
+    // destinations
+    DESTS.forEach(d => {
+      const x = sx(d.x); if (x < -120 || x > W + 120) return;
+      if (d.id === 'rocks') [[-30, 8], [-8, 12], [14, 7], [34, 10], [0, 5], [-18, 6]].forEach((r, i) => { ctx.fillStyle = '#6b7280'; ctx.beginPath(); ctx.ellipse(x + r[0], by + 4 + (i % 3) * 5, r[1] * 1.3, r[1], 0, 0, 6.3); ctx.fill(); });
+      if (d.id === 'crater') { ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(x, by + 14, 72, 15, 0, 0, 6.3); ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 2; ctx.stroke(); }
+      if (d.id === 'flag') flag(x, by + 6);
+      tag(d.icon + ' ' + d.name, x, by - 92, S.sel === d.id ? '#fbbf24' : '#38bdf8');
+      if (S.sel === d.id) { const b = Math.sin(performance.now() / 200) * 4; ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.moveTo(x, by - 66 + b); ctx.lineTo(x - 7, by - 78 + b); ctx.lineTo(x + 7, by - 78 + b); ctx.fill(); }
+    });
+    // footprints
+    if (S.pr > 0) {
+      const fx0 = dest('flag').x + 90; ctx.globalAlpha = S.pr;
+      for (let i = 0; i < 10; i++) {
+        const x = sx(fx0 + i * 26), y = by + 14 + (i % 2) * 13;
+        ctx.fillStyle = 'rgba(30,30,40,.6)'; ctx.beginPath(); ctx.ellipse(x, y, 9, 4.5, 0, 0, 6.3); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,.25)'; for (let t = -1; t <= 1; t++) ctx.fillRect(x + t * 3 - 1, y - 2, 1.5, 4);
+      }
+      ctx.globalAlpha = 1;
+      const pp = $('c3Prints'); pp.style.left = sx(fx0 + 130) + 'px'; pp.style.top = (by + 4) + 'px'; pp.classList.toggle('is-on', S.pr > .6);
+    }
+    // path preview
+    if (R.ph === 'idle' && S.sel) {
+      const d = dest(S.sel), x0 = sx(R.x), x1 = sx(d.x), yy = by + 24;
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(x0, yy); ctx.lineTo(clamp(x1, -20, W + 20), yy); ctx.stroke(); ctx.setLineDash([]);
+      const m = Math.round(Math.abs(d.x - R.x) * MPP) + ' m'; tag(x1 > W - 70 ? `${d.icon} ${m} →` : x1 < 70 ? `← ${d.icon} ${m}` : m, clamp(x1, 70, W - 70), yy + 26, '#fbbf24');
+    }
+    const ry = by - clamp((-5 - R.x) / 50, 0, 1) * 24;
+    rover(sx(R.x), ry, R.dir, R.wheel);
+    for (const p of S.fx) { const a = clamp(p.life / p.max, 0, 1); ctx.globalAlpha = a * .55; ctx.fillStyle = `rgb(${p.c})`; circ(sx(p.x), p.y, p.r * (1 + (1 - a) * 1.5)); } ctx.globalAlpha = 1;
+  }
+  function openFlash() {
+    if (S.flash) return; S.flash = true; beep(740, .15); $('c3Prints').classList.remove('is-on');
+    const f = $('c3Flash');
+    f.innerHTML = `<div class="c3-flash-card"><div class="c3-flash-tag">FLASHCARD · APOLLO 11</div><div class="c3-flash-ico">👣</div><h3>Neil Armstrong’s footprints</h3>
+      <p>These boot prints belong to <strong>Neil Armstrong</strong>, the first human to walk on the Moon (Apollo 11, 20 July 1969).</p>
+      <ul><li>The Moon has no wind or rain, so footprints can last for a very long time.</li><li>Armstrong and Buzz Aldrin explored the Sea of Tranquility and planted the US flag.</li>
+      <li class="note">Game note: the real Apollo 11 site is far from Chandrayaan-3’s south-pole landing. Here we imagine Pragyan visiting it.</li></ul>
+      <button class="c3-btn c3-btn-gold" id="c3FlashOk" type="button">Continue ➜</button></div>`;
+    f.classList.add('is-open'); say('These are the footprints of Neil Armstrong, the first human on the Moon.');
+    $('c3FlashOk').onclick = () => { f.classList.remove('is-open'); finish(); };
+  }
+  function finish() {
+    confetti(); result('🌕🇮🇳', 'MISSION COMPLETE', 'Pragyan explored for about one lunar day (~14 Earth days) and detected sulphur and other elements. Then Vikram and Pragyan went into sleep mode as the lunar night began in early September.', '🔄 Play again', () => E.restart(), false);
+  }
+
+  /* =========================================================
+     MAIN LOOP
+     ========================================================= */
+  function fit() {
+    const w = cv.clientWidth, h = cv.clientHeight, d = Math.min(2, window.devicePixelRatio || 1);
+    if (w !== W || h !== H || cv.width !== Math.round(w * d)) { W = w; H = h; cv.width = Math.round(w * d); cv.height = Math.round(h * d); }
+    ctx.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0);
+  }
+  function step(dt) {
+    stepTw(dt); fxStep(dt);
+    if (S.pend) { S.fade = Math.min(1, S.fade + dt * 2.2); if (S.fade >= 1) { const f = S.pend; S.pend = null; f(); } }
+    else if (S.fade > 0) S.fade = Math.max(0, S.fade - dt * 2.2);
+    if (S.bigT > 0) { S.bigT -= dt; if (S.bigT <= 0) big(''); }
+    if (S.clockOn) { S.clock += dt; const c = Math.floor(S.clock), p = n => String(n).padStart(2, '0'); $('c3MissionClock').textContent = `T+ ${p(Math.floor(c / 3600))}:${p(Math.floor(c % 3600 / 60))}:${p(c % 60)}`; }
+    if (S.pend) return;
+    ({ launch: updLaunch, space: updSpace, descent: updDescent, surface: updSurface })[S.sc]?.(dt);
+  }
+  function draw() {
+    ({ launch: drawLaunch, space: drawSpace, descent: drawDescent, surface: drawSurface })[S.sc]?.();
+    drawConf();
+    if (S.fade > 0) { ctx.fillStyle = `rgba(0,0,0,${S.fade})`; ctx.fillRect(0, 0, W, H); }
+  }
+  function loop(ts) {
+    raf = requestAnimationFrame(loop);
+    const dt = Math.min(.05, (ts - last) / 1000 || 0); last = ts;
+    const st = $('chandrayaanStage');
+    if (!st || !st.getClientRects().length) { if (!S.hidden) { S.hidden = true; try { speechSynthesis.cancel(); } catch (e) {} } return; }
+    S.hidden = false; fit(); step(dt); draw();
+  }
+
+  /* =========================================================
+     PUBLIC ENGINE
+     ========================================================= */
+  const E = {
+    get stage() { return S.stage || 1; },
+    init() {
+      if (ready) { this.resume(); return; }
+      cv = $('c3Canvas'); if (!cv) return; ctx = cv.getContext('2d'); ready = true;
+      $('c3TimelineStrip').innerHTML = STAGES.map((s, i) => `<div class="c3-stage-pill" data-stage="${i + 1}"><span class="pill-num">STAGE 0${i + 1}</span><span class="pill-title">${s[0]}</span></div>`).join('');
+      $('c3Dests').innerHTML = DESTS.map(d => `<button class="c3-chip" type="button" data-id="${d.id}">${d.icon} ${d.name}</button>`).join('');
+      document.querySelectorAll('.c3-chip').forEach(b => b.onclick = () => {
+        if (!S.R || S.R.ph !== 'idle') return;
+        S.sel = b.dataset.id; document.querySelectorAll('.c3-chip').forEach(c => c.classList.toggle('sel', c === b)); $('c3BtnStart').disabled = false; beep(600, .06);
+        const d = dest(S.sel); hint(`Path set to ${d.name} (≈ ${Math.round(Math.abs(d.x - S.R.x) * MPP)} m). Press Start!`);
+      });
+      $('c3BtnStart').onclick = () => {
+        if (!S.sel || !S.R || S.R.ph !== 'idle') return;
+        S.R.ph = 'drive'; $('c3Route').classList.remove('is-on'); beep(500, .1); hint('Pragyan is driving to ' + dest(S.sel).name + '…');
+      };
+      $('c3Prints').onclick = openFlash;
+      $('c3BtnSkip').onclick = () => { if (['launch', 'space'].includes(S.sc) && !S.pend) { setAct(); S.pend = startDescent; } };
+      $('c3BtnRestart').onclick = () => this.restart();
+      $('c3VoiceToggle').onclick = () => { voice = !voice; $('c3VoiceToggle').textContent = voice ? '🎙️ Voice: ON' : '🎙️ Voice: OFF'; if (!voice) try { speechSynthesis.cancel(); } catch (e) {} };
+      $('c3CardNarrateBtn').onclick = () => this.speakStageFact();
+      this.restart(); this.resume();
+    },
+    restart() {
+      try { speechSynthesis.cancel(); } catch (e) {}
+      clearTimeout(S.tt); S = { tw: [], fx: [], fade: 0, pend: null, clock: 0, clockOn: false, conf: [], sc: 'launch', stage: 1 };
+      clearUI(); $('c3MissionClock').textContent = 'T+ 00:00:00';
+      S.l = { ph: 'pad', alt: 0, v: 0, cd: 0, n: 0, sep: false, bs: [] };
+      stageUI(1, 'Press “Start Countdown” to launch LVM3-M4.');
+      setAct('🚀 Start Countdown', () => { S.l.ph = 'count'; S.l.cd = 5.99; });
+    },
+    goToStage(n) {
+      if (!ready) return; n = clamp(n | 0, 1, 8);
+      if (n === 1) return this.restart();
+      S.tw = []; S.fx = []; clearUI();
+      if (n <= 6) startSpace(n - 2); else if (n === 7) startDescent(); else startSurface();
+    },
+    speakStageFact() { const s = STAGES[(S.stage || 1) - 1]; if (!('speechSynthesis' in window)) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(s[0] + '. ' + s[2]); u.lang = 'en-IN'; speechSynthesis.speak(u); } catch (e) {} },
+    resume() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); } },
+    pause() { if (raf) cancelAnimationFrame(raf); raf = 0; try { speechSynthesis.cancel(); } catch (e) {} },
+    stop() { this.pause(); }
+  };
+  window.Chandrayaan3Engine = E;
 })();
