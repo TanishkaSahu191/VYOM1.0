@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VYOM - Gamified 3D Space Learning Platform | NASA & ISRO</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================
+       TOP GLOBAL PHASE NAVIGATOR (Direct Access to All Phases)
+       ======================================================== -->
+  <nav class="global-phase-nav" id="globalPhaseNav" aria-label="Global Phase Navigator">
+    <div class="nav-brand-group">
+      <div class="nav-logo-icon">🌌</div>
+      <div class="nav-brand-title">
+        <span>VYOM</span>
+        <span class="nav-brand-sub">SPACE PROTOCOL</span>
+      </div>
+    </div>
+
+    <div class="nav-phase-tabs" role="tablist">
+      <button class="nav-tab active" id="tabPhase1" data-phase="1" type="button" role="tab" title="Go to Phase 1 Launchpad">
+        <span class="tab-badge">01</span>
+        <span class="tab-text">Launchpad</span>
+      </button>
+      <button class="nav-tab" id="tabPhase2" data-phase="2" type="button" role="tab" title="Go to Phase 2 Rocket Hangar">
+        <span class="tab-badge">02</span>
+        <span class="tab-text">Rocket Hangar</span>
+      </button>
+      <button class="nav-tab" id="tabPhase3" data-phase="3" type="button" role="tab" title="Go to Phase 3 Cockpit & Scroll Engine">
+        <span class="tab-badge">03</span>
+        <span class="tab-text">Cockpit & Journey</span>
+      </button>
+      <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
+        <span class="tab-badge">★</span>
+        <span class="tab-text">Pitch & Demo</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================
+       1. PHASE 1 HERO SECTION: CURSOR TRACKING & PUSH BUTTON
+       ======================================================== -->
+  <main class="stage" id="stage" aria-label="Interactive Hero Stage">
+    <div class="frame" id="scene">
+      <!-- Background Plate Layers -->
+      <div class="plate" aria-hidden="true"></div>
+      <div class="plate-shade" aria-hidden="true"></div>
+
+      <!-- Astronaut Video: Tracks Cursor Movement -->
+      <div class="head-clip" aria-hidden="true">
+        <video id="headClip" muted playsinline preload="auto" crossorigin="anonymous"></video>
+      </div>
+
+      <!-- Astronaut Helmet Visor: Closes during launch -->
+      <div class="helmet-shell" id="helmetShell" aria-hidden="true">
+        <img id="helmet" src="./assets/helmet-cutout.png" alt="Astronaut Helmet" />
+      </div>
+
+      <!-- Hero Titles: VYOM Branding -->
+      <section class="copy-block" aria-labelledby="hero-title">
+        <h1 id="hero-title">VYOM: Cosmic Odyssey</h1>
+        <p class="subtitle">~ Gamified 3D Space Learning Platform &bull; ISRO &bull; NASA</p>
+      </section>
+
+      <!-- Tactile 3D "PUSH ME" Button -->
+      <button id="pushButton" class="push-button" type="button" aria-pressed="false"
+        aria-label="Push to launch rocket and proceed to the next page" title="Push to Launch">
+        <span>PUSH</span>
+        <span>ME</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       2. ROCKET LAUNCH TRANSITION OVERLAY
+       ======================================================== -->
+  <div id="rocketTransition" class="rocket-transition" aria-hidden="true">
+    <div class="rocket-warp-bg"></div>
+    <div class="warp-speed-lines"></div>
+
+    <!-- Sci-Fi HUD Navigation Display -->
+    <div class="launch-hud">
+      <div class="hud-corner top-left"></div>
+      <div class="hud-corner top-right"></div>
+      <div class="hud-corner bottom-left"></div>
+      <div class="hud-corner bottom-right"></div>
+
+      <div class="hud-status-badge">
+        <span class="hud-pulse-dot"></span>
+        <span>TRAJECTORY LOCKED // ISRO &bull; NASA</span>
+      </div>
+      <!-- Destination Title -->
+      <h2 class="hud-destination">DESTINATION: MISSION HANGAR</h2>
+      <div class="hud-countdown" id="launchCountdown">WARP DRIVE: ENGAGED</div>
+    </div>
+
+    <!-- Animated High-Tech Rocket with SVG Plasma Thrusters -->
+    <div class="rocket-craft" id="rocketCraft">
+      <svg class="rocket-svg" viewBox="0 0 160 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="rocketBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="45%" stop-color="#e0e8f5" />
+            <stop offset="100%" stop-color="#8ba3c7" />
+          </linearGradient>
+          <linearGradient id="rocketFinGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff3b30" />
+            <stop offset="100%" stop-color="#b0160e" />
+          </linearGradient>
+          <linearGradient id="plumeGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="20%" stop-color="#ffe600" />
+            <stop offset="60%" stop-color="#ff4500" />
+            <stop offset="100%" stop-color="rgba(255, 30, 0, 0)" />
+          </linearGradient>
+          <filter id="thrusterGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="12" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Dynamic Thruster Flame -->
+        <g class="thruster-fire" filter="url(#thrusterGlow)">
+          <polygon points="62,260 98,260 80,375" fill="url(#plumeGrad)" />
+          <polygon points="68,260 92,260 80,340" fill="#ffffff" opacity="0.9" />
+        </g>
+
+        <!-- Stabilizer Wings -->
+        <path d="M 50 170 L 15 250 L 50 240 Z" fill="url(#rocketFinGrad)" />
+        <path d="M 110 170 L 145 250 L 110 240 Z" fill="url(#rocketFinGrad)" />
+
+        <!-- Fuselage Core -->
+        <path d="M 80 20 Q 52 80 50 245 L 110 245 Q 108 80 80 20 Z" fill="url(#rocketBodyGrad)" stroke="#1a2538"
+          stroke-width="2" />
+
+        <!-- Dorsal Spine -->
+        <polygon points="76,60 84,60 82,240 78,240" fill="#32496d" />
+
+        <!-- Cockpit Window -->
+        <circle cx="80" cy="90" r="14" fill="#0b1b36" stroke="#4da3ff" stroke-width="2.5" />
+        <circle cx="76" cy="86" r="4.5" fill="#ffffff" opacity="0.8" />
+
+        <!-- Cadet Skyranger Stripes -->
+        <rect x="58" y="140" width="44" height="6" fill="#ff3b30" />
+        <rect x="62" y="152" width="36" height="3" fill="#ffcc00" />
+
+        <!-- Engine Nozzle -->
+        <polygon points="60,245 100,245 92,265 68,265" fill="#1b2432" stroke="#485973" stroke-width="2" />
+      </svg>
+
+      <!-- Dynamic Particle Sparks -->
+      <div class="thruster-sparks">
+        <span class="spark s1"></span>
+        <span class="spark s2"></span>
+        <span class="spark s3"></span>
+        <span class="spark s4"></span>
+        <span class="spark s5"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hyperdrive White Flash Overlay -->
+  <div class="hyperdrive-flash" id="hyperdriveFlash"></div>
+
+  <!-- ========================================================
+       3. PHASE 2: ROCKET SELECTION (GAMIFIED LEARNING HANGAR)
+       ======================================================== -->
+  <section id="destinationPage" class="destination-page" aria-label="Mission Hangar - Rocket Selection">
+    
+    <!-- Hangar Top Navigation Bar -->
+    <header class="hangar-header">
+      <div class="hangar-brand">
+        <div class="brand-symbol">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9" stroke="#38bdf8" />
+            <path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="#818cf8" />
+            <circle cx="12" cy="12" r="3" fill="#38bdf8" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">VYOM</span>
+          <span class="brand-subtitle">MISSION HANGAR // LEVEL 0</span>
+        </div>
+      </div>
+
+      <div class="hangar-hud-status">
+        <span class="status-indicator"></span>
+        <span>TELEMETRY: ISRO ISTRAC &bull; NASA DSN ACTIVE</span>
+      </div>
+
+      <div class="hangar-user-hud">
+        <div class="cadet-badge">
+          <span class="cadet-avatar">👨‍🚀</span>
+          <div class="cadet-info">
+            <span class="cadet-rank">CADET PILOT</span>
+            <span class="cadet-xp" id="userXpDisplay">150 XP</span>
+          </div>
+        </div>
+        <button id="btnReturnToLaunch" class="btn-hangar-ghost" type="button" title="Return to Launch Stage">
+          <span>← Launchpad</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hangar Main Content -->
+    <div class="hangar-content">
+      <!-- Mission Briefing Banner -->
+      <div class="hangar-intro">
+        <div class="hangar-intro-badge">PHASE 2 // GAMIFIED VEHICLE SELECTION</div>
+        <h1 class="hangar-headline">SELECT YOUR MISSION LAUNCH VEHICLE</h1>
+        <p class="hangar-subline">
+          Analyze real flight specifications and historic achievements from <strong>ISRO</strong> and <strong>NASA</strong>. 
+          Your selected spacecraft will power your exploration journey through the solar system.
+        </p>
+      </div>
+
+      <!-- Fleet Agency Filter Tabs -->
+      <div class="fleet-controls">
+        <div class="filter-group" role="tablist" aria-label="Rocket Agency Filters">
+          <button class="filter-btn active" data-filter="all" type="button" role="tab" aria-selected="true">
+            <span>All Launch Vehicles (7)</span>
+          </button>
+          <button class="filter-btn" data-filter="isro" type="button" role="tab" aria-selected="false">
+            <span class="flag-dot isro-dot"></span>
+            <span>ISRO Fleet (3)</span>
+          </button>
+          <button class="filter-btn" data-filter="nasa" type="button" role="tab" aria-selected="false">
+            <span class="flag-dot nasa-dot"></span>
+            <span>NASA Fleet (4)</span>
+          </button>
+        </div>
+
+        <div class="hangar-stats-summary">
+          <span class="summary-item"><strong id="fleetCount">7</strong> Vehicles Operational</span>
+          <span class="summary-divider">•</span>
+          <span class="summary-item">Target: <strong>Level 1 (Leaving Earth)</strong></span>
+        </div>
+      </div>
+
+      <!-- Selected Vehicle Quick Banner (if selected) -->
+      <div class="active-vehicle-banner" id="activeVehicleBanner" style="display: none;">
+        <span class="active-banner-icon">🚀</span>
+        <span class="active-banner-text">Active Assigned Craft: <strong id="activeVehicleName">None</strong></span>
+        <button class="btn-proceed-mini" id="btnResumeCockpit" type="button">Enter Cockpit →</button>
+      </div>
+
+      <!-- Rocket Cards Grid (Dynamically Populated) -->
+      <div class="rocket-grid" id="rocketGrid">
+        <!-- Rendered by script.js -->
+      </div>
+    </div>
+
+    <!-- Pre-Flight Fueling & Countdown Modal -->
+    <div class="fueling-modal" id="fuelingModal" aria-hidden="true">
+      <div class="fueling-overlay" id="fuelingOverlay"></div>
+      <div class="fueling-dialog" role="dialog" aria-modal="true" aria-labelledby="fuelingTitle">
+        <!-- Modal Corner Sci-Fi Accents -->
+        <div class="modal-corner top-left"></div>
+        <div class="modal-corner top-right"></div>
+        <div class="modal-corner bottom-left"></div>
+        <div class="modal-corner bottom-right"></div>
+
+        <div class="fueling-header">
+          <div class="fueling-tag" id="fuelingAgencyBadge">ISRO LAUNCH COMPLEX</div>
+          <h2 class="fueling-title" id="fuelingTitle">PRE-FLIGHT CRYOGENIC FUELING</h2>
+          <p class="fueling-subtitle" id="fuelingVehicleName">LVM3 (Launch Vehicle Mark-3)</p>
+        </div>
+
+        <div class="fueling-body">
+          <!-- Rocket Cross-section Graphic -->
+          <div class="fueling-schematic-col">
+            <div class="schematic-view" id="schematicContainer">
+              <!-- Animated SVG inserted dynamically -->
+            </div>
+            <div class="schematic-label">PROPULSION TELEMETRY</div>
+          </div>
+
+          <!-- Live Fueling Gauges & Diagnostic Checklist -->
+          <div class="fueling-data-col">
+            <!-- Liquid Oxygen (LOX) Gauge -->
+            <div class="fuel-tank-gauge">
+              <div class="gauge-label">
+                <span>LIQUID OXYGEN (LOX) TANK</span>
+                <span class="gauge-percent" id="loxPercent">0%</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill lox-fill" id="loxBar"></div>
+              </div>
+            </div>
+
+            <!-- Cryogenic LH2 / Propellant Gauge -->
+            <div class="fuel-tank-gauge">
+              <div class="gauge-label">
+                <span id="propellantLabel">LIQUID HYDROGEN (LH2) CRYO CORE</span>
+                <span class="gauge-percent" id="fuelPercent">0%</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill cryo-fill" id="fuelBar"></div>
+              </div>
+            </div>
+
+            <!-- Subsystems Checklist -->
+            <div class="diagnostic-checklist">
+              <div class="check-item" id="checkAvionics">
+                <span class="check-icon">⏳</span>
+                <span class="check-text">Avionics & Triple-Modular Redundant Guidance</span>
+              </div>
+              <div class="check-item" id="checkTelemetry">
+                <span class="check-icon">⏳</span>
+                <span class="check-text">Deep Space Telemetry Link (ISTRAC / DSN)</span>
+              </div>
+              <div class="check-item" id="checkPressure">
+                <span class="check-icon">⏳</span>
+                <span class="check-text">Combustion Chamber Pre-Chilling (-250°C)</span>
+              </div>
+              <div class="check-item" id="checkTrajectory">
+                <span class="check-icon">⏳</span>
+                <span class="check-text">Mission Trajectory: Level 1 (Leaving Earth)</span>
+              </div>
+            </div>
+
+            <!-- Countdown Timer & Status -->
+            <div class="countdown-hud">
+              <div class="countdown-label">COCKPIT ACCESS LOCK</div>
+              <div class="countdown-digits" id="countdownDigits">T - 03</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div class="fueling-actions">
+          <button id="btnAbortFueling" class="btn-abort" type="button">
+            <span>✕ Cancel</span>
+          </button>
+          <button id="btnProceedCockpit" class="btn-proceed" type="button" disabled>
+            <span>Proceed to Cockpit (Phase 3) →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 Cockpit Gateway Ready Screen -->
+    <div class="cockpit-preview-modal" id="cockpitModal" aria-hidden="true">
+      <div class="cockpit-preview-card">
+        <div class="cockpit-badge">PHASE 2 COMPLETED // READY FOR PHASE 3</div>
+        <h2 class="cockpit-title">WELCOME TO THE COCKPIT</h2>
+        <div class="cockpit-selected-pill" id="cockpitActiveVehicle">VEHICLE: LVM3</div>
+        <p class="cockpit-info">
+          Launch vehicle configuration has been registered to your cadet flight record. 
+          The spacecraft is fully fueled, telemetry synchronized, and prepared for <strong>Phase 3: Cockpit and Core Scroll Engine</strong>!
+        </p>
+        <div class="cockpit-telemetry-preview">
+          <div class="telem-item">
+            <span class="telem-label">NEXT OBJECTIVE</span>
+            <span class="telem-val">LEVEL 1: LEAVING EARTH</span>
+          </div>
+          <div class="telem-item">
+            <span class="telem-label">PROPULSION STATUS</span>
+            <span class="telem-val" style="color: #4ade80;">100% NOMINAL</span>
+          </div>
+          <div class="telem-item">
+            <span class="telem-label">XP REWARD</span>
+            <span class="telem-val" style="color: #fbbf24;">+100 XP (Total: 250 XP)</span>
+          </div>
+        </div>
+        <div class="cockpit-actions">
+          <button id="btnBackToHangar" class="btn-hangar-ghost" type="button">
+            <span>← Switch Rocket</span>
+          </button>
+          <button id="btnStartPhase3" class="btn-proceed" type="button">
+            <span>Enter Cockpit Viewport 🚀</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================
+       4. PHASE 3: COCKPIT & CORE SCROLL ENGINE VIEWPORT
+       ======================================================== -->
+  <section id="cockpitStage" class="cockpit-stage" aria-label="Spaceship Cockpit Viewport" style="display: none;">
+    
+    <!-- 3D WebGL Space & Cockpit Canvas -->
+    <canvas id="spaceCanvas" class="space-canvas"></canvas>
+
+    <!-- Cockpit Structural Canopy & Window Viewports (Vector Hull with Transparent Viewports) -->
+    <div class="cockpit-canopy-layer" id="cockpitCanopyLayer" aria-hidden="true">
+      <img src="./assets/cockpit-canopy.svg" class="canopy-svg-img" alt="Cockpit Canopy Structure" />
+      <div class="canopy-glass-glare" id="canopyGlassGlare"></div>
+    </div>
+
+    <!-- Cockpit Top HUD Bar (Unified, Clean, Zero-Overlap) -->
+    <header class="cockpit-top-bar">
+      <!-- Left: Navigation & Vehicle Badge -->
+      <div class="cockpit-nav-left">
+        <button id="btnReturnToHangar" class="cockpit-tool-btn cockpit-return-btn" type="button" title="Return to Rocket Hangar">
+          <span class="tool-icon">←</span>
+          <span class="tool-label">HANGAR</span>
+        </button>
+        <button id="btnCockpitMenu" class="cockpit-icon-btn" type="button" title="Flight Menu & Info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="cockpit-vehicle-badge" id="cockpitVehicleBadge">LVM3 (ISRO)</div>
+      </div>
+
+      <!-- Center: Solar System Levels Navigation Ribbon -->
+      <div class="cockpit-nav-center">
+        <nav class="cockpit-level-ribbon" id="cockpitLevelRibbon" aria-label="Solar System Flight Levels">
+          <button class="lvl-ribbon-btn is-active" data-level="1" type="button" title="Level 1: Atmosphere, LEO Satellites & Moon">
+            <span class="ribbon-tag">LVL 1</span>
+            <span class="ribbon-label">Earth & Moon</span>
+            <span class="ribbon-stars" id="starsLvl1">☆☆☆</span>
+          </button>
+          <button class="lvl-ribbon-btn" data-level="2" type="button" title="Level 2: Mercury, Venus & Mars">
+            <span class="ribbon-tag">LVL 2</span>
+            <span class="ribbon-label">Inner Planets</span>
+            <span class="ribbon-stars" id="starsLvl2">☆☆☆</span>
+          </button>
+          <button class="lvl-ribbon-btn" data-level="3" type="button" title="Level 3: Asteroid Belt & Jupiter">
+            <span class="ribbon-tag">LVL 3</span>
+            <span class="ribbon-label">Asteroids & Jupiter</span>
+            <span class="ribbon-stars" id="starsLvl3">☆☆☆</span>
+          </button>
+          <button class="lvl-ribbon-btn" data-level="4" type="button" title="Level 4: Saturn, Uranus, Neptune, Voyager 1">
+            <span class="ribbon-tag">LVL 4</span>
+            <span class="ribbon-label">Outer Space</span>
+            <span class="ribbon-stars" id="starsLvl4">☆☆☆</span>
+          </button>
+          <button class="lvl-ribbon-btn bonus-btn" data-level="bonus" type="button" title="Bonus Level: Supermassive Black Hole Warp">
+            <span class="ribbon-tag">★ BONUS</span>
+            <span class="ribbon-label">Black Hole</span>
+            <span class="ribbon-stars" id="starsLvlBonus">☆☆☆</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Right: Stats, Actions & Controls -->
+      <div class="cockpit-nav-right">
+        <!-- Cadet Gamification Stats -->
+        <div class="hud-stats-group">
+          <div class="hud-stat-pill streak-pill" id="hudStreakPill" title="Daily Cosmic Training Streak">
+            <span class="pill-icon">🔥</span>
+            <span class="pill-val" id="hudStreakCount">1</span>
+          </div>
+          <div class="hud-stat-pill xp-pill" id="hudXpPill" title="Accumulated Cadet XP">
+            <span class="pill-icon">⭐</span>
+            <span class="pill-val" id="hudXpCount">150</span>
+          </div>
+        </div>
+
+        <div class="top-nav-separator"></div>
+
+        <!-- Primary Mission Actions -->
+        <div class="mission-actions-group">
+          <button id="btnOpenTransmission" class="cockpit-tool-btn transmission-tool-btn" type="button" title="Live NASA APOD & Deep Space Transmission">
+            <span class="tool-icon">📡</span>
+            <span class="tool-label">FEED</span>
+          </button>
+          <button id="btnOpenAcademy" class="cockpit-tool-btn academy-btn" type="button" title="Launch Level Knowledge Quiz">
+            <span class="tool-icon">📝</span>
+            <span class="tool-label">QUIZ</span>
+          </button>
+          <button id="btnOpenPitch" class="cockpit-tool-btn pitch-tool-btn" type="button" title="Hackathon Pitch Deck & Guided Demo Tour">
+            <span class="tool-icon">🏆</span>
+            <span class="tool-label">PITCH</span>
+          </button>
+        </div>
+
+        <div class="top-nav-separator"></div>
+
+        <!-- Quick Avionics Utility Toggles -->
+        <div class="utility-icons-group">
+          <button id="btnOpenLeaderboard" class="cockpit-icon-tool" type="button" title="Cadet Leaderboard">
+            <span>🎖️</span>
+          </button>
+          <button id="btnOpenCertificate" class="cockpit-icon-tool" type="button" title="Space Exploration Certificate">
+            <span>📜</span>
+          </button>
+          <button id="btnTogglePerf" class="cockpit-icon-tool perf-tool-btn" type="button" title="Toggle Graphics Quality (High 60FPS / Eco Mode)">
+            <span class="tool-icon">⚡</span>
+            <span id="perfLabel" class="sr-only">60FPS</span>
+          </button>
+          <button id="btnOpenCredits" class="cockpit-icon-tool credits-tool-btn" type="button" title="NASA & ISRO Scientific Credits">
+            <span>ℹ️</span>
+          </button>
+          <button id="btnVoiceToggle" class="cockpit-icon-tool" type="button" title="Toggle Voice Narration">
+            <span class="tool-icon">🎙</span>
+            <span id="voiceToggleLabel" class="sr-only">VOICE / TEXT</span>
+          </button>
+          <button id="btnMuteToggle" class="cockpit-icon-tool" type="button" title="Mute Audio">
+            <span class="tool-icon" id="muteIcon">🔊</span>
+            <span id="muteLabel" class="sr-only">MUTE</span>
+          </button>
+          <button id="btnCcToggle" class="cockpit-icon-tool cc-active" type="button" title="Toggle Closed Captions">
+            <span class="font-mono font-bold">CC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Glowing Flight Progress Track -->
+      <div class="cockpit-top-progress" id="cockpitPageProgress" style="width: 25%;"></div>
+    </header>
+
+    
+      <div class="holo-actions">
+        <button id="btnSpeakFact" class="btn-holo-voice" type="button">
+          <span>🔊 Play Narration</span>
+        </button>
+        <button id="btnResumeScroll" class="btn-holo-proceed" type="button">
+          <span>Resume Flight ➔</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Phase 4: Interactive Satellite Dossier Modal (Clickable LEO Satellites) -->
+    <div id="satelliteModal" class="satellite-modal" aria-hidden="true">
+      <div class="satellite-modal-backdrop" id="satelliteBackdrop"></div>
+      <div class="satellite-card">
+        <div class="sat-header">
+          <div class="sat-title-group">
+            <span class="agency-badge badge-isro" id="satAgencyBadge">ISRO</span>
+            <h3 class="sat-name" id="satName">NavIC (IRNSS-1I)</h3>
+          </div>
+          <button id="btnCloseSatModal" class="holo-close-btn" type="button" title="Close Dossier">✕</button>
+        </div>
+        <div class="sat-body">
+          <div class="sat-stat-grid">
+            <div class="sat-stat"><span class="sat-label">OPERATOR</span><strong id="satOperator">ISRO (India)</strong></div>
+            <div class="sat-stat"><span class="sat-label">LAUNCH VEHICLE</span><strong id="satRocket">PSLV-C41</strong></div>
+            <div class="sat-stat"><span class="sat-label">ORBIT TYPE</span><strong id="satOrbit">Geosynchronous (GEO)</strong></div>
+            <div class="sat-stat"><span class="sat-label">ALTITUDE / SPEED</span><strong id="satAltitude">36,000 km // 11,050 km/h</strong></div>
+          </div>
+          <div class="sat-desc-box">
+            <h4>MISSION OBJECTIVE & CAPABILITIES</h4>
+            <p id="satRole">Provides independent regional satellite-based positioning, navigation and timing (PNT) services for civilian tracking, mobile integration, and disaster alerts across India and 1,500 km surrounding borders.</p>
+          </div>
+          <div class="holo-dyk-container sat-dyk">
+            <div class="holo-dyk-header">
+              <span class="dyk-icon">💡</span>
+              <span class="dyk-title">DID YOU KNOW?</span>
+            </div>
+            <p class="holo-dyk-text" id="satDyk">NavIC operates dual-frequency L5 and S-band civilian signals, giving Indian smartphones superior positioning accuracy in equatorial ionospheric conditions compared to standard single-frequency GPS!</p>
+          </div>
+          <div class="holo-source-container sat-source">
+            <a id="satSourceLink" href="https://www.isro.gov.in/NavIC.html" target="_blank" rel="noopener noreferrer" class="holo-source-link">
+              <span class="source-icon">🔗</span>
+              <span id="satSourceText">Verified Source: ISRO Official NavIC Portal</span>
+              <span class="external-icon">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5: Floating Level Completion Knowledge Checkpoint -->
+    <div id="levelCompletePrompt" class="level-complete-prompt" aria-hidden="true">
+      <div class="lvl-complete-card">
+        <div class="lvl-complete-kicker">SECTOR CLEARED // READY FOR EVALUATION</div>
+        <h3 class="lvl-complete-title" id="lvlCompleteTitle">LEVEL 1: LEAVING EARTH</h3>
+        <p class="lvl-complete-desc" id="lvlCompleteDesc">You have navigated LEO Satellites and the Lunar South Pole! Test your knowledge in the Cadet Academy to earn stars, badges, and +250 XP!</p>
+        <div class="lvl-complete-btns">
+          <button id="btnPromptStartQuiz" class="btn-prompt-start" type="button">LAUNCH QUIZ NOW ➔</button>
+          <button id="btnPromptDismiss" class="btn-prompt-dismiss" type="button">CRUISE ONWARD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5: Interactive Knowledge Quiz Modal -->
+    <div id="quizModal" class="quiz-modal" aria-hidden="true">
+      <div class="quiz-modal-backdrop" id="quizBackdrop"></div>
+      <div class="quiz-card">
+        <div class="quiz-header">
+          <div class="quiz-header-meta">
+            <span class="quiz-kicker" id="quizLevelKicker">CADET ACADEMY // LEVEL 1</span>
+            <span class="quiz-score-pill" id="quizScorePill">SCORE: 0 / 5</span>
+            <span class="quiz-xp-tag" id="quizXpTag">+50 XP / QUESTION</span>
+          </div>
+          <button id="btnCloseQuizModal" class="holo-close-btn" type="button" title="Exit Quiz">✕</button>
+        </div>
+
+        <!-- Quiz Active Question Stage -->
+        <div class="quiz-body" id="quizQuestionStage">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quizProgressFill" style="width: 20%;"></div>
+          </div>
+          <div class="quiz-q-meta">
+            <span class="quiz-q-num" id="quizQNum">QUESTION 01 OF 05</span>
+            <span class="quiz-q-type-badge" id="quizQTypeBadge">MULTIPLE CHOICE</span>
+          </div>
+          <h3 class="quiz-q-text" id="quizQText">At what velocity does the International Space Station cruise around Earth in Low Earth Orbit?</h3>
+          
+          <!-- Question Interactive View Containers (Rendered dynamically) -->
+          <div class="quiz-interactive-area" id="quizInteractiveArea">
+            <!-- Dynamic: MCQ buttons, Match grid, or Order sorter -->
+          </div>
+
+          <!-- Instant Feedback Intel Banner -->
+          <div class="quiz-feedback-banner is-hidden" id="quizFeedbackBanner">
+            <div class="feedback-status" id="feedbackStatus">
+              <span class="feedback-icon" id="feedbackIcon">✓</span>
+              <strong id="feedbackTitle">CORRECT!</strong>
+            </div>
+            <p class="feedback-intel" id="feedbackIntel">The ISS cruises at approximately 27,600 km/h (7.66 km/s), orbiting the globe once every 90 minutes.</p>
+            <button id="btnNextQuestion" class="btn-next-question" type="button">NEXT QUESTION ➔</button>
+          </div>
+        </div>
+
+        <!-- Quiz Results Screen -->
+        <div class="quiz-results-stage is-hidden" id="quizResultsStage">
+          <div class="results-header">
+            <div class="results-stars" id="resultsStars">
+              <span class="star-item star-anim">★</span>
+              <span class="star-item star-anim">★</span>
+              <span class="star-item star-anim">★</span>
+            </div>
+            <h2 class="results-title" id="resultsTitle">MISSION QUIZ CLEARED!</h2>
+            <p class="results-sub" id="resultsSub">Outstanding astrophysics intel, Space Cadet!</p>
+          </div>
+          <div class="results-stats-row">
+            <div class="res-stat-card">
+              <span class="res-stat-lbl">FINAL SCORE</span>
+              <strong class="res-stat-val" id="resFinalScore">5 / 5</strong>
+            </div>
+            <div class="res-stat-card">
+              <span class="res-stat-lbl">XP AWARDED</span>
+              <strong class="res-stat-val val-gold" id="resFinalXp">+250 XP</strong>
+            </div>
+            <div class="res-stat-card">
+              <span class="res-stat-lbl">ACCURACY</span>
+              <strong class="res-stat-val val-cyan" id="resFinalAccuracy">100%</strong>
+            </div>
+          </div>
+          <div class="unlocked-badge-card" id="resultsBadgeCard">
+            <span class="badge-icon" id="resBadgeIcon">🥉</span>
+            <div class="badge-info">
+              <div class="badge-tag">NEW BADGE UNLOCKED</div>
+              <div class="badge-title" id="resBadgeTitle">Orbital Pioneer</div>
+              <div class="badge-desc" id="resBadgeDesc">Mastered Earth orbit, satellites and Lunar South Pole exploration.</div>
+            </div>
+          </div>
+          <div class="results-actions">
+            <button id="btnResultsNextLevel" class="btn-res-primary" type="button">CONTINUE MISSION ➔</button>
+            <button id="btnResultsRetry" class="btn-res-secondary" type="button">RETRY QUIZ ↺</button>
+            <button id="btnResultsLeaderboard" class="btn-res-secondary" type="button">LEADERBOARD 🏆</button>
+            <button id="btnResultsCertificate" class="btn-res-secondary" type="button">VIEW CERTIFICATE 📜</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5: Space Academy Global Cadet Leaderboard -->
+    <div id="leaderboardModal" class="leaderboard-modal" aria-hidden="true">
+      <div class="leaderboard-backdrop" id="leaderboardBackdrop"></div>
+      <div class="leaderboard-card">
+        <div class="leaderboard-header">
+          <div class="lb-title-group">
+            <span class="lb-kicker">VYOM SPACE ACADEMY</span>
+            <h2 class="lb-title">GLOBAL CADET LEADERBOARD</h2>
+          </div>
+          <button id="btnCloseLeaderboard" class="holo-close-btn" type="button" title="Close Leaderboard">✕</button>
+        </div>
+        <div class="lb-filter-tabs">
+          <button class="lb-tab active" data-filter="all" type="button">ALL CADETS</button>
+          <button class="lb-tab" data-filter="isro" type="button">ISRO SQUADRON</button>
+          <button class="lb-tab" data-filter="nasa" type="button">NASA SQUADRON</button>
+        </div>
+        <div class="lb-table-container">
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>CADET NAME</th>
+                <th>AGENCY</th>
+                <th>ASSIGNED VEHICLE</th>
+                <th>STARS</th>
+                <th>TOTAL XP</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTbody">
+              <!-- Dynamically generated rows including current user -->
+            </tbody>
+          </table>
+        </div>
+        <div class="lb-footer">
+          <span class="lb-tip">💡 Complete all level quizzes and maintain your daily training streak to climb the Space Academy rankings!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 5: Official Space Exploration & Celestial Mastery Certificate -->
+    <div id="certificateModal" class="certificate-modal" aria-hidden="true">
+      <div class="certificate-backdrop" id="certificateBackdrop"></div>
+      <div class="certificate-card">
+        <div class="cert-toolbar no-print">
+          <div class="cert-tool-left">
+            <span class="cert-kicker">OFFICIAL SPACE EXPLORATION ACCREDITATION</span>
+          </div>
+          <div class="cert-tool-right">
+            <button id="btnPrintCertificate" class="btn-cert-action" type="button" title="Print or Save PDF">🖨️ PRINT / SAVE PDF</button>
+            <button id="btnCloseCertificate" class="holo-close-btn" type="button" title="Close Certificate">✕</button>
+          </div>
+        </div>
+        
+        <!-- Printable Certificate Frame -->
+        <div class="certificate-frame" id="printableCertificate">
+          <div class="cert-border-outer">
+            <div class="cert-border-inner">
+              <div class="cert-header">
+                <div class="cert-logo-left">
+                  <div class="agency-badge badge-isro">ISRO</div>
+                </div>
+                <div class="cert-title-block">
+                  <span class="cert-top-agency">SPACE LEARNING LAB • VYOM ACADEMY</span>
+                  <h1 class="cert-main-title">CERTIFICATE OF CELESTIAL MASTERY</h1>
+                  <span class="cert-sub-title">INTERPLANETARY FLIGHT & SOLAR SYSTEM EXPLORATION</span>
+                </div>
+                <div class="cert-logo-right">
+                  <div class="agency-badge badge-nasa">NASA</div>
+                </div>
+              </div>
+
+              <div class="cert-body">
+                <p class="cert-declaration">THIS IS TO CERTIFY THAT SPACE CADET</p>
+                <div class="cert-cadet-name-wrap">
+                  <input type="text" id="certCadetInput" class="cert-cadet-input" value="Astronaut Cadet" title="Click to edit your name" spellcheck="false" />
+                </div>
+                <p class="cert-text">
+                  has successfully piloted the <strong id="certRocketName">LVM3 Bahubali</strong> through all 4 Solar System flight sectors, verified orbital science across ISRO & NASA mission archives, and mastered the astrophysics of Low Earth Orbit, Inner Terrestrial Planets, the Asteroid Belt, Outer Gas Giants, and the Sagittarius A* Singularity.
+                </p>
+
+                <div class="cert-stats-grid">
+                  <div class="cert-stat-box">
+                    <span class="cert-stat-label">TOTAL XP EARNED</span>
+                    <strong class="cert-stat-val" id="certXpVal">1,250 XP</strong>
+                  </div>
+                  <div class="cert-stat-box">
+                    <span class="cert-stat-label">ACADEMY STARS</span>
+                    <strong class="cert-stat-val" id="certStarsVal">12 ★</strong>
+                  </div>
+                  <div class="cert-stat-box">
+                    <span class="cert-stat-label">CADET RANK</span>
+                    <strong class="cert-stat-val" id="certRankVal">FLIGHT COMMANDER</strong>
+                  </div>
+                  <div class="cert-stat-box">
+                    <span class="cert-stat-label">MISSION STATUS</span>
+                    <strong class="cert-stat-val val-gold">OFFICIALLY VERIFIED</strong>
+                  </div>
+                </div>
+
+                <div class="cert-badges-earned" id="certBadgesList">
+                  <!-- Dynamically rendered badge icons -->
+                </div>
+              </div>
+
+              <div class="cert-footer">
+                <div class="cert-sig-block">
+                  <div class="cert-sig-line">Dr. V. Narayanan</div>
+                  <span class="cert-sig-title">ISRO Mission Director • ISTRAC</span>
+                </div>
+                <div class="cert-seal-wrap">
+                  <div class="cert-gold-seal">
+                    <span>VYOM</span>
+                    <small>OFFICIAL SEAL</small>
+                  </div>
+                  <div class="cert-date" id="certIssueDate">ISSUED: NOVEMBER 2026</div>
+                </div>
+                <div class="cert-sig-block">
+                  <div class="cert-sig-line">Dr. Pamela Melroy</div>
+                  <span class="cert-sig-title">NASA Deep Space Operations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 6: Today's Transmission Screen (Live NASA APOD & Imagery Feed) -->
+    <div id="transmissionModal" class="transmission-modal" aria-hidden="true">
+      <div class="transmission-backdrop" id="transmissionBackdrop"></div>
+      <div class="transmission-card">
+        <div class="trans-header">
+          <div class="trans-header-left">
+            <div class="trans-frequency-badge">
+              <span class="radar-live-blip"></span>
+              <span>DEEP SPACE NETWORK // 8.41 GHz X-BAND</span>
+            </div>
+            <h2 class="trans-title">TODAY'S TRANSMISSION</h2>
+          </div>
+          <div class="trans-tabs">
+            <button class="trans-tab active" data-tab="apod" type="button">
+              <span class="tab-badge badge-nasa">NASA</span>
+              <span>DAILY APOD</span>
+            </button>
+            <button class="trans-tab" data-tab="library" type="button">
+              <span class="tab-badge badge-nasa">NASA</span>
+              <span>LIVE GALLERY</span>
+            </button>
+            <button class="trans-tab" data-tab="isro" type="button">
+              <span class="tab-badge badge-isro">ISRO</span>
+              <span>MISSION ARCHIVE</span>
+            </button>
+          </div>
+          <button id="btnCloseTransmission" class="holo-close-btn" type="button" title="Close Transmission">✕</button>
+        </div>
+
+        <div class="trans-body">
+          <!-- 1. NASA APOD PANEL -->
+          <div class="trans-panel" id="panelApod">
+            <div class="trans-loading-state" id="apodLoading">
+              <div class="trans-spinner"></div>
+              <span>CONNECTING TO NASA DEEP SPACE RELAY (api.nasa.gov)...</span>
+            </div>
+
+            <div class="trans-content is-hidden" id="apodContent">
+              <div class="trans-media-col">
+                <div class="trans-media-container" id="apodMediaContainer">
+                  <img id="apodImage" class="trans-image" src="" alt="NASA Astronomy Picture of the Day" />
+                  <iframe id="apodVideo" class="trans-video is-hidden" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="trans-media-meta">
+                  <span class="trans-date" id="apodDate">2026-11-20</span>
+                  <span class="trans-copyright" id="apodCopyright">NASA / JPL-Caltech</span>
+                </div>
+              </div>
+
+              <div class="trans-intel-col">
+                <div class="trans-status-badge">
+                  <span class="status-dot"></span>
+                  <span>CONFIRMED ASTRONOMICAL TELEMETRY</span>
+                </div>
+                <h3 class="trans-item-title" id="apodTitle">Cosmic Dawn: Deep Space Telescope Feed</h3>
+                <div class="trans-scroll-text">
+                  <p class="trans-explanation" id="apodExplanation">Loading astronomical telemetry from NASA Goddard Space Flight Center...</p>
+                </div>
+                <div class="trans-intel-actions">
+                  <button id="btnListenApod" class="btn-trans-audio" type="button">
+                    <span>🎙</span>
+                    <span>LISTEN TO INTEL</span>
+                  </button>
+                  <a id="btnApodSource" href="https://apod.nasa.gov/" target="_blank" rel="noopener noreferrer" class="btn-trans-source">
+                    <span>OFFICIAL NASA APOD ARCHIVE</span>
+                    <span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. NASA IMAGE LIBRARY SEARCH PANEL -->
+          <div class="trans-panel is-hidden" id="panelLibrary">
+            <div class="library-search-bar">
+              <input type="text" id="librarySearchInput" class="library-input" placeholder="Search NASA Image Archives (e.g., Artemis, James Webb, Mars, Jupiter)..." value="Artemis" />
+              <button id="btnSearchLibrary" class="btn-search-lib" type="button">SEARCH 🔍</button>
+            </div>
+            <div class="library-quick-tags">
+              <span class="tag-label">MISSION TAGS:</span>
+              <button class="lib-tag-btn" data-tag="Artemis">Artemis</button>
+              <button class="lib-tag-btn" data-tag="James Webb Telescope">James Webb</button>
+              <button class="lib-tag-btn" data-tag="Perseverance Mars">Mars Rover</button>
+              <button class="lib-tag-btn" data-tag="Jupiter Juno">Jupiter Juno</button>
+              <button class="lib-tag-btn" data-tag="Black Hole">Black Hole</button>
+            </div>
+
+            <div class="library-grid-container" id="libraryGrid">
+              <!-- Dynamically populated NASA media cards -->
+            </div>
+          </div>
+
+          <!-- 3. ISRO CURATED MISSION ARCHIVE PANEL -->
+          <div class="trans-panel is-hidden" id="panelIsro">
+            <div class="isro-archive-header">
+              <div class="agency-badge badge-isro">ISRO</div>
+              <span>OFFICIAL INDIAN SPACE RESEARCH ORGANISATION MISSION ARCHIVES</span>
+            </div>
+            <div class="isro-grid-container" id="isroGrid">
+              <!-- Dynamically populated ISRO mission cards -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 7: Mission Acknowledgments & Scientific Credits Modal -->
+    <div id="creditsModal" class="credits-modal" aria-hidden="true">
+      <div class="credits-backdrop" id="creditsBackdrop"></div>
+      <div class="credits-card">
+        <div class="credits-header">
+          <div class="credits-title-group">
+            <span class="credits-kicker">SCIENTIFIC CITATIONS & INTEL ARCHIVES</span>
+            <h2 class="credits-title">MISSION ACKNOWLEDGMENTS</h2>
+          </div>
+          <button id="btnCloseCredits" class="holo-close-btn" type="button" title="Close Credits">✕</button>
+        </div>
+
+        <div class="credits-body">
+          <p class="credits-intro">
+            <strong>VYOM</strong> is an educational interplanetary exploration platform built strictly with authentic, scientifically verified telemetry, cartography, and mission data provided by the world's premier space agencies.
+          </p>
+
+          <div class="credits-grid">
+            <!-- 1. ISRO Citation Block -->
+            <div class="credit-agency-card card-isro">
+              <div class="agency-header">
+                <span class="agency-badge badge-isro">ISRO</span>
+                <h3>INDIAN SPACE RESEARCH ORGANISATION</h3>
+              </div>
+              <ul class="citation-list">
+                <li><strong>Chandrayaan-3 Mission:</strong> Lunar South Pole coordinates (Shiv Shakti Point, 69.373° S, 32.319° E), Vikram lander & Pragyan rover telemetry, ChaSTE & ILSA payload discoveries.</li>
+                <li><strong>Mars Orbiter Mission (Mangalyaan):</strong> Mars Color Camera (MCC) imagery, Olympus Mons and Valles Marineris spectral maps, highly elliptical capture orbit data.</li>
+                <li><strong>Aditya-L1 Solar Observatory:</strong> Sun-Earth Lagrangian L1 halo orbit mechanics, VELC & SUIT solar coronagraph research.</li>
+                <li><strong>Satellite Constellation:</strong> NavIC (IRNSS-1I) regional dual-frequency PNT architecture, INSAT-3DR meteorological radiometer tracking.</li>
+                <li><strong>Launch Vehicles:</strong> LVM3 Bahubali, PSLV Workhorse, and GSLV Mk II cryogenic upper stage specifications and flight manifests.</li>
+              </ul>
+              <div class="agency-footer">
+                <a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: isro.gov.in ↗</a>
+                <a href="https://www.issdc.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">ISRO Science Data Hub: issdc.gov.in ↗</a>
+              </div>
+            </div>
+
+            <!-- 2. NASA Citation Block -->
+            <div class="credit-agency-card card-nasa">
+              <div class="agency-header">
+                <span class="agency-badge badge-nasa">NASA</span>
+                <h3>NATIONAL AERONAUTICS & SPACE ADMINISTRATION</h3>
+              </div>
+              <ul class="citation-list">
+                <li><strong>Planetary Cartography:</strong> Visible Earth Blue Marble 2K surface maps, Earth night city lights, Lunar Reconnaissance Orbiter (LRO) crater topography.</li>
+                <li><strong>APOD Relay:</strong> Astronomy Picture of the Day (APOD) daily public API integration via NASA Open APIs (api.nasa.gov).</li>
+                <li><strong>Deep Space Missions:</strong> Voyager 1 interstellar boundary & Golden Record audio telemetry, Curiosity & Perseverance Mars exploration logs, Juno Jovian orbital pass imagery.</li>
+                <li><strong>Space Telescopes:</strong> James Webb Space Telescope (JWST) infrared deep fields, Hubble Space Telescope legacy observations.</li>
+                <li><strong>Fleet Engineering:</strong> Saturn V, Space Shuttle (STS), Falcon 9 Commercial Crew, Space Launch System (SLS) Artemis specifications.</li>
+              </ul>
+              <div class="agency-footer">
+                <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: nasa.gov ↗</a>
+                <a href="https://images.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">NASA Image & Video Library ↗</a>
+              </div>
+            </div>
+
+            <!-- 3. ESA Citation Block -->
+            <div class="credit-agency-card card-esa">
+              <div class="agency-header">
+                <span class="agency-badge badge-esa">ESA</span>
+                <h3>EUROPEAN SPACE AGENCY & COLLABORATIVE COMMISSIONS</h3>
+              </div>
+              <ul class="citation-list">
+                <li><strong>Astrophysics & Solar Physics:</strong> Solar and Heliospheric Observatory (SOHO), Gaia multi-spectral 3D stellar position catalog.</li>
+                <li><strong>Cassini-Huygens:</strong> Saturnian ring particle structure, Cassini division opacity metrics, Titan atmospheric profiling.</li>
+              </ul>
+              <div class="agency-footer">
+                <a href="https://www.esa.int" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: esa.int ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="credits-license-notice">
+            <span class="notice-icon">⚖️</span>
+            <span>All NASA public domain imagery, ISRO open educational archives, and ESA collaborative scientific discoveries are used strictly for non-commercial educational instruction and space science promotion.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 7: Dynamic Sun Lens Flare Overlay (Windshield Optical Artifacts) -->
+    <div class="sun-lens-flare-overlay" id="sunLensFlareOverlay" aria-hidden="true">
+      <div class="flare-core"></div>
+      <div class="flare-streak"></div>
+      <div class="flare-ghost g1"></div>
+      <div class="flare-ghost g2"></div>
+      <div class="flare-ring"></div>
+    </div>
+
+    <!-- ========================================================
+         PHASE 8: HACKATHON PITCH DECK & GUIDED DEMO TOUR MODAL
+         ======================================================== -->
+    <div id="pitchModal" class="pitch-modal" aria-hidden="true">
+      <div class="pitch-backdrop" id="pitchBackdrop"></div>
+      <div class="pitch-card">
+        <div class="pitch-header">
+          <div class="pitch-header-left">
+            <div class="pitch-badge">
+              <span class="badge-star">🏆</span>
+              <span>VYOM // HACKATHON MISSION DECK & SHOWCASE</span>
+            </div>
+            <h2 class="pitch-title">INTERPLANETARY LEARNING PROTOCOL</h2>
+          </div>
+          <div class="pitch-tabs" role="tablist">
+            <button class="pitch-tab active" data-tab="pitch" type="button">🎯 PITCH</button>
+            <button class="pitch-tab" data-tab="demo" type="button">🚀 DEMO TOUR</button>
+            <button class="pitch-tab" data-tab="diff" type="button">⚡ DIFFERENTIATION</button>
+            <button class="pitch-tab" data-tab="future" type="button">🔮 FUTURE SCOPE</button>
+            <button class="pitch-tab" data-tab="tech" type="button">💻 TECH STACK</button>
+          </div>
+          <button id="btnClosePitch" class="holo-close-btn" type="button" title="Close Pitch Deck">✕</button>
+        </div>
+
+        <div class="pitch-body">
+          <!-- 1. PITCH ANGLE PANEL -->
+          <div class="pitch-panel" id="panelPitch">
+            <div class="pitch-hero-banner">
+              <div class="pitch-kicker">THE CORE VALUE PROPOSITION</div>
+              <h3 class="pitch-headline">"Existing platforms let you VIEW space. VYOM TEACHES it."</h3>
+              <p class="pitch-subhead">
+                Most web-based space software (NASA Eyes, Solar System Scope, Google Sky) are passive 3D model viewers. 
+                Students explore aimlessly for a few minutes and leave without retaining underlying astrophysics or mission engineering. 
+                <strong>VYOM solves this by transforming solar system exploration into an active, gamified 3D spacecraft piloting journey.</strong>
+              </p>
+            </div>
+
+            <div class="pitch-pillars-grid">
+              <div class="pillar-card">
+                <div class="pillar-icon">🛸</div>
+                <h4>1. Authentic Cockpit Viewport</h4>
+                <p>Places the cadet directly inside an enclosed spacecraft cockpit with multi-plane 3D parallax depth, live telemetry (Speed, Distance, Objects), and tactical controls.</p>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon">🇮🇳 🇺🇸</div>
+                <h4>2. NASA & ISRO Synergy</h4>
+                <p>Unifies real achievements from both NASA and ISRO—Chandrayaan-3 South Pole, Mangalyaan, and NavIC alongside Apollo 11, Curiosity, and Voyager 1.</p>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon">🎮</div>
+                <h4>3. Duolingo-Style Learning Loop</h4>
+                <p>Progressive levels, continuous 3D cruising with Web Speech narration, 5-question interactive quizzes, XP, badges, daily streaks, and certified graduation.</p>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon">📡</div>
+                <h4>4. Live Mission Telemetry</h4>
+                <p>Cockpit integrates live daily NASA APOD feeds, NASA Image Archive search, and curated ISRO mission dossiers with instant audio readouts.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. GUIDED DEMO TOUR PANEL -->
+          <div class="pitch-panel is-hidden" id="panelDemo">
+            <div class="demo-tour-header">
+              <div class="demo-tour-intro">
+                <h3>INTERACTIVE HACKATHON DEMO WALKTHROUGH</h3>
+                <p>Presenting to judges? Use these one-click shortcuts to instantly demonstrate each core phase of the application in seconds:</p>
+              </div>
+              <button id="btnRunFullDemo" class="btn-demo-action auto-btn" type="button">
+                <span>▶ Run Automated Tour (1-Min)</span>
+              </button>
+            </div>
+
+            <div class="demo-steps-timeline">
+              <!-- Step 1 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">1</span></div>
+                <div class="step-info-col">
+                  <h4>Astronaut Cursor Follower & Launchpad (Phase 1)</h4>
+                  <p>Interactive astronaut video scrubbing, tactile 3D PUSH ME button, pneumatic visor drop, and pure Web Audio synthesizer.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="phase1" type="button">Demo Step 1 ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">2</span></div>
+                <div class="step-info-col">
+                  <h4>NASA & ISRO Rocket Hangar (Phase 2)</h4>
+                  <p>Selectable vehicle cards (LVM3, PSLV, Saturn V, Falcon 9), fleet agency filter, and cryogenic pre-flight fueling simulation.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="phase2" type="button">Demo Step 2 ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">3</span></div>
+                <div class="step-info-col">
+                  <h4>Spaceship Cockpit Viewport (Phase 3 & 7)</h4>
+                  <p>Multi-plane parallax with pilot/copilot seats, canopy window frame, live telemetry (Speed, Distance, Timer), and steering flight yoke.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="phase3" type="button">Demo Step 3 ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">4</span></div>
+                <div class="step-info-col">
+                  <h4>Asteroid Belt Exploration & Narration (Phase 4)</h4>
+                  <p>Scroll engine navigates past 200+ rock Asteroid Belt and 16 Psyche with Web Speech API audio narration.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="asteroid" type="button">Demo Asteroids ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">5</span></div>
+                <div class="step-info-col">
+                  <h4>Today's Transmission: Live NASA Feed (Phase 6)</h4>
+                  <p>Live NASA APOD image/video telemetry, NASA Image Library search engine, and curated ISRO mission gallery.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="transmission" type="button">Demo APOD Feed ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 6 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">6</span></div>
+                <div class="step-info-col">
+                  <h4>Cadet Academy Quiz & Badges (Phase 5)</h4>
+                  <p>Interactive MCQs, Match-the-Pair and Ordering questions with instant scientific explanations, XP rewards, and streaks.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="quiz" type="button">Demo Quiz ➔</button>
+                </div>
+              </div>
+
+              <!-- Step 7 -->
+              <div class="demo-step-row">
+                <div class="step-num-col"><span class="step-circle">7</span></div>
+                <div class="step-info-col">
+                  <h4>Certificate of Celestial Mastery (Phase 5)</h4>
+                  <p>High-resolution official accredited space exploration certificate with printable print-to-PDF formatting.</p>
+                </div>
+                <div class="step-action-col">
+                  <button class="btn-step-jump" data-target="certificate" type="button">Demo Certificate ➔</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. DIFFERENTIATION MATRIX PANEL -->
+          <div class="pitch-panel is-hidden" id="panelDiff">
+            <div class="diff-header">
+              <h3>COMPETITIVE ADVANTAGE MATRIX</h3>
+              <p>How VYOM compares to standard space software and existing EdTech tools:</p>
+            </div>
+            <div class="diff-table-wrap">
+              <table class="diff-table">
+                <thead>
+                  <tr>
+                    <th>CAPABILITY</th>
+                    <th class="col-highlight">🌌 VYOM</th>
+                    <th>NASA EYES</th>
+                    <th>DUOLINGO / QUIZLET</th>
+                    <th>YOUTUBE / DOCUMENTARIES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Immersive 3D Cockpit Flight</strong></td>
+                    <td class="col-highlight">✅ Yes (Multi-plane parallax)</td>
+                    <td>❌ No (Third-person viewer)</td>
+                    <td>❌ No (2D flashcards)</td>
+                    <td>❌ Passive video</td>
+                  </tr>
+                  <tr>
+                    <td><strong>NASA + ISRO Synergy</strong></td>
+                    <td class="col-highlight">✅ Yes (Chandrayaan + Apollo)</td>
+                    <td>❌ NASA Only</td>
+                    <td>❌ Rare / Generic</td>
+                    <td>⚠️ Fragmented</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Gamified Space Academy & Quizzes</strong></td>
+                    <td class="col-highlight">✅ Yes (5 Mechanics + XP)</td>
+                    <td>❌ No assessments</td>
+                    <td>✅ Text quizzes only</td>
+                    <td>❌ No</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Live Telemetry (NASA APOD)</strong></td>
+                    <td class="col-highlight">✅ Built into Cockpit MFD</td>
+                    <td>❌ No</td>
+                    <td>❌ No</td>
+                    <td>❌ No</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Zero-Audio-File Synthesizer</strong></td>
+                    <td class="col-highlight">✅ Pure Web Audio API</td>
+                    <td>❌ Pre-recorded audio</td>
+                    <td>❌ Stock sounds</td>
+                    <td>⚠️ Video track</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Offline & Low-Bandwidth Resilience</strong></td>
+                    <td class="col-highlight">✅ 100% Caching + Eco Mode</td>
+                    <td>❌ Requires 100MB+</td>
+                    <td>⚠️ Partial</td>
+                    <td>❌ High data streaming</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 4. FUTURE SCOPE ROADMAP PANEL -->
+          <div class="pitch-panel is-hidden" id="panelFuture">
+            <div class="future-intro">
+              <h3>FUTURE SCOPE & LONG-TERM VISION</h3>
+              <p>Roadmap for scaling VYOM into schools, colleges, and global space education:</p>
+            </div>
+            <div class="future-grid">
+              <!-- Feature 1 -->
+              <div class="future-card">
+                <div class="future-icon">🏫</div>
+                <div class="future-badge">STAGE 1 // ACADEMIC</div>
+                <h4>Teacher Dashboard for Schools & Colleges</h4>
+                <p>Dedicated portal for educators to assign solar system flight sectors as homework, track student quiz scores in real-time, and align modules with CBSE, ICSE, and NGSS curricula.</p>
+              </div>
+
+              <!-- Feature 2 -->
+              <div class="future-card">
+                <div class="future-icon">📰</div>
+                <div class="future-badge">STAGE 2 // REAL-TIME</div>
+                <h4>Live Space News & Launch Manifests</h4>
+                <p>Live countdown tickers and telemetry feeds for upcoming launches: ISRO Gaganyaan crewed spaceflight, Chandrayaan-4 sample return, NASA Artemis II, and Europa Clipper.</p>
+              </div>
+
+              <!-- Feature 3 -->
+              <div class="future-card">
+                <div class="future-icon">🌐</div>
+                <div class="future-badge">STAGE 3 // LOCALIZATION</div>
+                <h4>Multilingual Regional Voice Narration</h4>
+                <p>Expand Web Speech API voice synthesis to support Indian regional languages: Hindi (हिंदी), Tamil (தமிழ்), Telugu (తెలుగు), Kannada, and Bengali, democratizing space learning for rural schools.</p>
+              </div>
+
+              <!-- Feature 4 -->
+              <div class="future-card">
+                <div class="future-icon">🥽</div>
+                <div class="future-badge">STAGE 4 // IMMERSION</div>
+                <h4>WebXR / Augmented Reality (AR Mode)</h4>
+                <p>One-click WebXR integration allowing cadets to spawn 1:1 scale AR models of Chandrayaan-3 Vikram lander, Pragyan rover, or Perseverance rover right on their living room or classroom desk.</p>
+              </div>
+
+              <!-- Feature 5 -->
+              <div class="future-card">
+                <div class="future-icon">🌌</div>
+                <div class="future-badge">STAGE 5 // COSMIC DEEP FIELD</div>
+                <h4>Interstellar & Exoplanetary Sectors</h4>
+                <p>Expand flight corridor beyond Neptune to the Oort Cloud, Alpha Centauri, habitable exoplanets (TRAPPIST-1e, Proxima b), and James Webb Deep Field galaxies.</p>
+              </div>
+
+              <!-- Feature 6 -->
+              <div class="future-card">
+                <div class="future-icon">🔥</div>
+                <div class="future-badge">STAGE 6 // COMMUNITY</div>
+                <h4>Duolingo-Style Social Guilds & Clan Wars</h4>
+                <p>Space squads for schools where classrooms compete weekly in astrophysics challenges, earning shared XP to launch collaborative virtual orbital stations.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. TECH STACK PANEL -->
+          <div class="pitch-panel is-hidden" id="panelTech">
+            <div class="tech-header">
+              <h3>ENGINEERING ARCHITECTURE & TECH STACK</h3>
+              <p>Engineered for lightweight, zero-dependency, ultra-fast cross-platform execution:</p>
+            </div>
+            <div class="tech-grid">
+              <div class="tech-item">
+                <strong class="tech-title">Three.js WebGL Engine</strong>
+                <p>Powers the 3D celestial cosmos, 4,000 multi-spectral stars, planet shaders, and interactive 3D satellite mesh raycasting.</p>
+              </div>
+              <div class="tech-item">
+                <strong class="tech-title">GLSL Atmosphere Shaders</strong>
+                <p>Custom vertex & fragment shader materials simulating Rayleigh scattering and Fresnel rim glow for Earth, Venus, and Neptune.</p>
+              </div>
+              <div class="tech-item">
+                <strong class="tech-title">Pure Web Audio Synthesizer</strong>
+                <p>Zero external MP3 audio file dependencies. Synthesizes pneumatic visor locks, rocket thrust roar, and 55Hz binaural cabin hums natively in code.</p>
+              </div>
+              <div class="tech-item">
+                <strong class="tech-title">Web Speech API Voice Engine</strong>
+                <p>Native client-side speech synthesis providing vocal scientific narration for celestial encounters and NASA transmissions with subtitle sync.</p>
+              </div>
+              <div class="tech-item">
+                <strong class="tech-title">HTML5 2D Canvas 2K Texture Engine</strong>
+                <p>Procedurally renders 2048x1024 Blue Marble oceans, continents, craters, and Jovian storm bands on demand with zero download weight.</p>
+              </div>
+              <div class="tech-item">
+                <strong class="tech-title">RESTful NASA Open APIs</strong>
+                <p>Direct integration with api.nasa.gov APOD and images-api.nasa.gov search engine with resilient LocalStorage caching.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 7: Pre-Flight Telemetry & Asset Hydration Loading Screen -->
+    <div id="telemetryLoader" class="telemetry-loader is-hidden" aria-hidden="true">
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <div class="loader-title">HYDRATING DEEP SPACE ASSETS</div>
+        <div class="loader-progress-track">
+          <div class="loader-progress-fill" id="loaderProgressFill" style="width: 100%;"></div>
+        </div>
+        <div class="loader-status" id="loaderStatusText">TELEMETRY LINK SYNCHRONIZED // 2K MAPS ACTIVE</div>
+      </div>
+    </div>
+
+    <!-- Cockpit Interactive Dashboard Overlays (Directly on Dashboard Panels) -->
+    <div id="cockpitDashboardOverlay" class="cockpit-dashboard-overlay">
+      
+      <!-- Left Screen: MFD Radar & Orbit Vector -->
+      <div class="mfd-screen left-mfd">
+        <div class="mfd-radar-scope">
+          <div class="radar-sweep"></div>
+          <div class="radar-blip blip-target" id="radarTargetBlip"></div>
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-ring r1"></div>
+          <div class="radar-ring r2"></div>
+        </div>
+        <div class="mfd-waveform-box">
+          <div class="mfd-stat-row">
+            <span>TRAJECTORY</span>
+            <span class="val-cyan" id="mfdTrajectory">OPTIMAL</span>
+          </div>
+          <div class="waveform-bars">
+            <span class="w-bar" style="height: 60%"></span>
+            <span class="w-bar" style="height: 85%"></span>
+            <span class="w-bar" style="height: 40%"></span>
+            <span class="w-bar" style="height: 95%"></span>
+            <span class="w-bar" style="height: 70%"></span>
+          </div>
+        </div>
+
+        <!-- Phase 4: LEO Satellite Scanner HUD -->
+        <div class="mfd-sat-scanner">
+          <div class="sat-scanner-header">
+            <span>SATELLITE SCANNER</span>
+            <span class="sat-live-dot"></span>
+          </div>
+          <div class="sat-chips-grid">
+            <button class="sat-chip-btn" data-sat="iss" type="button" title="International Space Station">ISS</button>
+            <button class="sat-chip-btn" data-sat="navic" type="button" title="ISRO NavIC Constellation">NavIC</button>
+            <button class="sat-chip-btn" data-sat="insat" type="button" title="ISRO INSAT-3DR Weather">INSAT</button>
+            <button class="sat-chip-btn" data-sat="gps" type="button" title="US Space Force GPS III">GPS III</button>
+            <button class="sat-chip-btn" data-sat="hubble" type="button" title="NASA/ESA Hubble Telescope">Hubble</button>
+          </div>
+        </div>
+
+        <!-- Phase 6: Quick Today's Transmission MFD Button -->
+        <button id="btnOpenTransmissionMfd" class="mfd-transmission-btn" type="button" title="Open Today's Transmission Screen">
+          <div class="mfd-trans-header">
+            <span class="mfd-trans-icon">📡</span>
+            <span class="mfd-trans-title">TODAY'S TRANSMISSION</span>
+            <span class="mfd-trans-live-pill">LIVE NASA</span>
+          </div>
+          <div class="mfd-trans-sub" id="mfdTransSnippet">Loading daily deep space telemetry...</div>
+        </button>
+      </div>
+
+      <!-- Center Screen: Primary Flight Telemetry (Speed, Distance, Object, Timer) -->
+      <div class="mfd-screen center-mfd">
+        <div class="telemetry-grid">
+          <div class="telem-block">
+            <span class="telem-title">SPEED:</span>
+            <span class="telem-value speed-val" id="cockpitSpeed">28,400 km/h</span>
+          </div>
+          <div class="telem-block">
+            <span class="telem-title">DISTANCE FROM EARTH:</span>
+            <span class="telem-value dist-val" id="cockpitDistance">384,400 km</span>
+          </div>
+          <div class="telem-block">
+            <span class="telem-title">CURRENT OBJECT:</span>
+            <span class="telem-value object-val" id="cockpitObject">MARS</span>
+          </div>
+          <div class="telem-block">
+            <span class="telem-title">MISSION TIMER:</span>
+            <span class="telem-value timer-val" id="cockpitTimer">00:14:32</span>
+          </div>
+        </div>
+        <div class="assigned-craft-line">
+          <span>ACTIVE VEHICLE:</span>
+          <strong id="cockpitVehicleBadge">LVM3 (ISRO)</strong>
+        </div>
+      </div>
+
+      <!-- Right Screen: LET'S START THE JOURNEY Button (Exact Match) -->
+      <div class="mfd-screen right-mfd">
+        <button id="btnStartJourney" class="btn-start-journey" type="button">
+          <span class="journey-btn-glow"></span>
+          <span class="journey-btn-text">
+            <span>LET'S START</span>
+            <span>THE JOURNEY</span>
+          </span>
+        </button>
+        <div class="flight-mode-status" id="flightModeStatus">ENGAGE PROPULSION</div>
+      </div>
+
+      <!-- Lower Center Console: Throttle & Attitude Gauges -->
+      <div class="mfd-screen lower-mfd">
+        <div class="lower-meter">
+          <span>THRUST GIMBAL</span>
+          <div class="mini-meter-track"><div class="mini-meter-fill" id="thrustMeter" style="width: 78%"></div></div>
+        </div>
+        <div class="lower-meter">
+          <span>REACTION CONTROL (RCS)</span>
+          <div class="mini-meter-track"><div class="mini-meter-fill" style="width: 92%; background: #4ade80;"></div></div>
+        </div>
+        <!-- Phase 5: Quick Level Quiz Button -->
+        <button id="btnMfdQuiz" class="mfd-quiz-btn" type="button" title="Launch Current Level Quiz">
+          <span class="mfd-quiz-icon">📝</span>
+          <span class="mfd-quiz-label">LEVEL QUIZ</span>
+          <span class="mfd-quiz-badge" id="mfdQuizLvlBadge">LVL 1</span>
+        </button>
+        <div class="scroll-hint-pill" id="scrollHintPill">
+          <span>⇣ SCROLL MOUSE WHEEL TO NAVIGATE DEEP SPACE ⇣</span>
+        </div>
+      </div>
+
+      <!-- Steering Flight Yoke (Tilts Dynamically with Mouse Navigation) -->
+      <div class="cockpit-yoke-wrapper" id="cockpitYokeWrapper">
+        <img src="./assets/cockpit-yoke.svg" class="cockpit-yoke-img" alt="Flight Steering Yoke" />
+      </div>
+
+    </div>
+
+    <!-- Pilot & Copilot Flight Seats (Foreground Parallax Layer) -->
+    <div class="cockpit-seats-layer" id="cockpitSeatsLayer" aria-hidden="true">
+      <div class="cockpit-seat seat-left" id="seatPilotLeft">
+        <img src="./assets/cockpit-seat-left.svg" alt="Pilot Flight Seat" />
+      </div>
+      <div class="cockpit-seat seat-right" id="seatCopilotRight">
+        <img src="./assets/cockpit-seat-right.svg" alt="Copilot Flight Seat" />
+      </div>
+    </div>
+
+    <!-- Closed-Caption Accessibility Subtitle Bar (Bottom Center) -->
+    <div class="accessibility-cc-bar" id="accessibilityCcBar">
+      <span class="cc-badge">CC</span>
+      <span class="cc-text" id="ccText">Accessibility closed-caption bar, subtitles by voice assistant. Scroll to travel through solar system.</span>
+    </div>
+
+    <!-- Bottom Phase Progress Bar (Exact Match with Reference Image) -->
+    <footer class="cockpit-bottom-bar">
+      <div class="phase-track">
+        <div class="phase-track-fill" id="bottomPhaseProgress" style="width: 90%;"></div>
+      </div>
+      <div class="phase-steps-text">
+        <span class="phase-step is-complete">PHASE 1: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 2: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 3: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 4: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 5: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 6: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-complete">PHASE 7: COMPLETED</span>
+        <span class="phase-divider">|</span>
+        <span class="phase-step is-active" id="phase8Step">PHASE 8: HACKATHON SHOWCASE & FUTURE SCOPE (READY)</span>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- Local Offline Three.js Engine -->
+  <script src="./assets/three.min.js"></script>
+
+  <!-- Component Script -->
+  <script src="./script.js"></script>
+</body>
+</html>
