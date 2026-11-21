@@ -1,0 +1,386 @@
+/* ========================================================
+   MY SPACESHIP: ISS HABITATION CORRIDOR 3D INTERIOR
+   Photorealistic Spacecraft Hab Module - VYOM 1.0
+   ======================================================== */
+
+:root {
+  --iss-white: #f8fafc;
+  --iss-aluminum: #cbd5e1;
+  --iss-metal-dark: #334155;
+  --iss-panel-bg: rgba(15, 23, 42, 0.82);
+  --iss-border: rgba(203, 213, 225, 0.25);
+  --iss-glow: rgba(56, 189, 248, 0.2);
+  --iss-cyan: #06b6d4;
+  --iss-green: #22c55e;
+  --iss-amber: #f59e0b;
+  --iss-red: #ef4444;
+  --iss-mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  --iss-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Spaceship Stage Viewport */
+.spaceship-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #020617;
+  color: #fff;
+  font-family: var(--iss-sans);
+  overflow: hidden;
+  z-index: 100;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3D WebGL Canvas */
+#spaceshipCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  outline: none;
+  touch-action: none;
+  cursor: grab;
+}
+#spaceshipCanvas:active {
+  cursor: grabbing;
+}
+
+/* Top Nav Tab Customization for Phase 7 */
+.nav-tab.spaceship-nav-tab {
+  background: linear-gradient(135deg, rgba(203, 213, 225, 0.15), rgba(56, 189, 248, 0.15));
+  border-color: rgba(203, 213, 225, 0.35);
+}
+.nav-tab.spaceship-nav-tab:hover,
+.nav-tab.spaceship-nav-tab.active {
+  background: linear-gradient(135deg, rgba(203, 213, 225, 0.35), rgba(56, 189, 248, 0.35));
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+}
+.nav-tab.spaceship-nav-tab .tab-badge {
+  background: transparent;
+  font-size: 1.1rem;
+}
+
+/* Header Top Status Bar */
+.ship-top-bar {
+  position: absolute;
+  top: 58px; /* Below global nav */
+  left: 0;
+  right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--iss-border);
+  z-index: 20;
+}
+
+.ship-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ship-emblem {
+  font-size: 1.3rem;
+}
+.ship-main-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ship-sub-title {
+  font-size: 0.68rem;
+  color: #38bdf8;
+  font-family: var(--iss-mono);
+  letter-spacing: 0.1em;
+}
+
+/* Environmental ECLSS Life Support Telemetry Bar */
+.ship-eclss-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid var(--iss-border);
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-family: var(--iss-mono);
+  font-size: 0.74rem;
+  color: #cbd5e1;
+}
+.ship-eclss-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ship-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--iss-green);
+  box-shadow: 0 0 8px var(--iss-green);
+}
+
+.ship-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ship-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid var(--iss-border);
+  color: #f1f5f9;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--iss-mono);
+}
+.ship-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+.ship-btn.active {
+  background: rgba(56, 189, 248, 0.35);
+  border-color: #38bdf8;
+  color: #fff;
+}
+
+/* Floating Interactive Hotspot Inspector Card */
+.ship-inspector-card {
+  position: absolute;
+  top: 130px;
+  right: 24px;
+  width: 320px;
+  background: var(--iss-panel-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--iss-border);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 20;
+  font-family: var(--iss-mono);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px var(--iss-glow);
+  display: none;
+}
+.ship-inspector-card.is-open {
+  display: block;
+  animation: shipFadeIn 0.25s ease;
+}
+.ship-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.ship-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+.ship-card-sub {
+  font-size: 0.72rem;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+.ship-card-desc {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+  font-family: var(--iss-sans);
+  margin-bottom: 12px;
+}
+.ship-card-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(2, 6, 23, 0.6);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+.ship-spec-row {
+  display: flex;
+  justify-content: space-between;
+}
+.ship-spec-row span:first-child {
+  color: #94a3b8;
+}
+.ship-spec-row span:last-child {
+  color: #f1f5f9;
+  font-weight: bold;
+}
+
+/* Quick Camera View Presets Bar (Left Side) */
+.ship-presets-bar {
+  position: absolute;
+  top: 130px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--iss-panel-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--iss-border);
+  border-radius: 10px;
+  padding: 12px;
+  z-index: 20;
+}
+.ship-preset-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #cbd5e1;
+  font-family: var(--iss-mono);
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.ship-preset-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #fff;
+}
+.ship-preset-btn.active {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(14, 165, 233, 0.4));
+  border-color: #38bdf8;
+  color: #fff;
+}
+
+/* Navigation & Controls Bottom Hint Bar */
+.ship-controls-bar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--iss-panel-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--iss-border);
+  border-radius: 24px;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--iss-mono);
+  font-size: 0.76rem;
+  color: #cbd5e1;
+  z-index: 20;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+.ship-kbd {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Lighting Mode Controls */
+.ship-light-toggle-group {
+  display: flex;
+  gap: 4px;
+}
+.ship-light-pill {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  transition: all 0.2s;
+}
+.ship-light-pill.active {
+  background: #38bdf8;
+  color: #000;
+  font-weight: bold;
+}
+.ship-light-pill.active.emergency {
+  background: var(--iss-red);
+  color: #fff;
+}
+
+/* Dialog Modals */
+.ship-dialog-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(10px);
+  z-index: 70;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.ship-dialog-overlay.is-open {
+  display: flex;
+}
+.ship-dialog-box {
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid var(--iss-border);
+  border-radius: 16px;
+  max-width: 650px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--iss-glow);
+  padding: 24px;
+  font-family: var(--iss-sans);
+}
+.ship-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+/* Keyframes */
+@keyframes shipFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .ship-eclss-bar {
+    display: none;
+  }
+  .ship-presets-bar {
+    display: none;
+  }
+  .ship-inspector-card {
+    right: 16px;
+    left: 16px;
+    width: auto;
+    bottom: 60px;
+    top: auto;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+}

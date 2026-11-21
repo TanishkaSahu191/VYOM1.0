@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./chandrayaan3.css" />
   <link rel="stylesheet" href="./mars.css" />
   <link rel="stylesheet" href="./aditya.css" />
+  <link rel="stylesheet" href="./spaceship.css" />
 </head>
 <body>
 
@@ -47,6 +48,10 @@
       <button class="nav-tab sun-nav-tab" id="tabPhaseSun" data-phase="6" type="button" role="tab" title="Aditya-L1: Journey to the Sun's Doorstep - Tour to The Sun">
         <span class="tab-badge">☀️</span>
         <span class="tab-text">Tour to The Sun</span>
+      </button>
+      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Photorealistic 3D ISS Habitation Corridor">
+        <span class="tab-badge">🛸</span>
+        <span class="tab-text">My Spaceship</span>
       </button>
       <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
         <span class="tab-badge">★</span>
@@ -2223,6 +2228,105 @@
     </footer>
   </section>
 
+  <!-- ========================================================
+       8. PHASE 7: MY SPACESHIP (PHOTOREALISTIC 3D ISS INTERIOR)
+       ======================================================== -->
+  <section id="spaceshipStage" class="spaceship-stage" aria-label="My Spaceship 3D Interior" style="display: none;">
+    <!-- 3D WebGL Canvas -->
+    <canvas id="spaceshipCanvas"></canvas>
+
+    <!-- Top Status & ECLSS Header Bar -->
+    <header class="ship-top-bar">
+      <div class="ship-brand-group">
+        <span class="ship-emblem">🛸</span>
+        <div>
+          <div class="ship-main-title">ISS Habitation Module</div>
+          <div class="ship-sub-title">CORE CREW HABITATION CORRIDOR (DESTINY/KIBO)</div>
+        </div>
+      </div>
+
+      <!-- Life Support Telemetry -->
+      <div class="ship-eclss-bar">
+        <div class="ship-eclss-item">
+          <span class="ship-status-dot"></span>
+          <span>ECLSS NOMINAL</span>
+        </div>
+        <span>•</span>
+        <div>PRESSURE: <strong>101.3 kPa</strong></div>
+        <span>•</span>
+        <div>O₂: <strong>21.2%</strong></div>
+        <span>•</span>
+        <div>CO₂: <strong>0.3%</strong></div>
+        <span>•</span>
+        <div>CABIN TEMP: <strong>21.5°C</strong></div>
+      </div>
+
+      <!-- Controls & Lighting Mode -->
+      <div class="ship-top-actions">
+        <div class="ship-light-toggle-group">
+          <button class="ship-light-pill active" data-mode="day" type="button" title="Day Operational Lighting (5000K Soft White)">☀️ Day</button>
+          <button class="ship-light-pill" data-mode="night" type="button" title="Night Crew Rest Mode (2700K Warm Amber)">🌙 Rest</button>
+          <button class="ship-light-pill emergency" data-mode="emergency" type="button" title="Emergency Depressurization Red Alert">🚨 Emergency</button>
+        </div>
+        <button class="ship-btn" id="shipAudioBtn" type="button" title="Toggle cabin ventilation hum">🔊 Audio: ON</button>
+      </div>
+    </header>
+
+    <!-- Left Camera Presets Bar -->
+    <aside class="ship-presets-bar" aria-label="Camera Presets">
+      <div style="font-size: 0.68rem; color: #38bdf8; font-family: monospace; font-weight: bold; margin-bottom: 4px;">VIEWPORTS:</div>
+      <button class="ship-preset-btn active" data-preset="overview" type="button">
+        <span>🚶</span>
+        <span>Corridor Overview</span>
+      </button>
+      <button class="ship-preset-btn" data-preset="hatch" type="button">
+        <span>🚪</span>
+        <span>Docking Hatch</span>
+      </button>
+      <button class="ship-preset-btn" data-preset="cupola" type="button">
+        <span>🌍</span>
+        <span>Earth Window</span>
+      </button>
+      <button class="ship-preset-btn" data-preset="racks" type="button">
+        <span>🎛️</span>
+        <span>Avionics Racks</span>
+      </button>
+    </aside>
+
+    <!-- Floating Hotspot Inspector Card -->
+    <aside class="ship-inspector-card" id="shipInspectorCard" aria-label="Component Telemetry">
+      <div class="ship-card-header">
+        <span class="ship-card-title" id="shipInspectTitle">Component Inspector</span>
+        <button class="ship-btn" id="shipInspectClose" type="button" style="padding: 2px 6px;">✕</button>
+      </div>
+      <div class="ship-card-sub" id="shipInspectSub">TELEMETRY DATA</div>
+      <p class="ship-card-desc" id="shipInspectDesc">
+        Click on any viewport preset or equipment rack to inspect aerospace hardware specifications.
+      </p>
+      <div class="ship-card-specs">
+        <div class="ship-spec-row">
+          <span>OPERATIONAL STATE:</span>
+          <span id="shipSpecStatus">NOMINAL</span>
+        </div>
+        <div class="ship-spec-row">
+          <span>ATMOSPHERE / TELEMETRY:</span>
+          <span id="shipSpecPressure">101.3 kPa</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Bottom Controls Hint Bar -->
+    <div class="ship-controls-bar">
+      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Glide Move</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Mouse Drag</span> 360° Free Look</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Scroll</span> Zoom FOV</span>
+      <span>•</span>
+      <span style="color: #38bdf8;">Click Presets on Left to Jump Views</span>
+    </div>
+  </section>
+
   <!-- Local Offline Three.js Engine -->
   <script src="./assets/three.min.js"></script>
 
@@ -2237,5 +2341,8 @@
 
   <!-- Aditya-L1 3D Solar Observatory Simulation Engine -->
   <script src="./aditya.js"></script>
+
+  <!-- My Spaceship Photorealistic 3D Habitation Corridor Engine -->
+  <script src="./spaceship.js"></script>
 </body>
 </html>
