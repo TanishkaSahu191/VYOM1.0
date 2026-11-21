@@ -534,3 +534,265 @@
     width: 170px;
   }
 }
+
+/* ========================================================
+   SCIENTIFIC SAMPLE DOSSIERS & INTERACTIVE MISSIONS
+   ======================================================== */
+.mars-btn.cyan {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(14, 116, 144, 0.35));
+  border-color: #06b6d4;
+  color: #a5f3fc;
+}
+.mars-btn.cyan:hover {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.45), rgba(14, 116, 144, 0.55));
+  box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
+  color: #fff;
+}
+
+.mars-obj-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.74rem;
+  color: #e2e8f0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+}
+.mars-obj-item:hover {
+  background: rgba(6, 182, 212, 0.14);
+  border-color: rgba(6, 182, 212, 0.35);
+  transform: translateX(2px);
+}
+.mars-obj-item.is-done {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #86efac;
+}
+.mars-obj-item.is-done .mars-obj-text {
+  text-decoration: line-through;
+  opacity: 0.85;
+}
+.mars-obj-tag {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  font-family: var(--mars-mono);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.mars-obj-item.is-done .mars-obj-tag {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+/* Discovery Toast */
+.mars-toast-discovery {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(18, 7, 5, 0.94);
+  border: 1.5px solid #06b6d4;
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.4), 0 8px 32px rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  padding: 10px 16px;
+  backdrop-filter: blur(16px);
+  animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 420px;
+}
+@keyframes slideInToast {
+  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.mars-toast-icon {
+  font-size: 1.6rem;
+}
+.mars-toast-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--mars-mono);
+}
+.mars-toast-desc {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+.mars-toast-btn {
+  margin-left: 6px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+/* Sample Dossiers Modal */
+.mars-dossier-modal-box {
+  max-width: 780px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.mars-dossier-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mars-dossier-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-family: var(--mars-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.mars-dossier-tab-btn:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: #06b6d4;
+  color: #fff;
+}
+.mars-dossier-tab-btn.active {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(14, 116, 144, 0.4));
+  border-color: #06b6d4;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+}
+.mars-dossier-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: rgba(9, 3, 2, 0.85);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  border-radius: 10px;
+  padding: 16px;
+}
+.mars-dossier-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.mars-dossier-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mars-dossier-meta {
+  font-size: 0.76rem;
+  color: var(--mars-cyan);
+  font-family: var(--mars-mono);
+  margin-top: 3px;
+}
+.mars-dossier-status-pill {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: var(--mars-mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mars-dossier-status-pill.uncollected {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+}
+.mars-dossier-status-pill.in-pack {
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid #f59e0b;
+  color: #fde047;
+}
+.mars-dossier-status-pill.analyzed {
+  background: rgba(34, 197, 94, 0.18);
+  border: 1px solid #22c55e;
+  color: #86efac;
+}
+.mars-spectro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  border-radius: 8px;
+}
+.mars-spectro-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mars-spectro-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-family: var(--mars-mono);
+  color: #94a3b8;
+}
+.mars-spectro-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.mars-spectro-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+  border-radius: 3px;
+}
+.mars-dossier-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mars-dossier-sec-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--mars-orange);
+  font-family: var(--mars-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.mars-dossier-sec-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+.mars-dossier-isru-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: #fef08a;
+  line-height: 1.45;
+}
+.mars-dossier-audio-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 6px;
+}

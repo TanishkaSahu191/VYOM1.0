@@ -48,45 +48,95 @@
           id: 'basalt',
           name: 'Volcanic Basalt Rock',
           classification: 'Igneous Mafic Rock',
+          era: 'Amazonian / Hesperian Volcanic Era',
+          roverMission: 'NASA Curiosity & ISRO MOM (Mars Orbiter Mission)',
           color: 0x334155,
           confidence: '98.4%',
-          facts: 'Dense volcanic rock formed by rapid cooling of basaltic lava from ancient Martian shield volcanoes like Olympus Mons.',
+          facts: 'Dense volcanic rock formed by rapid cooling of basaltic lava from ancient Martian shield volcanoes like Olympus Mons and Tharsis Rise.',
+          astrobiology: 'Low organic preservation potential due to high melting temperatures, but porous vesicles often harbor hydrothermal mineral deposits capable of sustaining endolithic microorganisms.',
+          spectrometer: [
+            { comp: 'SiO2 (Silica)', pct: 49 },
+            { comp: 'FeO (Iron Oxide)', pct: 19 },
+            { comp: 'Al2O3 (Alumina)', pct: 12 },
+            { comp: 'CaO (Calcium)', pct: 11 },
+            { comp: 'MgO (Magnesium)', pct: 9 }
+          ],
+          isru: 'Critical construction resource: can be crushed and melted into basalt continuous filament fibers and cast into radiation-shielded habitat bricks.',
           credits: 50
         },
         {
           id: 'hematite',
           name: 'Hematite Spherules ("Blueberries")',
           classification: 'Iron Oxide Mineral Concretion',
+          era: 'Late Noachian / Early Hesperian Transition (~3.7 Ga)',
+          roverMission: 'NASA Opportunity Rover (Meridiani Planum)',
           color: 0x64748b,
           confidence: '96.2%',
-          facts: 'Discovered by NASA’s Opportunity rover. These spherical mineral nodules only crystallize in standing liquid water!',
+          facts: 'Discovered by NASA’s Opportunity rover. These spherical mineral nodules crystallized inside water-soaked porous sedimentary rock billions of years ago.',
+          astrobiology: 'Strong biomarker environment. Ferric iron oxides on Earth precipitate with the assistance of iron-oxidizing bacteria, making hematite beds prime fossil search locations.',
+          spectrometer: [
+            { comp: 'Fe2O3 (Hematite)', pct: 74 },
+            { comp: 'SiO2 (Quartz)', pct: 14 },
+            { comp: 'SO4 (Sulfates)', pct: 7 },
+            { comp: 'Ni / Co Trace', pct: 5 }
+          ],
+          isru: 'Primary feedstock for iron and steel extraction via carbothermal reduction, providing metal beams and magnetic shields for surface infrastructure.',
           credits: 90
         },
         {
           id: 'sandstone',
           name: 'Cross-Bedded Sandstone',
-          classification: 'Sedimentary Rock',
+          classification: 'Fluvial-Deltaic Sedimentary Rock',
+          era: 'Hesperian Era (Fluvial & Lacustrine Epoch)',
+          roverMission: 'NASA Perseverance Rover (Jezero Crater Delta)',
           color: 0xd97706,
           confidence: '94.8%',
-          facts: 'Formed by ancient riverdeltas and wind dunes. Proves billions of years ago Mars had flowing surface rivers and a thick atmosphere.',
+          facts: 'Fine-grained sedimentary rock exhibiting rhythmic cross-bedding formed by ancient river currents cascading into a long-lost crater lake.',
+          astrobiology: 'Peak astrobiology interest: Fine clays (smectite) in sandstone trap and preserve organic carbon and cellular impressions for billions of years.',
+          spectrometer: [
+            { comp: 'SiO2 (Silicates)', pct: 62 },
+            { comp: 'Fe-Smectite Clays', pct: 21 },
+            { comp: 'CaSO4 (Gypsum)', pct: 11 },
+            { comp: 'TiO2 (Titanium)', pct: 6 }
+          ],
+          isru: 'Readily pulverizable regolith aggregate for Martian concrete (sulfur or geopolymers) without needing high-temperature blast furnaces.',
           credits: 60
         },
         {
           id: 'ice',
           name: 'Subsurface Water Ice Soil',
-          classification: 'Cryo-Regolith Matrix',
+          classification: 'Cryo-Regolith Matrix (Permafrost)',
+          era: 'Amazonian Glacial Epoch (Persistent Polar & Mid-Latitude Ice)',
+          roverMission: 'NASA Phoenix Lander & ESA Mars Express (MARSIS Radar)',
           color: 0xe0f2fe,
           confidence: '99.1%',
-          facts: 'Water ice frozen centimeters beneath the dust. Critical resource for generating rocket fuel and drinking water for future human colonies!',
+          facts: 'Subsurface slab ice and ice-cemented regolith lying mere centimeters beneath desiccated red dust, kept stable by low thermal conductivity.',
+          astrobiology: 'Cryopreserved habitats: Liquid brines formed at ice-salt interfaces could sustain halophilic extremophile life today in subsurface micro-niches.',
+          spectrometer: [
+            { comp: 'H2O (Purity)', pct: 93 },
+            { comp: 'ClO4 (Perchlorate Salts)', pct: 4 },
+            { comp: 'Basaltic Dust Inclusions', pct: 3 }
+          ],
+          isru: 'Vital survival asset: Electrolysis yields Liquid Hydrogen (LH2) and Liquid Oxygen (LOX) rocket propellant, breathable air, and potable drinking water.',
           credits: 120
         },
         {
           id: 'fossil',
           name: 'Biogenic Stromatolite Spheroid',
-          classification: 'Possible Micro-Fossil Signature',
+          classification: 'Possible Micro-Fossil Bio-Signature',
+          era: 'Early Noachian Era (> 3.8 Ga, Martian Warm & Wet Epoch)',
+          roverMission: 'NASA Mars Sample Return (MSR Campaign Candidate)',
           color: 0x10b981,
           confidence: '91.7%',
-          facts: 'Layered microbial structure resembling Earth’s earliest life forms. High-priority target for return to Earth laboratories!',
+          facts: 'Finely laminated calcified domal structure resembling Earth’s 3.5-billion-year-old Archean stromatolites created by ancient photosynthetic microbial mats.',
+          astrobiology: 'Historic astrobiological priority! Contains organic carbon ring structures and carbon-12 isotopic depletion signatures indicative of ancient Martian life.',
+          spectrometer: [
+            { comp: 'CaCO3 (Carbonates)', pct: 44 },
+            { comp: 'Organic Carbon / Kerogen', pct: 32 },
+            { comp: 'PO4 (Phosphates)', pct: 14 },
+            { comp: 'Microcrystalline Silica', pct: 10 }
+          ],
+          isru: 'Irreplaceable scientific value: Protected sample caching for high-value Mars Sample Return rockets back to Earth containment laboratories.',
           credits: 150
         }
       ]
@@ -107,46 +157,96 @@
         {
           id: 'basalt',
           name: 'ज्वालामुखीय बेसाल्ट चट्टान',
-          classification: 'आग्नेय चट्टान',
+          classification: 'आग्नेय मेफिक चट्टान',
+          era: 'अमेज़ोनियन / हेस्परियन ज्वालामुखीय युग',
+          roverMission: 'नासा क्यूरियोसिटी और इसरो मार्स ऑर्बिटर मिशन (MOM)',
           color: 0x334155,
           confidence: '98.4%',
-          facts: 'मंगल के प्राचीन ज्वालामुखियों से निकले लावा के ठंडे होने से बनी भारी और काली चट्टान।',
+          facts: 'ओलंपस मॉन्स जैसे प्राचीन ज्वालामुखियों के तेजी से ठंडे हुए बेसाल्ट लावा से बनी भारी और सघन चट्टान।',
+          astrobiology: 'गर्म लावा में कार्बन नहीं बचता, लेकिन चट्टान के भीतर बने सूक्ष्म छिद्रों में रोगाणु जीवन पनप सकता है।',
+          spectrometer: [
+            { comp: 'SiO2 (सिलिका)', pct: 49 },
+            { comp: 'FeO (आयरन ऑक्साइड)', pct: 19 },
+            { comp: 'Al2O3 (एल्यूमिना)', pct: 12 },
+            { comp: 'CaO (कैल्शियम)', pct: 11 },
+            { comp: 'MgO (मैग्नीशियम)', pct: 9 }
+          ],
+          isru: 'भविष्य के मंगल बेस के लिए रेडिएशन-प्रूफ ईंटें और मजबूत फाइबर बनाने के काम आता है।',
           credits: 50
         },
         {
           id: 'hematite',
           name: 'हेमेटाइट कंकड़ ("ब्लूबेरी")',
-          classification: 'आयरन ऑक्साइड खनिज',
+          classification: 'आयरन ऑक्साइड खनिज पिंड',
+          era: 'नोचियन / हेस्परियन संक्रमण काल (~3.7 अरब वर्ष)',
+          roverMission: 'नासा अपॉर्चुनिटी रोवर (मेरिडियानी प्लेनम)',
           color: 0x64748b,
           confidence: '96.2%',
-          facts: 'नासा के अपॉर्चुनिटी रोवर ने इसे खोजा था। यह गोल कंकड़ केवल बहते पानी की मौजूदगी में ही बन सकते हैं!',
+          facts: 'नासा के अपॉर्चुनिटी रोवर द्वारा खोजे गए ये गोल कंकड़ अरबों साल पहले खड़े भूजल में ही क्रिस्टलीकृत हुए थे।',
+          astrobiology: 'पृथ्वी पर आयरन-ऑक्सीडाइजिंग बैक्टीरिया ऐसे खनिज बनाते हैं; यह मंगल पर जीवाश्मों की खोज का प्रमुख केंद्र है।',
+          spectrometer: [
+            { comp: 'Fe2O3 (हेमेटाइट)', pct: 74 },
+            { comp: 'SiO2 (क्वार्ट्ज)', pct: 14 },
+            { comp: 'SO4 (सल्फेट)', pct: 7 },
+            { comp: 'Ni / Co धातु', pct: 5 }
+          ],
+          isru: 'मंगल पर स्टील और लोहे के निर्माण का मुख्य कच्चा माल, जो बेस के स्ट्रक्चर बनाने में काम आएगा।',
           credits: 90
         },
         {
           id: 'sandstone',
           name: 'तलछटी बलुआ पत्थर',
-          classification: 'अवसादी शैल',
+          classification: 'नदी डेल्टा अवसादी शैल',
+          era: 'हेस्परियन युग (प्राचीन नदी व झील काल)',
+          roverMission: 'नासा पर्सीवरेंस रोवर (जेज़ेरो क्रेटर)',
           color: 0xd97706,
           confidence: '94.8%',
-          facts: 'अरबों साल पहले मंगल की प्राचीन नदियों और झीलों की तलछट जमने से बना पत्थर।',
+          facts: 'मंगल की प्राचीन नदियों और झीलों के मुहाने पर बहे महीन कणों के जमने से बनी खूबसूरत परतदार चट्टान।',
+          astrobiology: 'अत्यधिक महत्वपूर्ण: इसकी महीन क्ले मिट्टी कार्बनिक पदार्थों और प्राचीन सूक्ष्मजीवों को अरबों साल तक सुरक्षित रखती है।',
+          spectrometer: [
+            { comp: 'SiO2 (सिलिकेट्स)', pct: 62 },
+            { comp: 'Fe-स्मेक्टाइट क्ले', pct: 21 },
+            { comp: 'CaSO4 (जिप्सम)', pct: 11 },
+            { comp: 'TiO2 (टाइटेनियम)', pct: 6 }
+          ],
+          isru: 'मंगल कंक्रीट और बेस निर्माण के लिए उपयुक्त एग्रीगेट, जिसे कम ऊर्जा में इस्तेमाल किया जा सकता है।',
           credits: 60
         },
         {
           id: 'ice',
-          name: 'जमीन के नीचे दबी पानी की बर्फ',
-          classification: 'क्रायो-रेगोलिथ',
+          name: 'उप-सतही जल बर्फ रेगोलिथ',
+          classification: 'क्रायो-रेगोलिथ मैट्रिक्स (पर्माफ्रॉस्ट)',
+          era: 'अमेज़ोनियन हिमनद युग',
+          roverMission: 'नासा फीनिक्स लैंडर और ईएसए मार्स एक्सप्रेस (MARSIS)',
           color: 0xe0f2fe,
           confidence: '99.1%',
-          facts: 'धूल की सतह के नीचे जमी पानी की बर्फ। भविष्य के मानव मिशनों के लिए पानी और रॉकेट ईंधन का प्रमुख स्रोत!',
+          facts: 'लाल धूल के ठीक कुछ सेंटीमीटर नीचे जमी हुई शुद्ध जल बर्फ, जो मंगल की ठंडी जलवायु में सुरक्षित है।',
+          astrobiology: 'नमक और बर्फ के संगम पर तरल ब्राइन सूक्ष्मजीवों (एक्सट्रीमोफाइल्स) को जीवित रखने में सक्षम हो सकता है।',
+          spectrometer: [
+            { comp: 'H2O (शुद्ध जल)', pct: 93 },
+            { comp: 'ClO4 (परक्लोरेट लवण)', pct: 4 },
+            { comp: 'बेसाल्ट धूल घटक', pct: 3 }
+          ],
+          isru: 'मानव जीवन के लिए वरदान: इससे रॉकेट ईंधन (लिक्विड हाइड्रोजन व ऑक्सीजन) और पीने का पानी बनाया जा सकता है।',
           credits: 120
         },
         {
           id: 'fossil',
-          name: 'बायोजेनिक माइक्रोबियल जीवाश्म',
-          classification: 'संभावित सूक्ष्मजीव जीवाश्म',
+          name: 'बायोजेनिक स्ट्रोमेटोलाइट जीवाश्म',
+          classification: 'संभावित सूक्ष्मजीव जीवाश्म बायो-सिग्नेचर',
+          era: 'प्रारंभिक नोचियन युग (> 3.8 अरब वर्ष)',
+          roverMission: 'नासा मार्स सैंपल रिटर्न (MSR) मिशन',
           color: 0x10b981,
           confidence: '91.7%',
-          facts: 'पृथ्वी के प्रारंभिक जीवों जैसी परतदार संरचना, जो मंगल पर प्राचीन जीवन का सबसे बड़ा सुराग हो सकती है!',
+          facts: 'पृथ्वी के 3.5 अरब वर्ष पुराने स्ट्रोमेटोलाइट जीवाश्मों जैसी परतदार संरचना, जो मंगल पर प्राचीन सूक्ष्मजीवों की मौजूदगी दर्शाती है।',
+          astrobiology: 'ऐतिहासिक खोज! इसमें ऑर्गेनिक कार्बन और आइसोटोप अनुपात पाए गए हैं जो प्राचीन जीवन के सबसे मजबूत संकेत हैं।',
+          spectrometer: [
+            { comp: 'CaCO3 (कार्बोनेट)', pct: 44 },
+            { comp: 'ऑर्गेनिक कार्बन / केरोजन', pct: 32 },
+            { comp: 'PO4 (फॉस्फेट)', pct: 14 },
+            { comp: 'सिलिका मैट्रिक्स', pct: 10 }
+          ],
+          isru: 'पृथ्वी की आधुनिक प्रयोगशालाओं में उच्च-सटीक विश्लेषण के लिए सील-बंद कंटेनर में संरक्षित नमूना।',
           credits: 150
         }
       ]
@@ -426,10 +526,17 @@
       // Mission Objectives Progress
       this.missions = {
         scanBasalt: false,
-        findIce: false,
         collectHematite: false,
+        collectSandstone: false,
+        findIce: false,
+        collectFossil: false,
         depositBase: false
       };
+      this.collectedSampleTypes = new Set();
+      this.analyzedSampleTypes = new Set();
+      this.activeDossierSample = 0;
+      this.lastCollectedIndex = 0;
+      this.toastTimeout = null;
     }
 
     init() {
@@ -811,13 +918,18 @@
 
       if (closest) {
         this.targetedSample = closest;
-        const sData = TRANSLATIONS[this.lang].samples[closest.userData.sampleIndex];
+        const sIndex = closest.userData.sampleIndex;
+        const sData = TRANSLATIONS[this.lang].samples[sIndex];
         this.audio.playScanSound();
+
+        this.analyzedSampleTypes.add(sData.id);
 
         // Update Mission Checkmarks
         if (sData.id === 'basalt') this.missions.scanBasalt = true;
-        if (sData.id === 'ice') this.missions.findIce = true;
         if (sData.id === 'hematite') this.missions.collectHematite = true;
+        if (sData.id === 'sandstone') this.missions.collectSandstone = true;
+        if (sData.id === 'ice') this.missions.findIce = true;
+        if (sData.id === 'fossil') this.missions.collectFossil = true;
 
         // Display Scanner Card
         const card = document.getElementById('marsScannerCard');
@@ -846,14 +958,52 @@
         return;
       }
 
+      const sIndex = this.targetedSample.userData.sampleIndex;
+      const sData = TRANSLATIONS[this.lang].samples[sIndex];
+
       this.targetedSample.userData.collected = true;
       this.targetedSample.visible = false;
-      this.player.backpack.push(this.targetedSample.userData.sampleIndex);
+      this.player.backpack.push(sIndex);
+      this.collectedSampleTypes.add(sData.id);
+      this.lastCollectedIndex = sIndex;
+
+      // Update corresponding mission
+      if (sData.id === 'basalt') this.missions.scanBasalt = true;
+      if (sData.id === 'hematite') this.missions.collectHematite = true;
+      if (sData.id === 'sandstone') this.missions.collectSandstone = true;
+      if (sData.id === 'ice') this.missions.findIce = true;
+      if (sData.id === 'fossil') this.missions.collectFossil = true;
+
       this.audio.playCollectSound();
 
       document.getElementById('marsScannerCard').classList.remove('is-open');
       this.targetedSample = null;
+
+      // Trigger Discovery Toast Notification
+      this.showDiscoveryToast(sData);
+
       this.updateHUD();
+    }
+
+    showDiscoveryToast(sData) {
+      const toast = document.getElementById('marsToastDiscovery');
+      if (!toast) return;
+      const titleEl = document.getElementById('marsToastTitle');
+      const descEl = document.getElementById('marsToastDesc');
+      if (titleEl) {
+        titleEl.textContent = this.lang === 'en' ? `Sample Secured: ${sData.name}` : `नमूना सुरक्षित: ${sData.name}`;
+      }
+      if (descEl) {
+        descEl.textContent = this.lang === 'en'
+          ? `+${sData.credits} CR • Added to EVA backpack. Click to view scientific dossier.`
+          : `+${sData.credits} CR • बैकपैक में जोड़ा गया। वैज्ञानिक विवरण देखें।`;
+      }
+
+      toast.style.display = 'flex';
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5000);
     }
 
     depositSamplesAtBase() {
@@ -973,6 +1123,145 @@
     }
 
     // ------------------------------------------
+    // SCIENTIFIC SAMPLE DOSSIERS & MISSIONS
+    // ------------------------------------------
+    openSampleDossier(sampleIndex = 0) {
+      const samples = TRANSLATIONS[this.lang].samples;
+      this.activeDossierSample = Math.max(0, Math.min(sampleIndex, samples.length - 1));
+      const modal = document.getElementById('marsSampleDossierModal');
+      if (!modal) return;
+      modal.classList.add('is-open');
+      this.renderSampleDossier();
+    }
+
+    closeSampleDossier() {
+      const modal = document.getElementById('marsSampleDossierModal');
+      if (modal) modal.classList.remove('is-open');
+    }
+
+    renderSampleDossier() {
+      const tabsContainer = document.getElementById('marsDossierTabs');
+      const contentContainer = document.getElementById('marsDossierContent');
+      if (!tabsContainer || !contentContainer) return;
+
+      const samples = TRANSLATIONS[this.lang].samples;
+      const activeSample = samples[this.activeDossierSample];
+
+      // Render Tabs
+      tabsContainer.innerHTML = '';
+      samples.forEach((s, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `mars-dossier-tab-btn ${idx === this.activeDossierSample ? 'active' : ''}`;
+
+        let statusIcon = '🔒';
+        if (this.collectedSampleTypes.has(s.id) || this.analyzedSampleTypes.has(s.id)) {
+          statusIcon = '✓';
+        }
+        btn.innerHTML = `<span>${statusIcon}</span> <span>${s.name.split(' ')[0]}</span>`;
+        btn.addEventListener('click', () => {
+          this.activeDossierSample = idx;
+          this.renderSampleDossier();
+        });
+        tabsContainer.appendChild(btn);
+      });
+
+      // Status Pill
+      let statusClass = 'uncollected';
+      let statusText = this.lang === 'en' ? 'UNDISCOVERED IN FIELD' : 'अभी तक नहीं मिला';
+      if (this.player.backpack.includes(this.activeDossierSample)) {
+        statusClass = 'in-pack';
+        statusText = this.lang === 'en' ? 'IN BACKPACK (UNLOAD AT BASE)' : 'बैकपैक में मौजूद';
+      } else if (this.collectedSampleTypes.has(activeSample.id)) {
+        statusClass = 'analyzed';
+        statusText = this.lang === 'en' ? 'ANALYZED & ARCHIVED' : 'लैब में विश्लेषित व सुरक्षित';
+      } else if (this.analyzedSampleTypes.has(activeSample.id)) {
+        statusClass = 'analyzed';
+        statusText = this.lang === 'en' ? 'SCANNED IN SITU' : 'फील्ड में स्कैन किया गया';
+      }
+
+      // Spectrometer Bars HTML
+      let spectroHTML = '';
+      if (activeSample.spectrometer) {
+        spectroHTML = activeSample.spectrometer.map(item => `
+          <div class="mars-spectro-item">
+            <div class="mars-spectro-label">
+              <span>${item.comp}</span>
+              <span style="color: #06b6d4; font-weight: bold;">${item.pct}%</span>
+            </div>
+            <div class="mars-spectro-track">
+              <div class="mars-spectro-fill" style="width: ${item.pct}%;"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      contentContainer.innerHTML = `
+        <div class="mars-dossier-card">
+          <div class="mars-dossier-header-row">
+            <div>
+              <div class="mars-dossier-title">
+                <span>🔬</span>
+                <span>${activeSample.name}</span>
+              </div>
+              <div class="mars-dossier-meta">
+                ${activeSample.classification} • AI CONFIDENCE: ${activeSample.confidence} • +${activeSample.credits} CREDITS
+              </div>
+            </div>
+            <div class="mars-dossier-status-pill ${statusClass}">${statusText}</div>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <div style="font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; background: rgba(249, 115, 22, 0.12); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); font-family: var(--mars-mono);">
+              <strong>⏳ ERA:</strong> ${activeSample.era || 'Noachian-Hesperian'}
+            </div>
+            <div style="font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; background: rgba(6, 182, 212, 0.12); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); font-family: var(--mars-mono);">
+              <strong>🚀 REAL ROVER:</strong> ${activeSample.roverMission || 'NASA / ISRO Exploration'}
+            </div>
+          </div>
+
+          <div class="mars-dossier-section">
+            <div class="mars-dossier-sec-title">${this.lang === 'en' ? 'Geological Origin & Discovery' : 'भूवैज्ञानिक उत्पत्ति व खोज'}</div>
+            <div class="mars-dossier-sec-text">${activeSample.facts}</div>
+          </div>
+
+          <div class="mars-dossier-section">
+            <div class="mars-dossier-sec-title">${this.lang === 'en' ? 'Alpha Particle X-Ray Spectrometer (APXS) Analysis' : 'एक्स-रे स्पेक्ट्रोमीटर रासायनिक विश्लेषण'}</div>
+            <div class="mars-spectro-grid">
+              ${spectroHTML}
+            </div>
+          </div>
+
+          <div class="mars-dossier-section">
+            <div class="mars-dossier-sec-title">${this.lang === 'en' ? 'Astrobiology & Life Signatures' : 'खगोल जीवविज्ञान व जीवन के संकेत'}</div>
+            <div class="mars-dossier-sec-text">${activeSample.astrobiology}</div>
+          </div>
+
+          <div class="mars-dossier-isru-box">
+            <div class="mars-dossier-isru-title">
+              <span>🏗️</span>
+              <span>${this.lang === 'en' ? 'IN-SITU RESOURCE UTILIZATION (ISRU) FOR MARS COLONY' : 'मंगल कॉलोनी निर्माण के लिए उपयोगिता'}</span>
+            </div>
+            <div class="mars-dossier-isru-desc">${activeSample.isru}</div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+            <button class="mars-btn" id="marsDossierSpeakBtn" type="button" style="font-size: 0.75rem; padding: 6px 12px;">
+              🔊 ${this.lang === 'en' ? 'Listen to Intel' : 'ऑडियो सुनें'}
+            </button>
+          </div>
+        </div>
+      `;
+
+      const speakBtn = document.getElementById('marsDossierSpeakBtn');
+      if (speakBtn) {
+        speakBtn.addEventListener('click', () => {
+          this.speakIntel(`${activeSample.name}. ${activeSample.facts}. Astrobiology findings: ${activeSample.astrobiology}`);
+        });
+      }
+    }
+
+    // ------------------------------------------
     // HUD & STATE SYNCHRONIZATION
     // ------------------------------------------
     updateHUD() {
@@ -1002,16 +1291,31 @@
         modeLabel.textContent = this.player.inRover ? 'PRESSURIZED ROVER' : 'ON-FOOT EVA SUIT';
       }
 
-      // Objectives Checkmarks
-      const m1 = document.getElementById('objScanBasalt');
-      const m2 = document.getElementById('objFindIce');
-      const m3 = document.getElementById('objHematite');
-      const m4 = document.getElementById('objDeposit');
+      // Field Mission Objectives Checkmarks
+      const mBasalt = document.getElementById('objScanBasalt');
+      const mHematite = document.getElementById('objHematite');
+      const mSandstone = document.getElementById('objSandstone');
+      const mIce = document.getElementById('objFindIce');
+      const mFossil = document.getElementById('objFossil');
+      const mDeposit = document.getElementById('objDeposit');
 
-      if (m1) m1.className = `mars-obj-item ${this.missions.scanBasalt ? 'is-done' : ''}`;
-      if (m2) m2.className = `mars-obj-item ${this.missions.findIce ? 'is-done' : ''}`;
-      if (m3) m3.className = `mars-obj-item ${this.missions.collectHematite ? 'is-done' : ''}`;
-      if (m4) m4.className = `mars-obj-item ${this.missions.depositBase ? 'is-done' : ''}`;
+      const setObjState = (el, isDone, doneText = '[✓]', pendingText = '[ ]') => {
+        if (!el) return;
+        el.className = `mars-obj-item ${isDone ? 'is-done' : ''}`;
+        const check = el.querySelector('.mars-obj-check');
+        if (check) check.textContent = isDone ? doneText : pendingText;
+        const tag = el.querySelector('.mars-obj-tag');
+        if (tag && isDone && !tag.textContent.includes('DONE')) {
+          tag.textContent = 'DONE ✓';
+        }
+      };
+
+      setObjState(mBasalt, this.missions.scanBasalt);
+      setObjState(mHematite, this.missions.collectHematite);
+      setObjState(mSandstone, this.missions.collectSandstone);
+      setObjState(mIce, this.missions.findIce);
+      setObjState(mFossil, this.missions.collectFossil);
+      setObjState(mDeposit, this.missions.depositBase, '[✓]', '[ ]');
     }
 
     speakIntel(text) {
@@ -1037,6 +1341,9 @@
       this.lang = (this.lang === 'en' ? 'hi' : 'en');
       const btn = document.getElementById('marsLangBtn');
       if (btn) btn.textContent = (this.lang === 'en' ? 'हिन्दी' : 'EN');
+      if (document.getElementById('marsSampleDossierModal').classList.contains('is-open')) {
+        this.renderSampleDossier();
+      }
       this.updateHUD();
     }
 
@@ -1067,6 +1374,16 @@
         if (e.code === 'KeyF') this.scanNearestSample();
         if (e.code === 'KeyE') this.collectCurrentSample();
         if (e.code === 'KeyR') this.toggleRover();
+
+        // KeyM or KeyL to toggle Sample Dossiers
+        if (e.code === 'KeyM' || e.code === 'KeyL') {
+          const modal = document.getElementById('marsSampleDossierModal');
+          if (modal && modal.classList.contains('is-open')) {
+            this.closeSampleDossier();
+          } else {
+            this.openSampleDossier(this.activeDossierSample);
+          }
+        }
       });
 
       window.addEventListener('keyup', (e) => {
@@ -1088,6 +1405,46 @@
       document.getElementById('marsAudioBtn').addEventListener('click', () => {
         const isMuted = this.audio.toggleMute();
         document.getElementById('marsAudioBtn').textContent = isMuted ? '🔇 Audio: MUTED' : '🔊 Audio: ON';
+      });
+
+      // Sample Dossiers Modal Trigger & Close
+      const btnSampleLog = document.getElementById('marsBtnSampleLog');
+      if (btnSampleLog) {
+        btnSampleLog.addEventListener('click', () => this.openSampleDossier(this.activeDossierSample));
+      }
+
+      const closeDossier = document.getElementById('marsCloseDossierBtn');
+      if (closeDossier) {
+        closeDossier.addEventListener('click', () => this.closeSampleDossier());
+      }
+
+      const btnInspectSample = document.getElementById('marsBtnInspectSample');
+      if (btnInspectSample) {
+        btnInspectSample.addEventListener('click', () => {
+          const sIdx = this.targetedSample ? this.targetedSample.userData.sampleIndex : 0;
+          this.openSampleDossier(sIdx);
+        });
+      }
+
+      const toastBtnView = document.getElementById('marsToastBtnView');
+      if (toastBtnView) {
+        toastBtnView.addEventListener('click', () => {
+          this.openSampleDossier(this.lastCollectedIndex || 0);
+          const toast = document.getElementById('marsToastDiscovery');
+          if (toast) toast.style.display = 'none';
+        });
+      }
+
+      // Objective items click to view scientific dossier
+      document.querySelectorAll('#marsObjList .mars-obj-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const sampleIdx = item.getAttribute('data-sample');
+          if (sampleIdx !== null && sampleIdx !== undefined) {
+            this.openSampleDossier(parseInt(sampleIdx, 10));
+          } else {
+            this.openSampleDossier(0);
+          }
+        });
       });
 
       // Dialog Close Buttons

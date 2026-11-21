@@ -1810,10 +1810,16 @@
       </div>
 
       <div class="mars-actions-group">
-        <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">🛠️ Hab Lab Upgrades</button>
-        <button class="mars-btn" id="marsBtnRealMissions" type="button" title="Real Mars Missions by NASA, ISRO, CNSA, UAE">🛰️ Real Missions</button>
-        <button class="mars-btn" id="marsVoiceBtn" type="button" title="Toggle AI Mission Control Voice">🎙️ Voice: ON</button>
-        <button class="mars-btn" id="marsAudioBtn" type="button" title="Toggle audio ambience and wind">🔊 Audio: ON</button>
+        <button class="mars-btn cyan" id="marsBtnSampleLog" type="button"
+          title="View Sample Dossiers & Field Missions">🔬 Sample Dossiers & Missions</button>
+        <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">🛠️ Hab Lab
+          Upgrades</button>
+        <button class="mars-btn" id="marsBtnRealMissions" type="button"
+          title="Real Mars Missions by NASA, ISRO, CNSA, UAE">🛰️ Real Missions</button>
+        <button class="mars-btn" id="marsVoiceBtn" type="button" title="Toggle AI Mission Control Voice">🎙️ Voice:
+          ON</button>
+        <button class="mars-btn" id="marsAudioBtn" type="button" title="Toggle audio ambience and wind">🔊 Audio:
+          ON</button>
         <button class="mars-btn" id="marsLangBtn" type="button" title="Switch English / Hindi">हिन्दी</button>
       </div>
     </header>
@@ -1856,25 +1862,39 @@
     <!-- Right Mission Objectives Checklist -->
     <aside class="mars-objectives-card" aria-label="Mission Directives">
       <div class="mars-obj-header">
-        <span>MISSION DIRECTIVES</span>
-        <span style="color: #22c55e;">ARES-IV PROTOCOL</span>
+        <span>FIELD MISSIONS & SAMPLES</span>
+        <span style="color: #22c55e;">ARES-IV</span>
       </div>
-      <div class="mars-obj-list">
-        <div class="mars-obj-item" id="objScanBasalt">
-          <span>[ ]</span>
-          <span>Scan Volcanic Basalt Rock</span>
+      <div class="mars-obj-list" id="marsObjList">
+        <div class="mars-obj-item" id="objScanBasalt" data-sample="0" title="Click to view Sample Dossier">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 1: Volcanic Basalt</span>
+          <span class="mars-obj-tag">+50 CR</span>
         </div>
-        <div class="mars-obj-item" id="objFindIce">
-          <span>[ ]</span>
-          <span>Discover Subsurface Water Ice</span>
+        <div class="mars-obj-item" id="objHematite" data-sample="1" title="Click to view Sample Dossier">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 2: Hematite "Blueberries"</span>
+          <span class="mars-obj-tag">+90 CR</span>
         </div>
-        <div class="mars-obj-item" id="objHematite">
-          <span>[ ]</span>
-          <span>Collect Hematite "Blueberry" Spherules</span>
+        <div class="mars-obj-item" id="objSandstone" data-sample="2" title="Click to view Sample Dossier">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 3: River Delta Sandstone</span>
+          <span class="mars-obj-tag">+60 CR</span>
         </div>
-        <div class="mars-obj-item" id="objDeposit">
-          <span>[ ]</span>
-          <span>Deposit Samples at Hab Base Lab</span>
+        <div class="mars-obj-item" id="objFindIce" data-sample="3" title="Click to view Sample Dossier">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 4: Subsurface Cryo-Ice</span>
+          <span class="mars-obj-tag">+120 CR</span>
+        </div>
+        <div class="mars-obj-item" id="objFossil" data-sample="4" title="Click to view Sample Dossier">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 5: Biogenic Stromatolite</span>
+          <span class="mars-obj-tag">+150 CR</span>
+        </div>
+        <div class="mars-obj-item" id="objDeposit" title="Return to Base Hab to deposit samples">
+          <span class="mars-obj-check">[ ]</span>
+          <span class="mars-obj-text">Mission 6: Hab Lab Spectrometry</span>
+          <span class="mars-obj-tag">+REFILL</span>
         </div>
       </div>
     </aside>
@@ -1899,20 +1919,35 @@
           Dense volcanic rock formed by ancient Martian shield volcanoes like Olympus Mons.
         </div>
         <div class="mars-scan-actions">
-          <button class="mars-btn gold" id="marsBtnCollect" type="button">🎒 Collect Sample (<span id="marsScanCredits">+50 CR</span>)</button>
+          <button class="mars-btn gold" id="marsBtnCollect" type="button">🎒 Collect Sample (<span
+              id="marsScanCredits">+50 CR</span>)</button>
+          <button class="mars-btn cyan" id="marsBtnInspectSample" type="button">🔬 Scientific Dossier</button>
         </div>
       </div>
     </div>
 
+    <!-- Field Discovery Toast Notification -->
+    <div id="marsToastDiscovery" class="mars-toast-discovery" style="display: none;">
+      <div class="mars-toast-icon">🎒</div>
+      <div class="mars-toast-body">
+        <div class="mars-toast-title" id="marsToastTitle">Sample Secured!</div>
+        <div class="mars-toast-desc" id="marsToastDesc">Volcanic Basalt added to backpack.</div>
+      </div>
+      <button class="mars-btn cyan mars-toast-btn" id="marsToastBtnView" type="button">View Dossier ➔</button>
+    </div>
+
     <!-- On-Foot / Rover Action Controls Bar -->
     <div class="mars-controls-hint-bar">
-      <span><span class="mars-kbd">W</span><span class="mars-kbd">A</span><span class="mars-kbd">S</span><span class="mars-kbd">D</span> Move / Drive</span>
+      <span><span class="mars-kbd">W</span><span class="mars-kbd">A</span><span class="mars-kbd">S</span><span
+          class="mars-kbd">D</span> Move / Drive</span>
       <span>•</span>
       <span><span class="mars-kbd">Shift</span> Sprint</span>
       <span>•</span>
-      <span><button class="mars-btn" id="marsBtnScan" type="button" style="padding: 2px 8px;">[F] Scan Rock</button></span>
+      <span><button class="mars-btn" id="marsBtnScan" type="button" style="padding: 2px 8px;">[F] Scan
+          Rock</button></span>
       <span>•</span>
-      <span><button class="mars-btn" id="marsBtnRover" type="button" style="padding: 2px 8px;">[R] Enter/Exit Rover</button></span>
+      <span><button class="mars-btn" id="marsBtnRover" type="button" style="padding: 2px 8px;">[R] Enter/Exit
+          Rover</button></span>
     </div>
 
     <!-- Mobile Touch Controls -->
@@ -1930,13 +1965,15 @@
           <button class="mars-modal-close mars-btn" type="button">✕</button>
         </div>
         <p style="font-size: 0.86rem; color: #cbd5e1; margin-bottom: 12px;">
-          Exchange scientific Mission Credits earned by returning field samples to upgrade your spacesuit and exploration rover.
+          Exchange scientific Mission Credits earned by returning field samples to upgrade your spacesuit and
+          exploration rover.
         </p>
         <div class="mars-upgrades-grid">
           <div class="mars-upgrade-card">
             <div>
               <div class="mars-upg-title">🫁 Oxygen Tank MK-II</div>
-              <div class="mars-upg-desc">Increases EVA oxygen capacity by +50%, extending exploration range far into the canyons.</div>
+              <div class="mars-upg-desc">Increases EVA oxygen capacity by +50%, extending exploration range far into the
+                canyons.</div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
               <span class="mars-upg-cost">100 CREDITS</span>
@@ -1947,7 +1984,8 @@
           <div class="mars-upgrade-card">
             <div>
               <div class="mars-upg-title">🏎️ Rover Turbo Motor</div>
-              <div class="mars-upg-desc">Upgraded electric powertrain increases top rover speed by +40% across rough dunes.</div>
+              <div class="mars-upg-desc">Upgraded electric powertrain increases top rover speed by +40% across rough
+                dunes.</div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
               <span class="mars-upg-cost">150 CREDITS</span>
@@ -1958,7 +1996,8 @@
           <div class="mars-upgrade-card">
             <div>
               <div class="mars-upg-title">🔬 Quantum Spectrometer</div>
-              <div class="mars-upg-desc">Extends sample scanning range to 18 meters with instant sub-surface density detection.</div>
+              <div class="mars-upg-desc">Extends sample scanning range to 18 meters with instant sub-surface density
+                detection.</div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
               <span class="mars-upg-cost">120 CREDITS</span>
@@ -1969,7 +2008,8 @@
           <div class="mars-upgrade-card">
             <div>
               <div class="mars-upg-title">🔋 Super-Capacitor Battery</div>
-              <div class="mars-upg-desc">Solid-state battery cells extend suit thermal regulation and scanner power by +40%.</div>
+              <div class="mars-upg-desc">Solid-state battery cells extend suit thermal regulation and scanner power by
+                +40%.</div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
               <span class="mars-upg-cost">80 CREDITS</span>
@@ -1991,6 +2031,26 @@
           Learn how real robotic explorers from world space agencies paved the way for human boots on the Red Planet.
         </p>
         <div id="marsMissionsList"></div>
+      </div>
+    </div>
+
+    <!-- Scientific Sample Dossiers & Field Missions Modal -->
+    <div class="mars-modal-overlay" id="marsSampleDossierModal">
+      <div class="mars-modal-box mars-dossier-modal-box">
+        <div class="mars-modal-header">
+          <div class="mars-modal-title">🔬 Field Missions & Martian Sample Dossiers</div>
+          <button class="mars-modal-close mars-btn" id="marsCloseDossierBtn" type="button">✕</button>
+        </div>
+        <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px;">
+          Comprehensive mineralogical, astrobiological, and in-situ resource analysis of samples collected during
+          Martian surface exploration.
+        </p>
+
+        <!-- Sample Selector Tabs -->
+        <div class="mars-dossier-tabs" id="marsDossierTabs"></div>
+
+        <!-- Sample Detail Content View -->
+        <div class="mars-dossier-content" id="marsDossierContent"></div>
       </div>
     </div>
   </section>
