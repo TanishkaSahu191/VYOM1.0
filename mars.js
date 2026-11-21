@@ -1234,7 +1234,7 @@
         btn.type = 'button';
         btn.className = `mars-dossier-tab-btn ${idx === this.activeDossierSample ? 'active' : ''}`;
 
-        let statusIcon = '🔒';
+        let statusIcon = '[X]';
         if (this.collectedSampleTypes.has(s.id) || this.analyzedSampleTypes.has(s.id)) {
           statusIcon = '✓';
         }
@@ -1281,7 +1281,7 @@
           <div class="mars-dossier-header-row">
             <div>
               <div class="mars-dossier-title">
-                <span>🔬</span>
+                <span>Sample</span>
                 <span>${activeSample.name}</span>
               </div>
               <div class="mars-dossier-meta">
@@ -1293,10 +1293,10 @@
 
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <div style="font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; background: rgba(249, 115, 22, 0.12); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); font-family: var(--mars-mono);">
-              <strong>⏳ ERA:</strong> ${activeSample.era || 'Noachian-Hesperian'}
+              <strong>ERA:</strong> ${activeSample.era || 'Noachian-Hesperian'}
             </div>
             <div style="font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; background: rgba(6, 182, 212, 0.12); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); font-family: var(--mars-mono);">
-              <strong>🚀 REAL ROVER:</strong> ${activeSample.roverMission || 'NASA / ISRO Exploration'}
+              <strong>REAL ROVER:</strong> ${activeSample.roverMission || 'NASA / ISRO Exploration'}
             </div>
           </div>
 
@@ -1319,7 +1319,7 @@
 
           <div class="mars-dossier-isru-box">
             <div class="mars-dossier-isru-title">
-              <span>🏗️</span>
+              <span>Base</span>
               <span>${this.lang === 'en' ? 'IN-SITU RESOURCE UTILIZATION (ISRU) FOR MARS COLONY' : 'मंगल कॉलोनी निर्माण के लिए उपयोगिता'}</span>
             </div>
             <div class="mars-dossier-isru-desc">${activeSample.isru}</div>
@@ -1327,7 +1327,7 @@
 
           <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
             <button class="mars-btn" id="marsDossierSpeakBtn" type="button" style="font-size: 0.75rem; padding: 6px 12px;">
-              🔊 ${this.lang === 'en' ? 'Listen to Intel' : 'ऑडियो सुनें'}
+              ${this.lang === 'en' ? 'Listen to Intel' : 'ऑडियो सुनें'}
             </button>
           </div>
         </div>
@@ -1418,16 +1418,16 @@
       const solarBox = document.getElementById('marsSolarStatusBox');
       if (solarText && solarBox) {
         if (this.isSolarRecharging) {
-          solarText.textContent = '☀️ SOLAR RECHARGE ACTIVE (+1.5%/s)';
+          solarText.textContent = 'SOLAR RECHARGE ACTIVE (+1.5%/s)';
           solarBox.className = 'mars-status-indicator';
         } else if (this.onSteepSlope) {
-          solarText.textContent = '⚠️ STEEP SLOPE: 2× BATTERY DRAIN';
+          solarText.textContent = 'STEEP SLOPE: 2× BATTERY DRAIN';
           solarBox.className = 'mars-status-indicator is-danger';
         } else if (this.isStormActive) {
-          solarText.textContent = '🌪️ DUST STORM: ZERO SOLAR POWER';
+          solarText.textContent = 'DUST STORM: ZERO SOLAR POWER';
           solarBox.className = 'mars-status-indicator is-cold';
         } else {
-          solarText.textContent = '☀️ DIRECT SUNLIGHT (SOLAR OK)';
+          solarText.textContent = 'DIRECT SUNLIGHT (SOLAR OK)';
           solarBox.className = 'mars-status-indicator';
         }
       }
@@ -1449,7 +1449,7 @@
     toggleVoice() {
       this.isVoiceEnabled = !this.isVoiceEnabled;
       const btn = document.getElementById('marsVoiceBtn');
-      if (btn) btn.textContent = this.isVoiceEnabled ? '🎙️ Voice: ON' : '🎙️ Voice: OFF';
+      if (btn) btn.textContent = this.isVoiceEnabled ? 'Voice: ON' : 'Voice: OFF';
     }
 
     toggleLanguage() {
@@ -1507,14 +1507,14 @@
         this.audio.playBeep(320, 0.2, 'triangle');
         container.innerHTML = `
           <div class="landing-content-card">
-            <div style="font-size: 2.2rem; text-align: center;">🚀 ➔ 🔴</div>
+            <div style="font-size: 1.4rem; font-weight: bold; text-align: center; color: #f87171;">LANDING TRAJECTORY: REACHED JEZERO CRATER</div>
             <h3 style="font-size: 1.15rem; color: #f97316; margin: 0; text-align: center;">PHASE 1: TOUCHDOWN IN JEZERO CRATER</h3>
             <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
               Sky Crane touchdown completed nominal! The descent stage cut its bridle cables and flew away to crash-land at a safe distance. 
               The exploration rover is now resting stably on pristine Martian regolith.
             </p>
             <div style="background: rgba(249, 115, 22, 0.12); border: 1px solid rgba(249, 115, 22, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #fed7aa;">
-              📍 Landing Coordinates: 18.38° N, 77.58° E (Ancient Jezero River Delta) • Velocity: 0.0 m/s
+              Landing Coordinates: 18.38° N, 77.58° E (Ancient Jezero River Delta) • Velocity: 0.0 m/s
             </div>
           </div>
         `;
@@ -1529,20 +1529,20 @@
             </p>
             <div class="landing-check-grid">
               <div class="diag-item">
-                <span class="diag-icon">⚡</span>
-                <div><div class="diag-name">BATTERY / RTG</div><div class="diag-val" style="color: #4ade80;">100% NOMINAL ✅</div></div>
+                <span class="diag-icon"></span>
+                <div><div class="diag-name">BATTERY / RTG</div><div class="diag-val" style="color: #4ade80;">100% NOMINAL</div></div>
               </div>
               <div class="diag-item">
-                <span class="diag-icon">📡</span>
-                <div><div class="diag-name">UHF ANTENNA</div><div class="diag-val" style="color: #38bdf8;">ALIGNED & ONLINE ✅</div></div>
+                <span class="diag-icon"></span>
+                <div><div class="diag-name">UHF ANTENNA</div><div class="diag-val" style="color: #38bdf8;">ALIGNED & ONLINE</div></div>
               </div>
               <div class="diag-item">
-                <span class="diag-icon">⚙️</span>
-                <div><div class="diag-name">6 TITANIUM WHEELS</div><div class="diag-val" style="color: #4ade80;">ACTUATORS UNLOCKED ✅</div></div>
+                <span class="diag-icon"></span>
+                <div><div class="diag-name">6 TITANIUM WHEELS</div><div class="diag-val" style="color: #4ade80;">ACTUATORS UNLOCKED</div></div>
               </div>
               <div class="diag-item">
-                <span class="diag-icon">📷</span>
-                <div><div class="diag-name">MAST & HAZCAMS</div><div class="diag-val" style="color: #facc15;">CALIBRATED & READY ✅</div></div>
+                <span class="diag-icon"></span>
+                <div><div class="diag-name">MAST & HAZCAMS</div><div class="diag-val" style="color: #facc15;">CALIBRATED & READY</div></div>
               </div>
             </div>
           </div>
@@ -1552,13 +1552,13 @@
         this.audio.playTelemetryBeep();
         container.innerHTML = `
           <div class="landing-content-card">
-            <div style="font-size: 2.2rem; text-align: center;">📡 〰️〰️ (~14 min) 〰️〰️ 🌍</div>
+            <div style="font-size: 1.2rem; font-weight: 600; text-align: center; color: #38bdf8;">SIGNAL TRANSMISSION TO EARTH (~14 min delay)</div>
             <h3 style="font-size: 1.15rem; color: #38bdf8; margin: 0; text-align: center;">PHASE 3: TRANSMITTING "SAFE LANDING" TO EARTH</h3>
             <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
               The high-gain antenna sends the historic telemetry packet: <em>"TOUCHDOWN CONFIRMED • ROVER SAFE ON MARS!"</em>
             </p>
             <div style="background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #a5f3fc;">
-              💡 Real Science Fact: Radio signals travel at the speed of light (300,000 km/s). 
+              Real Science Fact: Radio signals travel at the speed of light (300,000 km/s). 
               Because Mars is ~225 million km away, this message takes <strong>14 minutes and 6 seconds</strong> to reach Ground Control on Earth!
             </div>
           </div>
@@ -1568,13 +1568,13 @@
         this.audio.playScanSound();
         container.innerHTML = `
           <div class="landing-content-card">
-            <div style="font-size: 2.2rem; text-align: center;">🔭 ☀️ 🤖</div>
+            <div style="font-size: 1.2rem; font-weight: 600; text-align: center; color: #facc15;">DEPLOYING MAST, SENSORS & NAVCAMS</div>
             <h3 style="font-size: 1.15rem; color: #eab308; margin: 0; text-align: center;">PHASE 4: SOLAR DEPLOYMENT & 360° TERRAIN SCAN</h3>
             <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
               The rover raises its remote sensing mast 2 meters high. MastCam-Z rotates 360 degrees to photograph the landing site, identifying safe drive corridors, boulder fields, and distant crater rim slopes.
             </p>
             <div style="background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.35); border-radius: 8px; padding: 10px; font-family: monospace; font-size: 0.78rem; color: #fef08a;">
-              📸 Panoramic NavCam scan complete: 4 primary science targets and 2 hazard slopes cataloged on Tactical Radar.
+              Panoramic NavCam scan complete: 4 primary science targets and 2 hazard slopes cataloged on Tactical Radar.
             </div>
           </div>
         `;
@@ -1583,13 +1583,13 @@
         this.audio.playSuccessChime();
         container.innerHTML = `
           <div class="landing-content-card">
-            <div style="font-size: 2.2rem; text-align: center;">🎮 🚜 🌟</div>
+            <div style="font-size: 1.2rem; font-weight: 600; text-align: center; color: #4ade80;">ROVER READY FOR EXPLORATION</div>
             <h3 style="font-size: 1.15rem; color: #22c55e; margin: 0; text-align: center;">PHASE 5: AUTHORIZATION FOR FIRST DRIVE</h3>
             <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; margin: 0;">
               Ground control transmits: <strong>"ROVER IS GO FOR SURFACE DRIVE!"</strong>
             </p>
             <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 8px; padding: 10px; font-size: 0.82rem; color: #bbf7d0; line-height: 1.5;">
-              <strong>🎮 CADET FLIGHT TUTORIAL:</strong><br/>
+              <strong>CADET FLIGHT TUTORIAL:</strong><br/>
               • <strong>Drive:</strong> Use <kbd class="mars-kbd">W</kbd><kbd class="mars-kbd">A</kbd><kbd class="mars-kbd">S</kbd><kbd class="mars-kbd">D</kbd> or Arrow Keys. Remember: <em>Every move consumes battery!</em><br/>
               • <strong>Radar:</strong> Press <kbd class="mars-kbd">M</kbd> to open the Route Planner map.<br/>
               • <strong>Recharge:</strong> Stop in sunlight to recharge solar power.<br/>
@@ -1597,7 +1597,7 @@
             </div>
           </div>
         `;
-        if (nextBtn) nextBtn.textContent = '🚀 Take Control & Drive!';
+        if (nextBtn) nextBtn.textContent = 'Take Control & Drive!';
       }
     }
 
@@ -1812,12 +1812,12 @@
       if (crossesSlope) {
         if (diffEl) { diffEl.textContent = 'STEEP SLOPE'; diffEl.style.color = '#ef4444'; }
         if (advEl) {
-          advEl.innerHTML = `⚠️ <strong>High Battery Drain Alert!</strong> The direct route crosses Jezero Crater's steep rim slope (+100% battery burn and slip risk). <em>Recommendation: Follow the southern valley curve for a safer, low-energy path.</em>`;
+          advEl.innerHTML = `<strong>High Battery Drain Alert!</strong> The direct route crosses Jezero Crater's steep rim slope (+100% battery burn and slip risk). <em>Recommendation: Follow the southern valley curve for a safer, low-energy path.</em>`;
         }
       } else {
         if (diffEl) { diffEl.textContent = 'SMOOTH VALLEY'; diffEl.style.color = '#22c55e'; }
         if (advEl) {
-          advEl.innerHTML = `✅ <strong>Optimal Route:</strong> Direct path stays across flat regolith plains. Low wheel resistance and minimal battery consumption.`;
+          advEl.innerHTML = `<strong>Optimal Route:</strong> Direct path stays across flat regolith plains. Low wheel resistance and minimal battery consumption.`;
         }
       }
 
@@ -1843,7 +1843,7 @@
       const sData = TRANSLATIONS[this.lang].samples[sIndex];
 
       const titleEl = document.getElementById('drillModalTitle');
-      if (titleEl) titleEl.textContent = `🔬 Core Sample: ${sData.name}`;
+      if (titleEl) titleEl.textContent = `Core Sample: ${sData.name}`;
 
       this.drillState = {
         active: true,
@@ -1875,13 +1875,13 @@
 
       if (this.drillState.stage === 1) {
         if (st) st.textContent = 'STEP 1: ALIGN SURFACE ABRASION TOOL (RAT)';
-        if (btn) btn.textContent = '⚡ ABRADE DUST LAYER [Space]';
+        if (btn) btn.textContent = 'ABRADE DUST LAYER [Space]';
       } else if (this.drillState.stage === 2) {
         if (st) st.textContent = 'STEP 2: ROTARY-PERCUSSIVE CORING (HIT GREEN ZONE)';
-        if (btn) btn.textContent = '⚡ DRILL CYLINDER CORE [Space]';
+        if (btn) btn.textContent = 'DRILL CYLINDER CORE [Space]';
       } else if (this.drillState.stage === 3) {
         if (st) st.textContent = 'STEP 3: HERMETIC SAMPLE TUBE SEAL';
-        if (btn) btn.textContent = '🔒 SEAL TITANIUM CACHE TUBE [Space]';
+        if (btn) btn.textContent = 'SEAL TITANIUM CACHE TUBE [Space]';
       }
     }
 
@@ -2077,8 +2077,8 @@
 
       this.audio.playSuccessChime();
       alert(this.lang === 'en'
-        ? `📡 TELEMETRY RECEIVED BY EARTH DSN!\n\nAll scientific sample data successfully beamed across 225,000,000 km to NASA & ISRO Ground Control.\nEarned +${earned} Mission Credits!`
-        : `📡 पृथ्वी नियंत्रण कक्ष द्वारा डेटा प्राप्त!\n\nसफलतापूर्वक +${earned} क्रेडिट्स प्राप्त हुए!`);
+        ? `TELEMETRY RECEIVED BY EARTH DSN!\n\nAll scientific sample data successfully beamed across 225,000,000 km to NASA & ISRO Ground Control.\nEarned +${earned} Mission Credits!`
+        : `पृथ्वी नियंत्रण कक्ष द्वारा डेटा प्राप्त!\n\nसफलतापूर्वक +${earned} क्रेडिट्स प्राप्त हुए!`);
 
       this.closeTransmitModal();
       this.updateHUD();
@@ -2205,7 +2205,7 @@
       document.getElementById('marsLangBtn').addEventListener('click', () => this.toggleLanguage());
       document.getElementById('marsAudioBtn').addEventListener('click', () => {
         const isMuted = this.audio.toggleMute();
-        document.getElementById('marsAudioBtn').textContent = isMuted ? '🔇 Audio: MUTED' : '🔊 Audio: ON';
+        document.getElementById('marsAudioBtn').textContent = isMuted ? 'Audio: MUTED' : 'Audio: ON';
       });
 
       // Sample Dossiers Modal Trigger & Close
@@ -2376,7 +2376,7 @@
         this.audio.playAlarmSound();
         if (hazardBanner && hazardText) {
           hazardBanner.style.display = 'flex';
-          hazardText.textContent = '🚨 DANGER: CRATER EDGE! STRUCTURAL DAMAGE!';
+          hazardText.textContent = 'DANGER: CRATER EDGE! STRUCTURAL DAMAGE!';
         }
       } else {
         this.onSteepSlope = false;

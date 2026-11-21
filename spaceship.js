@@ -574,7 +574,7 @@
     }
     flash() { const f = document.getElementById('shipFlash'); if (!f) return; f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
     updateHud() {
-      const l = document.getElementById('shipLives'); if (l) l.textContent = '❤️'.repeat(this.lives) + '🖤'.repeat(CONFIG.lives - this.lives);
+      const l = document.getElementById('shipLives'); if (l) l.textContent = 'Lives: ' + this.lives + ' / ' + CONFIG.lives;
       const s = document.getElementById('shipStageLabel'); if (s) s.textContent = 'Challenge ' + Math.min(this.stage + 1, 4) + ' / 4';
       const names = ['sleep', 'bath', 'bath', 'food'];
       document.querySelectorAll('#shipPips i').forEach((p, i) => { p.classList.toggle('done', !!this.done[i]); p.classList.toggle('now', i === this.stage && !this.done[i]); });
@@ -586,8 +586,8 @@
     // ------------------------------------------
     showIntro() {
       this.introShown = true;
-      this.dialog({ title: '🚀 Life in Space: 4 Challenges',
-        html: '<p>You are an astronaut aboard the spacecraft. Complete <b>4 challenges</b> to learn how crew sleep, wash, groom and eat in <b>zero gravity</b>.</p><ul><li>Each challenge asks you to make a choice.</li><li>A wrong choice costs one of your <b>3 lives ❤️</b>.</li><li>Lose all 3 lives and the mission <b>starts again</b> from Challenge 1.</li><li>Between challenges, explore the dock with <span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span>. Drag to look around, scroll to zoom.</li></ul>',
+      this.dialog({ title: 'Life in Space: 4 Challenges',
+        html: '<p>You are an astronaut aboard the spacecraft. Complete <b>4 challenges</b> to learn how crew sleep, wash, groom and eat in <b>zero gravity</b>.</p><ul><li>Each challenge asks you to make a choice.</li><li>A wrong choice costs one of your <b>3 lives</b>.</li><li>Lose all 3 lives and the mission <b>starts again</b> from Challenge 1.</li><li>Between challenges, explore the dock with <span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span>. Drag to look around, scroll to zoom.</li></ul>',
         btn: 'Begin Mission' }).then(() => this.beginMission());
     }
     beginMission() {
@@ -610,7 +610,7 @@
       this.hideMission(); this.focus('dock');
       await this.walk([[0, 2.5]]);
       this.audio.playGood();
-      await this.dialog({ title: '🎉 Mission Complete!', tone: 'good',
+      await this.dialog({ title: 'Mission Complete!', tone: 'good',
         html: '<p>You finished all 4 challenges with <b>' + this.lives + ' of 3 lives</b> left.</p><p>Key lessons: <b>fix yourself</b> to a ventilated wall when sleeping, <b>never let liquids or debris float free</b>, use <b>vents</b> to catch particles, and <b>treat water as precious</b> because every drop is recycled.</p>', btn: 'Play Again' });
       this.beginMission();
     }
@@ -618,17 +618,17 @@
       this.hideMission(); this.focus('dock');
       await this.walk([[0, 2.5]]);
       this.freeWalk = true;
-      await this.ask('Challenge ' + (i + 1) + ' of 4 · Dock Area', 'Explore the dock with W A S D if you like. When you are ready, head to the ' + name + '.', [{ key: 'go', label: '▶ Start Challenge ' + (i + 1) }], 'Lives: ' + this.lives + ' / 3');
+      await this.ask('Challenge ' + (i + 1) + ' of 4 · Dock Area', 'Explore the dock with W A S D if you like. When you are ready, head to the ' + name + '.', [{ key: 'go', label: 'Start Challenge ' + (i + 1) }], 'Lives: ' + this.lives + ' / 3');
       this.freeWalk = false;
     }
     async lose(title, html) {
       this.lives--; this.updateHud(); this.audio.playBad(); this.flash(); this.shake = 0.5;
       const over = this.lives <= 0;
-      await this.dialog({ title: '💔 ' + title, tone: 'bad', html: html + '<p class="ship-lives-left">' + (over ? 'You have <b>no lives left</b>. The mission will restart from Challenge 1.' : 'Lives left: <b>' + this.lives + ' / 3</b>. Try again!') + '</p>', btn: over ? 'Restart Mission' : 'Try Again' });
+      await this.dialog({ title: title, tone: 'bad', html: html + '<p class="ship-lives-left">' + (over ? 'You have <b>no lives left</b>. The mission will restart from Challenge 1.' : 'Lives left: <b>' + this.lives + ' / 3</b>. Try again!') + '</p>', btn: over ? 'Restart Mission' : 'Try Again' });
       this.clearParticles();
       if (over) { this.beginMission(); return new Promise(() => {}); }
     }
-    async win(title, html) { this.audio.playGood(); await this.dialog({ title: '✅ ' + title, tone: 'good', html, btn: 'Next' }); }
+    async win(title, html) { this.audio.playGood(); await this.dialog({ title: title, tone: 'good', html, btn: 'Next' }); }
 
     // ---------- Challenge 1: sleeping ----------
     async cSleep() {
@@ -636,8 +636,8 @@
       await this.walk([[-3, 4.2], [-6.8, 4.2], [-9.6, 4.9]]); await this.turn(-Math.PI / 2);
       for (;;) {
         const pick = await this.ask('Challenge 1 · Sleeping Unit', 'Your shift is over. In zero gravity nothing holds you down. How do you sleep?', shuffle([
-          { key: 'bag', label: '🛏️ Zip into the sleeping bag fixed to the wall of the sleeping unit' },
-          { key: 'open', label: '🌌 Float and sleep in the open dock area: it is roomier' }]));
+          { key: 'bag', label: 'Zip into the sleeping bag fixed to the wall of the sleeping unit' },
+          { key: 'open', label: 'Float and sleep in the open dock area: it is roomier' }]));
         if (pick === 'bag') {
           this.hideMission(); const a = this.astro;
           await this.walk([[-10.6, 6.3]]); await this.turn(-Math.PI / 2);
@@ -701,8 +701,8 @@
       });
       for (;;) {
         const pick = await this.ask('Challenge 2 · Brush your teeth', 'There is no sink and water forms floating blobs. How do you finish brushing?', shuffle([
-          { key: 'good', label: '🪥 Brush with a pea-sized dab of paste and a little water, then swallow the foam (or wipe it into a towel)' },
-          { key: 'spit', label: '💦 Brush, then spit the foam out into the air like on Earth' }]));
+          { key: 'good', label: 'Brush with a pea-sized dab of paste and a little water, then swallow the foam (or wipe it into a towel)' },
+          { key: 'spit', label: 'Brush, then spit the foam out into the air like on Earth' }]));
         if (pick === 'good') {
           this.hideMission(); a.mode = 'brush';
           this.spawnParticles(6, a.handWorld(0, 1.62, 0.28), { size: 0.04, color: 0xffffff, spread: 0.5, speed: 0.25, life: 3.2 });
@@ -730,8 +730,8 @@
       await new Promise(res => { const r = this.run; this.handlers.item_clipper = () => { if (this.run !== r) return; delete this.handlers.item_clipper; this.clearMarkers(); clip.held = true; this.audio.playClickSound(); res(); }; });
       for (;;) {
         const pick = await this.ask('Challenge 3 · Cut your nails', 'Nail clippings are sharp and tiny, and they will not fall to the floor. Where do you clip?', shuffle([
-          { key: 'vent', label: '🌀 Hold your hand right at the air vent so the airflow carries clippings into the filter' },
-          { key: 'open', label: '✂️ Clip in the middle of the cabin and collect them later' }]));
+          { key: 'vent', label: 'Hold your hand right at the air vent so the airflow carries clippings into the filter' },
+          { key: 'open', label: 'Clip in the middle of the cabin and collect them later' }]));
         const hand = a.handWorld(0, 1.2, 0.5);
         if (pick === 'vent') {
           this.hideMission(); a.mode = 'cut';
@@ -763,8 +763,8 @@
       await this.delay(2600); this.heatGlow.material.color.setHex(0x7c2d12); this.pouch.userData.carry = true;
       for (;;) {
         const pick = await this.ask('Challenge 4 · Eat a meal', 'Your meal is hot. Water is an essential, limited resource on board. How do you eat?', shuffle([
-          { key: 'good', label: '🥄 Eat with a spoon straight from the pouch, keeping all food and water inside' },
-          { key: 'waste', label: '🎈 Squeeze the food and water into the air and catch the bites with your mouth' }]));
+          { key: 'good', label: 'Eat with a spoon straight from the pouch, keeping all food and water inside' },
+          { key: 'waste', label: 'Squeeze the food and water into the air and catch the bites with your mouth' }]));
         if (pick === 'good') {
           this.hideMission(); a.mode = 'eat'; await this.delay(4500); a.mode = 'idle'; this.pouch.userData.carry = false; this.pouch.position.copy(this.pouchHome);
           await this.win('Challenge 4 complete: Eating',
@@ -819,7 +819,7 @@
       document.querySelectorAll('.ship-light-pill').forEach(p => p.addEventListener('click', () => this.setLightingMode(p.getAttribute('data-mode'))));
       document.querySelectorAll('.ship-preset-btn').forEach(b => b.addEventListener('click', () => this.setCameraPreset(b.getAttribute('data-preset'))));
       const cb = document.getElementById('shipInspectClose'); if (cb) cb.addEventListener('click', () => document.getElementById('shipInspectorCard').classList.remove('is-open'));
-      const ab = document.getElementById('shipAudioBtn'); if (ab) ab.addEventListener('click', () => { const m = this.audio.toggleMute(); ab.textContent = m ? '🔇 Audio: MUTED' : '🔊 Audio: ON'; });
+      const ab = document.getElementById('shipAudioBtn'); if (ab) ab.addEventListener('click', () => { const m = this.audio.toggleMute(); ab.textContent = m ? 'Audio: MUTED' : 'Audio: ON'; });
       const rb = document.getElementById('shipRestartBtn'); if (rb) rb.addEventListener('click', () => { if (confirm('Restart the mission from Challenge 1?')) { document.getElementById('shipDialog').classList.remove('is-open'); this.beginMission(); } });
     }
     hitId(cx, cy) {

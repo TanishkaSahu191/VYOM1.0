@@ -31,10 +31,10 @@
       missionTitle: 'Aditya-L1: Journey to the Sun',
       missionSubtitle: 'ISRO SOLAR OBSERVATORY & SPACE WEATHER PROTOCOL',
       storyModeBtn: 'Cinematic Story',
-      guardianModeBtn: '🛡️ Space Weather Guardian',
-      instrumentsBtn: '🔬 7 Solar Instruments',
-      quizBtn: '🏆 Solar Quiz',
-      haloInfoBtn: '🌀 Halo Orbit Science',
+      guardianModeBtn: 'Space Weather Guardian',
+      instrumentsBtn: '7 Solar Instruments',
+      quizBtn: 'Solar Quiz',
+      haloInfoBtn: 'Halo Orbit Science',
       prevBtn: '← Previous',
       nextBtn: 'Next Stage →',
       stages: [
@@ -110,10 +110,10 @@
       missionTitle: 'आदित्य-एल1: सूर्य की दहलीज पर',
       missionSubtitle: 'इसरो सौर वेधशाला एवं अंतरिक्ष मौसम सुरक्षा प्रोटोकॉल',
       storyModeBtn: 'सिनेमैटिक कहानी',
-      guardianModeBtn: '🛡️ अंतरिक्ष मौसम रक्षक',
-      instrumentsBtn: '🔬 7 सौर उपकरण',
-      quizBtn: '🏆 सौर क्विज',
-      haloInfoBtn: '🌀 हेलो ऑर्बिट विज्ञान',
+      guardianModeBtn: 'अंतरिक्ष मौसम रक्षक',
+      instrumentsBtn: '7 सौर उपकरण',
+      quizBtn: 'सौर क्विज',
+      haloInfoBtn: 'हेलो ऑर्बिट विज्ञान',
       prevBtn: '← पिछला',
       nextBtn: 'अगला चरण →',
       stages: [
@@ -941,7 +941,7 @@
       };
 
       this.audio.playSolarFlareAlarm();
-      document.getElementById('sunThreatBanner').textContent = `🚨 ${chosen.name.toUpperCase()} ERUPTING FROM SUN!`;
+      document.getElementById('sunThreatBanner').textContent = `ALERT: ${chosen.name.toUpperCase()} ERUPTING FROM SUN!`;
       document.getElementById('sunThreatBanner').style.color = '#ef4444';
       document.getElementById('sunAlertBtn').style.display = 'inline-block';
     }
@@ -957,7 +957,7 @@
         this.guardian.alertsSent++;
         this.audio.playAlertBroadcastSuccess();
 
-        document.getElementById('sunThreatBanner').textContent = `✅ ALERT SENT TO EARTH! SATELLITES & GRIDS SAFE.`;
+        document.getElementById('sunThreatBanner').textContent = `ALERT SENT TO EARTH! SATELLITES & GRIDS SAFE.`;
         document.getElementById('sunThreatBanner').style.color = '#10b981';
         document.getElementById('sunAlertBtn').style.display = 'none';
 
@@ -1071,7 +1071,7 @@
         // Quiz Complete
         container.innerHTML = `
           <div style="background:linear-gradient(135deg,rgba(251,191,36,0.15),rgba(249,115,22,0.15));border:2px solid #fbbf24;border-radius:12px;padding:24px;text-align:center;">
-            <div style="font-size:2.6rem;margin-bottom:8px;">☀️🇮🇳</div>
+            <div style="font-size:1.8rem;font-weight:700;margin-bottom:8px;color:#f59e0b;">ADITYA-L1</div>
             <div style="font-size:1.3rem;font-weight:800;color:#fbbf24;text-transform:uppercase;">ISRO SOLAR SCIENTIST & SPACE WEATHER GUARDIAN</div>
             <div style="font-size:0.85rem;color:#e2e8f0;margin:6px 0 16px 0;">This certificate honors your mastery of Aditya-L1 solar physics and space weather alert protocols!</div>
             <div style="font-size:1.1rem;color:#10b981;font-weight:bold;margin-bottom:12px;">Final Score: ${score} / ${QUIZ_QUESTIONS.length} (${Math.round((score / QUIZ_QUESTIONS.length) * 100)}%)</div>
@@ -1163,7 +1163,7 @@
     toggleVoice() {
       this.isVoiceEnabled = !this.isVoiceEnabled;
       const btn = document.getElementById('sunVoiceBtn');
-      if (btn) btn.textContent = this.isVoiceEnabled ? '🎙️ Voice: ON' : '🎙️ Voice: OFF';
+      if (btn) btn.textContent = this.isVoiceEnabled ? 'Voice: ON' : 'Voice: OFF';
       if (this.isVoiceEnabled) this.speakStageFact();
       else if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     }
@@ -1222,7 +1222,7 @@
       document.getElementById('sunLangBtn').addEventListener('click', () => this.toggleLanguage());
       document.getElementById('sunAudioBtn').addEventListener('click', () => {
         const isMuted = this.audio.toggleMute();
-        document.getElementById('sunAudioBtn').textContent = isMuted ? '🔇 Audio: MUTED' : '🔊 Audio: ON';
+        document.getElementById('sunAudioBtn').textContent = isMuted ? 'Audio: MUTED' : 'Audio: ON';
       });
 
       // Instrument Selection Tabs in Guardian Mode
@@ -1309,7 +1309,7 @@
               // MISSED CME! Damage Earth
               this.guardian.earthHealth = Math.max(0, this.guardian.earthHealth - 25);
               this.audio.playSolarFlareAlarm();
-              document.getElementById('sunThreatBanner').textContent = '⚠️ CME IMPACTED EARTH! SATELLITE DISRUPTIONS OCCURRED.';
+              document.getElementById('sunThreatBanner').textContent = 'WARNING: CME IMPACTED EARTH! SATELLITE DISRUPTIONS OCCURRED.';
               document.getElementById('sunThreatBanner').style.color = '#ef4444';
             }
             this.guardian.currentEvent = null;

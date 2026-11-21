@@ -18,7 +18,7 @@
        ======================================================== -->
   <nav class="global-phase-nav" id="globalPhaseNav" aria-label="Global Phase Navigator">
     <div class="nav-brand-group">
-      <div class="nav-logo-icon">🌌</div>
+      <div class="nav-logo-icon">✦</div>
       <div class="nav-brand-title">
         <span>VYOM</span>
         <span class="nav-brand-sub">SPACE PROTOCOL</span>
@@ -39,23 +39,23 @@
         <span class="tab-text">Cockpit</span>
       </button>
       <button class="nav-tab chandrayaan-nav-tab" id="tabPhaseChandrayaan" data-phase="4" type="button" role="tab" title="Mission Chandrayaan-3: Journey to the Moon">
-        <span class="tab-badge">🇮🇳</span>
+        <span class="tab-badge">04</span>
         <span class="tab-text">Chandrayaan-3</span>
       </button>
       <button class="nav-tab mars-nav-tab" id="tabPhaseMars" data-phase="5" type="button" role="tab" title="Mars Explorer: Astronaut Mission - Fly to Mars">
-        <span class="tab-badge">🔴</span>
+        <span class="tab-badge">05</span>
         <span class="tab-text">Mars</span>
       </button>
       <button class="nav-tab sun-nav-tab" id="tabPhaseSun" data-phase="6" type="button" role="tab" title="Aditya-L1: Journey to the Sun's Doorstep - Tour to Sun">
-        <span class="tab-badge">☀️</span>
+        <span class="tab-badge">06</span>
         <span class="tab-text">Tour to Sun</span>
       </button>
       <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
-        <span class="tab-badge">🛸</span>
+        <span class="tab-badge">07</span>
         <span class="tab-text">Spaceship</span>
       </button>
       <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
-        <span class="tab-badge">★</span>
+        <span class="tab-badge">08</span>
         <span class="tab-text">Pitch & Demo</span>
       </button>
     </div>
@@ -217,7 +217,7 @@
 
       <div class="hangar-user-hud">
         <div class="cadet-badge">
-          <span class="cadet-avatar">👨‍🚀</span>
+          <span class="cadet-avatar">★</span>
           <div class="cadet-info">
             <span class="cadet-rank">CADET PILOT</span>
             <span class="cadet-xp" id="userXpDisplay">150 XP</span>
@@ -265,7 +265,7 @@
 
       <!-- Selected Vehicle Quick Banner (if selected) -->
       <div class="active-vehicle-banner" id="activeVehicleBanner" style="display: none;">
-        <span class="active-banner-icon">🚀</span>
+        <span class="active-banner-icon"></span>
         <span class="active-banner-text">Active Assigned Craft: <strong id="activeVehicleName">None</strong></span>
         <button class="btn-proceed-mini" id="btnResumeCockpit" type="button">Enter Cockpit →</button>
       </div>
@@ -328,19 +328,19 @@
             <!-- Subsystems Checklist -->
             <div class="diagnostic-checklist">
               <div class="check-item" id="checkAvionics">
-                <span class="check-icon">⏳</span>
+                <span class="check-icon">•</span>
                 <span class="check-text">Flight Computers: Online & Ready</span>
               </div>
               <div class="check-item" id="checkTelemetry">
-                <span class="check-icon">⏳</span>
+                <span class="check-icon">•</span>
                 <span class="check-text">Space Radio & Ground Control: Connected</span>
               </div>
               <div class="check-item" id="checkPressure">
-                <span class="check-icon">⏳</span>
+                <span class="check-icon">•</span>
                 <span class="check-text">Rocket Engines: Chilled & Ready to Fire</span>
               </div>
               <div class="check-item" id="checkTrajectory">
-                <span class="check-icon">⏳</span>
+                <span class="check-icon">•</span>
                 <span class="check-text">Flight Route: Earth to the Moon</span>
               </div>
             </div>
@@ -368,7 +368,7 @@
     <!-- Phase 3 Cockpit Gateway Ready Screen -->
     <div class="cockpit-preview-modal" id="cockpitModal" aria-hidden="true">
       <div class="cockpit-preview-card">
-        <div class="cockpit-badge">ROCKET READY • BOARDING APPROVED 🚀</div>
+        <div class="cockpit-badge">ROCKET READY • BOARDING APPROVED</div>
         <h2 class="cockpit-title">WELCOME TO THE COCKPIT</h2>
         <div class="cockpit-selected-pill" id="cockpitActiveVehicle">VEHICLE: LVM3</div>
         <p class="cockpit-info">
@@ -394,7 +394,7 @@
             <span>← Switch Rocket</span>
           </button>
           <button id="btnStartPhase3" class="btn-proceed" type="button">
-            <span>Enter Cockpit Viewport 🚀</span>
+            <span>Enter Cockpit Viewport</span>
           </button>
         </div>
       </div>
@@ -414,7 +414,7 @@
         <div class="craft3d-header">
           <div class="craft3d-header-left">
             <div class="craft3d-meta-row">
-              <span class="agency-badge" id="craft3DAgencyBadge">🇺🇸 NASA // USA</span>
+              <span class="agency-badge" id="craft3DAgencyBadge">NASA // USA</span>
               <span class="craft3d-sub-badge">3D ROTATABLE MODEL & LABELS</span>
             </div>
             <div class="craft3d-title-group">
@@ -443,17 +443,17 @@
             <div class="craft3d-viewport-controls">
               <div class="craft3d-ctrl-group">
                 <button id="btnCraft3DRotate" class="craft3d-ctrl-btn is-active" type="button" title="Toggle Auto-Rotation">
-                  <span>🔄 Auto-Rotate</span>
+                  <span>Auto-Rotate</span>
                 </button>
                 <button id="btnCraft3DResetCam" class="craft3d-ctrl-btn" type="button" title="Reset Camera View">
-                  <span>🎯 Reset Angle</span>
+                  <span>Reset Angle</span>
                 </button>
                 <button id="btnCraft3DWireframe" class="craft3d-ctrl-btn" type="button" title="Toggle Wireframe Blueprint">
-                  <span>🌐 Wireframe</span>
+                  <span>Wireframe</span>
                 </button>
               </div>
               <div class="craft3d-hint-pill">
-                <span>🖱 Drag to Rotate • Scroll to Zoom • Click Pin to Inspect</span>
+                <span>Drag to Rotate • Scroll to Zoom • Click Pin to Inspect</span>
               </div>
             </div>
           </div>
@@ -569,7 +569,7 @@
     
       <div class="holo-actions">
         <button id="btnSpeakFact" class="btn-holo-voice" type="button">
-          <span>🔊 Play Narration</span>
+          <span>Play Narration</span>
         </button>
         <button id="btnResumeScroll" class="btn-holo-proceed" type="button">
           <span>Resume Flight ➔</span>
@@ -601,16 +601,16 @@
           </div>
           <div class="holo-dyk-container sat-dyk">
             <div class="holo-dyk-header">
-              <span class="dyk-icon">💡</span>
+              <span class="dyk-icon">TIP</span>
               <span class="dyk-title">DID YOU KNOW?</span>
             </div>
             <p class="holo-dyk-text" id="satDyk">NavIC operates dual-frequency L5 and S-band civilian signals, giving Indian smartphones superior positioning accuracy in equatorial ionospheric conditions compared to standard single-frequency GPS!</p>
           </div>
           <div class="holo-source-container sat-source">
             <a id="satSourceLink" href="https://www.isro.gov.in/NavIC.html" target="_blank" rel="noopener noreferrer" class="holo-source-link">
-              <span class="source-icon">🔗</span>
+              <span class="source-icon"></span>
               <span id="satSourceText">Verified Source: ISRO Official NavIC Portal</span>
-              <span class="external-icon">↗</span>
+              <span class="external-icon">→</span>
             </a>
           </div>
         </div>
@@ -689,12 +689,12 @@
                 </div>
                 <div class="trans-intel-actions">
                   <button id="btnListenApod" class="btn-trans-audio" type="button">
-                    <span>🎙</span>
+                    <span>Voice</span>
                     <span>LISTEN TO INTEL</span>
                   </button>
                   <a id="btnApodSource" href="https://apod.nasa.gov/" target="_blank" rel="noopener noreferrer" class="btn-trans-source">
                     <span>OFFICIAL NASA APOD ARCHIVE</span>
-                    <span>↗</span>
+                    <span>→</span>
                   </a>
                 </div>
               </div>
@@ -705,7 +705,7 @@
           <div class="trans-panel is-hidden" id="panelLibrary">
             <div class="library-search-bar">
               <input type="text" id="librarySearchInput" class="library-input" placeholder="Search NASA Image Archives (e.g., Artemis, James Webb, Mars, Jupiter)..." value="Artemis" />
-              <button id="btnSearchLibrary" class="btn-search-lib" type="button">SEARCH 🔍</button>
+              <button id="btnSearchLibrary" class="btn-search-lib" type="button">SEARCH</button>
             </div>
             <div class="library-quick-tags">
               <span class="tag-label">MISSION TAGS:</span>
@@ -767,8 +767,8 @@
                 <li><strong>Launch Vehicles:</strong> LVM3 Bahubali, PSLV Workhorse, and GSLV Mk II cryogenic upper stage specifications and flight manifests.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: isro.gov.in ↗</a>
-                <a href="https://www.issdc.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">ISRO Science Data Hub: issdc.gov.in ↗</a>
+                <a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: isro.gov.in →</a>
+                <a href="https://www.issdc.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">ISRO Science Data Hub: issdc.gov.in →</a>
               </div>
             </div>
 
@@ -786,8 +786,8 @@
                 <li><strong>Fleet Engineering:</strong> Saturn V, Space Shuttle (STS), Falcon 9 Commercial Crew, Space Launch System (SLS) Artemis specifications.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: nasa.gov ↗</a>
-                <a href="https://images.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">NASA Image & Video Library ↗</a>
+                <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: nasa.gov →</a>
+                <a href="https://images.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">NASA Image & Video Library →</a>
               </div>
             </div>
 
@@ -802,13 +802,13 @@
                 <li><strong>Cassini-Huygens:</strong> Saturnian ring particle structure, Cassini division opacity metrics, Titan atmospheric profiling.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.esa.int" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: esa.int ↗</a>
+                <a href="https://www.esa.int" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: esa.int →</a>
               </div>
             </div>
           </div>
 
           <div class="credits-license-notice">
-            <span class="notice-icon">⚖️</span>
+            <span class="notice-icon"></span>
             <span>All NASA public domain imagery, ISRO open educational archives, and ESA collaborative scientific discoveries are used strictly for non-commercial educational instruction and space science promotion.</span>
           </div>
         </div>
@@ -833,17 +833,17 @@
         <div class="pitch-header">
           <div class="pitch-header-left">
             <div class="pitch-badge">
-              <span class="badge-star">🏆</span>
+              <span class="badge-star">★</span>
               <span>VYOM // HACKATHON MISSION DECK & SHOWCASE</span>
             </div>
             <h2 class="pitch-title">INTERPLANETARY LEARNING PROTOCOL</h2>
           </div>
           <div class="pitch-tabs" role="tablist">
-            <button class="pitch-tab active" data-tab="pitch" type="button">🎯 PITCH</button>
-            <button class="pitch-tab" data-tab="demo" type="button">🚀 DEMO TOUR</button>
-            <button class="pitch-tab" data-tab="diff" type="button">⚡ DIFFERENTIATION</button>
-            <button class="pitch-tab" data-tab="future" type="button">🔮 FUTURE SCOPE</button>
-            <button class="pitch-tab" data-tab="tech" type="button">💻 TECH STACK</button>
+            <button class="pitch-tab active" data-tab="pitch" type="button">PITCH</button>
+            <button class="pitch-tab" data-tab="demo" type="button">DEMO TOUR</button>
+            <button class="pitch-tab" data-tab="diff" type="button">DIFFERENTIATION</button>
+            <button class="pitch-tab" data-tab="future" type="button">FUTURE SCOPE</button>
+            <button class="pitch-tab" data-tab="tech" type="button">TECH STACK</button>
           </div>
           <button id="btnClosePitch" class="holo-close-btn" type="button" title="Close Pitch Deck">✕</button>
         </div>
@@ -863,25 +863,25 @@
 
             <div class="pitch-pillars-grid">
               <div class="pillar-card">
-                <div class="pillar-icon">🛸</div>
+                <div class="pillar-icon">01</div>
                 <h4>1. Authentic Cockpit Viewport</h4>
                 <p>Places the cadet directly inside an enclosed spacecraft cockpit with multi-plane 3D parallax depth, live telemetry (Speed, Distance, Objects), and tactical controls.</p>
               </div>
 
               <div class="pillar-card">
-                <div class="pillar-icon">🇮🇳 🇺🇸</div>
+                <div class="pillar-icon">02</div>
                 <h4>2. NASA & ISRO Synergy</h4>
                 <p>Unifies real achievements from both NASA and ISRO—Chandrayaan-3 South Pole, Mangalyaan, and NavIC alongside Apollo 11, Curiosity, and Voyager 1.</p>
               </div>
 
               <div class="pillar-card">
-                <div class="pillar-icon">🎮</div>
+                <div class="pillar-icon">03</div>
                 <h4>3. Duolingo-Style Learning Loop</h4>
                 <p>Progressive levels, continuous 3D cruising with Web Speech narration, 5-question interactive quizzes, XP, badges, daily streaks, and certified graduation.</p>
               </div>
 
               <div class="pillar-card">
-                <div class="pillar-icon">📡</div>
+                <div class="pillar-icon">04</div>
                 <h4>4. Live Mission Telemetry</h4>
                 <p>Cockpit integrates live daily NASA APOD feeds, NASA Image Archive search, and curated ISRO mission dossiers with instant audio readouts.</p>
               </div>
@@ -896,7 +896,7 @@
                 <p>Presenting to judges? Use these one-click shortcuts to instantly demonstrate each core phase of the application in seconds:</p>
               </div>
               <button id="btnRunFullDemo" class="btn-demo-action auto-btn" type="button">
-                <span>▶ Run Automated Tour (1-Min)</span>
+                <span>Run Automated Tour (1-Min)</span>
               </button>
             </div>
 
@@ -998,7 +998,7 @@
                 <thead>
                   <tr>
                     <th>CAPABILITY</th>
-                    <th class="col-highlight">🌌 VYOM</th>
+                    <th class="col-highlight">VYOM</th>
                     <th>NASA EYES</th>
                     <th>DUOLINGO / QUIZLET</th>
                     <th>YOUTUBE / DOCUMENTARIES</th>
@@ -1007,45 +1007,45 @@
                 <tbody>
                   <tr>
                     <td><strong>Immersive 3D Cockpit Flight</strong></td>
-                    <td class="col-highlight">✅ Yes (Multi-plane parallax)</td>
-                    <td>❌ No (Third-person viewer)</td>
-                    <td>❌ No (2D flashcards)</td>
-                    <td>❌ Passive video</td>
+                    <td class="col-highlight">✓ Yes (Multi-plane parallax)</td>
+                    <td>✗ No (Third-person viewer)</td>
+                    <td>✗ No (2D flashcards)</td>
+                    <td>✗ Passive video</td>
                   </tr>
                   <tr>
                     <td><strong>NASA + ISRO Synergy</strong></td>
-                    <td class="col-highlight">✅ Yes (Chandrayaan + Apollo)</td>
-                    <td>❌ NASA Only</td>
-                    <td>❌ Rare / Generic</td>
-                    <td>⚠️ Fragmented</td>
+                    <td class="col-highlight">✓ Yes (Chandrayaan + Apollo)</td>
+                    <td>✗ NASA Only</td>
+                    <td>✗ Rare / Generic</td>
+                    <td>Fragmented</td>
                   </tr>
                   <tr>
                     <td><strong>Gamified Space Academy & Quizzes</strong></td>
-                    <td class="col-highlight">✅ Yes (5 Mechanics + XP)</td>
-                    <td>❌ No assessments</td>
-                    <td>✅ Text quizzes only</td>
-                    <td>❌ No</td>
+                    <td class="col-highlight">✓ Yes (5 Mechanics + XP)</td>
+                    <td>✗ No assessments</td>
+                    <td>✓ Text quizzes only</td>
+                    <td>✗ No</td>
                   </tr>
                   <tr>
                     <td><strong>Live Telemetry (NASA APOD)</strong></td>
-                    <td class="col-highlight">✅ Built into Cockpit MFD</td>
-                    <td>❌ No</td>
-                    <td>❌ No</td>
-                    <td>❌ No</td>
+                    <td class="col-highlight">✓ Built into Cockpit MFD</td>
+                    <td>✗ No</td>
+                    <td>✗ No</td>
+                    <td>✗ No</td>
                   </tr>
                   <tr>
                     <td><strong>Zero-Audio-File Synthesizer</strong></td>
-                    <td class="col-highlight">✅ Pure Web Audio API</td>
-                    <td>❌ Pre-recorded audio</td>
-                    <td>❌ Stock sounds</td>
-                    <td>⚠️ Video track</td>
+                    <td class="col-highlight">✓ Pure Web Audio API</td>
+                    <td>✗ Pre-recorded audio</td>
+                    <td>✗ Stock sounds</td>
+                    <td>Video track</td>
                   </tr>
                   <tr>
                     <td><strong>Offline & Low-Bandwidth Resilience</strong></td>
-                    <td class="col-highlight">✅ 100% Caching + Eco Mode</td>
-                    <td>❌ Requires 100MB+</td>
-                    <td>⚠️ Partial</td>
-                    <td>❌ High data streaming</td>
+                    <td class="col-highlight">✓ 100% Caching + Eco Mode</td>
+                    <td>✗ Requires 100MB+</td>
+                    <td>Partial</td>
+                    <td>✗ High data streaming</td>
                   </tr>
                 </tbody>
               </table>
@@ -1061,7 +1061,7 @@
             <div class="future-grid">
               <!-- Feature 1 -->
               <div class="future-card">
-                <div class="future-icon">🏫</div>
+                <div class="future-icon">01</div>
                 <div class="future-badge">STAGE 1 // ACADEMIC</div>
                 <h4>Teacher Dashboard for Schools & Colleges</h4>
                 <p>Dedicated portal for educators to assign solar system flight sectors as homework, track student quiz scores in real-time, and align modules with CBSE, ICSE, and NGSS curricula.</p>
@@ -1069,7 +1069,7 @@
 
               <!-- Feature 2 -->
               <div class="future-card">
-                <div class="future-icon">📰</div>
+                <div class="future-icon">02</div>
                 <div class="future-badge">STAGE 2 // REAL-TIME</div>
                 <h4>Live Space News & Launch Manifests</h4>
                 <p>Live countdown tickers and telemetry feeds for upcoming launches: ISRO Gaganyaan crewed spaceflight, Chandrayaan-4 sample return, NASA Artemis II, and Europa Clipper.</p>
@@ -1077,7 +1077,7 @@
 
               <!-- Feature 3 -->
               <div class="future-card">
-                <div class="future-icon">🌐</div>
+                <div class="future-icon">03</div>
                 <div class="future-badge">STAGE 3 // LOCALIZATION</div>
                 <h4>Multilingual Regional Voice Narration</h4>
                 <p>Expand Web Speech API voice synthesis to support Indian regional languages: Hindi (हिंदी), Tamil (தமிழ்), Telugu (తెలుగు), Kannada, and Bengali, democratizing space learning for rural schools.</p>
@@ -1085,7 +1085,7 @@
 
               <!-- Feature 4 -->
               <div class="future-card">
-                <div class="future-icon">🥽</div>
+                <div class="future-icon">04</div>
                 <div class="future-badge">STAGE 4 // IMMERSION</div>
                 <h4>WebXR / Augmented Reality (AR Mode)</h4>
                 <p>One-click WebXR integration allowing cadets to spawn 1:1 scale AR models of Chandrayaan-3 Vikram lander, Pragyan rover, or Perseverance rover right on their living room or classroom desk.</p>
@@ -1093,7 +1093,7 @@
 
               <!-- Feature 5 -->
               <div class="future-card">
-                <div class="future-icon">🌌</div>
+                <div class="future-icon">05</div>
                 <div class="future-badge">STAGE 5 // COSMIC DEEP FIELD</div>
                 <h4>Interstellar & Exoplanetary Sectors</h4>
                 <p>Expand flight corridor beyond Neptune to the Oort Cloud, Alpha Centauri, habitable exoplanets (TRAPPIST-1e, Proxima b), and James Webb Deep Field galaxies.</p>
@@ -1101,7 +1101,7 @@
 
               <!-- Feature 6 -->
               <div class="future-card">
-                <div class="future-icon">🔥</div>
+                <div class="future-icon">06</div>
                 <div class="future-badge">STAGE 6 // COMMUNITY</div>
                 <h4>Duolingo-Style Social Guilds & Clan Wars</h4>
                 <p>Space squads for schools where classrooms compete weekly in astrophysics challenges, earning shared XP to launch collaborative virtual orbital stations.</p>
@@ -1203,7 +1203,7 @@
         <!-- Phase 6: Quick Today's Transmission MFD Button -->
         <button id="btnOpenTransmissionMfd" class="mfd-transmission-btn" type="button" title="Open Today's Transmission Screen">
           <div class="mfd-trans-header">
-            <span class="mfd-trans-icon">📡</span>
+            <span class="mfd-trans-icon"></span>
             <span class="mfd-trans-title">TODAY'S TRANSMISSION</span>
             <span class="mfd-trans-live-pill">LIVE NASA</span>
           </div>
@@ -1261,7 +1261,7 @@
         </div>
         <!-- Phase 5: Quick Level Quiz Button -->
         <button id="btnMfdQuiz" class="mfd-quiz-btn" type="button" title="Launch Current Level Quiz">
-          <span class="mfd-quiz-icon">📝</span>
+          <span class="mfd-quiz-icon"></span>
           <span class="mfd-quiz-label">LEVEL QUIZ</span>
           <span class="mfd-quiz-badge" id="mfdQuizLvlBadge">LVL 1</span>
         </button>
@@ -1311,9 +1311,9 @@
       </div>
       <div class="c3-clock-container"><span class="c3-clock-dot"></span><span id="c3MissionClock">T+ 00:00:00</span></div>
       <div class="c3-top-actions">
-        <button class="c3-btn" id="c3BtnSkip" type="button" title="Skip the journey and go to the landing">⏭ Skip to landing</button>
-        <button class="c3-btn" id="c3VoiceToggle" type="button" title="Toggle audio narration">🎙️ Voice: ON</button>
-        <button class="c3-btn c3-btn-gold" id="c3BtnRestart" type="button" title="Restart the mission">🔄 Restart</button>
+        <button class="c3-btn" id="c3BtnSkip" type="button" title="Skip the journey and go to the landing">Skip to landing</button>
+        <button class="c3-btn" id="c3VoiceToggle" type="button" title="Toggle audio narration">Voice: ON</button>
+        <button class="c3-btn c3-btn-gold" id="c3BtnRestart" type="button" title="Restart the mission">Restart</button>
       </div>
     </header>
 
@@ -1322,7 +1322,7 @@
     <aside class="c3-fact-card" id="c3FactCard" aria-label="Mission Intelligence">
       <div class="c3-card-header">
         <span class="c3-card-badge" id="c3CardBadge">STAGE 1 OF 8</span>
-        <button class="c3-narrator-btn" id="c3CardNarrateBtn" type="button" onclick="window.Chandrayaan3Engine.speakStageFact()">🔊 Listen</button>
+        <button class="c3-narrator-btn" id="c3CardNarrateBtn" type="button" onclick="window.Chandrayaan3Engine.speakStageFact()">Listen</button>
       </div>
       <h2 class="c3-card-stage-name" id="c3StageName">Launch</h2>
       <div class="c3-card-stage-sub" id="c3StageSub">14 Jul 2023</div>
@@ -1349,11 +1349,11 @@
     <div class="c3-panel c3-route" id="c3Route" aria-label="Rover destination">
       <div class="c3-dec-tag">PRAGYAN · SET YOUR PATH</div>
       <div class="c3-chips" id="c3Dests"></div>
-      <button class="c3-btn c3-btn-gold" id="c3BtnStart" type="button" disabled>▶ Start Rover</button>
+      <button class="c3-btn c3-btn-gold" id="c3BtnStart" type="button" disabled>Start Rover</button>
     </div>
 
     <button class="c3-prints" id="c3Prints" type="button" aria-label="Tap the footprints">
-      <span class="c3-pointer">👇</span><span class="c3-pointer-label">Tap the footprints!</span>
+      <span class="c3-pointer"></span><span class="c3-pointer-label">Tap the footprints!</span>
     </button>
 
     <div class="c3-toast" id="c3Toast" role="status"></div>
@@ -1392,7 +1392,7 @@
     <!-- Header Top Bar -->
     <header class="mars-header-bar">
       <div class="mars-brand">
-        <span style="font-size: 1.2rem;">🔴</span>
+        <span style="font-size: 1.2rem; font-weight: bold; color: #ef4444;">MARS</span>
         <div>
           <div class="mars-brand-title">Mars Explorer</div>
           <div class="mars-brand-sub">SURFACE RECONNAISSANCE</div>
@@ -1401,20 +1401,20 @@
 
       <div class="mars-actions-group">
         <button class="mars-btn cyan" id="marsBtnMap" type="button"
-          title="Tactical Martian Radar & Route Planning Map">🗺️ Route Map [M]</button>
+          title="Tactical Martian Radar & Route Planning Map">Route Map [M]</button>
         <button class="mars-btn gold" id="marsBtnTransmit" type="button"
-          title="Transmit Science Telemetry & Samples to Earth DSN">📡 Transmit [T]</button>
+          title="Transmit Science Telemetry & Samples to Earth DSN">Transmit [T]</button>
         <button class="mars-btn" id="marsBtnLandingSeq" type="button"
-          title="Watch Real-Mission Post-Touchdown Sequence">🚀 Landing Check</button>
+          title="Watch Real-Mission Post-Touchdown Sequence">Landing Check</button>
         <button class="mars-btn cyan" id="marsBtnSampleLog" type="button"
-          title="View Sample Dossiers & Field Missions">🔬 Dossiers</button>
-        <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">🛠️ Hab Lab
+          title="View Sample Dossiers & Field Missions">Dossiers</button>
+        <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">Hab Lab
           Upgrades</button>
         <button class="mars-btn" id="marsBtnRealMissions" type="button"
-          title="Real Mars Missions by NASA, ISRO, CNSA, UAE">🛰️ Real Missions</button>
-        <button class="mars-btn" id="marsVoiceBtn" type="button" title="Toggle AI Mission Control Voice">🎙️ Voice:
+          title="Real Mars Missions by NASA, ISRO, CNSA, UAE">Real Missions</button>
+        <button class="mars-btn" id="marsVoiceBtn" type="button" title="Toggle AI Mission Control Voice">Voice:
           ON</button>
-        <button class="mars-btn" id="marsAudioBtn" type="button" title="Toggle audio ambience and wind">🔊 Audio:
+        <button class="mars-btn" id="marsAudioBtn" type="button" title="Toggle audio ambience and wind">Audio:
           ON</button>
         <button class="mars-btn" id="marsLangBtn" type="button" title="Switch English / Hindi">हिन्दी</button>
       </div>
@@ -1465,7 +1465,7 @@
       <!-- Solar & Climate Status Indicator -->
       <div class="mars-status-indicator" id="marsSolarStatusBox">
         <span class="mars-status-dot" id="marsStatusDot"></span>
-        <span id="marsSolarStatusText">☀️ DIRECT SUNLIGHT (SOLAR OK)</span>
+        <span id="marsSolarStatusText">DIRECT SUNLIGHT (SOLAR OK)</span>
       </div>
 
       <!-- Rover Structural Health Gauge -->
@@ -1482,7 +1482,7 @@
 
     <!-- Central Real-Time Hazard Alert Banner -->
     <div class="mars-hazard-banner" id="marsHazardBanner" style="display: none;">
-      <span class="hazard-icon" id="marsHazardIcon">⚠️</span>
+      <span class="hazard-icon" id="marsHazardIcon">!</span>
       <span class="hazard-text" id="marsHazardText">STEEP SLOPE DETECTED (2× BATTERY DRAIN)</span>
     </div>
 
@@ -1528,9 +1528,9 @@
 
     <!-- Backpack Inventory & Credits -->
     <div class="mars-inventory-pill">
-      <div>🎒 <strong>SAMPLES:</strong> <span id="marsBackpackVal" style="color: #06b6d4;">0 / 4</span></div>
+      <div><strong>SAMPLES:</strong> <span id="marsBackpackVal" style="color: #06b6d4;">0 / 4</span></div>
       <div>•</div>
-      <div>💰 <strong>CREDITS:</strong> <span class="mars-credits-val" id="marsCreditsVal">100</span></div>
+      <div><strong>CREDITS:</strong> <span class="mars-credits-val" id="marsCreditsVal">100</span></div>
       <div>•</div>
       <span style="font-size: 0.72rem; color: #94a3b8;">Refill & Cash-In at Base Hab</span>
     </div>
@@ -1546,16 +1546,16 @@
           Dense volcanic rock formed by ancient Martian shield volcanoes like Olympus Mons.
         </div>
         <div class="mars-scan-actions">
-          <button class="mars-btn gold" id="marsBtnCollect" type="button">🎒 Collect Sample (<span
+          <button class="mars-btn gold" id="marsBtnCollect" type="button">Collect Sample (<span
               id="marsScanCredits">+50 CR</span>)</button>
-          <button class="mars-btn cyan" id="marsBtnInspectSample" type="button">🔬 Scientific Dossier</button>
+          <button class="mars-btn cyan" id="marsBtnInspectSample" type="button">Scientific Dossier</button>
         </div>
       </div>
     </div>
 
     <!-- Field Discovery Toast Notification -->
     <div id="marsToastDiscovery" class="mars-toast-discovery" style="display: none;">
-      <div class="mars-toast-icon">🎒</div>
+      <div class="mars-toast-icon">•</div>
       <div class="mars-toast-body">
         <div class="mars-toast-title" id="marsToastTitle">Sample Secured!</div>
         <div class="mars-toast-desc" id="marsToastDesc">Volcanic Basalt added to backpack.</div>
@@ -1579,16 +1579,16 @@
 
     <!-- Mobile Touch Controls -->
     <div class="mars-touch-controls">
-      <button class="mars-touch-btn" id="marsTouchScan" type="button">🔍</button>
-      <button class="mars-touch-btn" id="marsTouchCollect" type="button">🎒</button>
-      <button class="mars-touch-btn" id="marsTouchRover" type="button">🚜</button>
+      <button class="mars-touch-btn" id="marsTouchScan" type="button">SCAN</button>
+      <button class="mars-touch-btn" id="marsTouchCollect" type="button">COLLECT</button>
+      <button class="mars-touch-btn" id="marsTouchRover" type="button">DRIVE</button>
     </div>
 
     <!-- Base Station Upgrades Modal -->
     <div class="mars-modal-overlay" id="marsUpgradesModal">
       <div class="mars-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title">🛠️ Hab Lab Equipment Upgrades</div>
+          <div class="mars-modal-title">Hab Lab Equipment Upgrades</div>
           <button class="mars-modal-close mars-btn" type="button">✕</button>
         </div>
         <p style="font-size: 0.86rem; color: #cbd5e1; margin-bottom: 12px;">
@@ -1598,7 +1598,7 @@
         <div class="mars-upgrades-grid">
           <div class="mars-upgrade-card">
             <div>
-              <div class="mars-upg-title">🫁 Oxygen Tank MK-II</div>
+              <div class="mars-upg-title">Oxygen Tank MK-II</div>
               <div class="mars-upg-desc">Increases EVA oxygen capacity by +50%, extending exploration range far into the
                 canyons.</div>
             </div>
@@ -1610,7 +1610,7 @@
 
           <div class="mars-upgrade-card">
             <div>
-              <div class="mars-upg-title">🏎️ Rover Turbo Motor</div>
+              <div class="mars-upg-title">Rover Turbo Motor</div>
               <div class="mars-upg-desc">Upgraded electric powertrain increases top rover speed by +40% across rough
                 dunes.</div>
             </div>
@@ -1622,7 +1622,7 @@
 
           <div class="mars-upgrade-card">
             <div>
-              <div class="mars-upg-title">🔬 Quantum Spectrometer</div>
+              <div class="mars-upg-title">Quantum Spectrometer</div>
               <div class="mars-upg-desc">Extends sample scanning range to 18 meters with instant sub-surface density
                 detection.</div>
             </div>
@@ -1634,7 +1634,7 @@
 
           <div class="mars-upgrade-card">
             <div>
-              <div class="mars-upg-title">🔋 Super-Capacitor Battery</div>
+              <div class="mars-upg-title">Super-Capacitor Battery</div>
               <div class="mars-upg-desc">Solid-state battery cells extend suit thermal regulation and scanner power by
                 +40%.</div>
             </div>
@@ -1651,7 +1651,7 @@
     <div class="mars-modal-overlay" id="marsRealMissionsModal">
       <div class="mars-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title">🛰️ Real Mars Missions by NASA, ISRO, CNSA & UAE</div>
+          <div class="mars-modal-title">Real Mars Missions by NASA, ISRO, CNSA & UAE</div>
           <button class="mars-modal-close mars-btn" type="button">✕</button>
         </div>
         <p style="font-size: 0.86rem; color: #cbd5e1; margin-bottom: 14px;">
@@ -1665,7 +1665,7 @@
     <div class="mars-modal-overlay" id="marsSampleDossierModal">
       <div class="mars-modal-box mars-dossier-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title">🔬 Field Missions & Martian Sample Dossiers</div>
+          <div class="mars-modal-title">Field Missions & Martian Sample Dossiers</div>
           <button class="mars-modal-close mars-btn" id="marsCloseDossierBtn" type="button">✕</button>
         </div>
         <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px;">
@@ -1687,7 +1687,7 @@
     <div class="mars-modal-overlay" id="marsLandingIntroModal" style="display: none;">
       <div class="mars-modal-box mars-landing-modal-box">
         <div class="mars-landing-hud-header">
-          <div class="mars-landing-badge">🔴 JEZERO CRATER TOUCHDOWN • T+00:00:00</div>
+          <div class="mars-landing-badge">JEZERO CRATER TOUCHDOWN • T+00:00:00</div>
           <h2 class="mars-landing-headline">ROVER POST-LANDING SEQUENCE</h2>
           <p class="mars-landing-subline">Real-world autonomous landing protocol executed by Martian exploration rovers (Perseverance & Curiosity).</p>
         </div>
@@ -1723,7 +1723,7 @@
 
         <!-- Sequence Actions -->
         <div class="mars-landing-actions">
-          <button class="mars-btn" id="btnSkipLandingSeq" type="button">⚡ Skip to Mission</button>
+          <button class="mars-btn" id="btnSkipLandingSeq" type="button">Skip to Mission</button>
           <button class="mars-btn gold" id="btnNextLandingStep" type="button">Next Phase ➔</button>
         </div>
       </div>
@@ -1735,7 +1735,7 @@
     <div class="mars-modal-overlay" id="marsMapModal" style="display: none;">
       <div class="mars-modal-box mars-map-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title">🗺️ Tactical Surface Radar & Route Planner</div>
+          <div class="mars-modal-title">Tactical Surface Radar & Route Planner</div>
           <button class="mars-modal-close mars-btn" id="btnCloseMapModal" type="button">✕</button>
         </div>
         <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 10px;">
@@ -1790,12 +1790,12 @@
             </div>
 
             <div class="route-advisory-box" id="routeAdvisoryBox">
-              <strong>🧭 NAVIGATION ADVISORY:</strong>
+              <strong>NAVIGATION ADVISORY:</strong>
               <p id="routeAdvisoryText">Select a target on the radar to calculate safe navigation routes and avoid high-hazard slopes.</p>
             </div>
 
             <button class="mars-btn gold" id="btnSetWaypoint" type="button" style="width: 100%; padding: 10px; font-weight: bold;">
-              🎯 Lock As Active Waypoint
+              Lock As Active Waypoint
             </button>
           </div>
         </div>
@@ -1808,7 +1808,7 @@
     <div class="mars-modal-overlay" id="marsDrillModal" style="display: none;">
       <div class="mars-modal-box mars-drill-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title" id="drillModalTitle">🔬 Sample Coring: Volcanic Basalt</div>
+          <div class="mars-modal-title" id="drillModalTitle">Sample Coring: Volcanic Basalt</div>
           <button class="mars-modal-close mars-btn" id="btnCloseDrillModal" type="button">✕</button>
         </div>
         <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;">
@@ -1825,9 +1825,9 @@
         <!-- 3D / Graphic Coring Rig Animation -->
         <div class="drill-rig-display">
           <div class="drill-arm-visual">
-            <div class="drill-motor" id="drillMotorVisual">⚙️</div>
-            <div class="drill-bit" id="drillBitVisual">🔩</div>
-            <div class="drill-rock" id="drillRockVisual">🪨</div>
+            <div class="drill-motor" id="drillMotorVisual"></div>
+            <div class="drill-bit" id="drillBitVisual"></div>
+            <div class="drill-rock" id="drillRockVisual"></div>
           </div>
           <div class="drill-status-text" id="drillStatusText">ALIGNING DRILL BIT...</div>
         </div>
@@ -1848,7 +1848,7 @@
         <!-- Drill Trigger Controls -->
         <div class="drill-actions">
           <button class="mars-btn gold drill-trigger-btn" id="btnExecuteDrill" type="button">
-            ⚡ DRILL / CORE NOW [Space]
+            DRILL / CORE NOW [Space]
           </button>
         </div>
       </div>
@@ -1860,14 +1860,14 @@
     <div class="mars-modal-overlay" id="marsTransmitModal" style="display: none;">
       <div class="mars-modal-box mars-transmit-modal-box">
         <div class="mars-modal-header">
-          <div class="mars-modal-title">📡 Deep Space Network Telemetry Transmission</div>
+          <div class="mars-modal-title">Deep Space Network Telemetry Transmission</div>
           <button class="mars-modal-close mars-btn" id="btnCloseTransmitModal" type="button">✕</button>
         </div>
 
         <!-- Satellite Relay Diagram -->
         <div class="transmit-relay-card">
           <div class="relay-node">
-            <div class="relay-icon">🚜</div>
+            <div class="relay-icon">ROVER</div>
             <div class="relay-label">Rover (Mars)</div>
           </div>
           <div class="relay-signal-line">
@@ -1875,7 +1875,7 @@
             <span class="relay-text">UHF Direct (~14 min Light Delay)</span>
           </div>
           <div class="relay-node">
-            <div class="relay-icon">🛰️</div>
+            <div class="relay-icon">ORBITER</div>
             <div class="relay-label">MRO Orbiter</div>
           </div>
           <div class="relay-signal-line">
@@ -1883,7 +1883,7 @@
             <span class="relay-text">X-Band DSN</span>
           </div>
           <div class="relay-node">
-            <div class="relay-icon">🌍</div>
+            <div class="relay-icon">EARTH DSN</div>
             <div class="relay-label">Earth Control</div>
           </div>
         </div>
@@ -1916,7 +1916,7 @@
 
         <div class="transmit-actions">
           <button class="mars-btn gold" id="btnConfirmTransmit" type="button" style="width: 100%; padding: 11px; font-weight: bold;">
-            🚀 Confirm Transmission & Collect Scientific Credits
+            Confirm Transmission & Collect Scientific Credits
           </button>
         </div>
       </div>
@@ -1935,7 +1935,7 @@
     <!-- Top Status & Actions Header -->
     <header class="sun-top-bar">
       <div class="sun-brand-group">
-        <span class="sun-emblem">☀️</span>
+        <span class="sun-emblem">SOLAR</span>
         <div>
           <div class="sun-main-title" id="sunMainTitle">Aditya-L1: Journey to the Sun</div>
           <div class="sun-sub-title" id="sunSubTitle">ISRO SOLAR OBSERVATORY PROTOCOL</div>
@@ -1948,12 +1948,12 @@
       </div>
 
       <div class="sun-top-actions">
-        <button class="sun-btn gold" id="sunBtnGuardian" type="button" title="Play as Space Weather Guardian protecting Earth">🛡️ Space Weather Guardian</button>
-        <button class="sun-btn" id="sunBtnInstruments" type="button" title="View all 7 solar payloads">🔬 7 Solar Instruments</button>
-        <button class="sun-btn" id="sunBtnQuiz" type="button" title="Take the Solar Mission Quiz">🏆 Solar Quiz</button>
-        <button class="sun-btn" id="sunBtnHaloInfo" type="button" title="Learn what makes Lagrange Point 1 special">🌀 Halo Orbit Science</button>
-        <button class="sun-btn" id="sunVoiceBtn" type="button" title="Toggle audio narration">🎙️ Voice: ON</button>
-        <button class="sun-btn" id="sunAudioBtn" type="button" title="Toggle solar audio">🔊 Audio: ON</button>
+        <button class="sun-btn gold" id="sunBtnGuardian" type="button" title="Play as Space Weather Guardian protecting Earth">Space Weather Guardian</button>
+        <button class="sun-btn" id="sunBtnInstruments" type="button" title="View all 7 solar payloads">7 Solar Instruments</button>
+        <button class="sun-btn" id="sunBtnQuiz" type="button" title="Take the Solar Mission Quiz">Solar Quiz</button>
+        <button class="sun-btn" id="sunBtnHaloInfo" type="button" title="Learn what makes Lagrange Point 1 special">Halo Orbit Science</button>
+        <button class="sun-btn" id="sunVoiceBtn" type="button" title="Toggle audio narration">Voice: ON</button>
+        <button class="sun-btn" id="sunAudioBtn" type="button" title="Toggle solar audio">Audio: ON</button>
         <button class="sun-btn" id="sunLangBtn" type="button" title="Switch English / Hindi">हिन्दी</button>
       </div>
     </header>
@@ -2001,7 +2001,7 @@
         <!-- Injected dynamically -->
       </div>
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <button class="sun-btn" type="button" onclick="window.AdityaL1Engine.speakStageFact()">🔊 Listen</button>
+        <button class="sun-btn" type="button" onclick="window.AdityaL1Engine.speakStageFact()">Listen</button>
         <div style="display: flex; gap: 6px;">
           <button class="sun-btn" id="sunBtnPrev" type="button">← Prev</button>
           <button class="sun-btn gold" id="sunBtnNext" type="button">Next →</button>
@@ -2084,7 +2084,7 @@
           ● MONITORING SUN FOR CME ERUPTIONS & FLARES
         </div>
         <button class="sun-alert-btn" id="sunAlertBtn" type="button" style="display: none;">
-          🚨 BROADCAST SPACE WEATHER ALERT TO EARTH!
+          BROADCAST SPACE WEATHER ALERT TO EARTH!
         </button>
       </div>
     </div>
@@ -2093,7 +2093,7 @@
     <div class="sun-dialog-overlay" id="sunInstrumentsModal">
       <div class="sun-dialog-box">
         <div class="sun-dialog-header">
-          <div class="sun-dialog-title">🔬 Aditya-L1 7 Scientific Payloads</div>
+          <div class="sun-dialog-title">Aditya-L1 7 Scientific Payloads</div>
           <button class="sun-dialog-close sun-btn" type="button">✕</button>
         </div>
         <p style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.5;">
@@ -2107,7 +2107,7 @@
     <div class="sun-dialog-overlay" id="sunQuizModal">
       <div class="sun-dialog-box">
         <div class="sun-dialog-header">
-          <div class="sun-dialog-title">🏆 Aditya-L1 Solar Mission Quiz</div>
+          <div class="sun-dialog-title">Aditya-L1 Solar Mission Quiz</div>
           <button class="sun-dialog-close sun-btn" type="button">✕</button>
         </div>
         <div id="sunQuizContent"></div>
@@ -2118,7 +2118,7 @@
     <div class="sun-dialog-overlay" id="sunHaloModal">
       <div class="sun-dialog-box">
         <div class="sun-dialog-header">
-          <div class="sun-dialog-title">🌀 What is a Halo Orbit & Why L1?</div>
+          <div class="sun-dialog-title">What is a Halo Orbit & Why L1?</div>
           <button class="sun-dialog-close sun-btn" type="button">✕</button>
         </div>
         <div style="font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;">
@@ -2166,7 +2166,7 @@
     <!-- Top Status & ECLSS Header Bar -->
     <header class="ship-top-bar">
       <div class="ship-brand-group">
-        <span class="ship-emblem">🛸</span>
+        <span class="ship-emblem">ORBITER</span>
         <div>
           <div class="ship-main-title">Life in Space: Crew Habitat</div>
           <div class="ship-sub-title">SLEEPING · BATHING · FOOD · CONTROL</div>
@@ -2192,27 +2192,27 @@
       <!-- Controls & Lighting Mode -->
       <div class="ship-top-actions">
         <div class="ship-light-toggle-group">
-          <button class="ship-light-pill active" data-mode="day" type="button" title="Day Operational Lighting (5000K Soft White)">☀️ Day</button>
-          <button class="ship-light-pill" data-mode="night" type="button" title="Night Crew Rest Mode (2700K Warm Amber)">🌙 Rest</button>
-          <button class="ship-light-pill emergency" data-mode="emergency" type="button" title="Emergency Depressurization Red Alert">🚨 Emergency</button>
+          <button class="ship-light-pill active" data-mode="day" type="button" title="Day Operational Lighting (5000K Soft White)">Day</button>
+          <button class="ship-light-pill" data-mode="night" type="button" title="Night Crew Rest Mode (2700K Warm Amber)">Rest</button>
+          <button class="ship-light-pill emergency" data-mode="emergency" type="button" title="Emergency Depressurization Red Alert">Emergency</button>
         </div>
-        <button class="ship-btn" id="shipAudioBtn" type="button" title="Toggle cabin ventilation hum">🔊 Audio: ON</button>
+        <button class="ship-btn" id="shipAudioBtn" type="button" title="Toggle cabin ventilation hum">Audio: ON</button>
       </div>
     </header>
 
     <!-- Left Crew Units Bar (replaces the old Viewports section) -->
     <aside class="ship-presets-bar" aria-label="Crew Units">
       <div class="ship-bar-head">CREW UNITS:</div>
-      <button class="ship-preset-btn active" data-preset="dock" type="button"><span>🚪</span><span>Dock Area</span></button>
-      <button class="ship-preset-btn" data-preset="sleep" type="button"><span>🛏️</span><span>Sleeping Unit</span></button>
-      <button class="ship-preset-btn" data-preset="bath" type="button"><span>🪥</span><span>Bathing Unit</span></button>
-      <button class="ship-preset-btn" data-preset="food" type="button"><span>🍲</span><span>Food Unit</span></button>
-      <button class="ship-preset-btn" data-preset="control" type="button"><span>🎛️</span><span>Control Room</span></button>
+      <button class="ship-preset-btn active" data-preset="dock" type="button"><span>Dock Area</span></button>
+      <button class="ship-preset-btn" data-preset="sleep" type="button"><span>Sleeping Unit</span></button>
+      <button class="ship-preset-btn" data-preset="bath" type="button"><span>Bathing Unit</span></button>
+      <button class="ship-preset-btn" data-preset="food" type="button"><span>Food Unit</span></button>
+      <button class="ship-preset-btn" data-preset="control" type="button"><span>Control Room</span></button>
     </aside>
 
     <!-- Game HUD: lives + challenge progress -->
     <div class="ship-hud" aria-live="polite">
-      <span id="shipLives" title="Lives">❤️❤️❤️</span>
+      <span id="shipLives" title="Lives">Lives: 3 / 3</span>
       <span id="shipStageLabel">Challenge 1 / 4</span>
       <span id="shipPips"><i></i><i></i><i></i><i></i></span>
       <button class="ship-btn" id="shipRestartBtn" type="button" title="Restart mission">↻</button>

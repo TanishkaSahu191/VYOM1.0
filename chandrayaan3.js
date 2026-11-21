@@ -25,9 +25,9 @@
     ['Rover & experiments', 'Shiv Shakti Point', 'Pragyan rolls out and explores for about one lunar day (~14 Earth days), checking the surface and detecting sulphur and other elements.']
   ];
   const DESTS = [
-    { id: 'rocks', icon: '🪨', name: 'Boulder field', x: 520, fact: 'LIBS laser fired at the soil here: sulphur and other elements detected!' },
-    { id: 'crater', icon: '🕳️', name: 'Crater rim', x: 820, fact: 'Temperature probe: about +60 °C on the surface, but only about −10 °C just 8 cm below.' },
-    { id: 'flag', icon: '🇺🇸', name: 'USA flag', x: 1150, fact: '' }
+    { id: 'rocks', icon: '•', name: 'Boulder field', x: 520, fact: 'LIBS laser fired at the soil here: sulphur and other elements detected!' },
+    { id: 'crater', icon: '•', name: 'Crater rim', x: 820, fact: 'Temperature probe: about +60 °C on the surface, but only about −10 °C just 8 cm below.' },
+    { id: 'flag', icon: 'FLAG', name: 'USA flag', x: 1150, fact: '' }
   ];
   const STARS = Array.from({ length: 140 }, () => ({ x: Math.random(), y: Math.random(), r: rnd(.4, 1.6), p: rnd(0, 6) }));
 
@@ -339,7 +339,7 @@
   }
   function decision1() {
     S.d.hz = 1; hint('Hazard cameras spotted holes below — you decide!'); setDesc('Fine braking phase: hazard cameras scan the terrain. Landing needs flat, hole-free ground.');
-    const o = [{ t: '⬇ Land right here', s: 'Descend straight down', fn: crash1 }, { t: '➡ Move forward, choose another spot', s: 'Hover, fly ahead and scan again', fn: divert }];
+    const o = [{ t: 'Land right here', s: 'Descend straight down', fn: crash1 }, { t: 'Move forward, choose another spot', s: 'Hover, fly ahead and scan again', fn: divert }];
     if (Math.random() < .5) o.reverse();
     decide('DECISION 1 OF 2 · HAZARD SCAN', 'The camera shows holes (craters) right below Vikram. How do you land?', o);
   }
@@ -354,8 +354,8 @@
   function decision2() {
     S.d.ph = 'dec2'; hint('Compare the two sites. Which is safer?'); setDesc('New terrain scanned. Compare the slope and boulders at each site.');
     decide('DECISION 2 OF 2 · CHOOSE THE SITE', 'Two sites ahead. Read the slope and boulder data on each marker, then pick one.', [
-      { t: '📍 Land at Site 1', s: 'Left marker', fn: () => landAt(0) },
-      { t: '📍 Land at Site 2', s: 'Right marker', fn: () => landAt(1) }
+      { t: 'Land at Site 1', s: 'Left marker', fn: () => landAt(0) },
+      { t: 'Land at Site 2', s: 'Right marker', fn: () => landAt(1) }
     ]);
   }
   function landAt(i) {
@@ -369,9 +369,9 @@
     for (let i = 0; i < 40; i++) S.fx.push({ x: s.x + rnd(-20, 20), y: gs(s.x) - 2, vx: rnd(-160, 160), vy: -rnd(5, 40), life: rnd(.8, 1.6), max: 1.6, r: rnd(3, 8), c: '200,200,205', smoke: true });
     big('TOUCHDOWN!', 4000); hint('Soft landing achieved near the south pole!'); toast('Landed near 69.4° S · Shiv Shakti Point · 23 Aug 2023, ~6:04 PM IST', 6000);
     setDesc('Soft landing! India is the first country to land near the Moon’s south pole.');
-    setAct('🚜 Deploy Pragyan rover', startSurface);
+    setAct('Deploy Pragyan rover', startSurface);
   }
-  function fail(title, text) { beep(140, .5, 'sawtooth'); hint('Landing failed — try again!'); result('💥', title, text, '🔁 Try the landing again', startDescent, true); }
+  function fail(title, text) { beep(140, .5, 'sawtooth'); hint('Landing failed — try again!'); result('X', title, text, 'Try the landing again', startDescent, true); }
 
   function updDescent(dt) {
     const L = S.L, d = S.d, M = 1500 / H;
@@ -395,7 +395,7 @@
     for (const r of T.rocks) { const sx = r.x - cx; if (sx < -30 || sx > W + 30) continue; ctx.fillStyle = '#6b7280'; ctx.beginPath(); ctx.ellipse(sx, gs(r.x) - r.r * .4, r.r * 1.3, r.r, 0, 0, 6.3); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(sx - r.r * .6, gs(r.x) - r.r * 1.1, r.r * .8, 2); }
     if (d.hz) {
       const sx = -cx; ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.ellipse(sx, G0() + 28, 135, 50, 0, 0, 6.3); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = 'rgba(239,68,68,.15)'; ctx.fill(); tag('⚠ HOLES · UNSAFE', sx, G0() - 30, '#ef4444');
+      ctx.fillStyle = 'rgba(239,68,68,.15)'; ctx.fill(); tag('HOLES · UNSAFE', sx, G0() - 30, '#ef4444');
     }
     if (['dec2', 'land', 'fall', 'touch'].includes(d.ph) && T.sites) T.sites.forEach((s, i) => {
       const sx = s.x - cx, y = gs(s.x), blink = Math.sin(performance.now() / 250) > 0;
@@ -423,12 +423,12 @@
   function showRoute() {
     document.querySelectorAll('.c3-chip').forEach(c => c.classList.remove('sel'));
     $('c3BtnStart').disabled = true; $('c3Route').classList.add('is-on'); S.sel = null;
-    hint('Pick a destination for Pragyan, then press Start. Hint: look for the US flag 🇺🇸');
+    hint('Pick a destination for Pragyan, then press Start. Hint: look for the US flag');
   }
   function arrive(d) {
     S.R.ph = 'idle'; S.sel = null; beep(880, .12);
     if (d.id === 'flag') {
-      toast('You reached the US flag! Look at the ground near it…', 5000); hint('Footprints! Tap the glowing footprints 👇'); S.pr = .01;
+      toast('You reached the US flag! Look at the ground near it…', 5000); hint('Footprints! Tap the glowing footprints'); S.pr = .01;
     } else { toast(d.icon + ' ' + d.fact, 6000); showRoute(); }
   }
   function updSurface(dt) {
@@ -491,7 +491,7 @@
   function openFlash() {
     if (S.flash) return; S.flash = true; beep(740, .15); $('c3Prints').classList.remove('is-on');
     const f = $('c3Flash');
-    f.innerHTML = `<div class="c3-flash-card"><div class="c3-flash-tag">FLASHCARD · APOLLO 11</div><div class="c3-flash-ico">👣</div><h3>Neil Armstrong’s footprints</h3>
+    f.innerHTML = `<div class="c3-flash-card"><div class="c3-flash-tag">FLASHCARD · APOLLO 11</div><div class="c3-flash-ico"></div><h3>Neil Armstrong’s footprints</h3>
       <p>These boot prints belong to <strong>Neil Armstrong</strong>, the first human to walk on the Moon (Apollo 11, 20 July 1969).</p>
       <ul><li>The Moon has no wind or rain, so footprints can last for a very long time.</li><li>Armstrong and Buzz Aldrin explored the Sea of Tranquility and planted the US flag.</li>
       <li class="note">Game note: the real Apollo 11 site is far from Chandrayaan-3’s south-pole landing. Here we imagine Pragyan visiting it.</li></ul>
@@ -500,7 +500,7 @@
     $('c3FlashOk').onclick = () => { f.classList.remove('is-open'); finish(); };
   }
   function finish() {
-    confetti(); result('🌕🇮🇳', 'MISSION COMPLETE', 'Pragyan explored for about one lunar day (~14 Earth days) and detected sulphur and other elements. Then Vikram and Pragyan went into sleep mode as the lunar night began in early September.', '🔄 Play again', () => E.restart(), false);
+    confetti(); result('SUCCESS', 'MISSION COMPLETE', 'Pragyan explored for about one lunar day (~14 Earth days) and detected sulphur and other elements. Then Vikram and Pragyan went into sleep mode as the lunar night began in early September.', 'Play again', () => E.restart(), false);
   }
 
   /* =========================================================
@@ -555,7 +555,7 @@
       $('c3Prints').onclick = openFlash;
       $('c3BtnSkip').onclick = () => { if (['launch', 'space'].includes(S.sc) && !S.pend) { setAct(); S.pend = startDescent; } };
       $('c3BtnRestart').onclick = () => this.restart();
-      $('c3VoiceToggle').onclick = () => { voice = !voice; $('c3VoiceToggle').textContent = voice ? '🎙️ Voice: ON' : '🎙️ Voice: OFF'; if (!voice) try { speechSynthesis.cancel(); } catch (e) {} };
+      $('c3VoiceToggle').onclick = () => { voice = !voice; $('c3VoiceToggle').textContent = voice ? 'Voice: ON' : 'Voice: OFF'; if (!voice) try { speechSynthesis.cancel(); } catch (e) {} };
       $('c3CardNarrateBtn').onclick = () => this.speakStageFact();
       this.restart(); this.resume();
     },
@@ -565,7 +565,7 @@
       clearUI(); $('c3MissionClock').textContent = 'T+ 00:00:00';
       S.l = { ph: 'pad', alt: 0, v: 0, cd: 0, n: 0, sep: false, bs: [] };
       stageUI(1, 'Press “Start Countdown” to launch LVM3-M4.');
-      setAct('🚀 Start Countdown', () => { S.l.ph = 'count'; S.l.cd = 5.99; });
+      setAct('Start Countdown', () => { S.l.ph = 'count'; S.l.cd = 5.99; });
     },
     goToStage(n) {
       if (!ready) return; n = clamp(n | 0, 1, 8);

@@ -20,7 +20,7 @@
     "subtitle": "NASA // Built to Carry Astronauts to the Moon",
     "agency": "NASA // USA",
     "agencyClass": "nasa",
-    "agencyBadge": "🇺🇸 NASA // USA",
+    "agencyBadge": "NASA // USA",
     "cameraDistance": 6.8,
     "components": [
       {
@@ -271,7 +271,7 @@
     "subtitle": "SpaceX // Commercial Autonomous Astronaut Capsule",
     "agency": "SPACEX // USA",
     "agencyClass": "spacex",
-    "agencyBadge": "🚀 SPACEX // USA",
+    "agencyBadge": "SPACEX // USA",
     "cameraDistance": 6.6,
     "components": [
       {
@@ -522,7 +522,7 @@
     "subtitle": "ISRO // India’s Indigenous Human Spaceflight Programme",
     "agency": "ISRO // INDIA",
     "agencyClass": "isro",
-    "agencyBadge": "🇮🇳 ISRO // INDIA",
+    "agencyBadge": "ISRO // INDIA",
     "cameraDistance": 6.5,
     "components": [
       {
@@ -1007,7 +1007,7 @@
         if (!visual.querySelector('.visual-3d-hint')) {
           const hint = document.createElement('div');
           hint.className = 'visual-3d-hint';
-          hint.innerHTML = '<span class="hint-icon">🔄</span><span>Inspect in 3D</span>';
+          hint.innerHTML = '<span class="hint-icon"></span><span>Inspect in 3D</span>';
           visual.appendChild(hint);
         }
 
@@ -1029,7 +1029,7 @@
           btn3D.className = 'btn-inspect-3d';
           btn3D.type = 'button';
           btn3D.title = 'Inspect 3D rotatable model';
-          btn3D.innerHTML = '<span>🔄 3D Model</span>';
+          btn3D.innerHTML = '<span>3D Model</span>';
           btn3D.addEventListener('click', (e) => {
             e.stopPropagation();
             openSpacecraft3DModal(craftId);

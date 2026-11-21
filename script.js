@@ -977,7 +977,7 @@
       card.innerHTML = `
         <div class="rocket-card-header">
           <span class="agency-badge ${rocket.agency}">
-            ${rocket.agencyBadgeText || (rocket.agency === 'isro' ? '🇮🇳 ISRO' : (rocket.agency === 'spacex' ? '🚀 SPACEX' : '🇺🇸 NASA'))}
+            ${rocket.agencyBadgeText || (rocket.agency === 'isro' ? 'ISRO' : (rocket.agency === 'spacex' ? 'SPACEX' : 'NASA'))}
           </span>
           <span class="role-badge">${rocket.role}</span>
         </div>
@@ -1019,7 +1019,7 @@
 
         <div class="card-actions-split">
           <button class="btn-inspect-3d" type="button" title="Inspect 3D rotatable model with labeled components">
-            <span>🔄 3D Model</span>
+            <span>3D Model</span>
           </button>
           <button class="btn-select-rocket" type="button">
             <span>${isSelected ? '✓ Assigned to Mission' : 'Select for Mission ➔'}</span>
@@ -1124,7 +1124,7 @@
       if (item) {
         item.classList.remove('is-done');
         const icon = item.querySelector('.check-icon');
-        if (icon) icon.textContent = '⏳';
+        if (icon) icon.textContent = '...';
       }
     });
 
@@ -2687,7 +2687,7 @@
     btnMuteToggle.addEventListener('click', () => {
       isMuted = !isMuted;
       if (muteLabel) muteLabel.textContent = isMuted ? 'MUTED' : 'MUTE';
-      if (muteIcon) muteIcon.textContent = isMuted ? '🔇' : '🔊';
+      if (muteIcon) muteIcon.textContent = isMuted ? 'Muted' : 'Audio';
       btnMuteToggle.classList.toggle('cc-active', isMuted);
       if (isMuted && window.speechSynthesis) {
         window.speechSynthesis.cancel();
@@ -2753,12 +2753,12 @@
   }
 
   const BADGES = {
-    lvl1: { id: 'lvl1', name: 'Orbital Pioneer', icon: '🥉', desc: 'Mastered Low Earth Orbit, ISS, NavIC, and the Lunar South Pole.' },
-    lvl2: { id: 'lvl2', name: 'Terrestrial Explorer', icon: '🥈', desc: 'Navigated Mercury, Venus retrograde spin, and Mars rover missions.' },
-    lvl3: { id: 'lvl3', name: 'Jovian Voyager', icon: '🥇', desc: 'Conquered the Asteroid Belt, 16 Psyche, and Jupiter’s Great Red Spot.' },
-    lvl4: { id: 'lvl4', name: 'Deep Space Pioneer', icon: '💎', desc: 'Explored Saturn’s rings, sideways Uranus, supersonic Neptune, and Voyager 1.' },
-    bonus: { id: 'bonus', name: 'Singularity Master', icon: '🌌', desc: 'Braved the gravitational lensing and event horizon of Sagittarius A*.' },
-    perfect: { id: 'perfect', name: 'Quiz Perfectionist', icon: '⚡', desc: 'Achieved a flawless 100% score on a space academy knowledge quiz.' }
+    lvl1: { id: 'lvl1', name: 'Orbital Pioneer', icon: '1', desc: 'Mastered Low Earth Orbit, ISS, NavIC, and the Lunar South Pole.' },
+    lvl2: { id: 'lvl2', name: 'Terrestrial Explorer', icon: '2', desc: 'Navigated Mercury, Venus retrograde spin, and Mars rover missions.' },
+    lvl3: { id: 'lvl3', name: 'Jovian Voyager', icon: '3', desc: 'Conquered the Asteroid Belt, 16 Psyche, and Jupiter’s Great Red Spot.' },
+    lvl4: { id: 'lvl4', name: 'Deep Space Pioneer', icon: '4', desc: 'Explored Saturn’s rings, sideways Uranus, supersonic Neptune, and Voyager 1.' },
+    bonus: { id: 'bonus', name: 'Singularity Master', icon: '5', desc: 'Braved the gravitational lensing and event horizon of Sagittarius A*.' },
+    perfect: { id: 'perfect', name: 'Quiz Perfectionist', icon: 'Master', desc: 'Achieved a flawless 100% score on a space academy knowledge quiz.' }
   };
 
   const QUIZ_DATA = {
@@ -3472,9 +3472,9 @@
       if (c.isCurrent) tr.className = 'is-current-cadet';
 
       let rankMedal = `#${idx + 1}`;
-      if (idx === 0) rankMedal = '🥇 1';
-      else if (idx === 1) rankMedal = '🥈 2';
-      else if (idx === 2) rankMedal = '🥉 3';
+      if (idx === 0) rankMedal = '1st';
+      else if (idx === 1) rankMedal = '2nd';
+      else if (idx === 2) rankMedal = '3rd';
 
       tr.innerHTML = `
         <td><strong>${rankMedal}</strong></td>
@@ -3574,11 +3574,11 @@
     promptLevelTarget = String(levelNum);
 
     const levelDetails = {
-      '1': { title: 'LEVEL 1 COMPLETE: EARTH & THE MOON! 🚀', desc: 'You discovered satellites orbiting Earth and visited where Chandrayaan-3 landed on the Moon! Take the Cadet Quiz to earn stars and level up!' },
-      '2': { title: 'LEVEL 2 COMPLETE: THE ROCKY PLANETS & MARS! 🪐', desc: 'You visited scorching Mercury, super-hot Venus, and the red planet Mars! Test your space knowledge to collect your next mission badge!' },
-      '3': { title: 'LEVEL 3 COMPLETE: ASTEROIDS & JUPITER! ☄️', desc: 'You zoomed through the rocky asteroid belt and saw Jupiter’s giant swirling storm! Ready for the quiz challenge?' },
-      '4': { title: 'LEVEL 4 COMPLETE: THE RINGED WORLDS & BEYOND! 🛸', desc: 'You explored Saturn’s icy rings, tilted Uranus, stormy Neptune, and Voyager 1 in deep space! Show off your cosmic smarts!' },
-      'bonus': { title: '★ BONUS LEVEL: MILKY WAY BLACK HOLE! 🕳️', desc: 'You reached Sagittarius A* at the very center of our galaxy! Answer the cosmic questions to earn the Black Hole Master badge!' }
+      '1': { title: 'LEVEL 1 COMPLETE: EARTH & THE MOON!', desc: 'You discovered satellites orbiting Earth and visited where Chandrayaan-3 landed on the Moon! Take the Cadet Quiz to earn stars and level up!' },
+      '2': { title: 'LEVEL 2 COMPLETE: THE ROCKY PLANETS & MARS!', desc: 'You visited scorching Mercury, super-hot Venus, and the red planet Mars! Test your space knowledge to collect your next mission badge!' },
+      '3': { title: 'LEVEL 3 COMPLETE: ASTEROIDS & JUPITER!', desc: 'You zoomed through the rocky asteroid belt and saw Jupiter’s giant swirling storm! Ready for the quiz challenge?' },
+      '4': { title: 'LEVEL 4 COMPLETE: THE RINGED WORLDS & BEYOND!', desc: 'You explored Saturn’s icy rings, tilted Uranus, stormy Neptune, and Voyager 1 in deep space! Show off your cosmic smarts!' },
+      'bonus': { title: '★ BONUS LEVEL: MILKY WAY BLACK HOLE!', desc: 'You reached Sagittarius A* at the very center of our galaxy! Answer the cosmic questions to earn the Black Hole Master badge!' }
     };
 
     const details = levelDetails[promptLevelTarget] || levelDetails['1'];
@@ -3814,7 +3814,7 @@
 
     if (apodTitle) apodTitle.textContent = data.title || 'Astronomy Picture of the Day';
     if (apodDate) apodDate.textContent = data.date || new Date().toISOString().slice(0, 10);
-    if (apodCopyright) apodCopyright.textContent = data.copyright ? `© ${data.copyright}` : 'Public Domain (NASA)';
+    if (apodCopyright) apodCopyright.textContent = data.copyright ? `(c) ${data.copyright}` : 'Public Domain (NASA)';
     if (apodExplanation) apodExplanation.textContent = data.explanation || 'No explanation telemetry available.';
 
     if (mfdTransSnippet) {
@@ -3924,7 +3924,7 @@
           <p class="isro-card-desc">${item.desc}</p>
           <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" class="isro-card-link">
             <span>ISRO MISSION PORTAL</span>
-            <span>↗</span>
+            <span>→</span>
           </a>
         </div>
       `;
