@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VYOM - Gamified 3D Space Learning Platform | NASA & ISRO</title>
-  <link rel="icon" type="image/jpeg" href="./assets/vyom-logo.jpg" />
-  <link rel="apple-touch-icon" href="./assets/vyom-logo.jpg" />
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./chandrayaan3.css" />
   <link rel="stylesheet" href="./mars.css" />
@@ -19,6 +17,13 @@
        TOP GLOBAL PHASE NAVIGATOR (Direct Access to All Phases)
        ======================================================== -->
   <nav class="global-phase-nav" id="globalPhaseNav" aria-label="Global Phase Navigator">
+    <div class="nav-brand-group">
+      <div class="nav-logo-icon">✦</div>
+      <div class="nav-brand-title">
+        <span>VYOM</span>
+        <span class="nav-brand-sub">SPACE PROTOCOL</span>
+      </div>
+    </div>
 
     <div class="nav-phase-tabs" role="tablist">
       <button class="nav-tab active" id="tabPhase1" data-phase="1" type="button" role="tab" title="Go to Phase 1 Launchpad">
@@ -48,6 +53,10 @@
       <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
         <span class="tab-badge">07</span>
         <span class="tab-text">Spaceship</span>
+      </button>
+      <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
+        <span class="tab-badge">08</span>
+        <span class="tab-text">Pitch & Demo</span>
       </button>
     </div>
   </nav>
@@ -189,7 +198,11 @@
     <header class="hangar-header">
       <div class="hangar-brand">
         <div class="brand-symbol">
-          <img src="./assets/vyom-logo.jpg" alt="VYOM Logo" class="hangar-brand-logo-img" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9" stroke="#38bdf8" />
+            <path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="#818cf8" />
+            <circle cx="12" cy="12" r="3" fill="#38bdf8" />
+          </svg>
         </div>
         <div class="brand-text">
           <span class="brand-title">VYOM</span>
@@ -203,6 +216,13 @@
       </div>
 
       <div class="hangar-user-hud">
+        <div class="cadet-badge">
+          <span class="cadet-avatar">★</span>
+          <div class="cadet-info">
+            <span class="cadet-rank">CADET PILOT</span>
+            <span class="cadet-xp" id="userXpDisplay">150 XP</span>
+          </div>
+        </div>
         <button id="btnReturnToLaunch" class="btn-hangar-ghost" type="button" title="Return to Launch Stage">
           <span>← Launchpad</span>
         </button>
@@ -395,10 +415,11 @@
           <div class="craft3d-header-left">
             <div class="craft3d-meta-row">
               <span class="agency-badge" id="craft3DAgencyBadge">NASA // USA</span>
-              <span class="craft3d-sub-badge">3D MODEL</span>
+              <span class="craft3d-sub-badge">3D ROTATABLE MODEL & LABELS</span>
             </div>
             <div class="craft3d-title-group">
               <h2 class="craft3d-title" id="craft3DTitle">Orion MPCV</h2>
+              <span class="craft3d-subtitle" id="craft3DSubtitle">Deep Space Lunar Crew Exploration Vehicle</span>
             </div>
           </div>
 
@@ -412,11 +433,11 @@
           <button id="btnCloseCraft3D" class="craft3d-close-btn" type="button" title="Close 3D Inspector">✕</button>
         </div>
 
-        <!-- 3D Viewport Body (Pure 3D Model Only) -->
+        <!-- 3D Viewport + Component Explorer Body -->
         <div class="craft3d-body">
           <div class="craft3d-viewport-container" id="craft3DViewportContainer">
             <canvas id="craft3DCanvas"></canvas>
-            <div class="craft3d-labels-overlay" id="craft3DLabelsOverlay" style="display: none;"></div>
+            <div class="craft3d-labels-overlay" id="craft3DLabelsOverlay"></div>
 
             <!-- Viewport Bottom HUD Controls -->
             <div class="craft3d-viewport-controls">
@@ -432,10 +453,42 @@
                 </button>
               </div>
               <div class="craft3d-hint-pill">
-                <span>Drag to Rotate • Scroll to Zoom</span>
+                <span>Drag to Rotate • Scroll to Zoom • Click Pin to Inspect</span>
               </div>
             </div>
           </div>
+
+          <!-- Components Sidebar -->
+          <div class="craft3d-sidebar">
+            <div class="craft3d-sidebar-header">
+              <span class="sidebar-kicker">EXPLORE ALL SUBSYSTEMS</span>
+              <h3 class="sidebar-title">Annotated Components</h3>
+              <p class="sidebar-desc">Click any component below or on the 3D model to inspect verified flight engineering telemetry.</p>
+            </div>
+
+            <div class="craft3d-components-list" id="craft3DComponentsList">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Active Component Detail Dossier -->
+            <div class="craft3d-detail-card" id="craft3DDetailCard">
+              <div class="detail-badge" id="craft3DDetailIndex">SUBSYSTEM 01</div>
+              <h4 class="detail-name" id="craft3DDetailName">Crew Module</h4>
+              <p class="detail-desc" id="craft3DDetailDesc">Detailed component engineering telemetry.</p>
+              <div class="detail-specs-grid" id="craft3DDetailSpecs"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="craft3d-footer">
+          <div class="craft3d-footer-info">
+            <span class="info-dot"></span>
+            <span id="craft3DFooterStatus">All telemetry verified with ISRO & NASA human spaceflight programmes.</span>
+          </div>
+          <button id="btnCraft3DSelectMission" class="btn-select-rocket" type="button">
+            <span>Select for Mission ➔</span>
+          </button>
         </div>
       </div>
     </div>
@@ -783,10 +836,7 @@
               <span class="badge-star">★</span>
               <span>VYOM // HACKATHON MISSION DECK & SHOWCASE</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
-              <img src="./assets/vyom-logo.jpg" alt="VYOM Logo" class="pitch-logo-img" style="height: 34px; width: auto; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); flex-shrink: 0;" />
-              <h2 class="pitch-title" style="margin: 0;">INTERPLANETARY LEARNING PROTOCOL</h2>
-            </div>
+            <h2 class="pitch-title">INTERPLANETARY LEARNING PROTOCOL</h2>
           </div>
           <div class="pitch-tabs" role="tablist">
             <button class="pitch-tab active" data-tab="pitch" type="button">PITCH</button>
@@ -1318,560 +1368,150 @@
   </section>
 
   <!-- ========================================================
-       6. PHASE 5: MARS EXPLORER (SURFACE ASTRONAUT MISSION)
+       PHASE 5: MARS EXPLORER — 3 missions, route cost, flashcards
        ======================================================== -->
   <section id="marsStage" class="mars-stage" aria-label="Mars Explorer: Astronaut Mission" style="display: none;">
-    <!-- 3D WebGL Canvas -->
-    <canvas id="marsCanvas"></canvas>
+  <canvas id="marsCanvas"></canvas>
 
-    <!-- Astronaut Helmet Visor HUD Frame -->
-    <div class="mars-visor-frame" aria-hidden="true"></div>
+  <!-- Compass -->
+  <div class="mars-top-compass">
+    <span class="mars-compass-pin">COMPASS: <span id="marsCompassHeading">0°</span></span>
+    <span style="color:#64748b;">|</span>
+    <span id="marsVehicleMode" style="color:#06b6d4;">ROVER</span>
+  </div>
 
-    <!-- Dust Storm Full-Screen Vignette -->
-    <div class="mars-storm-vignette" aria-hidden="true"></div>
-
-    <!-- Top Compass Tape -->
-    <div class="mars-top-compass">
-      <span>COMPASS: <span id="marsCompassHeading" style="color: #06b6d4; font-weight: bold;">0°</span></span>
-      <span>•</span>
-      <span class="mars-compass-pin">⌖ BASE HAB: 0, 8.5m</span>
-      <span>•</span>
-      <span style="color: #f59e0b;">SOL 242 (JEZERO CRATER)</span>
-    </div>
-
-    <!-- Header Top Bar -->
-    <header class="mars-header-bar">
-      <div class="mars-brand">
-        <span style="font-size: 1.2rem; font-weight: bold; color: #ef4444;">MARS</span>
-        <div>
-          <div class="mars-brand-title">Mars Explorer</div>
-          <div class="mars-brand-sub">SURFACE RECONNAISSANCE</div>
-        </div>
-      </div>
-
-      <div class="mars-actions-group">
-        <button class="mars-btn cyan" id="marsBtnMap" type="button"
-          title="Tactical Martian Radar & Route Planning Map">Route Map [M]</button>
-        <button class="mars-btn gold" id="marsBtnTransmit" type="button"
-          title="Transmit Science Telemetry & Samples to Earth DSN">Transmit [T]</button>
-        <button class="mars-btn" id="marsBtnLandingSeq" type="button"
-          title="Watch Real-Mission Post-Touchdown Sequence">Landing Check</button>
-        <button class="mars-btn cyan" id="marsBtnSampleLog" type="button"
-          title="View Sample Dossiers & Field Missions">Dossiers</button>
-        <button class="mars-btn gold" id="marsBtnUpgrades" type="button" title="Base Lab Equipment Upgrades">Hab Lab
-          Upgrades</button>
-        <button class="mars-btn" id="marsBtnRealMissions" type="button"
-          title="Real Mars Missions by NASA, ISRO, CNSA, UAE">Real Missions</button>
-        <button class="mars-btn" id="marsVoiceBtn" type="button" title="Toggle AI Mission Control Voice">Voice:
-          ON</button>
-        <button class="mars-btn" id="marsAudioBtn" type="button" title="Toggle audio ambience and wind">Audio:
-          ON</button>
-        <button class="mars-btn" id="marsLangBtn" type="button" title="Switch English / Hindi">हिन्दी</button>
-      </div>
-    </header>
-
-    <!-- Left Life Support Vitals Panel -->
-    <aside class="mars-vitals-panel" aria-label="Astronaut Life Support">
-      <div class="mars-vital-title">
-        <span>LIFE SUPPORT</span>
-        <span id="marsVehicleMode" style="color: #06b6d4;">ON-FOOT EVA</span>
-      </div>
-
-      <div class="mars-vital-gauge">
-        <div class="mars-gauge-meta">
-          <span>OXYGEN (O₂)</span>
-          <span id="marsOxygenVal" style="color: #06b6d4; font-weight: bold;">100%</span>
-        </div>
-        <div class="mars-gauge-track">
-          <div class="mars-gauge-fill fill-oxygen" id="marsOxygenFill" style="width: 100%;"></div>
-        </div>
-      </div>
-
-      <div class="mars-vital-gauge">
-        <div class="mars-gauge-meta">
-          <span>SUIT BATTERY</span>
-          <span id="marsBatteryVal" style="color: #eab308; font-weight: bold;">100%</span>
-        </div>
-        <div class="mars-gauge-track">
-          <div class="mars-gauge-fill fill-battery" id="marsBatteryFill" style="width: 100%;"></div>
-        </div>
-      </div>
-
-      <div class="mars-vital-gauge">
-        <div class="mars-gauge-meta">
-          <span>SUIT TEMP</span>
-          <span style="color: #94a3b8;">-48°C (THERMAL OK)</span>
-        </div>
-      </div>
-
-      <!-- Real-Time Mission Score -->
-      <div class="mars-vital-gauge mars-score-gauge">
-        <div class="mars-gauge-meta">
-          <span>MISSION SCORE</span>
-          <span id="marsScoreVal" style="color: #22c55e; font-weight: bold; font-size: 1rem;">0 PTS</span>
-        </div>
-      </div>
-
-      <!-- Solar & Climate Status Indicator -->
-      <div class="mars-status-indicator" id="marsSolarStatusBox">
-        <span class="mars-status-dot" id="marsStatusDot"></span>
-        <span id="marsSolarStatusText">DIRECT SUNLIGHT (SOLAR OK)</span>
-      </div>
-
-      <!-- Rover Structural Health Gauge -->
-      <div class="mars-vital-gauge">
-        <div class="mars-gauge-meta">
-          <span>ROVER HEALTH</span>
-          <span id="marsHealthVal" style="color: #4ade80; font-weight: bold;">100%</span>
-        </div>
-        <div class="mars-gauge-track">
-          <div class="mars-gauge-fill" id="marsHealthFill" style="width: 100%; background: #22c55e;"></div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Central Real-Time Hazard Alert Banner -->
-    <div class="mars-hazard-banner" id="marsHazardBanner" style="display: none;">
-      <span class="hazard-icon" id="marsHazardIcon">!</span>
-      <span class="hazard-text" id="marsHazardText">STEEP SLOPE DETECTED (2× BATTERY DRAIN)</span>
-    </div>
-
-    <!-- Right Mission Objectives Checklist -->
-    <aside class="mars-objectives-card" aria-label="Mission Directives">
-      <div class="mars-obj-header">
-        <span>FIELD MISSIONS & SAMPLES</span>
-        <span style="color: #22c55e;">ARES-IV</span>
-      </div>
-      <div class="mars-obj-list" id="marsObjList">
-        <div class="mars-obj-item" id="objScanBasalt" data-sample="0" title="Click to view Sample Dossier">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 1: Volcanic Basalt</span>
-          <span class="mars-obj-tag">+50 CR</span>
-        </div>
-        <div class="mars-obj-item" id="objHematite" data-sample="1" title="Click to view Sample Dossier">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 2: Hematite "Blueberries"</span>
-          <span class="mars-obj-tag">+90 CR</span>
-        </div>
-        <div class="mars-obj-item" id="objSandstone" data-sample="2" title="Click to view Sample Dossier">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 3: River Delta Sandstone</span>
-          <span class="mars-obj-tag">+60 CR</span>
-        </div>
-        <div class="mars-obj-item" id="objFindIce" data-sample="3" title="Click to view Sample Dossier">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 4: Subsurface Cryo-Ice</span>
-          <span class="mars-obj-tag">+120 CR</span>
-        </div>
-        <div class="mars-obj-item" id="objFossil" data-sample="4" title="Click to view Sample Dossier">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 5: Biogenic Stromatolite</span>
-          <span class="mars-obj-tag">+150 CR</span>
-        </div>
-        <div class="mars-obj-item" id="objDeposit" title="Return to Base Hab to deposit samples">
-          <span class="mars-obj-check">[ ]</span>
-          <span class="mars-obj-text">Mission 6: Hab Lab Spectrometry</span>
-          <span class="mars-obj-tag">+REFILL</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Backpack Inventory & Credits -->
-    <div class="mars-inventory-pill">
-      <div><strong>SAMPLES:</strong> <span id="marsBackpackVal" style="color: #06b6d4;">0 / 4</span></div>
-      <div>•</div>
-      <div><strong>CREDITS:</strong> <span class="mars-credits-val" id="marsCreditsVal">100</span></div>
-      <div>•</div>
-      <span style="font-size: 0.72rem; color: #94a3b8;">Refill & Cash-In at Base Hab</span>
-    </div>
-
-    <!-- Scanner Reticle & Discovery Card (Center Screen) -->
-    <div class="mars-scanner-overlay">
-      <div class="mars-scanner-crosshair" id="marsScannerCrosshair"></div>
-
-      <div class="mars-scanner-card" id="marsScannerCard">
-        <div class="mars-scan-name" id="marsScanName">Volcanic Basalt Rock</div>
-        <div class="mars-scan-class" id="marsScanClass">Igneous Mafic Rock • AI CONFIDENCE: 98.4%</div>
-        <div class="mars-scan-facts" id="marsScanFacts">
-          Dense volcanic rock formed by ancient Martian shield volcanoes like Olympus Mons.
-        </div>
-        <div class="mars-scan-actions">
-          <button class="mars-btn gold" id="marsBtnCollect" type="button">Collect Sample (<span
-              id="marsScanCredits">+50 CR</span>)</button>
-          <button class="mars-btn cyan" id="marsBtnInspectSample" type="button">Scientific Dossier</button>
-        </div>
+  <!-- Header -->
+  <header class="mars-header-bar">
+    <div class="mars-brand">
+      <div>
+        <div class="mars-brand-title">MARS EXPLORER</div>
+        <div class="mars-brand-sub">3 MISSIONS · ROUTE COST · SAMPLE CACHE</div>
       </div>
     </div>
+    <div class="mars-actions-group">
+      <button class="mars-btn gold" id="marsBtnMissions" type="button">Missions</button>
+      <button class="mars-btn" id="marsAudioBtn" type="button">Audio: ON</button>
+    </div>
+  </header>
 
-    <!-- Field Discovery Toast Notification -->
-    <div id="marsToastDiscovery" class="mars-toast-discovery" style="display: none;">
-      <div class="mars-toast-icon">•</div>
-      <div class="mars-toast-body">
-        <div class="mars-toast-title" id="marsToastTitle">Sample Secured!</div>
-        <div class="mars-toast-desc" id="marsToastDesc">Volcanic Basalt added to backpack.</div>
+  <!-- Vitals -->
+  <aside class="mars-vitals-panel">
+    <div class="mars-vital-title">
+      <span>SUIT / ROVER</span>
+    </div>
+    <div class="mars-vital-gauge">
+      <div class="mars-gauge-meta">
+        <span>Oxygen</span>
+        <span id="marsOxygenVal">100%</span>
       </div>
-      <button class="mars-btn cyan mars-toast-btn" id="marsToastBtnView" type="button">View Dossier ➔</button>
-    </div>
-
-    <!-- On-Foot / Rover Action Controls Bar -->
-    <div class="mars-controls-hint-bar">
-      <span><span class="mars-kbd">W</span><span class="mars-kbd">A</span><span class="mars-kbd">S</span><span
-          class="mars-kbd">D</span> Move / Drive</span>
-      <span>•</span>
-      <span><span class="mars-kbd">Shift</span> Sprint</span>
-      <span>•</span>
-      <span><button class="mars-btn" id="marsBtnScan" type="button" style="padding: 2px 8px;">[F] Scan
-          Rock</button></span>
-      <span>•</span>
-      <span><button class="mars-btn" id="marsBtnRover" type="button" style="padding: 2px 8px;">[R] Enter/Exit
-          Rover</button></span>
-    </div>
-
-    <!-- Mobile Touch Controls -->
-    <div class="mars-touch-controls">
-      <button class="mars-touch-btn" id="marsTouchScan" type="button">SCAN</button>
-      <button class="mars-touch-btn" id="marsTouchCollect" type="button">COLLECT</button>
-      <button class="mars-touch-btn" id="marsTouchRover" type="button">DRIVE</button>
-    </div>
-
-    <!-- Base Station Upgrades Modal -->
-    <div class="mars-modal-overlay" id="marsUpgradesModal">
-      <div class="mars-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title">Hab Lab Equipment Upgrades</div>
-          <button class="mars-modal-close mars-btn" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.86rem; color: #cbd5e1; margin-bottom: 12px;">
-          Exchange scientific Mission Credits earned by returning field samples to upgrade your spacesuit and
-          exploration rover.
-        </p>
-        <div class="mars-upgrades-grid">
-          <div class="mars-upgrade-card">
-            <div>
-              <div class="mars-upg-title">Oxygen Tank MK-II</div>
-              <div class="mars-upg-desc">Increases EVA oxygen capacity by +50%, extending exploration range far into the
-                canyons.</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-              <span class="mars-upg-cost">100 CREDITS</span>
-              <button class="mars-btn gold" id="btnUpgOxygen" type="button">Upgrade</button>
-            </div>
-          </div>
-
-          <div class="mars-upgrade-card">
-            <div>
-              <div class="mars-upg-title">Rover Turbo Motor</div>
-              <div class="mars-upg-desc">Upgraded electric powertrain increases top rover speed by +40% across rough
-                dunes.</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-              <span class="mars-upg-cost">150 CREDITS</span>
-              <button class="mars-btn gold" id="btnUpgRover" type="button">Upgrade</button>
-            </div>
-          </div>
-
-          <div class="mars-upgrade-card">
-            <div>
-              <div class="mars-upg-title">Quantum Spectrometer</div>
-              <div class="mars-upg-desc">Extends sample scanning range to 18 meters with instant sub-surface density
-                detection.</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-              <span class="mars-upg-cost">120 CREDITS</span>
-              <button class="mars-btn gold" id="btnUpgScanner" type="button">Upgrade</button>
-            </div>
-          </div>
-
-          <div class="mars-upgrade-card">
-            <div>
-              <div class="mars-upg-title">Super-Capacitor Battery</div>
-              <div class="mars-upg-desc">Solid-state battery cells extend suit thermal regulation and scanner power by
-                +40%.</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-              <span class="mars-upg-cost">80 CREDITS</span>
-              <button class="mars-btn gold" id="btnUpgBattery" type="button">Upgrade</button>
-            </div>
-          </div>
-        </div>
+      <div class="mars-gauge-track">
+        <div class="mars-gauge-fill fill-oxygen" id="marsOxygenFill" style="width:100%;"></div>
       </div>
     </div>
-
-    <!-- Real Mars Missions Modal -->
-    <div class="mars-modal-overlay" id="marsRealMissionsModal">
-      <div class="mars-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title">Real Mars Missions by NASA, ISRO, CNSA & UAE</div>
-          <button class="mars-modal-close mars-btn" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.86rem; color: #cbd5e1; margin-bottom: 14px;">
-          Learn how real robotic explorers from world space agencies paved the way for human boots on the Red Planet.
-        </p>
-        <div id="marsMissionsList"></div>
+    <div class="mars-vital-gauge">
+      <div class="mars-gauge-meta">
+        <span>Battery</span>
+        <span id="marsBatteryVal">100%</span>
+      </div>
+      <div class="mars-gauge-track">
+        <div class="mars-gauge-fill fill-battery" id="marsBatteryFill" style="width:100%;"></div>
       </div>
     </div>
+    <div class="mars-status-indicator" id="marsSolarStatusBox">
+      <span class="mars-status-dot"></span>
+      <span id="marsSolarStatusText">SUNLIGHT AVAILABLE (CHARGING OK)</span>
+    </div>
+  </aside>
 
-    <!-- Scientific Sample Dossiers & Field Missions Modal -->
-    <div class="mars-modal-overlay" id="marsSampleDossierModal">
-      <div class="mars-modal-box mars-dossier-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title">Field Missions & Martian Sample Dossiers</div>
-          <button class="mars-modal-close mars-btn" id="marsCloseDossierBtn" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px;">
-          Comprehensive mineralogical, astrobiological, and in-situ resource analysis of samples collected during
-          Martian surface exploration.
-        </p>
-
-        <!-- Sample Selector Tabs -->
-        <div class="mars-dossier-tabs" id="marsDossierTabs"></div>
-
-        <!-- Sample Detail Content View -->
-        <div class="mars-dossier-content" id="marsDossierContent"></div>
+  <!-- Objectives -->
+  <aside class="mars-objectives-card">
+    <div class="mars-obj-header">
+      <span>OBJECTIVES</span>
+      <span>ACTIVE</span>
+    </div>
+    <div class="mars-obj-list" id="marsObjList">
+      <div class="mars-obj-item">
+        <span class="mars-obj-text">Open Missions to begin</span>
+        <span class="mars-obj-tag">START</span>
       </div>
     </div>
+  </aside>
 
-    <!-- ========================================================
-         MODAL 1: REAL-MISSION POST-LANDING INTRO SEQUENCE (30s)
-         ======================================================== -->
-    <div class="mars-modal-overlay" id="marsLandingIntroModal" style="display: none;">
-      <div class="mars-modal-box mars-landing-modal-box">
-        <div class="mars-landing-hud-header">
-          <div class="mars-landing-badge">JEZERO CRATER TOUCHDOWN • T+00:00:00</div>
-          <h2 class="mars-landing-headline">ROVER POST-LANDING SEQUENCE</h2>
-          <p class="mars-landing-subline">Real-world autonomous landing protocol executed by Martian exploration rovers (Perseverance & Curiosity).</p>
-        </div>
+  <!-- Hazard -->
+  <div class="mars-hazard-banner" id="marsHazardBanner">
+    <span id="marsHazardText">TERRAIN HOLE — SLOW DOWN</span>
+  </div>
 
-        <!-- 5-Step Progress Indicators -->
-        <div class="mars-landing-steps-track">
-          <div class="landing-step-pill is-active" id="landStepPill1">
-            <span class="step-num">1</span>
-            <span class="step-name">Touchdown</span>
-          </div>
-          <div class="landing-step-pill" id="landStepPill2">
-            <span class="step-num">2</span>
-            <span class="step-name">Health Check</span>
-          </div>
-          <div class="landing-step-pill" id="landStepPill3">
-            <span class="step-num">3</span>
-            <span class="step-name">Earth Signal</span>
-          </div>
-          <div class="landing-step-pill" id="landStepPill4">
-            <span class="step-num">4</span>
-            <span class="step-name">Deploy Mast</span>
-          </div>
-          <div class="landing-step-pill" id="landStepPill5">
-            <span class="step-num">5</span>
-            <span class="step-name">First Drive</span>
-          </div>
-        </div>
+  <!-- Collect prompt -->
+  <div class="mars-collect-prompt" id="marsCollectPrompt">Press E to collect sample</div>
 
-        <!-- Step Content Viewport -->
-        <div class="mars-landing-step-content" id="marsLandingStepContent">
-          <!-- Dynamic Step Content Rendered by JS -->
-        </div>
+  <!-- Live navigation map -->
+  <div class="mars-nav-map-wrap" id="marsNavMapWrap" aria-label="Surface navigation map">
+    <div class="mars-nav-map-title">NAV MAP</div>
+    <canvas id="marsNavMap" width="168" height="168"></canvas>
+  </div>
 
-        <!-- Sequence Actions -->
-        <div class="mars-landing-actions">
-          <button class="mars-btn" id="btnSkipLandingSeq" type="button">Skip to Mission</button>
-          <button class="mars-btn gold" id="btnNextLandingStep" type="button">Next Phase ➔</button>
-        </div>
+  <!-- Inventory -->
+  <div class="mars-inventory-pill">
+    <span>Credits <span class="mars-credits-val" id="marsCreditsDisplay">0</span></span>
+    <span>Samples <span id="marsBackpackDisplay">0 / 3</span></span>
+  </div>
+
+  <!-- Controls hint -->
+  <div class="mars-controls-hint-bar">
+    <span><span class="mars-kbd">W</span><span class="mars-kbd">A</span><span class="mars-kbd">S</span><span class="mars-kbd">D</span> Drive</span>
+    <span>•</span>
+    <span><span class="mars-kbd">E</span> Collect</span>
+    <span>•</span>
+    <span><span class="mars-kbd">M</span> Missions</span>
+    <span>•</span>
+    <span>Map shows target direction</span>
+  </div>
+
+  <!-- Touch -->
+  <div class="mars-touch-controls">
+    <button class="mars-touch-btn" id="marsTouchCollect" type="button">COLLECT</button>
+  </div>
+
+  <!-- Minimal flashcard (Arial, no emoji, click to dismiss) -->
+  <div class="mars-flashcard" id="marsFlashcard" role="dialog" aria-label="Mission fact">
+    <div class="mars-flashcard-label">Mars fact</div>
+    <h3 class="mars-flashcard-title" id="marsFlashTitle"></h3>
+    <p class="mars-flashcard-body" id="marsFlashBody"></p>
+    <div class="mars-flashcard-hint">Auto closes in 5 seconds</div>
+  </div>
+
+  <!-- Mission select -->
+  <div class="mars-modal-overlay" id="marsMissionSelectModal">
+    <div class="mars-modal-box mars-mission-select">
+      <div class="mars-modal-header">
+        <div class="mars-modal-title">Choose a mission</div>
+        <button class="mars-modal-close" type="button" aria-label="Close">X</button>
+      </div>
+      <p style="font-size:0.86rem;color:#cbd5e1;margin:0 0 12px 0;line-height:1.5;">
+        Three surface targets. For each mission you will pick a route first. Route cost depends on distance, terrain holes, and sunlight (the rover charges from the sun).
+      </p>
+      <div class="mars-mission-grid" id="marsMissionGrid"></div>
+    </div>
+  </div>
+
+  <!-- Route planner -->
+  <div class="mars-modal-overlay" id="marsRouteModal">
+    <div class="mars-modal-box mars-route-box">
+      <div class="mars-modal-header">
+        <div class="mars-modal-title" id="marsRouteTitle">Select route</div>
+        <button class="mars-modal-close" type="button" aria-label="Close">X</button>
+      </div>
+      <p class="mars-route-intro" id="marsRouteIntro"></p>
+      <div class="mars-mini-map" id="marsMiniMap" aria-hidden="true"></div>
+      <div class="mars-route-list" id="marsRouteList"></div>
+      <div class="mars-route-actions">
+        <button class="mars-btn" id="marsBtnBackToMissions" type="button">Back to missions</button>
+        <button class="mars-btn gold" id="marsBtnStartMission" type="button" disabled>Start mission</button>
       </div>
     </div>
-
-    <!-- ========================================================
-         MODAL 2: TACTICAL RADAR & ROUTE PLANNER MAP
-         ======================================================== -->
-    <div class="mars-modal-overlay" id="marsMapModal" style="display: none;">
-      <div class="mars-modal-box mars-map-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title">Tactical Surface Radar & Route Planner</div>
-          <button class="mars-modal-close mars-btn" id="btnCloseMapModal" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 10px;">
-          Analyze Jezero Crater topography. Steep slopes consume 2× battery, while craters risk structural damage. Plan safe routes between science targets.
-        </p>
-
-        <div class="mars-map-layout">
-          <!-- Interactive Top-Down Canvas Radar -->
-          <div class="mars-radar-container">
-            <canvas id="marsRadarCanvas" width="460" height="460"></canvas>
-            <div class="mars-radar-legend">
-              <span><span class="legend-dot rover-dot"></span> Rover</span>
-              <span><span class="legend-dot hab-dot"></span> Base Hab</span>
-              <span><span class="legend-dot sample-dot"></span> Science Target</span>
-              <span><span class="legend-dot slope-dot"></span> Steep Slope (2× Drain)</span>
-              <span><span class="legend-dot crater-dot"></span> Crater Drop Hazard</span>
-            </div>
-          </div>
-
-          <!-- Route Planning & Target Intel Panel -->
-          <div class="mars-route-planner-panel">
-            <div class="route-panel-title">ROUTE PLANNER & INTEL</div>
-
-            <div class="target-selection-box">
-              <label for="marsTargetSelect" style="font-size: 0.78rem; color: #94a3b8; display: block; margin-bottom: 4px;">SELECT SCIENCE TARGET:</label>
-              <select id="marsTargetSelect" class="mars-select">
-                <option value="0">Volcanic Basalt (Common • 1.0× Rarity)</option>
-                <option value="1">Hematite Blueberries (Uncommon • 1.5× Rarity)</option>
-                <option value="2">Delta Sandstone (Rare • 2.0× Rarity)</option>
-                <option value="3">Subsurface Cryo-Ice (Very Rare • 2.5× Rarity)</option>
-                <option value="4">Biogenic Stromatolite (Legendary • 3.0× Rarity)</option>
-              </select>
-            </div>
-
-            <div class="route-metrics-grid">
-              <div class="metric-card">
-                <span class="metric-label">DISTANCE</span>
-                <span class="metric-val" id="routeDistanceVal">-- m</span>
-              </div>
-              <div class="metric-card">
-                <span class="metric-label">EST. BATTERY COST</span>
-                <span class="metric-val" id="routeBatteryVal" style="color: #f59e0b;">-- %</span>
-              </div>
-              <div class="metric-card">
-                <span class="metric-label">TERRAIN DIFFICULTY</span>
-                <span class="metric-val" id="routeDiffVal" style="color: #22c55e;">SAFE</span>
-              </div>
-              <div class="metric-card">
-                <span class="metric-label">SCIENCE RARITY</span>
-                <span class="metric-val" id="routeRarityVal" style="color: #06b6d4;">1.0×</span>
-              </div>
-            </div>
-
-            <div class="route-advisory-box" id="routeAdvisoryBox">
-              <strong>NAVIGATION ADVISORY:</strong>
-              <p id="routeAdvisoryText">Select a target on the radar to calculate safe navigation routes and avoid high-hazard slopes.</p>
-            </div>
-
-            <button class="mars-btn gold" id="btnSetWaypoint" type="button" style="width: 100%; padding: 10px; font-weight: bold;">
-              Lock As Active Waypoint
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         MODAL 3: ROTARY-PERCUSSIVE CORING MINI-GAME (DRILL & SCOOP)
-         ======================================================== -->
-    <div class="mars-modal-overlay" id="marsDrillModal" style="display: none;">
-      <div class="mars-modal-box mars-drill-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title" id="drillModalTitle">Sample Coring: Volcanic Basalt</div>
-          <button class="mars-modal-close mars-btn" id="btnCloseDrillModal" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;">
-          Operate the rover's robotic arm rotary-percussive drill! Stop the oscillating pressure needle inside the <strong>GREEN SWEET SPOT</strong> to extract a pristine sample core.
-        </p>
-
-        <!-- Coring Steps Indicator -->
-        <div class="drill-phases-row">
-          <div class="drill-phase-chip is-active" id="drillPhase1">1. Surface Abrasion</div>
-          <div class="drill-phase-chip" id="drillPhase2">2. Rotary Coring</div>
-          <div class="drill-phase-chip" id="drillPhase3">3. Hermetic Tube Seal</div>
-        </div>
-
-        <!-- 3D / Graphic Coring Rig Animation -->
-        <div class="drill-rig-display">
-          <div class="drill-arm-visual">
-            <div class="drill-motor" id="drillMotorVisual"></div>
-            <div class="drill-bit" id="drillBitVisual"></div>
-            <div class="drill-rock" id="drillRockVisual"></div>
-          </div>
-          <div class="drill-status-text" id="drillStatusText">ALIGNING DRILL BIT...</div>
-        </div>
-
-        <!-- Dynamic Oscillating Pressure Gauge -->
-        <div class="drill-meter-container">
-          <div class="drill-meter-labels">
-            <span>LOW RPM</span>
-            <span style="color: #22c55e; font-weight: bold;">OPTIMAL CORE ZONE</span>
-            <span>OVERHEAT</span>
-          </div>
-          <div class="drill-gauge-track">
-            <div class="drill-sweet-spot"></div>
-            <div class="drill-needle" id="drillNeedle"></div>
-          </div>
-        </div>
-
-        <!-- Drill Trigger Controls -->
-        <div class="drill-actions">
-          <button class="mars-btn gold drill-trigger-btn" id="btnExecuteDrill" type="button">
-            DRILL / CORE NOW [Space]
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         MODAL 4: DEEP SPACE TELEMETRY TRANSMIT & MISSION SCORE
-         ======================================================== -->
-    <div class="mars-modal-overlay" id="marsTransmitModal" style="display: none;">
-      <div class="mars-modal-box mars-transmit-modal-box">
-        <div class="mars-modal-header">
-          <div class="mars-modal-title">Deep Space Network Telemetry Transmission</div>
-          <button class="mars-modal-close mars-btn" id="btnCloseTransmitModal" type="button">✕</button>
-        </div>
-
-        <!-- Satellite Relay Diagram -->
-        <div class="transmit-relay-card">
-          <div class="relay-node">
-            <div class="relay-icon">ROVER</div>
-            <div class="relay-label">Rover (Mars)</div>
-          </div>
-          <div class="relay-signal-line">
-            <div class="relay-beam"></div>
-            <span class="relay-text">UHF Direct (~14 min Light Delay)</span>
-          </div>
-          <div class="relay-node">
-            <div class="relay-icon">ORBITER</div>
-            <div class="relay-label">MRO Orbiter</div>
-          </div>
-          <div class="relay-signal-line">
-            <div class="relay-beam"></div>
-            <span class="relay-text">X-Band DSN</span>
-          </div>
-          <div class="relay-node">
-            <div class="relay-icon">EARTH DSN</div>
-            <div class="relay-label">Earth Control</div>
-          </div>
-        </div>
-
-        <!-- Mission Score Breakdown Table -->
-        <div class="score-breakdown-card">
-          <h3 class="score-breakdown-title">MISSION PERFORMANCE REPORT</h3>
-          <div class="score-row">
-            <span>Samples Recovered:</span>
-            <span id="scoreSamplesVal" style="color: #06b6d4;">0 Samples (0 CR)</span>
-          </div>
-          <div class="score-row">
-            <span>Rarity & Core Quality Multiplier:</span>
-            <span id="scoreRarityBonus" style="color: #a855f7;">+0 PTS</span>
-          </div>
-          <div class="score-row">
-            <span>Battery Conservation Bonus:</span>
-            <span id="scoreBatteryBonus" style="color: #eab308;">+0 PTS</span>
-          </div>
-          <div class="score-row">
-            <span>Structural Damage Deductions:</span>
-            <span id="scoreDamagePenalty" style="color: #ef4444;">-0 PTS</span>
-          </div>
-          <div class="score-divider"></div>
-          <div class="score-row score-total-row">
-            <span>TOTAL CADET SCORE:</span>
-            <span id="scoreGrandTotal" style="color: #22c55e; font-size: 1.25rem;">0 PTS</span>
-          </div>
-        </div>
-
-        <div class="transmit-actions">
-          <button class="mars-btn gold" id="btnConfirmTransmit" type="button" style="width: 100%; padding: 11px; font-weight: bold;">
-            Confirm Transmission & Collect Scientific Credits
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 
   <!-- ========================================================
        7. PHASE 6: TOUR TO THE SUN (ADITYA-L1 3D SIMULATION)
@@ -2110,15 +1750,114 @@
        8. PHASE 7: MY SPACESHIP (PHOTOREALISTIC 3D ISS INTERIOR)
        ======================================================== -->
   <section id="spaceshipStage" class="spaceship-stage" aria-label="My Spaceship 3D Interior" style="display: none;">
-    <!-- 3D WebGL Canvas (Pure 3D Model View) -->
+    <!-- 3D WebGL Canvas -->
     <canvas id="spaceshipCanvas"></canvas>
+
+    <!-- Top Status & ECLSS Header Bar -->
+    <header class="ship-top-bar">
+      <div class="ship-brand-group">
+        <span class="ship-emblem">ORBITER</span>
+        <div>
+          <div class="ship-main-title">Life in Space: Crew Habitat</div>
+          <div class="ship-sub-title">SLEEPING · BATHING · FOOD · CONTROL</div>
+        </div>
+      </div>
+
+      <!-- Life Support Telemetry -->
+      <div class="ship-eclss-bar">
+        <div class="ship-eclss-item">
+          <span class="ship-status-dot"></span>
+          <span>ECLSS NOMINAL</span>
+        </div>
+        <span>•</span>
+        <div>PRESSURE: <strong>101.3 kPa</strong></div>
+        <span>•</span>
+        <div>O₂: <strong>21.2%</strong></div>
+        <span>•</span>
+        <div>CO₂: <strong>0.3%</strong></div>
+        <span>•</span>
+        <div>CABIN TEMP: <strong>21.5°C</strong></div>
+      </div>
+
+      <!-- Controls & Lighting Mode -->
+      <div class="ship-top-actions">
+        <div class="ship-light-toggle-group">
+          <button class="ship-light-pill active" data-mode="day" type="button" title="Day Operational Lighting (5000K Soft White)">Day</button>
+          <button class="ship-light-pill" data-mode="night" type="button" title="Night Crew Rest Mode (2700K Warm Amber)">Rest</button>
+          <button class="ship-light-pill emergency" data-mode="emergency" type="button" title="Emergency Depressurization Red Alert">Emergency</button>
+        </div>
+        <button class="ship-btn" id="shipAudioBtn" type="button" title="Toggle cabin ventilation hum">Audio: ON</button>
+      </div>
+    </header>
+
+    <!-- Left Crew Units Bar (replaces the old Viewports section) -->
+    <aside class="ship-presets-bar" aria-label="Crew Units">
+      <div class="ship-bar-head">CREW UNITS:</div>
+      <button class="ship-preset-btn active" data-preset="dock" type="button"><span>Dock Area</span></button>
+      <button class="ship-preset-btn" data-preset="sleep" type="button"><span>Sleeping Unit</span></button>
+      <button class="ship-preset-btn" data-preset="bath" type="button"><span>Bathing Unit</span></button>
+      <button class="ship-preset-btn" data-preset="food" type="button"><span>Food Unit</span></button>
+      <button class="ship-preset-btn" data-preset="control" type="button"><span>Control Room</span></button>
+    </aside>
+
+    <!-- Game HUD: lives + challenge progress -->
+    <div class="ship-hud" aria-live="polite">
+      <span id="shipLives" title="Lives">Lives: 3 / 3</span>
+      <span id="shipStageLabel">Challenge 1 / 4</span>
+      <span id="shipPips"><i></i><i></i><i></i><i></i></span>
+      <button class="ship-btn" id="shipRestartBtn" type="button" title="Restart mission">↻</button>
+    </div>
+
+    <!-- Challenge / choice card -->
+    <div class="ship-mission" id="shipMission" role="region" aria-label="Current challenge">
+      <div class="ship-mission-tag" id="shipMissionTag">Challenge</div>
+      <p class="ship-mission-text" id="shipMissionText"></p>
+      <div class="ship-choices" id="shipChoices"></div>
+      <div class="ship-mission-hint" id="shipMissionHint"></div>
+    </div>
+
+    <div class="ship-toast" id="shipToast" role="status"></div>
+    <div class="ship-flash" id="shipFlash"></div>
+
+    <!-- Story / result dialog (filled by spaceship.js) -->
+    <div class="ship-dialog-overlay" id="shipDialog"><div class="ship-dialog-box" id="shipDialogBox"></div></div>
+
+    <!-- Floating Hotspot Inspector Card -->
+    <aside class="ship-inspector-card" id="shipInspectorCard" aria-label="Component Telemetry">
+      <div class="ship-card-header">
+        <span class="ship-card-title" id="shipInspectTitle">Component Inspector</span>
+        <button class="ship-btn" id="shipInspectClose" type="button" style="padding: 2px 6px;">✕</button>
+      </div>
+      <div class="ship-card-sub" id="shipInspectSub">TELEMETRY DATA</div>
+      <p class="ship-card-desc" id="shipInspectDesc">
+        Pick a crew unit on the left to look around and learn what it is for.
+      </p>
+      <div class="ship-card-specs">
+        <div class="ship-spec-row">
+          <span>OPERATIONAL STATE:</span>
+          <span id="shipSpecStatus">NOMINAL</span>
+        </div>
+        <div class="ship-spec-row">
+          <span>ATMOSPHERE / TELEMETRY:</span>
+          <span id="shipSpecPressure">101.3 kPa</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Bottom Controls Hint Bar -->
+    <div class="ship-controls-bar">
+      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Walk (dock area)</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Mouse Drag</span> Look Around</span>
+      <span>•</span>
+      <span><span class="ship-kbd">Scroll</span> Zoom FOV</span>
+      <span>•</span>
+      <span style="color: #38bdf8;">Click glowing items when prompted</span>
+    </div>
   </section>
 
   <!-- Local Offline Three.js Engine -->
   <script src="./assets/three.min.js"></script>
-
-  <!-- Space Launch System 3D Heavy Launch Vehicle Asset -->
-  <script src="./assets/models/sls/sls_mesh_data.js"></script>
 
   <!-- Component Script -->
   <script src="./script.js"></script>
