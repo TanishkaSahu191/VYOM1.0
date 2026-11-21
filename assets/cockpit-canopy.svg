@@ -61,25 +61,25 @@
 
     <!-- Left Outer Wall & A-Pillar Structural Beam -->
     <!-- Connects from roof down to dashboard -->
-    <polygon points="0,150 320,150 260,720 0,720" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
-    <polygon points="260,150 460,150 400,720 200,720" fill="url(#pillarLeftGrad)" stroke="#334155" stroke-width="2" />
+    <polygon points="0,150 320,150 260,760 0,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
+    <polygon points="260,150 460,150 400,760 200,760" fill="url(#pillarLeftGrad)" stroke="#334155" stroke-width="2" />
     <!-- Left A-Pillar Cyan LED Accent Strip -->
-    <line x1="390" y1="160" x2="330" y2="700" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
-    <line x1="280" y1="180" x2="220" y2="700" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
+    <line x1="390" y1="160" x2="330" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
+    <line x1="280" y1="180" x2="220" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
 
     <!-- Right Outer Wall & A-Pillar Structural Beam -->
-    <polygon points="1600,150 1920,150 1920,720 1660,720" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
-    <polygon points="1460,150 1660,150 1720,720 1520,720" fill="url(#pillarRightGrad)" stroke="#334155" stroke-width="2" />
+    <polygon points="1600,150 1920,150 1920,760 1660,760" fill="url(#hullDarkGrad)" stroke="#1e293b" stroke-width="1.5" />
+    <polygon points="1460,150 1660,150 1720,760 1520,760" fill="url(#pillarRightGrad)" stroke="#334155" stroke-width="2" />
     <!-- Right A-Pillar Cyan LED Accent Strip -->
-    <line x1="1530" y1="160" x2="1590" y2="700" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
-    <line x1="1640" y1="180" x2="1700" y2="700" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
+    <line x1="1530" y1="160" x2="1590" y2="740" stroke="#38bdf8" stroke-width="3" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
+    <line x1="1640" y1="180" x2="1700" y2="740" stroke="#64748b" stroke-width="1" stroke-dasharray="8 6" opacity="0.5" />
 
     <!-- Top Windshield Cowling Arch -->
     <path d="M 440,150 Q 960,175 1480,150 L 1460,170 Q 960,195 460,170 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" opacity="0.9" />
 
     <!-- Window Sill Bottom Crossbeam -->
-    <polygon points="0,700 1920,700 1920,750 0,750" fill="#090d16" stroke="#1e293b" stroke-width="1" />
-    <line x1="0" y1="702" x2="1920" y2="702" stroke="#38bdf8" stroke-width="1.5" opacity="0.4" />
+    <polygon points="0,740 1920,740 1920,780 0,780" fill="#090d16" stroke="#1e293b" stroke-width="1" />
+    <line x1="0" y1="742" x2="1920" y2="742" stroke="#38bdf8" stroke-width="1.5" opacity="0.4" />
   </g>
 
   <!-- ==============================================
@@ -87,7 +87,7 @@
        ============================================== -->
   <g class="canopy-glass" pointer-events="none">
     <!-- Front Viewport Glass Sheen -->
-    <polygon points="460,170 1460,170 1520,700 400,700" fill="url(#glassSheenGrad)" opacity="0.6" />
+    <polygon points="460,170 1460,170 1520,740 400,740" fill="url(#glassSheenGrad)" opacity="0.6" />
     <!-- Subtle Reflection Streaks across windshield -->
     <path d="M 520,180 L 780,180 L 640,680 L 480,680 Z" fill="rgba(255, 255, 255, 0.03)" />
     <path d="M 1120,180 L 1260,180 L 1420,680 L 1320,680 Z" fill="rgba(56, 189, 248, 0.025)" />
