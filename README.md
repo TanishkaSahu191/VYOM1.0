@@ -62,6 +62,26 @@ Students launch from Earth, step into a realistic spaceship cockpit, and journey
   * Real-time **Accessibility Closed-Caption Subtitle Bar** at bottom center.
   * **Phase Progress Track**: `PHASE 1 | PHASE 2 | PHASE 3 | PHASE 4` tracking flight depth.
 
+### Phase 4: Mission Chandrayaan-3: Journey to the Moon (3D Simulation & Playable Lander)
+* **Full 3D Mission Simulation (9 Stages)**:
+  1. **Launch**: LVM3 M4 "Bahubali" liftoff from SDSC SHAR, Sriharikota, twin S200 booster plume, and payload fairing separation.
+  2. **Earth Orbit Raising**: 5 widening glowing elliptical orbits (EBN 1-5) powered by liquid engine burns at perigee.
+  3. **Trans-Lunar Injection (TLI)**: Midnight slingshot burn sending the craft toward the Moon.
+  4. **Lunar Orbit Insertion (LOI)**: Retro-thrusters braking craft into lunar capture, followed by orbit circularization to 100 km.
+  5. **Propulsion Module Separation**: Separation pyrotechnics releasing Vikram Lander.
+  6. **Powered Descent & Braking**: Rough braking, attitude hold, and fine braking down to 800 m with Laser Doppler Velocimeter scanning.
+  7. **Historic Touchdown**: Touchdown at Shiv Shakti Point (69.37°S, 32.35°E), lunar dust plume, landing leg compression, silence, and celebratory fanfare with tricolor confetti!
+  8. **Pragyan Rover Rollout**: Two-segment deployable ramp drops; 6-wheeled rover rolls out embossing the ISRO logo and Ashoka Chakra into the lunar dust.
+  9. **Surface Exploration & Science**: Pragyan driving mode with real soil scans (LIBS/APXS confirming Sulfur, Iron, Titanium).
+* **Playable Landing Mode (Vikram Lunar Pilot Mini-Game)**:
+  * Lunar gravity ($1.62\text{ m/s}^2$), throttleable thrusters, attitude tilt, fuel budget, and touchdown velocity evaluation ($V_y \le 2.2\text{ m/s}$).
+  * "Chandrayaan-2 vs Chandrayaan-3" story explaining ISRO's failure-based design philosophy.
+* **Bilingual Support (English & हिन्दी)**:
+  * Full real-time UI, telemetry, and speech synthesis narration in English and Hindi.
+* **Educational Layer**:
+  * Real instruments interactive guide (ChaSTE, ILSA, RAMBHA, LIBS, APXS, SHAPE).
+  * 5-question mission quiz with unlockable **ISRO Junior Lunar Scientist Certificate**.
+
 ---
 
 ## 📁 Repository Structure
@@ -71,9 +91,11 @@ VYOM/
 ├── assets/
 │   ├── helmet-cutout.png      # High-res astronaut visor cutout asset
 │   └── three.min.js           # Local offline Three.js 3D library (WebGL)
-├── index.html                 # Hero stage, Mission Hangar & Cockpit Viewport
+├── index.html                 # Hero stage, Mission Hangar, Cockpit & Chandrayaan-3
 ├── styles.css                 # Cosmic design system, responsive grid & cockpit HUD
 ├── script.js                  # Pure Three.js 3D cockpit, scroll engine, audio synth & narration
+├── chandrayaan3.css           # Mission Chandrayaan-3 HUD, dialogs, quiz & pilot overlays
+├── chandrayaan3.js            # Chandrayaan-3 3D engine, playable lander physics & quiz
 ├── .gitignore                 # Clean Git tracking configuration
 └── README.md                  # Comprehensive documentation & phase roadmap
 ```

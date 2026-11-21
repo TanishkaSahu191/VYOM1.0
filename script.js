@@ -68,6 +68,8 @@
   const tabPhase1 = document.getElementById('tabPhase1');
   const tabPhase2 = document.getElementById('tabPhase2');
   const tabPhase3 = document.getElementById('tabPhase3');
+  const tabPhaseChandrayaan = document.getElementById('tabPhaseChandrayaan');
+  const chandrayaanStage = document.getElementById('chandrayaanStage');
 
   // DOM REFERENCES - PHASE 3 (COCKPIT & SCROLL ENGINE)
   const cockpitStage = document.getElementById('cockpitStage');
@@ -4039,7 +4041,7 @@
 
   function switchToPhase(phaseNum) {
     // 1. Update Tabs
-    [tabPhase1, tabPhase2, tabPhase3].forEach((tab, idx) => {
+    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan].forEach((tab, idx) => {
       if (tab) {
         const isActive = (idx + 1) === phaseNum;
         tab.classList.toggle('active', isActive);
@@ -4048,6 +4050,9 @@
     });
 
     if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (phaseNum !== 4 && chandrayaanStage) {
+      chandrayaanStage.style.display = 'none';
+    }
 
     // Phase 1: Launchpad
     if (phaseNum === 1) {
@@ -4098,12 +4103,28 @@
       audio.playWarpSound();
       speakScientificFact("Cockpit systems online. All telemetry synchronized with ISRO ISTRAC and NASA Deep Space Network. Press Let's Start The Journey to initiate departure.");
     }
+    // Phase 4: Mission Chandrayaan-3
+    else if (phaseNum === 4) {
+      document.body.classList.remove('in-cockpit');
+      document.body.classList.remove('destination-active');
+      document.body.classList.remove('in-launch');
+      if (cockpitStage) cockpitStage.style.display = 'none';
+      if (destinationPage) destinationPage.style.display = 'none';
+
+      if (chandrayaanStage) {
+        chandrayaanStage.style.display = 'flex';
+      }
+      if (window.Chandrayaan3Engine) {
+        window.Chandrayaan3Engine.init();
+      }
+    }
   }
 
   // Connect Global Phase Tabs
   if (tabPhase1) tabPhase1.addEventListener('click', () => switchToPhase(1));
   if (tabPhase2) tabPhase2.addEventListener('click', () => switchToPhase(2));
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
+  if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));
 
   // Connect Direct Phase 2 -> Phase 3 Transition Triggers
   if (btnProceedCockpit) {
