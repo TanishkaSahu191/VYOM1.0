@@ -4174,6 +4174,8 @@
 
   // Connect Global Phase Tabs
   if (tabPhase1) tabPhase1.addEventListener('click', () => switchToPhase(1));
+  const navBrandGroup = document.getElementById('navBrandGroup');
+  if (navBrandGroup) navBrandGroup.addEventListener('click', () => switchToPhase(1));
   if (tabPhase2) tabPhase2.addEventListener('click', () => switchToPhase(2));
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
   if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));

@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VYOM - Gamified 3D Space Learning Platform | NASA & ISRO</title>
+  <link rel="icon" type="image/jpeg" href="./assets/vyom-logo.jpg" />
+  <link rel="apple-touch-icon" href="./assets/vyom-logo.jpg" />
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./chandrayaan3.css" />
   <link rel="stylesheet" href="./mars.css" />
@@ -17,8 +19,8 @@
        TOP GLOBAL PHASE NAVIGATOR (Direct Access to All Phases)
        ======================================================== -->
   <nav class="global-phase-nav" id="globalPhaseNav" aria-label="Global Phase Navigator">
-    <div class="nav-brand-group">
-      <div class="nav-logo-icon">✦</div>
+    <div class="nav-brand-group" id="navBrandGroup" role="button" tabindex="0" title="VYOM - Space Protocol (Return to Launchpad)">
+      <img src="./assets/vyom-logo.jpg" alt="VYOM Logo" class="nav-brand-logo-img" />
       <div class="nav-brand-title">
         <span>VYOM</span>
         <span class="nav-brand-sub">SPACE PROTOCOL</span>
@@ -198,11 +200,7 @@
     <header class="hangar-header">
       <div class="hangar-brand">
         <div class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9" stroke="#38bdf8" />
-            <path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="#818cf8" />
-            <circle cx="12" cy="12" r="3" fill="#38bdf8" />
-          </svg>
+          <img src="./assets/vyom-logo.jpg" alt="VYOM Logo" class="hangar-brand-logo-img" />
         </div>
         <div class="brand-text">
           <span class="brand-title">VYOM</span>
@@ -836,7 +834,10 @@
               <span class="badge-star">★</span>
               <span>VYOM // HACKATHON MISSION DECK & SHOWCASE</span>
             </div>
-            <h2 class="pitch-title">INTERPLANETARY LEARNING PROTOCOL</h2>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+              <img src="./assets/vyom-logo.jpg" alt="VYOM Logo" class="pitch-logo-img" style="height: 34px; width: auto; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.4); box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); flex-shrink: 0;" />
+              <h2 class="pitch-title" style="margin: 0;">INTERPLANETARY LEARNING PROTOCOL</h2>
+            </div>
           </div>
           <div class="pitch-tabs" role="tablist">
             <button class="pitch-tab active" data-tab="pitch" type="button">PITCH</button>
