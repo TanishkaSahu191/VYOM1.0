@@ -1581,10 +1581,11 @@ body.destination-active .destination-page {
   transition: all 250ms ease;
 }
 
-body.in-cockpit .global-phase-nav {
+body.in-cockpit .global-phase-nav,
+body.on-launchpad .global-phase-nav {
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -15px);
+  transform: translate(-50%, -20px);
 }
 
 .nav-brand-group {

@@ -3981,6 +3981,8 @@
   }
 
   function switchToPhase(phaseNum) {
+    document.body.classList.toggle('on-launchpad', phaseNum === 1);
+
     // 1. Update Tabs
     [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSun, tabPhaseSpaceship].forEach((tab, idx) => {
       if (tab) {
@@ -4287,6 +4289,7 @@
         }
 
         document.body.classList.remove('in-launch');
+        document.body.classList.remove('on-launchpad');
         document.body.classList.add('destination-active');
         if (tabPhase1 && tabPhase2) {
           tabPhase1.classList.remove('active');
@@ -4316,6 +4319,7 @@
 
     setTimeout(() => {
       document.body.classList.remove('destination-active');
+      document.body.classList.add('on-launchpad');
       helmetShell.classList.remove('is-on');
       pushButton.setAttribute('aria-pressed', 'false');
       if (tabPhase1 && tabPhase2) {
