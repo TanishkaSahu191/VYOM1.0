@@ -170,7 +170,291 @@
     for (let i = 0; i < 7; i++) { ctx.fillStyle = i % 2 ? '#fff' : '#b22234'; ctx.fillRect(x + 1, y - 70 + i * 3.2, 38, 3.2); }
     ctx.fillStyle = '#3c3b6e'; ctx.fillRect(x + 1, y - 70, 16, 13);
   }
+  /* =========================================================
+     3D ROCKET SUBSYSTEM (Space Launch System / Heavy Lift Model)
+     ========================================================= */
+  let rocket3D = null;
+
+  function init3DRocket() {
+    if (rocket3D) return rocket3D;
+    if (!window.THREE || !window.SLS_MESH_DATA) return null;
+
+    try {
+      const offCv = document.createElement('canvas');
+      offCv.width = 400;
+      offCv.height = 700;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas: offCv,
+        alpha: true,
+        antialias: true,
+        preserveDrawingBuffer: true
+      });
+      renderer.setSize(400, 700, false);
+      renderer.setClearColor(0x000000, 0);
+      if (renderer.toneMapping !== undefined) {
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.35;
+      }
+
+      const scene = new THREE.Scene();
+
+      // Camera positioned to frame the 12.71-unit tall heavy vehicle and plume
+      const camera = new THREE.PerspectiveCamera(32, 400 / 700, 0.1, 100);
+      camera.position.set(0, 5.6, 28);
+      camera.lookAt(0, 5.6, 0);
+
+      // Studio Aerospace Lighting
+      const amb = new THREE.AmbientLight(0xdbeafe, 0.75);
+      scene.add(amb);
+
+      const sun = new THREE.DirectionalLight(0xfff7ed, 2.0);
+      sun.position.set(12, 20, 16);
+      scene.add(sun);
+
+      const rim = new THREE.DirectionalLight(0x7dd3fc, 0.85);
+      rim.position.set(-14, 10, -12);
+      scene.add(rim);
+
+      const groundLight = new THREE.DirectionalLight(0xc2410c, 0.35);
+      groundLight.position.set(0, -10, 8);
+      scene.add(groundLight);
+
+      const engineLight = new THREE.PointLight(0xff7700, 0, 12, 1.5);
+      engineLight.position.set(0, -0.5, 0);
+      scene.add(engineLight);
+
+      const root = new THREE.Group();
+      scene.add(root);
+
+      function createGeom(partData) {
+        const geom = new THREE.BufferGeometry();
+        geom.setAttribute('position', new THREE.Float32BufferAttribute(partData.verts, 3));
+        geom.setIndex(partData.indices);
+        geom.computeVertexNormals();
+        return geom;
+      }
+
+      // 1. Core Stage (Terracotta/burnt orange foam insulation)
+      const coreGeom = createGeom(window.SLS_MESH_DATA.core);
+      const coreMat = new THREE.MeshStandardMaterial({
+        color: 0xc45a27,
+        roughness: 0.65,
+        metalness: 0.15
+      });
+      const coreMesh = new THREE.Mesh(coreGeom, coreMat);
+      root.add(coreMesh);
+
+      // Saffron/White/Green mission band around upper collar
+      const bandGeom = new THREE.CylinderGeometry(0.57, 0.57, 0.42, 32, 1, true);
+      const bandCanvas = document.createElement('canvas');
+      bandCanvas.width = 128; bandCanvas.height = 64;
+      const bctx = bandCanvas.getContext('2d');
+      bctx.fillStyle = '#ff9933'; bctx.fillRect(0, 0, 128, 21);
+      bctx.fillStyle = '#ffffff'; bctx.fillRect(0, 21, 128, 22);
+      bctx.fillStyle = '#138808'; bctx.fillRect(0, 43, 128, 21);
+      const bandTex = new THREE.CanvasTexture(bandCanvas);
+      const bandMat = new THREE.MeshBasicMaterial({ map: bandTex, side: THREE.DoubleSide });
+      const bandMesh = new THREE.Mesh(bandGeom, bandMat);
+      bandMesh.position.set(0, 9.35, 0);
+      root.add(bandMesh);
+
+      // 2. Cryo Upper Stage & Service Module
+      const upperGeom = createGeom(window.SLS_MESH_DATA.upper);
+      const upperMat = new THREE.MeshStandardMaterial({
+        color: 0xf1f5f9,
+        roughness: 0.32,
+        metalness: 0.42
+      });
+      const upperMesh = new THREE.Mesh(upperGeom, upperMat);
+      root.add(upperMesh);
+
+      // 3. Chandrayaan-3 / Orion Payload Fairing & Launch Escape Tower
+      const payloadGeom = createGeom(window.SLS_MESH_DATA.payload);
+      const payloadMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        roughness: 0.25,
+        metalness: 0.38
+      });
+      const payloadMesh = new THREE.Mesh(payloadGeom, payloadMat);
+      root.add(payloadMesh);
+
+      // 4. Dual Solid Rocket Boosters
+      const boosterLGeom = createGeom(window.SLS_MESH_DATA.boosterL);
+      const boosterRGeom = createGeom(window.SLS_MESH_DATA.boosterR);
+      const boosterMat = new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.3,
+        metalness: 0.28
+      });
+      const boosterLGroup = new THREE.Group();
+      const boosterRGroup = new THREE.Group();
+      const boosterLMesh = new THREE.Mesh(boosterLGeom, boosterMat);
+      const boosterRMesh = new THREE.Mesh(boosterRGeom, boosterMat);
+      boosterLGroup.add(boosterLMesh);
+      boosterRGroup.add(boosterRMesh);
+      root.add(boosterLGroup);
+      root.add(boosterRGroup);
+
+      // Engine Nozzle Bells (4 RS-25 engines at core base)
+      const nozzleMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.25,
+        metalness: 0.85
+      });
+      const nozzleGeom = new THREE.CylinderGeometry(0.12, 0.05, 0.28, 16);
+      nozzleGeom.translate(0, 0.14, 0);
+      [
+        [0.2, 0, 0.2], [-0.2, 0, 0.2], [0.2, 0, -0.2], [-0.2, 0, -0.2]
+      ].forEach(([nx, ny, nz]) => {
+        const nm = new THREE.Mesh(nozzleGeom, nozzleMat);
+        nm.position.set(nx, 0.02, nz);
+        root.add(nm);
+      });
+
+      // 5. Dynamic 3D Volumetric Exhaust Flame Plume
+      const flameGroup = new THREE.Group();
+      flameGroup.position.set(0, 0, 0);
+      root.add(flameGroup);
+
+      const innerFlameGeom = new THREE.ConeGeometry(0.24, 2.2, 16);
+      innerFlameGeom.translate(0, -1.1, 0);
+      const innerFlameMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.95
+      });
+      const innerFlame = new THREE.Mesh(innerFlameGeom, innerFlameMat);
+      flameGroup.add(innerFlame);
+
+      const midFlameGeom = new THREE.ConeGeometry(0.42, 3.2, 16);
+      midFlameGeom.translate(0, -1.6, 0);
+      const midFlameMat = new THREE.MeshBasicMaterial({
+        color: 0xffd23f,
+        transparent: true,
+        opacity: 0.82
+      });
+      const midFlame = new THREE.Mesh(midFlameGeom, midFlameMat);
+      flameGroup.add(midFlame);
+
+      const outerFlameGeom = new THREE.ConeGeometry(0.68, 4.4, 16);
+      outerFlameGeom.translate(0, -2.2, 0);
+      const outerFlameMat = new THREE.MeshBasicMaterial({
+        color: 0xff4500,
+        transparent: true,
+        opacity: 0.52
+      });
+      const outerFlame = new THREE.Mesh(outerFlameGeom, outerFlameMat);
+      flameGroup.add(outerFlame);
+
+      // Dual Booster Plumes
+      const bPlumeGeom = new THREE.ConeGeometry(0.32, 3.5, 16);
+      bPlumeGeom.translate(0, -1.75, 0);
+      const bPlumeMat = new THREE.MeshBasicMaterial({
+        color: 0xffa010,
+        transparent: true,
+        opacity: 0.85
+      });
+      const bPlumeL = new THREE.Mesh(bPlumeGeom, bPlumeMat);
+      bPlumeL.position.set(0.84, 0, 0);
+      boosterLGroup.add(bPlumeL);
+      const bPlumeR = new THREE.Mesh(bPlumeGeom, bPlumeMat);
+      bPlumeR.position.set(-0.84, 0, 0);
+      boosterRGroup.add(bPlumeR);
+
+      let sepDist = 0;
+
+      rocket3D = {
+        cv: offCv,
+        renderer,
+        scene,
+        camera,
+        root,
+        boosterLGroup,
+        boosterRGroup,
+        flameGroup,
+        bPlumeL,
+        bPlumeR,
+        engineLight,
+        reset() {
+          sepDist = 0;
+          boosterLGroup.position.set(0, 0, 0);
+          boosterLGroup.rotation.set(0, 0, 0);
+          boosterRGroup.position.set(0, 0, 0);
+          boosterRGroup.rotation.set(0, 0, 0);
+          root.rotation.set(0, 0, 0);
+          flameGroup.visible = false;
+          bPlumeL.visible = false;
+          bPlumeR.visible = false;
+          engineLight.intensity = 0;
+        },
+        render(fire, sep, yaw, pitch) {
+          root.rotation.y = yaw || 0;
+          root.rotation.x = pitch || 0;
+
+          if (sep) {
+            sepDist = Math.min(4.0, sepDist + 0.08);
+            boosterLGroup.position.x = sepDist;
+            boosterLGroup.position.y = -sepDist * 0.45;
+            boosterLGroup.rotation.z = -sepDist * 0.12;
+            boosterRGroup.position.x = -sepDist;
+            boosterRGroup.position.y = -sepDist * 0.45;
+            boosterRGroup.rotation.z = sepDist * 0.12;
+            bPlumeL.visible = false;
+            bPlumeR.visible = false;
+          } else {
+            sepDist = 0;
+            boosterLGroup.position.set(0, 0, 0);
+            boosterLGroup.rotation.set(0, 0, 0);
+            boosterRGroup.position.set(0, 0, 0);
+            boosterRGroup.rotation.set(0, 0, 0);
+            bPlumeL.visible = fire > 0;
+            bPlumeR.visible = fire > 0;
+          }
+
+          if (fire > 0) {
+            flameGroup.visible = true;
+            const flicker = 0.88 + Math.random() * 0.28;
+            flameGroup.scale.set(1 + Math.random() * 0.08, fire * flicker, 1 + Math.random() * 0.08);
+            if (!sep) {
+              bPlumeL.scale.set(1, fire * flicker, 1);
+              bPlumeR.scale.set(1, fire * flicker, 1);
+            }
+            engineLight.intensity = fire * (3.5 + Math.random() * 1.5);
+          } else {
+            flameGroup.visible = false;
+            bPlumeL.visible = false;
+            bPlumeR.visible = false;
+            engineLight.intensity = 0;
+          }
+
+          renderer.render(scene, camera);
+        }
+      };
+
+      return rocket3D;
+    } catch (err) {
+      console.warn('3D Rocket initialization fallback:', err);
+      return null;
+    }
+  }
+
   function rocket(x, yb, fire, sep) {
+    const r3d = init3DRocket();
+    if (r3d) {
+      const yaw = Math.sin(performance.now() / 2200) * 0.14;
+      const pitch = (S.l?.ph === 'fly' && S.l?.alt > 80) ? clamp(S.l.alt / 3500, 0, 0.22) : 0;
+      r3d.render(fire, sep, yaw, pitch);
+
+      const s = 0.395;
+      const dw = 400 * s;
+      const dh = 700 * s;
+      const dx = x - 200 * s;
+      const dy = yb - 594 * s;
+      ctx.drawImage(r3d.cv, dx, dy, dw, dh);
+      return;
+    }
+
     ctx.save(); ctx.translate(x, yb);
     if (fire > 0) {
       const h = 95 * fire * (.85 + Math.random() * .3), g = ctx.createLinearGradient(0, 0, 0, h);
@@ -563,6 +847,7 @@
       try { speechSynthesis.cancel(); } catch (e) {}
       clearTimeout(S.tt); S = { tw: [], fx: [], fade: 0, pend: null, clock: 0, clockOn: false, conf: [], sc: 'launch', stage: 1 };
       clearUI(); $('c3MissionClock').textContent = 'T+ 00:00:00';
+      if (rocket3D) rocket3D.reset();
       S.l = { ph: 'pad', alt: 0, v: 0, cd: 0, n: 0, sep: false, bs: [] };
       stageUI(1, 'Press “Start Countdown” to launch LVM3-M4.');
       setAct('Start Countdown', () => { S.l.ph = 'count'; S.l.cd = 5.99; });
