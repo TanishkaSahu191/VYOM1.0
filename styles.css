@@ -2528,8 +2528,9 @@ body.on-launchpad .global-phase-nav {
   min-width: 190px;
 }
 
-/* --- Closed-Caption Subtitle Bar (Bottom Center) --- */
+/* --- Closed-Caption Subtitle Bar (Bottom Center - Removed) --- */
 .accessibility-cc-bar {
+  display: none !important;
   position: absolute;
   bottom: 8px;
   left: 50%;
