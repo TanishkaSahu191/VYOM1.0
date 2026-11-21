@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./mars.css" />
   <link rel="stylesheet" href="./aditya.css" />
   <link rel="stylesheet" href="./spaceship.css" />
+  <link rel="stylesheet" href="./craft-viewer.css" />
 </head>
 <body class="on-launchpad">
 
@@ -399,6 +400,99 @@
           </button>
           <button id="btnStartPhase3" class="btn-proceed" type="button">
             <span>Enter Cockpit Viewport 🚀</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Interactive Spacecraft Inspector & Component Labels Modal -->
+    <div class="spacecraft-3d-modal" id="spacecraft3DModal" aria-hidden="true">
+      <div class="spacecraft-3d-backdrop" id="spacecraft3DBackdrop"></div>
+      <div class="spacecraft-3d-dialog" role="dialog" aria-modal="true" aria-labelledby="craft3DTitle">
+        <!-- Sci-Fi Corner Brackets -->
+        <div class="modal-corner top-left"></div>
+        <div class="modal-corner top-right"></div>
+        <div class="modal-corner bottom-left"></div>
+        <div class="modal-corner bottom-right"></div>
+
+        <!-- Modal Header -->
+        <div class="craft3d-header">
+          <div class="craft3d-header-left">
+            <div class="craft3d-meta-row">
+              <span class="agency-badge" id="craft3DAgencyBadge">🇺🇸 NASA // USA</span>
+              <span class="craft3d-sub-badge">3D ROTATABLE MODEL & LABELS</span>
+            </div>
+            <div class="craft3d-title-group">
+              <h2 class="craft3d-title" id="craft3DTitle">Orion MPCV</h2>
+              <span class="craft3d-subtitle" id="craft3DSubtitle">Deep Space Lunar Crew Exploration Vehicle</span>
+            </div>
+          </div>
+
+          <!-- Quick Spacecraft Switcher Tabs -->
+          <div class="craft3d-switcher" role="tablist" aria-label="Select Spacecraft to Inspect">
+            <button class="craft3d-switch-btn is-active" data-craft="orion" type="button" role="tab">Orion (NASA)</button>
+            <button class="craft3d-switch-btn" data-craft="crew-dragon" type="button" role="tab">Crew Dragon (SpaceX)</button>
+            <button class="craft3d-switch-btn" data-craft="gaganyaan" type="button" role="tab">Gaganyaan (ISRO)</button>
+          </div>
+
+          <button id="btnCloseCraft3D" class="craft3d-close-btn" type="button" title="Close 3D Inspector">✕</button>
+        </div>
+
+        <!-- 3D Viewport + Component Explorer Body -->
+        <div class="craft3d-body">
+          <div class="craft3d-viewport-container" id="craft3DViewportContainer">
+            <canvas id="craft3DCanvas"></canvas>
+            <div class="craft3d-labels-overlay" id="craft3DLabelsOverlay"></div>
+
+            <!-- Viewport Bottom HUD Controls -->
+            <div class="craft3d-viewport-controls">
+              <div class="craft3d-ctrl-group">
+                <button id="btnCraft3DRotate" class="craft3d-ctrl-btn is-active" type="button" title="Toggle Auto-Rotation">
+                  <span>🔄 Auto-Rotate</span>
+                </button>
+                <button id="btnCraft3DResetCam" class="craft3d-ctrl-btn" type="button" title="Reset Camera View">
+                  <span>🎯 Reset Angle</span>
+                </button>
+                <button id="btnCraft3DWireframe" class="craft3d-ctrl-btn" type="button" title="Toggle Wireframe Blueprint">
+                  <span>🌐 Wireframe</span>
+                </button>
+              </div>
+              <div class="craft3d-hint-pill">
+                <span>🖱 Drag to Rotate • Scroll to Zoom • Click Pin to Inspect</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Components Sidebar -->
+          <div class="craft3d-sidebar">
+            <div class="craft3d-sidebar-header">
+              <span class="sidebar-kicker">EXPLORE ALL SUBSYSTEMS</span>
+              <h3 class="sidebar-title">Annotated Components</h3>
+              <p class="sidebar-desc">Click any component below or on the 3D model to inspect verified flight engineering telemetry.</p>
+            </div>
+
+            <div class="craft3d-components-list" id="craft3DComponentsList">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Active Component Detail Dossier -->
+            <div class="craft3d-detail-card" id="craft3DDetailCard">
+              <div class="detail-badge" id="craft3DDetailIndex">SUBSYSTEM 01</div>
+              <h4 class="detail-name" id="craft3DDetailName">Crew Module</h4>
+              <p class="detail-desc" id="craft3DDetailDesc">Detailed component engineering telemetry.</p>
+              <div class="detail-specs-grid" id="craft3DDetailSpecs"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="craft3d-footer">
+          <div class="craft3d-footer-info">
+            <span class="info-dot"></span>
+            <span id="craft3DFooterStatus">All telemetry verified with ISRO & NASA human spaceflight programmes.</span>
+          </div>
+          <button id="btnCraft3DSelectMission" class="btn-select-rocket" type="button">
+            <span>Select for Mission ➔</span>
           </button>
         </div>
       </div>
@@ -2348,5 +2442,8 @@
 
   <!-- My Spaceship Photorealistic 3D Habitation Corridor Engine -->
   <script src="./spaceship.js"></script>
+
+  <!-- 3D Spacecraft Rotatable Model & Labeled Components Viewer -->
+  <script src="./craft-viewer.js"></script>
 </body>
 </html>

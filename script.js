@@ -1017,17 +1017,56 @@
           </div>
         </div>
 
-        <button class="btn-select-rocket" type="button">
-          <span>${isSelected ? '✓ Assigned to Mission' : 'Select for Mission ➔'}</span>
-        </button>
+        <div class="card-actions-split">
+          <button class="btn-inspect-3d" type="button" title="Inspect 3D rotatable model with labeled components">
+            <span>🔄 3D Model</span>
+          </button>
+          <button class="btn-select-rocket" type="button">
+            <span>${isSelected ? '✓ Assigned to Mission' : 'Select for Mission ➔'}</span>
+          </button>
+        </div>
       `;
 
-      // Card Click Handler
-      const selectBtn = card.querySelector('.btn-select-rocket');
-      selectBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        initiateFuelingSequence(rocket);
+      // Visual Click Handler (Opens 3D Rotatable Model)
+      const visualEl = card.querySelector('.rocket-visual');
+      if (visualEl) {
+        visualEl.style.cursor = 'pointer';
+        visualEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.openSpacecraft3DModal) {
+            window.openSpacecraft3DModal(rocket.id);
+          }
+        });
+      }
+
+      // 3D Model Button Click Handler
+      const inspect3dBtn = card.querySelector('.btn-inspect-3d');
+      if (inspect3dBtn) {
+        inspect3dBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (window.openSpacecraft3DModal) {
+            window.openSpacecraft3DModal(rocket.id);
+          }
+        });
+      }
+
+      // Card Click Handler (clicking anywhere on card opens 3D rotatable model)
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-select-rocket')) return;
+        if (window.openSpacecraft3DModal) {
+          window.openSpacecraft3DModal(rocket.id);
+        }
       });
+
+      // Select for Mission Button Click Handler
+      const selectBtn = card.querySelector('.btn-select-rocket');
+      if (selectBtn) {
+        selectBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          initiateFuelingSequence(rocket);
+        });
+      }
 
       card.addEventListener('mouseenter', () => {
         audio.playBeep(1200, 0.02);
@@ -1035,6 +1074,10 @@
 
       rocketGrid.appendChild(card);
     });
+
+    if (window.initSpacecraftViewerTriggers) {
+      window.initSpacecraftViewerTriggers();
+    }
   }
 
   // Filter Buttons Handling
