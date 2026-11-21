@@ -4375,6 +4375,14 @@
   }
 
   // Phase 7: Performance Switcher (High 60FPS vs Eco Mode for Mid-Range & Mobile)
+  const btnTogglePerf = document.getElementById('btnTogglePerf');
+  const perfLabel = document.getElementById('perfLabel');
+  const creditsModal = document.getElementById('creditsModal');
+  const creditsBackdrop = document.getElementById('creditsBackdrop');
+  const btnCloseCredits = document.getElementById('btnCloseCredits');
+  const btnCockpitMenu = document.getElementById('btnCockpitMenu');
+  const btnOpenCredits = document.getElementById('btnOpenCredits');
+
   function applyPerformanceMode(isEco) {
     isLowQualityMode = isEco;
     localStorage.setItem('vyom_perf_mode', isEco ? 'eco' : 'high');
