@@ -23,20 +23,9 @@
 }
 #c3Canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; touch-action: none; }
 
-/* Global nav tab for this phase */
-.nav-tab.chandrayaan-nav-tab { background: linear-gradient(135deg, rgba(255,153,51,.15), rgba(19,136,8,.15)); border-color: rgba(255,153,51,.4); }
-.nav-tab.chandrayaan-nav-tab:hover, .nav-tab.chandrayaan-nav-tab.active { background: linear-gradient(135deg, rgba(255,153,51,.35), rgba(19,136,8,.35)); border-color: var(--c3-saffron); box-shadow: 0 0 16px rgba(255,153,51,.4); }
-.nav-tab.chandrayaan-nav-tab .tab-badge { background: transparent; color: inherit; font-size: 1.1rem; }
-/* Top Nav Tab Customization for Phase 4 */
-.nav-tab.chandrayaan-nav-tab .tab-badge {
-  background: transparent;
-  color: inherit;
-  font-size: 1.1rem;
-}
-
 /* Top bar */
 .c3-top-bar {
-  position: absolute; top: 58px; left: 0; right: 0; height: 54px; z-index: 20;
+  position: absolute; top: 68px; left: 0; right: 0; height: 54px; z-index: 20;
   display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 24px;
   background: rgba(3,7,18,.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--c3-panel-border);

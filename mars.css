@@ -47,11 +47,6 @@
   touch-action: none;
 }
 
-/* Top Nav Tab Customization for Phase 5 */
-.nav-tab.mars-nav-tab .tab-badge {
-  background: transparent;
-  font-size: 1.1rem;
-}
 
 /* Mars Astronaut Visor HUD Overlay */
 .mars-visor-frame {
@@ -65,7 +60,7 @@
 /* Top Compass & Navigation Tape */
 .mars-top-compass {
   position: absolute;
-  top: 58px; /* Below global nav */
+  top: 68px; /* Below global nav */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -93,7 +88,7 @@
 /* Mars Header Top Bar */
 .mars-header-bar {
   position: absolute;
-  top: 58px;
+  top: 68px;
   left: 20px;
   right: 20px;
   display: flex;
