@@ -585,32 +585,32 @@
     {
       id: 'orion',
       name: 'Orion MPCV',
-      nickname: 'Crew Capsule for Moon & Deep Space',
+      nickname: 'Built to Fly Astronauts to the Moon',
       agency: 'nasa',
       agencyDisplay: 'NASA // USA',
-      role: 'Deep Space Lunar Crew Capsule',
-      crew: '4 astronauts',
-      builtFor: 'deep space, Moon missions',
-      returnReuse: 'heat shield for fast return',
-      keyFeature: 'part of the Artemis program',
+      role: 'Deep Space Lunar Capsule',
+      crew: '4 Astronauts',
+      builtFor: 'Moon Missions & Deep Space',
+      returnReuse: 'Super Heat Shield for Safe Return',
+      keyFeature: 'NASA Artemis Moon Program',
       spec1Label: 'CREW',
-      spec1Val: '4 astronauts',
-      spec2Label: 'BUILT FOR',
-      spec2Val: 'deep space, Moon missions',
-      spec3Label: 'RETURN',
-      spec3Val: 'heat shield for fast return',
-      spec4Label: 'KEY FEATURE',
-      spec4Val: 'part of the Artemis program',
+      spec1Val: '4 Astronauts',
+      spec2Label: 'DESTINATION',
+      spec2Val: 'Moon & Deep Space',
+      spec3Label: 'HEAT SHIELD',
+      spec3Val: 'Protects up to 40,000 km/h',
+      spec4Label: 'PROGRAM',
+      spec4Val: 'NASA Artemis Missions',
       height: '7.3 m (Module) / 5.0 m dia',
       diameter: '5.0 m',
       mass: '25,848 kg',
-      payloadLEO: '4 astronauts + Deep Space Cargo',
-      payloadGTO: 'Trans-Lunar Injection (TLI)',
-      stages: 'Crew Module (CM) + European Service Module (ESM)',
-      propellant: 'Hypergolic MMH / MON-3 & Cryogenic Subsystems',
-      fuelType: 'MMH / MON-3 Hypergolic & ESM Propulsion',
-      description: 'Crew capsule for the Moon and deep space. Engineered with an advanced heat shield for fast return from lunar velocity (40,000+ km/h), serving as a core part of the Artemis program.',
-      notableMissions: ['Artemis I (uncrewed Moon flight)', 'Artemis II (crewed Moon flyby)'],
+      payloadLEO: '4 Astronauts + Moon Gear',
+      payloadGTO: 'Moon Orbit & Beyond',
+      stages: 'Crew Cabin + Service Module',
+      propellant: 'Safe Storable Fuel + Solar Wings',
+      fuelType: 'Storable Rocket Fuel & Solar Wings',
+      description: 'NASA\'s powerful deep-space spacecraft built to carry 4 astronauts around the Moon and bring them safely back home to Earth.',
+      notableMissions: ['Artemis I (Uncrewed Moon Flight)', 'Artemis II (First Crewed Moon Flyby)'],
       svg: `
         <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Orion X-Wing Solar Arrays (deployed from ESM) -->
@@ -679,32 +679,32 @@
     {
       id: 'crew-dragon',
       name: 'Crew Dragon',
-      nickname: 'Reusable Crew Capsule',
+      nickname: 'Reusable Taxi to the Space Station',
       agency: 'spacex',
       agencyDisplay: 'SPACEX // USA',
-      role: 'Commercial Orbital Crew Capsule',
-      crew: 'up to 4 on NASA flights',
-      builtFor: 'space station trips, private missions',
-      returnReuse: 'capsule is reusable',
-      keyFeature: 'touchscreen controls',
+      role: 'Space Station Ferry Capsule',
+      crew: '4 Astronauts',
+      builtFor: 'Space Station Trips & Private Missions',
+      returnReuse: 'Capsule Lands in Sea & Flies Again',
+      keyFeature: 'Touchscreen Controls & Auto-Docking',
       spec1Label: 'CREW',
-      spec1Val: 'up to 4 on NASA flights',
-      spec2Label: 'BUILT FOR',
-      spec2Val: 'space station trips, private missions',
-      spec3Label: 'REUSE',
-      spec3Val: 'capsule is reusable',
-      spec4Label: 'KEY FEATURE',
-      spec4Val: 'touchscreen controls',
+      spec1Val: '4 Astronauts',
+      spec2Label: 'DESTINATION',
+      spec2Val: 'Space Station (400 km up)',
+      spec3Label: 'REUSABLE',
+      spec3Val: 'Flies to space again and again',
+      spec4Label: 'CONTROLS',
+      spec4Val: 'Touchscreens & Auto-Docking',
       height: '8.1 m (with Trunk) / 4.0 m dia',
       diameter: '4.0 m',
       mass: '12,519 kg',
-      payloadLEO: 'up to 4 on NASA flights',
-      payloadGTO: 'ISS & Autonomous LEO Rendezvous',
+      payloadLEO: '4 Astronauts + Supplies',
+      payloadGTO: 'Space Station Orbit',
       stages: 'Autonomous Capsule + Solar Trunk',
-      propellant: 'Hypergolic NTO / MMH Draco Thrusters',
-      fuelType: 'Hypergolic Draco / SuperDraco (MMH / NTO)',
-      description: 'Reusable crew capsule built for space station trips and private missions. Features state-of-the-art touchscreen controls and reusable flight hardware.',
-      notableMissions: ['Demo-2 (2020)', 'Inspiration4 (2021)', 'Axiom Mission 4 (2025)'],
+      propellant: 'Thruster Fuel & Body Solar Panels',
+      fuelType: 'Thruster Fuel & Body Solar Panels',
+      description: 'SpaceX\'s modern spaceship that carries astronauts to the International Space Station and docks smoothly all on its own.',
+      notableMissions: ['Demo-2 (First Astronaut Flight)', 'Inspiration4 (First All-Civilian Orbit)', 'Crew Missions 1 to 9'],
       svg: `
         <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Aerodynamic Trunk Stabilizing Fins -->
@@ -752,32 +752,32 @@
     {
       id: 'gaganyaan',
       name: 'Gaganyaan',
-      nickname: "India's Crewed Spacecraft",
+      nickname: 'Carrying Indian Astronauts to Space',
       agency: 'isro',
       agencyDisplay: 'ISRO // INDIA',
-      role: 'Indigenously Engineered Crew Module',
-      crew: 'planned for 3 astronauts',
-      builtFor: 'low Earth orbit, about 400 km up',
-      returnReuse: 'planned about 3 days',
-      keyFeature: "ISRO's first crewed spacecraft",
+      role: 'India\'s First Human Spacecraft',
+      crew: '3 Indian Astronauts (Gaganyatris)',
+      builtFor: '3 Days Orbiting Earth at 400 km',
+      returnReuse: 'Safe Parachute Splashdown at Sea',
+      keyFeature: 'Emergency Crew Escape System',
       spec1Label: 'CREW',
-      spec1Val: 'planned for 3 astronauts',
-      spec2Label: 'BUILT FOR',
-      spec2Val: 'low Earth orbit, ~400 km up',
-      spec3Label: 'MISSION',
-      spec3Val: 'planned about 3 days',
-      spec4Label: 'KEY FEATURE',
-      spec4Val: "ISRO's first crewed spacecraft",
+      spec1Val: '3 Indian Astronauts',
+      spec2Label: 'MISSION',
+      spec2Val: '3 Days in Earth Orbit',
+      spec3Label: 'SAFETY',
+      spec3Val: 'Quick Escape Emergency System',
+      spec4Label: 'LANDING',
+      spec4Val: 'Ocean Parachute Splashdown',
       height: '7.0 m (Orbital Module) / 3.5 m dia',
       diameter: '3.5 m',
       mass: '8,200 kg',
-      payloadLEO: 'planned for 3 astronauts',
+      payloadLEO: '3 Indian Astronauts + Science Experiments',
       payloadGTO: 'Low Earth Orbit (400 km circular)',
-      stages: 'Crew Module (CM) + Service Module (SM)',
-      propellant: 'Liquid Bi-propellant (MMH / MON3)',
-      fuelType: 'Bi-propellant Liquid Propulsion (MMH / MON3)',
-      description: "India's crewed spacecraft designed to take planned 3 astronauts to low Earth orbit, about 400 km up for a planned about 3 days mission. ISRO's first crewed spacecraft milestone.",
-      notableMissions: ['TV-D1 crew escape test (2023)', 'uncrewed test flights (planned)'],
+      stages: 'Crew Cabin + Golden Service Module',
+      propellant: 'Liquid Rocket Fuel & Solar Wings',
+      fuelType: 'Liquid Rocket Fuel & Solar Wings',
+      description: 'ISRO\'s historic spacecraft designed to send Indian astronauts (Gaganyatris) into space for the first time and return them safely to Earth.',
+      notableMissions: ['TV-D1 (Emergency Escape Test Cleared)', 'Gaganyaan-1 (Uncrewed Test Flight)'],
       svg: `
         <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Deployed Solar Array Wings -->
@@ -1438,68 +1438,68 @@
       name: 'International Space Station (ISS)',
       operator: 'NASA • ESA • JAXA • CSA • Roscosmos',
       agencyBadge: 'NASA/ESA',
-      rocket: 'Proton-K / Space Shuttle Assembly Flights',
-      orbit: 'Low Earth Orbit (LEO) - 51.6° Inclination',
+      rocket: 'Proton-K / Space Shuttle Flights',
+      orbit: 'Low Earth Orbit (418 km above Earth)',
       altitude: '418 km',
-      speed: '27,600 km/h (7.66 km/s)',
-      role: 'World-class microgravity research laboratory conducting human physiology, biology, physics, astronomy, and material science experiments in orbit for over 25 continuous years.',
-      dyk: 'The ISS is as large as an American football field and its solar arrays cover over 1 acre! Astronauts aboard witness 16 sunrises and sunsets every 24 hours.',
+      speed: '27,600 km/h',
+      role: 'A giant orbiting home and science lab where astronauts live, float in zero gravity, grow plants, and test space medicine.',
+      dyk: 'The ISS is as big as a football field! It orbits Earth so fast that astronauts watch 16 sunrises and 16 sunsets every single day.',
       sourceName: 'NASA Official International Space Station Portal',
       sourceUrl: 'https://www.nasa.gov/international-space-station/'
     },
     navic: {
       id: 'navic',
-      name: 'NavIC (IRNSS-1I Constellation)',
+      name: 'NavIC (India\'s Navigation Satellite)',
       operator: 'ISRO (Indian Space Research Organisation)',
       agencyBadge: 'ISRO',
-      rocket: 'PSLV-C41 (XL Configuration)',
-      orbit: 'Geosynchronous (GEO) - 29° Inclination',
+      rocket: 'PSLV Rocket (ISRO Workhorse)',
+      orbit: 'High Geosynchronous Orbit',
       altitude: '36,000 km',
-      speed: '11,050 km/h (3.07 km/s)',
-      role: 'Provides sovereign regional positioning, navigation and precise timing (PNT) services for civilian tracking, disaster response, and mobile integration across India and 1,500 km surrounding borders.',
-      dyk: 'NavIC utilizes dual-frequency L5 and S-band civilian signals, which are far less susceptible to equatorial ionospheric delays than standard single-band GPS signals!',
+      speed: '11,050 km/h',
+      role: 'India\'s own satellite navigation system! It guides cars, airplanes, ships, and smartphones across India and neighboring countries.',
+      dyk: 'NavIC signals are specially designed to cut through thick tropical monsoon clouds so your GPS map never loses connection!',
       sourceName: 'ISRO Official NavIC Portal',
       sourceUrl: 'https://www.isro.gov.in/NavIC.html'
     },
     insat: {
       id: 'insat',
-      name: 'INSAT-3DR Weather & SAR Satellite',
+      name: 'INSAT-3DR Weather Watcher',
       operator: 'ISRO (Indian Space Research Organisation)',
       agencyBadge: 'ISRO',
-      rocket: 'GSLV-F05 (Indigenous Cryogenic Upper Stage)',
-      orbit: 'Geostationary (74° East Longitude)',
+      rocket: 'GSLV Rocket',
+      orbit: 'Geostationary Orbit (Stays above India)',
       altitude: '35,786 km',
-      speed: '11,070 km/h (3.08 km/s)',
-      role: 'Advanced meteorological satellite equipped with a 6-channel multispectral optical imager and 19-channel infrared sounder for vertical atmospheric profiles, plus Satellite Aided Search & Rescue (SAS&R).',
-      dyk: 'INSAT-3DR can detect cyclone formations hours before coastal radar, and its distress beacon transponder has helped rescue over 2,000 fishermen in distress in the Indian Ocean.',
+      speed: '11,070 km/h',
+      role: 'India\'s space weather forecaster! It watches storm clouds, tracks giant ocean cyclones, and helps rescue sailors in danger at sea.',
+      dyk: 'INSAT-3DR can spot giant cyclones brewing far out in the ocean hours before coastal radar can, and has helped rescue thousands of fishermen!',
       sourceName: 'ISRO Official INSAT-3DR Portal',
       sourceUrl: 'https://www.isro.gov.in/INSAT_3DR.html'
     },
     gps: {
       id: 'gps',
-      name: 'GPS III Space Vehicle (SV05)',
+      name: 'GPS III Navigation Satellite',
       operator: 'United States Space Force / NASA',
       agencyBadge: 'NASA',
-      rocket: 'Falcon 9 Block 5 (Cape Canaveral)',
-      orbit: 'Medium Earth Orbit (MEO) - 55° Inclination',
+      rocket: 'Falcon 9 Rocket',
+      orbit: 'Medium Earth Orbit',
       altitude: '20,200 km',
-      speed: '13,900 km/h (3.87 km/s)',
-      role: 'Provides global 24/7 Positioning, Navigation, and Timing (PNT) broadcasting civil and military signals for worldwide commercial aviation, maritime shipping, and consumer smartphones.',
-      dyk: 'GPS III satellites feature 3x better accuracy and up to 8x improved anti-jamming capabilities, powered by atomic clocks accurate to within 1 second every 100 million years!',
+      speed: '13,900 km/h',
+      role: 'Beams continuous navigation time signals down to Earth so your phone and maps can instantly show where you are anywhere on Earth.',
+      dyk: 'GPS satellites carry ultra-precise atomic clocks that are so accurate they would not gain or lose a single second even after 100 million years!',
       sourceName: 'NASA & USSF Global Positioning System Portal',
       sourceUrl: 'https://www.gps.gov/systems/gps/space/'
     },
     hubble: {
       id: 'hubble',
-      name: 'Hubble Space Telescope (HST)',
+      name: 'Hubble Space Telescope',
       operator: 'NASA • ESA (European Space Agency)',
       agencyBadge: 'NASA/ESA',
-      rocket: 'Space Shuttle Discovery (STS-31)',
-      orbit: 'Low Earth Orbit (LEO) - 28.5° Inclination',
+      rocket: 'Space Shuttle Discovery',
+      orbit: 'Low Earth Orbit (Above the Clouds)',
       altitude: '540 km',
-      speed: '27,300 km/h (7.59 km/s)',
-      role: 'Legendary space optical observatory operating above Earth’s atmospheric distortion, capturing groundbreaking ultraviolet, visible, and near-infrared views of deep galaxies and nebulae.',
-      dyk: 'Hubble’s primary mirror is so exquisitely polished that if it were scaled to the width of the Atlantic Ocean, the largest imperfection would be less than 6 inches high!',
+      speed: '27,300 km/h',
+      role: 'A legendary space telescope floating above Earth\'s atmosphere, taking breathtaking photos of glowing nebulas and distant baby galaxies.',
+      dyk: 'Hubble\'s mirror is polished so smooth that if it were as wide as the entire Atlantic Ocean, the biggest bump would be smaller than a coin!',
       sourceName: 'NASA Hubble Space Telescope Mission Portal',
       sourceUrl: 'https://science.nasa.gov/mission/hubble/'
     }
@@ -2765,305 +2765,305 @@
     '1': [
       {
         type: 'mcq',
-        question: 'At what velocity does the International Space Station cruise around Earth in Low Earth Orbit?',
+        question: 'How fast does the International Space Station (ISS) fly around Earth?',
         options: [
-          '11,200 km/h (3.11 km/s)',
-          '27,600 km/h (7.66 km/s)',
-          '40,320 km/h (11.2 km/s)',
-          '8,500 km/h (2.36 km/s)'
+          '11,200 km/h (slow cruise)',
+          '27,600 km/h (circles Earth in 90 minutes!)',
+          '40,320 km/h (escape speed)',
+          '8,500 km/h (airplane speed)'
         ],
         correct: 1,
-        intel: 'The ISS cruises at ~27,600 km/h at an altitude of ~418 km, completing an entire orbit around Earth every 90 minutes (witnessing 16 sunrises and sunsets every 24 hours).'
+        intel: 'The ISS zooms around Earth at 27,600 km/h! That is fast enough to travel around the entire world every 90 minutes, letting astronauts watch 16 sunrises and 16 sunsets every 24 hours.'
       },
       {
         type: 'match',
-        question: 'Match each orbital asset to its primary mission role & space agency:',
+        question: 'Match each satellite to what it does for humanity:',
         pairs: [
-          { id: 'p1', left: 'NavIC IRNSS', right: 'ISRO Sovereign Regional Navigation' },
-          { id: 'p2', left: 'Hubble Telescope', right: 'NASA / ESA Deep Optical Observatory' },
-          { id: 'p3', left: 'INSAT-3DR', right: 'ISRO Meteorological & Search/Rescue' },
-          { id: 'p4', left: 'GPS III SV05', right: 'US Space Force / NASA PNT Constellation' }
+          { id: 'p1', left: 'NavIC', right: 'India\'s Own Navigation System' },
+          { id: 'p2', left: 'Hubble Telescope', right: 'Takes Stunning Deep Space Photos' },
+          { id: 'p3', left: 'INSAT-3DR', right: 'Tracks Cyclones & Space Weather' },
+          { id: 'p4', left: 'GPS III', right: 'Beams Location Signals to Phones' }
         ],
-        intel: 'NavIC and INSAT-3DR provide sovereign Indian navigation and weather intelligence; Hubble is an international deep space observatory; GPS III broadcasts global positioning signals.'
+        intel: 'NavIC guides travel across India; Hubble snaps glowing baby galaxies; INSAT-3DR protects coastal towns from storms; and GPS helps us find our way on Google Maps!'
       },
       {
         type: 'mcq',
-        question: 'On August 23, 2023, what historic milestone was achieved by ISRO\'s Chandrayaan-3 lander?',
+        question: 'On August 23, 2023, what historic record did ISRO\'s Chandrayaan-3 lander achieve on the Moon?',
         options: [
-          'First spacecraft in history to land near the Lunar South Pole (Shiv Shakti Point)',
-          'First probe to discover subsurface ice on Saturn\'s rings',
-          'First human to set foot on the lunar far side',
-          'First rover to collect samples from the Martian core'
+          'First spacecraft in history to land near the Moon\'s South Pole (Shiv Shakti Point)!',
+          'First probe to land inside an active volcano on Mars',
+          'First astronaut to set foot on Venus',
+          'First rover to drill to the core of Jupiter'
         ],
         correct: 0,
-        intel: 'Chandrayaan-3 landed at 69.37°S near the Moon’s South Pole at Shiv Shakti Point, making India the first nation in history to touch down in the lunar south polar region.'
+        intel: 'Chandrayaan-3 landed near the Moon’s South Pole at Shiv Shakti Point, making India the very first country in human history to land in this mystery-filled polar region!'
       },
       {
         type: 'order',
-        question: 'Order these Earth orbit assets by their operational altitude (lowest to highest):',
+        question: 'Order these space objects by their distance above Earth (closest to farthest):',
         items: [
-          { id: 'iss', text: 'ISS Space Station (418 km)', rank: 1 },
-          { id: 'hubble', text: 'Hubble Space Telescope (540 km)', rank: 2 },
-          { id: 'gps', text: 'GPS III Space Vehicle (20,200 km)', rank: 3 },
-          { id: 'insat', text: 'INSAT-3DR Weather Satellite (35,786 km)', rank: 4 }
+          { id: 'iss', text: 'ISS Space Station (418 km up)', rank: 1 },
+          { id: 'hubble', text: 'Hubble Telescope (540 km up)', rank: 2 },
+          { id: 'gps', text: 'GPS Satellites (20,200 km up)', rank: 3 },
+          { id: 'insat', text: 'INSAT Weather Satellite (35,786 km up)', rank: 4 }
         ],
-        intel: 'Low Earth Orbit (LEO) houses the ISS at 418 km and Hubble at 540 km; Medium Earth Orbit (MEO) holds GPS at 20,200 km; Geostationary Orbit (GEO) holds INSAT-3DR at 35,786 km.'
+        intel: 'The ISS orbits lowest in Low Earth Orbit, Hubble floats just above it, GPS sits in Medium Orbit, and giant weather satellites like INSAT sit highest in Geostationary Orbit!'
       },
       {
         type: 'mcq',
-        question: 'Why must the atomic clocks on GPS III satellites be adjusted for Einsteinian relativity?',
+        question: 'Why do GPS satellites in space carry super-precise atomic clocks?',
         options: [
-          'They lose battery voltage in the cold shadow of Earth',
-          'Relativistic time dilation makes orbital clocks tick 38 microseconds faster per day',
-          'Solar flares slow the mechanical vibrations of quartz crystals',
-          'Earth\'s magnetic field creates electrostatic rotational drag'
+          'Because even a tiny fraction-of-a-second timing error would throw your phone map off by kilometers!',
+          'To wake up astronauts on time',
+          'Because quartz watches freeze in the shade of Earth',
+          'To sound an alarm when an asteroid approaches'
         ],
-        correct: 1,
-        intel: 'General Relativity causes time to pass faster in weaker orbital gravity (+45 μs/day), while Special Relativity slows fast-moving orbital clocks (-7 μs/day), creating a net +38 μs/day relativistic dilation.'
+        correct: 0,
+        intel: 'GPS pinpoints your location by measuring how long light-speed radio signals take to reach your phone. Even a millionth-of-a-second error would cause a huge navigation mistake!'
       }
     ],
 
     '2': [
       {
         type: 'mcq',
-        question: 'Why does a single sidereal day on Venus last longer than an entire Venusian year?',
+        question: 'Why does a single day on Venus last longer than an entire year on Venus?',
         options: [
-          'Venus has no molten core to sustain rotational inertia',
-          'Venus rotates clockwise in retrograde extremely slowly (243 Earth days vs 225-day year)',
-          'Atmospheric friction from sulfuric acid stops the planet each morning',
-          'Tidal friction from Mercury magnetically locks its rotation'
+          'Venus has no gravity to spin itself',
+          'Venus spins on its axis super slowly backward (takes 243 Earth days to spin once!)',
+          'Thick clouds stop the planet from turning',
+          'The Sun magnetically locks Venus into a freeze'
         ],
         correct: 1,
-        intel: 'Venus rotates backward (East to West) so sluggishly that it takes 243 Earth days to make one rotation, whereas it orbits the Sun in only 225 Earth days!'
+        intel: 'Venus is a backward-spinning slowpoke! It takes 243 Earth days to make one full spin, but only 225 Earth days to travel all the way around the Sun!'
       },
       {
         type: 'mcq',
-        question: 'What makes Olympus Mons on Mars extraordinary in our Solar System?',
+        question: 'What is Olympus Mons on Mars?',
         options: [
-          'It is an active supervolcano erupting liquid nitrogen',
-          'It is the largest volcano and highest planetary peak in the solar system (21.9 km high)',
-          'It is the crash site of the Soviet Mars 3 probe',
-          'It contains the deepest ocean canyon on Mars'
+          'A frozen lake of liquid nitrogen',
+          'The largest volcano in the entire solar system (nearly 3 times taller than Mt. Everest!)',
+          'The crash site of an ancient comet',
+          'A massive crater with an underground ocean'
         ],
         correct: 1,
-        intel: 'Olympus Mons is a gargantuan shield volcano towering 21.9 km above the Martian surface—nearly 2.5 times the elevation of Mount Everest!'
+        intel: 'Olympus Mons is a colossal shield volcano towering 22 km into the Martian sky—so tall that its peak pokes out above most of the Martian atmosphere!'
       },
       {
         type: 'match',
-        question: 'Match each Mars exploration mission to its groundbreaking feat:',
+        question: 'Match each Mars mission to its groundbreaking achievement:',
         pairs: [
-          { id: 'p1', left: 'Mangalyaan (MOM)', right: 'First Asian nation to enter Mars orbit on maiden attempt' },
-          { id: 'p2', left: 'NASA Ingenuity', right: '72 powered aerodynamic flights in thin Martian air' },
-          { id: 'p3', left: 'Perseverance Rover', right: 'Extracted breathable O2 with MOXIE & cached rock cores' },
-          { id: 'p4', left: 'Curiosity Rover', right: 'Discovered evidence of an ancient habitable freshwater lake' }
+          { id: 'p1', left: 'Mangalyaan (MOM)', right: 'India reached Mars on its very first attempt!' },
+          { id: 'p2', left: 'Ingenuity Helicopter', right: 'First powered flying helicopter on another planet' },
+          { id: 'p3', left: 'Perseverance Rover', right: 'Searching for ancient fossil life & making oxygen' },
+          { id: 'p4', left: 'Curiosity Rover', right: 'Proved ancient Mars had freshwater lakes' }
         ],
-        intel: 'ISRO’s Mangalyaan achieved orbital capture on its maiden attempt for just $74M; Ingenuity proved aerial flight on another planet; Perseverance and Curiosity unlocked Martian habitability.'
+        intel: 'ISRO’s Mangalyaan made history on a budget smaller than Hollywood movies; Ingenuity took flight in thin air; and rovers unlocked the history of water on Mars!'
       },
       {
         type: 'order',
-        question: 'Order the 4 terrestrial inner planets by their orbital distance from the Sun (closest to farthest):',
+        question: 'Order the 4 rocky inner planets by distance from the Sun (closest to farthest):',
         items: [
-          { id: 'mercury', text: 'Mercury (57.9 Million km)', rank: 1 },
-          { id: 'venus', text: 'Venus (108.2 Million km)', rank: 2 },
-          { id: 'earth', text: 'Earth (149.6 Million km)', rank: 3 },
-          { id: 'mars', text: 'Mars (227.9 Million km)', rank: 4 }
+          { id: 'mercury', text: 'Mercury (58 Million km)', rank: 1 },
+          { id: 'venus', text: 'Venus (108 Million km)', rank: 2 },
+          { id: 'earth', text: 'Earth (150 Million km)', rank: 3 },
+          { id: 'mars', text: 'Mars (228 Million km)', rank: 4 }
         ],
-        intel: 'The terrestrial rocky inner planets strictly order outward as Mercury, Venus, Earth, and Mars.'
+        intel: 'The four rocky inner worlds start closest to the Sun with Mercury, then Venus, then our home Earth, and finally red Mars!'
       },
       {
         type: 'mcq',
-        question: 'What remarkable fact did NASA MESSENGER and ESA BepiColombo confirm regarding Mercury\'s internal core?',
+        question: 'What makes the planet Mercury unique among all the planets?',
         options: [
-          'Mercury is hollow inside',
-          'Its metallic iron core occupies roughly 85% of its entire planetary radius',
-          'It has a liquid water mantle beneath its basalt crust',
-          'It is composed entirely of compressed solid diamond'
+          'It is completely made of ice',
+          'It has an enormous metallic iron core taking up 85% of its entire inside!',
+          'It has rings made of gold',
+          'It is surrounded by 50 moons'
         ],
         correct: 1,
-        intel: 'Mercury possesses an extraordinarily large metallic iron core that makes up 85% of its planetary radius and over 70% of its total planetary mass.'
+        intel: 'Mercury is like a giant metal cannonball in space! Its giant iron core makes up nearly the entire inside of the planet under a thin rocky crust.'
       }
     ],
 
     '3': [
       {
         type: 'mcq',
-        question: 'How does the real Asteroid Belt differ from Hollywood movie asteroid fields?',
+        question: 'How does the real Asteroid Belt look compared to asteroid fields in movie scenes?',
         options: [
-          'Asteroids collide with each other every few seconds',
-          'It is mostly empty space with average distances of ~1 million km between objects',
-          'It is so dense that probes must dodge incoming rocks with thrusters',
-          'It contains more mass than all solar system planets combined'
+          'Rocks are constantly crashing into each other every 5 seconds',
+          'It is mostly vast empty space with millions of kilometers between asteroids!',
+          'Spaceships have to swerve and dodge giant flying boulders',
+          'It is packed tightly like gravel on a road'
         ],
         correct: 1,
-        intel: 'Unlike sci-fi movies, the asteroid belt is predominantly empty vacuum. Space probes fly through it without having to dodge a single boulder.'
+        intel: 'In reality, space is humongous! The Asteroid Belt is mostly empty vacuum—space probes cruise right through it without ever having to dodge a single rock.'
       },
       {
         type: 'mcq',
-        question: 'What is the Great Red Spot on Jupiter?',
+        question: 'What is the famous Great Red Spot on Jupiter?',
         options: [
-          'A massive impact crater from a dead comet',
-          'An anticyclonic storm larger than Earth with winds roaring over 430 km/h',
-          'A volcanic lava lake boiling on Jupiter\'s solid surface',
-          'A concentration of red iron dust blown from Mars'
+          'A giant impact hole from a dead comet',
+          'A monster swirling storm bigger than Earth that has raged for over 300 years!',
+          'A lake of bubbling red lava',
+          'Red dust blown from planet Mars'
         ],
         correct: 1,
-        intel: 'Jupiter’s Great Red Spot is a persistent high-pressure anticyclonic vortex wider than Earth that has been swirling for over 300 continuous years.'
+        intel: 'Jupiter’s Great Red Spot is a colossal storm wider than planet Earth with howling winds racing over 430 km/h, swirling continuously for centuries!'
       },
       {
         type: 'match',
-        question: 'Match the Jovian or Asteroid target to its scientific marvel:',
+        question: 'Match each Jupiter or Asteroid wonder to its cool feature:',
         pairs: [
-          { id: 'p1', left: 'Europa', right: 'Subsurface ocean with twice the water of all Earth oceans' },
-          { id: 'p2', left: '16 Psyche', right: '$10 quintillion metallic nickel-iron asteroid building block' },
-          { id: 'p3', left: 'Io', right: 'Most volcanically active world in the solar system' },
-          { id: 'p4', left: 'Jupiter', right: 'Fastest spinning planet completing a day in 9.9 hours' }
+          { id: 'p1', left: 'Europa', right: 'An icy moon hiding a deep ocean of liquid water!' },
+          { id: 'p2', left: '16 Psyche', right: 'A giant asteroid made almost entirely of shiny metal' },
+          { id: 'p3', left: 'Io', right: 'The most volcanic world with 400+ active volcanoes' },
+          { id: 'p4', left: 'Jupiter', right: 'Fastest-spinning planet: one day lasts under 10 hours!' }
         ],
-        intel: 'Europa holds a global ocean beneath ice; Psyche is a metallic asteroid; Io has 400+ active volcanoes; Jupiter spins in under 10 hours.'
+        intel: 'Europa may harbor extraterrestrial life under its ice; Psyche is an exposed ancient metal core; Io is covered in erupting volcanoes; and giant Jupiter spins with dizzying speed!'
       },
       {
         type: 'order',
-        question: 'Order these celestial bodies by physical equatorial diameter (smallest to largest):',
+        question: 'Order these celestial bodies by size from smallest to largest:',
         items: [
-          { id: 'psyche', text: '16 Psyche (226 km)', rank: 1 },
-          { id: 'moon', text: 'The Moon (3,474 km)', rank: 2 },
-          { id: 'mars', text: 'Mars (6,779 km)', rank: 3 },
-          { id: 'jupiter', text: 'Jupiter (139,820 km)', rank: 4 }
+          { id: 'psyche', text: '16 Psyche Asteroid (226 km across)', rank: 1 },
+          { id: 'moon', text: 'The Moon (3,474 km across)', rank: 2 },
+          { id: 'mars', text: 'Mars (6,779 km across)', rank: 3 },
+          { id: 'jupiter', text: 'Jupiter (139,820 km across)', rank: 4 }
         ],
-        intel: '16 Psyche is a 226 km asteroid; the Moon is 3,474 km; Mars is 6,779 km; Jupiter is the gas giant colossus at 139,820 km.'
+        intel: '16 Psyche is a chunky space rock, our Moon is big enough to cause tides, Mars is half the size of Earth, and giant Jupiter could hold over 1,300 Earths inside it!'
       },
       {
         type: 'mcq',
-        question: 'What makes NASA\'s Psyche spacecraft mission to asteroid 16 Psyche scientifically unique?',
+        question: 'Why is NASA’s mission to the asteroid 16 Psyche so exciting for scientists?',
         options: [
-          'It is the first spacecraft to land on a comet nucleus',
-          'It is studying an asteroid made almost entirely of exposed core metal (iron & nickel)',
-          'It will tow the asteroid into lunar orbit',
-          'It is testing nuclear fusion propulsion'
+          'It is hunting for alien spaceships',
+          'It lets scientists study an exposed metal core, similar to the center of Earth!',
+          'It will drag the asteroid into orbit around the Moon',
+          'It is testing rocket fuel from ice'
         ],
         correct: 1,
-        intel: '16 Psyche offers a unique window into the violent collisions that created terrestrial planets by exposing an ancient metal core.'
+        intel: 'We can never drill thousands of miles down into Earth’s molten iron core, so visiting metal asteroid 16 Psyche lets us study what the deep heart of a rocky planet looks like!'
       }
     ],
 
     '4': [
       {
         type: 'mcq',
-        question: 'What would happen if Saturn were placed in an enormous cosmic pool of water?',
+        question: 'What would happen if you could drop the giant planet Saturn into a colossal bathtub of water?',
         options: [
-          'It would sink to the bottom like lead',
-          'It would float because its bulk density (0.687 g/cm³) is lower than water',
-          'Its hydrogen gas would catch fire immediately',
-          'Its rings would solidify into diamond'
+          'It would sink to the bottom like an iron anchor',
+          'It would float like a giant beach ball because it is lighter than water!',
+          'It would dissolve instantly',
+          'Its rings would turn into ice cubes'
         ],
         correct: 1,
-        intel: 'Saturn’s average density is only 0.687 g/cm³—less than water (1.0 g/cm³)—making it the only planet in our solar system that would float!'
+        intel: 'Saturn is made mostly of lightweight hydrogen and helium gases. Its average density is less than water, meaning it is the only planet that would actually float!'
       },
       {
         type: 'mcq',
-        question: 'Why does Uranus appear to rotate on its side like a rolling bowling ball?',
+        question: 'What is weird about the way the planet Uranus rotates?',
         options: [
-          'Its magnetic field is dragging it sideways',
-          'Its rotational axis is tilted by 97.77°, likely from a giant protoplanet collision',
-          'Its rings exert unequal gravitational torque',
-          'Solar wind blows its upper atmosphere horizontally'
+          'It does not spin at all',
+          'It rolls on its side like a bowling ball, tilted at 98 degrees!',
+          'It spins once every 5 seconds',
+          'It wobbles like a spinning coin'
         ],
         correct: 1,
-        intel: 'Uranus has an extreme axial tilt of 97.77°, causing it to rotate on its side and creating extreme 21-year-long polar seasons.'
+        intel: 'A giant collision with a planet-sized object billions of years ago knocked Uranus onto its side, so it rolls around the Sun like a giant blue barrel!'
       },
       {
         type: 'mcq',
-        question: 'What planetary weather record does the ice giant Neptune hold?',
+        question: 'What extreme weather record does the ice giant Neptune hold?',
         options: [
-          'The highest surface temperature in the solar system',
-          'The fastest supersonic winds recorded on any planet (>2,160 km/h)',
-          'The most continuous lightning bolts per second',
-          'The deepest liquid ammonia ocean'
+          'Hottest sunny beaches',
+          'Fastest supersonic winds in the solar system (over 2,100 km/h)!',
+          'Continuous lightning on every square inch',
+          'Acid rain that melts metal'
         ],
         correct: 1,
-        intel: 'Neptune harbors supersonic atmospheric winds screaming westward at speeds exceeding 2,160 km/h (>600 m/s), faster than the speed of sound on Earth.'
+        intel: 'Neptune has wild supersonic winds that whip around the upper clouds faster than jet fighter planes, racing at over 2,100 km/h!'
       },
       {
         type: 'match',
-        question: 'Match each Voyager 1 asset or milestone to its scientific role:',
+        question: 'Match each Voyager 1 milestone to what it represents:',
         pairs: [
-          { id: 'p1', left: 'Golden Record', right: 'Gold-plated copper phonograph with sounds and music of Earth' },
-          { id: 'p2', left: 'Heliopause', right: 'Boundary where solar wind gives way to interstellar space' },
-          { id: 'p3', left: 'Pale Blue Dot', right: 'Iconic photo of Earth taken from 6 billion km away in 1990' },
-          { id: 'p4', left: 'Deep Space Network', right: 'Giant radio dishes receiving signals across 24.3 billion km' }
+          { id: 'p1', left: 'Golden Record', right: 'Phonograph record carrying Earth music & whale greetings' },
+          { id: 'p2', left: 'Pale Blue Dot', right: 'Photo showing Earth as a tiny speck of dust in sunbeam' },
+          { id: 'p3', left: 'Interstellar Space', right: 'The vast ocean of space beyond our Sun\'s magnetic bubble' },
+          { id: 'p4', left: 'Deep Space Network', right: 'Giant radio dishes on Earth that hear Voyager\'s faint whisper' }
         ],
-        intel: 'Voyager 1 entered interstellar space at the heliopause in 2012, carrying the Golden Record and communicating via NASA\'s DSN.'
+        intel: 'Voyager 1 has flown farther than any human machine in history, journeying into the deep stellar void beyond our solar system!'
       },
       {
         type: 'order',
-        question: 'Order these outer solar system milestones by distance from the Sun (closest to farthest):',
+        question: 'Order these outer solar system landmarks by distance from the Sun (closest to farthest):',
         items: [
-          { id: 'saturn', text: 'Saturn (1.43 Billion km)', rank: 1 },
-          { id: 'uranus', text: 'Uranus (2.87 Billion km)', rank: 2 },
-          { id: 'neptune', text: 'Neptune (4.50 Billion km)', rank: 3 },
-          { id: 'voyager', text: 'Voyager 1 (24.3 Billion km)', rank: 4 }
+          { id: 'saturn', text: 'Saturn (1.4 Billion km)', rank: 1 },
+          { id: 'uranus', text: 'Uranus (2.9 Billion km)', rank: 2 },
+          { id: 'neptune', text: 'Neptune (4.5 Billion km)', rank: 3 },
+          { id: 'voyager', text: 'Voyager 1 (24+ Billion km)', rank: 4 }
         ],
-        intel: 'Saturn is at ~9.5 AU; Uranus is at ~19.2 AU; Neptune is at ~30 AU; Voyager 1 is over 162 AU out in interstellar space.'
+        intel: 'Saturn is the ringed jewel, Uranus and Neptune are the icy outer siblings, and brave Voyager 1 is cruising far beyond in deep interstellar space!'
       }
     ],
 
     'bonus': [
       {
         type: 'mcq',
-        question: 'What is Sagittarius A* located at the gravitational core of our Milky Way galaxy?',
+        question: 'What is Sagittarius A* at the very heart of our Milky Way galaxy?',
         options: [
-          'A newly forming protostar nebula',
-          'A supermassive black hole containing 4.15 million times the mass of the Sun',
-          'A cluster of extinct white dwarf stars',
-          'A primordial dark energy fountain'
+          'A giant glowing green nebula',
+          'A supermassive black hole with the mass of over 4 million Suns!',
+          'A cosmic gas storm that smells like berries',
+          'A portal to a parallel universe'
         ],
         correct: 1,
-        intel: 'Sagittarius A* is the 4.15 million solar-mass supermassive black hole anchoring the center of our galaxy, imaged by the Event Horizon Telescope.'
+        intel: 'Sagittarius A* is the colossal supermassive black hole around which our entire Milky Way galaxy and its billions of stars orbit!'
       },
       {
         type: 'mcq',
-        question: 'What defines the Event Horizon of a black hole?',
+        question: 'What is the "Event Horizon" of a black hole?',
         options: [
-          'The solid metallic surface of the singularity',
-          'The boundary inside of which the escape velocity exceeds the speed of light',
-          'The outer edge of the swirling dust clouds',
-          'The shockwave where stars collide'
+          'The point of no return: inside it, gravity is so strong that not even light can escape!',
+          'The solid rocky surface where you could land a rover',
+          'The ring of fire where stars explode',
+          'The spot where time travels backwards'
         ],
-        correct: 1,
-        intel: 'The event horizon is the ultimate cosmic boundary: within it, spacetime curves so steeply that nothing—not even light—can ever escape.'
+        correct: 0,
+        intel: 'The Event Horizon is the cosmic boundary of no return. Once anything crosses inside it, escape velocity exceeds the speed of light, so nothing can ever break free!'
       },
       {
         type: 'mcq',
-        question: 'What produces the bright ring of light seen in visualizations of Sagittarius A*?',
+        question: 'Why does the ring around a black hole glow so brilliantly in photos?',
         options: [
-          'Direct reflection of starlight from neighboring galaxies',
-          'A relativistic accretion disk of gas and plasma heated by friction to millions of degrees',
-          'Laser radiation emitted by the singularity',
-          'Fluorescent radioactive regolith'
+          'The black hole shines like a flashlight',
+          'Gas and matter swirling around it near the speed of light heat up to millions of degrees with friction!',
+          'Aliens built a ring of lights around it',
+          'It reflects sunlight from Earth'
         ],
         correct: 1,
-        intel: 'Infalling matter accelerates near the speed of light in the accretion disk, generating intense friction and gravitational radiation visible across radio and X-ray wavelengths.'
+        intel: 'Gas and dust falling toward the black hole swirl into a giant cosmic whirlpool called an accretion disk, rubbing together so violently that it glows white-hot!'
       },
       {
         type: 'match',
-        question: 'Match each black hole / relativity concept to its physical definition:',
+        question: 'Match each black hole concept to its meaning in plain English:',
         pairs: [
-          { id: 'p1', left: 'Gravitational Lensing', right: 'Curvature of spacetime bending light around the black hole' },
-          { id: 'p2', left: 'Spaghettification', right: 'Extreme differential tidal forces stretching an infalling object' },
-          { id: 'p3', left: 'Photon Sphere', right: 'Orbital boundary where light photons can travel in circular orbits' },
-          { id: 'p4', left: 'Singularity', right: 'Zero-volume, infinitely dense core where current physics breaks down' }
+          { id: 'p1', left: 'Gravitational Lensing', right: 'Black hole gravity bends light rays like a cosmic magnifying glass' },
+          { id: 'p2', left: 'Spaghettification', right: 'Extreme tidal gravity stretches objects out long and thin like spaghetti!' },
+          { id: 'p3', left: 'Time Dilation', right: 'Near extreme gravity, time ticks noticeably slower compared to Earth' },
+          { id: 'p4', left: 'Event Horizon Telescope', right: 'A planet-sized network of telescopes that took the first photo of Sgr A*' }
         ],
-        intel: 'These four pillars describe the extreme physics of Einstein’s general relativity around supermassive black holes.'
+        intel: 'These cosmic wonders describe the mind-bending physics discovered by Albert Einstein that happen around supermassive black holes!'
       },
       {
         type: 'order',
-        question: 'Order these cosmic bodies by their gravitational mass (smallest to largest):',
+        question: 'Order these cosmic objects by their weight / mass (lightest to heaviest):',
         items: [
-          { id: 'moon', text: 'The Moon (7.35 × 10²² kg)', rank: 1 },
-          { id: 'earth', text: 'Earth (5.97 × 10²⁴ kg)', rank: 2 },
-          { id: 'sun', text: 'Our Sun (1.989 × 10³⁰ kg)', rank: 3 },
-          { id: 'sgra', text: 'Sagittarius A* (4.15 Million Solar Masses)', rank: 4 }
+          { id: 'moon', text: 'The Moon', rank: 1 },
+          { id: 'earth', text: 'Planet Earth', rank: 2 },
+          { id: 'sun', text: 'Our Sun', rank: 3 },
+          { id: 'sgra', text: 'Sagittarius A* Black Hole (4 Million Suns!)', rank: 4 }
         ],
-        intel: 'The mass hierarchy scales from Moon -> Earth -> Sun -> Sagittarius A* (4.15 million Suns combined into a tiny space).'
+        intel: 'The Moon orbits Earth, Earth orbits our massive Sun, and our Sun orbits the colossal supermassive black hole at the center of the galaxy!'
       }
     ]
   };
@@ -3574,11 +3574,11 @@
     promptLevelTarget = String(levelNum);
 
     const levelDetails = {
-      '1': { title: 'LEVEL 1: LEAVING EARTH & MOON', desc: 'You have explored Low Earth Orbit satellites and the Lunar South Pole! Test your knowledge in the Cadet Academy to unlock stars and badges.' },
-      '2': { title: 'LEVEL 2: INNER PLANETS & MARS', desc: 'You navigated Mercury, Venus retrograde atmosphere, and Mars rovers! Prove your planetary science mastery to earn rewards.' },
-      '3': { title: 'LEVEL 3: ASTEROID BELT & JUPITER', desc: 'You conquered the Asteroid Belt and Jupiter’s Great Red Spot! Launch the knowledge quiz to collect your Jovian Voyager badge.' },
-      '4': { title: 'LEVEL 4: OUTER REACHES & VOYAGER 1', desc: 'You surveyed Saturn’s rings, sideways Uranus, supersonic Neptune, and Voyager 1 at the interstellar border! Evaluate your deep space expertise.' },
-      'bonus': { title: '★ BONUS LEVEL: SAGITTARIUS A*', desc: 'You warped to the Milky Way singularity! Answer advanced general relativity astrophysics questions to earn the Singularity Master badge.' }
+      '1': { title: 'LEVEL 1 COMPLETE: EARTH & THE MOON! 🚀', desc: 'You discovered satellites orbiting Earth and visited where Chandrayaan-3 landed on the Moon! Take the Cadet Quiz to earn stars and level up!' },
+      '2': { title: 'LEVEL 2 COMPLETE: THE ROCKY PLANETS & MARS! 🪐', desc: 'You visited scorching Mercury, super-hot Venus, and the red planet Mars! Test your space knowledge to collect your next mission badge!' },
+      '3': { title: 'LEVEL 3 COMPLETE: ASTEROIDS & JUPITER! ☄️', desc: 'You zoomed through the rocky asteroid belt and saw Jupiter’s giant swirling storm! Ready for the quiz challenge?' },
+      '4': { title: 'LEVEL 4 COMPLETE: THE RINGED WORLDS & BEYOND! 🛸', desc: 'You explored Saturn’s icy rings, tilted Uranus, stormy Neptune, and Voyager 1 in deep space! Show off your cosmic smarts!' },
+      'bonus': { title: '★ BONUS LEVEL: MILKY WAY BLACK HOLE! 🕳️', desc: 'You reached Sagittarius A* at the very center of our galaxy! Answer the cosmic questions to earn the Black Hole Master badge!' }
     };
 
     const details = levelDetails[promptLevelTarget] || levelDetails['1'];

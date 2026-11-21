@@ -44,106 +44,106 @@
       soundOn: '🔊 Audio: ON',
       soundOff: '🔇 Audio: MUTED',
       stages: [
-        {
-          id: 1,
-          name: 'Liftoff at Sriharikota',
-          sub: 'LVM3 M4 "Bahubali" Launch • July 14, 2023',
-          desc: 'India’s heaviest rocket, LVM3 M4, lifts off majestically from Satish Dhawan Space Centre, Sriharikota with 10,000 kN of thrust. Twin S200 solid rocket boosters ignite, accelerating Chandrayaan-3 through the atmosphere before stage separation.',
-          facts: [
-            'LVM3 stands 43.5 meters tall with a liftoff mass of 640 tonnes.',
-            'Payload fairing protected the spacecraft until atmospheric exit at 115 km.',
-            'S200 strap-on solid motors are the 3rd largest solid boosters in the world.'
-          ]
-        },
-        {
-          id: 2,
-          name: 'Earth Orbit Raising',
-          sub: '5 Slingshot Elliptical Burns • July 15 - 25, 2023',
-          desc: 'Instead of using brute fuel to blast directly to the Moon, ISRO used orbital mechanics. The Propulsion Module fired its 440 N engine at perigee (closest point to Earth) across 5 burns, expanding the orbit out to 127,600 km.',
-          facts: [
-            'Using Earth’s gravity slingshot saves millions of dollars in propellant.',
-            'Burns occurred at EBN-1, EBN-2, EBN-3, EBN-4, and EBN-5.',
-            'Orbital speed reached over 37,000 km/h during closest Earth flybys.'
-          ]
-        },
-        {
-          id: 3,
-          name: 'Trans-Lunar Injection',
-          sub: 'Slingshot to the Moon • August 1, 2023',
-          desc: 'In the middle of the night on August 1, the spacecraft completed its definitive Trans-Lunar Injection (TLI) burn. This slingshot pushed Chandrayaan-3 out of Earth orbit onto a lunar transfer trajectory.',
-          facts: [
-            'Spacecraft travelled over 384,000 km across deep space toward the Moon.',
-            'Traveled in a zero-gravity coasting phase for four days.',
-            'Trajectory calculations required precision down to fractions of a second.'
-          ]
-        },
-        {
-          id: 4,
-          name: 'Lunar Orbit Insertion',
-          sub: 'Moon Capture & Orbit Lowering • August 5 - 16, 2023',
-          desc: 'As Chandrayaan-3 approached the Moon, retro-thrusters fired to slow it down, allowing lunar gravity to capture the spacecraft into an initial 164 x 18,074 km orbit. Four subsequent burns circularized it to 100 km.',
-          facts: [
-            'Retro-burn acted like a high-precision cosmic brake.',
-            'Orbit lowered step-by-step: 170 km, 150 km, then tight 100 km circle.',
-            'Spacecraft sent back breathtaking high-definition images of lunar craters.'
-          ]
-        },
-        {
-          id: 5,
-          name: 'Lander Separation',
-          sub: 'Vikram Bids Farewell to PM • August 17, 2023',
-          desc: 'The Vikram Lander (carrying Pragyan) cleanly separated from the Propulsion Module in a 100 km lunar orbit. The Propulsion Module remained in orbit to operate its SHAPE payload studying Earth as an exoplanet.',
-          facts: [
-            'Separation was performed using gentle pyrotechnic hold-down latches.',
-            'Vikram rotated and initiated deboost burns to drop its closest altitude to 25 km.',
-            'Vikram was named after Dr. Vikram Sarabhai, father of the Indian space program.'
-          ]
-        },
-        {
-          id: 6,
-          name: 'Powered Descent',
-          sub: 'Rough Braking to Terminal Descent • August 23, 2023',
-          desc: 'The heart-stopping "20 minutes of terror". Vikram fired all four 800 N throttleable engines to shed 1.68 km/s of orbital velocity. Laser Doppler Velocimeter and hazard cameras scanned the terrain continuously in real time.',
-          facts: [
-            'Altitude dropped from 30 km to 800 meters during the rough braking phase.',
-            'Hazard cameras took images every millisecond to pick a boulder-free landing spot.',
-            'Lander autonomously corrected for winds and sensor anomalies.'
-          ]
-        },
-        {
-          id: 7,
-          name: 'Historic Touchdown',
-          sub: 'Shiv Shakti Point • August 23, 2023 at 18:04 IST',
-          desc: 'History was scripted! India became the FIRST country in human history to land near the lunar south pole, and the fourth country to soft-land on the Moon. Prime Minister Modi named the landing site "Shiv Shakti Point".',
-          facts: [
-            'Landing coordinates: 69.37° S, 32.35° E near Manzinus C crater.',
-            'Crater dust cleared within minutes due to zero atmospheric resistance.',
-            'August 23 is now celebrated nationally as "National Space Day" in India.'
-          ]
-        },
-        {
-          id: 8,
-          name: 'Pragyan Rover Rollout',
-          sub: 'Embossing the Ashoka Chakra • August 24, 2023',
-          desc: 'Vikram’s ramp deployed smoothly. The six-wheeled, 26 kg Pragyan rover powered up its solar arrays and rolled onto the lunar soil. Its wheels carried the embossed ISRO logo and India’s National Emblem (Ashoka Chakra).',
-          facts: [
-            'Wheel tracks permanently imprint India’s symbols on lunar regolith.',
-            'Pragyan uses a rocker-bogie suspension system to climb over rocks up to 50 mm tall.',
-            'Rover communicates directly with Vikram, which relays data to Earth via Chandrayaan-2 orbiter.'
-          ]
-        },
-        {
-          id: 9,
-          name: 'Lunar Surface Exploration',
-          sub: 'In-Situ Science & Discoveries • Shiv Shakti Point',
-          desc: 'Pragyan drove across the moonscape, firing its laser spectrometer (LIBS) and alpha particle X-ray spectrometer (APXS). It made the groundbreaking scientific confirmation of Sulfur (S) on the lunar south pole.',
-          facts: [
-            'Confirmed presence of Sulfur, Iron, Titanium, Calcium, and Aluminum.',
-            'ChaSTE sensor recorded a dramatic temperature swing: +60°C at surface to -10°C just 8 cm down!',
-            'ILSA seismometer detected a natural lunar seismic event on August 26, 2023.'
-          ]
-        }
-      ]
+      {
+              "id": 1,
+              "name": "Liftoff at Sriharikota",
+              "sub": "LVM3 M4 \"Bahubali\" Launch • July 14, 2023",
+              "desc": "India’s heaviest and most powerful rocket, nicknamed \"Bahubali\", roars into the sky from Sriharikota with tremendous power! Twin giant white boosters fire together, blasting Chandrayaan-3 high above Earth’s clouds.",
+              "facts": [
+                      "LVM3 is as tall as a 14-story building (43.5 meters) and weighs as much as 130 elephants!",
+                      "A protective nose cone guarded the spacecraft until it passed through Earth’s thick atmosphere.",
+                      "The solid rocket boosters produce massive thrust to escape Earth’s gravity pull."
+              ]
+      },
+      {
+              "id": 2,
+              "name": "Earth Orbit Slingshot",
+              "sub": "5 Gravity Boosts • July 15 - 25, 2023",
+              "desc": "Instead of burning huge amounts of expensive rocket fuel, ISRO used a genius cosmic trick: Earth’s own gravity! The engine fired 5 times, looping wider and wider like a cosmic slingshot out to 127,600 km.",
+              "facts": [
+                      "Using gravity like a slingshot saved millions of dollars in rocket fuel.",
+                      "With each loop around Earth, the spaceship gained speed and flew higher.",
+                      "At its closest zoom past Earth, the spacecraft travelled at an astonishing 37,000 km/h!"
+              ]
+      },
+      {
+              "id": 3,
+              "name": "Trans-Lunar Injection",
+              "sub": "Slingshot to the Moon • August 1, 2023",
+              "desc": "On August 1, the spacecraft fired its engine for the big leap! This powerful push broke Chandrayaan-3 free from Earth’s orbit, aiming it directly on a 4-day cruise across deep space toward the Moon.",
+              "facts": [
+                      "The spacecraft travelled over 384,000 km across the dark void between Earth and the Moon.",
+                      "It coasted in weightless zero gravity for four days.",
+                      "Scientists calculated the flight path so accurately that they hit the target within seconds!"
+              ]
+      },
+      {
+              "id": 4,
+              "name": "Lunar Orbit Capture",
+              "sub": "Slowing Down at the Moon • August 5 - 16, 2023",
+              "desc": "As Chandrayaan-3 reached the Moon, reverse rocket thrusters fired like high-tech space brakes. This slowed the craft just enough for the Moon’s gentle gravity to catch it into lunar orbit.",
+              "facts": [
+                      "Firing reverse thrusters acts just like stepping on the brakes of a car.",
+                      "The orbit was gently lowered in 4 steps until it was orbiting just 100 km above the Moon.",
+                      "The onboard cameras beamed back crystal-clear photos of lunar craters and mountains."
+              ]
+      },
+      {
+              "id": 5,
+              "name": "Lander Separation",
+              "sub": "Vikram Bids Farewell to PM • August 17, 2023",
+              "desc": "The Vikram Lander (carrying the rover Pragyan inside its belly) unlocked and separated smoothly from the Propulsion Module in Moon orbit, ready to begin its descent to the surface.",
+              "facts": [
+                      "Vikram was named after Dr. Vikram Sarabhai, the father of India’s space program.",
+                      "The mother ship remained safely in orbit to act as a space communication relay to Earth.",
+                      "Special gentle springs pushed Vikram away without bumping."
+              ]
+      },
+      {
+              "id": 6,
+              "name": "The Powered Descent",
+              "sub": "Slowing Down from 30 km High • August 23, 2023",
+              "desc": "The famous \"20 minutes of suspense\"! Vikram fired all 4 bottom engines downward to slow down from supersonic speed. Automatic laser sensors scanned the rocky lunar ground below to find a safe, flat spot.",
+              "facts": [
+                      "Vikram slowed down from 6,000 km/h all the way to a gentle walking speed!",
+                      "Laser eyes and cameras took photos every millisecond to avoid large rocks and deep holes.",
+                      "The lander’s onboard computer made all landing choices completely on its own!"
+              ]
+      },
+      {
+              "id": 7,
+              "name": "Historic Touchdown!",
+              "sub": "Shiv Shakti Point • August 23, 2023 at 18:04 IST",
+              "desc": "History was made! India became the FIRST country in human history to land near the Moon’s mysterious South Pole! The landing site was officially named \"Shiv Shakti Point\".",
+              "facts": [
+                      "India is now celebrated worldwide as the 4th country to successfully land on the Moon!",
+                      "Because the Moon has no air or wind, dust settled down within seconds of touchdown.",
+                      "August 23 is now celebrated across India every year as National Space Day!"
+              ]
+      },
+      {
+              "id": 8,
+              "name": "Pragyan Rover Rolls Out",
+              "sub": "Leaving Tracks on the Moon • August 24, 2023",
+              "desc": "A ramp lowered from Vikram’s side, and out rolled Pragyan—a 6-wheeled robotic space explorer! Its wheels were specially engraved to leave the Indian Ashoka Chakra and ISRO emblem in the moon dust.",
+              "facts": [
+                      "The rover wheels leave India’s National Emblem stamped permanently into the lunar soil.",
+                      "With its rocker-bogie wheels, Pragyan can easily climb over rocks and bumpy ground.",
+                      "Pragyan talks to Vikram, and Vikram beams the discoveries back to scientists on Earth!"
+              ]
+      },
+      {
+              "id": 9,
+              "name": "Discoveries on the Moon",
+              "sub": "Exploring the Lunar Soil • Shiv Shakti Point",
+              "desc": "Pragyan explored the surface, firing laser beams at rocks to uncover what the Moon is made of! It made the incredible discovery of Sulfur (S) on the Moon’s South Pole.",
+              "facts": [
+                      "Pragyan proved the presence of Sulfur, Iron, Titanium, Calcium, and Aluminum in the soil.",
+                      "A heat probe showed surface dust was warm (+60°C), but just 8 cm below the dirt it was freezing (-10°C)!",
+                      "A moonquake detector heard a real lunar seismic rumble on August 26, 2023."
+              ]
+      }
+]
     },
     hi: {
       missionTitle: 'मिशन चंद्रयान-3',
@@ -356,9 +356,9 @@
       expl: 'Correct! The gravity slingshot technique allowed Chandrayaan-3 to reach the Moon with a modest 440 N engine and minimal propellant cost.'
     },
     {
-      q: 'What key redesign helped Chandrayaan-3 land safely compared to Chandrayaan-2?',
+      q: 'What important improvements helped Chandrayaan-3 land safely where Chandrayaan-2 struggled?',
       options: [
-        'Stronger legs (3 m/s), wider 4x2.4 km landing zone, and Laser Doppler Velocimeter',
+        'Stronger shock-absorbing legs, a wider landing area, and smart laser cameras to spot rocks',
         'Parachutes and airbags',
         'Lighter rover and smaller battery',
         'Landing on water instead of rock'

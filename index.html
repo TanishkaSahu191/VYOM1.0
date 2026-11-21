@@ -288,7 +288,7 @@
 
         <div class="fueling-header">
           <div class="fueling-tag" id="fuelingAgencyBadge">ISRO LAUNCH COMPLEX</div>
-          <h2 class="fueling-title" id="fuelingTitle">PRE-FLIGHT CRYOGENIC FUELING</h2>
+          <h2 class="fueling-title" id="fuelingTitle">PRE-FLIGHT ROCKET CHECK</h2>
           <p class="fueling-subtitle" id="fuelingVehicleName">LVM3 (Launch Vehicle Mark-3)</p>
         </div>
 
@@ -306,7 +306,7 @@
             <!-- Liquid Oxygen (LOX) Gauge -->
             <div class="fuel-tank-gauge">
               <div class="gauge-label">
-                <span>LIQUID OXYGEN (LOX) TANK</span>
+                <span>OXYGEN TANK (Helps Fuel Burn in Space)</span>
                 <span class="gauge-percent" id="loxPercent">0%</span>
               </div>
               <div class="gauge-track">
@@ -317,7 +317,7 @@
             <!-- Cryogenic LH2 / Propellant Gauge -->
             <div class="fuel-tank-gauge">
               <div class="gauge-label">
-                <span id="propellantLabel">LIQUID HYDROGEN (LH2) CRYO CORE</span>
+                <span id="propellantLabel">ROCKET FUEL TANK (Power to Launch)</span>
                 <span class="gauge-percent" id="fuelPercent">0%</span>
               </div>
               <div class="gauge-track">
@@ -329,25 +329,25 @@
             <div class="diagnostic-checklist">
               <div class="check-item" id="checkAvionics">
                 <span class="check-icon">⏳</span>
-                <span class="check-text">Avionics & Triple-Modular Redundant Guidance</span>
+                <span class="check-text">Flight Computers: Online & Ready</span>
               </div>
               <div class="check-item" id="checkTelemetry">
                 <span class="check-icon">⏳</span>
-                <span class="check-text">Deep Space Telemetry Link (ISTRAC / DSN)</span>
+                <span class="check-text">Space Radio & Ground Control: Connected</span>
               </div>
               <div class="check-item" id="checkPressure">
                 <span class="check-icon">⏳</span>
-                <span class="check-text">Combustion Chamber Pre-Chilling (-250°C)</span>
+                <span class="check-text">Rocket Engines: Chilled & Ready to Fire</span>
               </div>
               <div class="check-item" id="checkTrajectory">
                 <span class="check-icon">⏳</span>
-                <span class="check-text">Mission Trajectory: Level 1 (Leaving Earth)</span>
+                <span class="check-text">Flight Route: Earth to the Moon</span>
               </div>
             </div>
 
             <!-- Countdown Timer & Status -->
             <div class="countdown-hud">
-              <div class="countdown-label">COCKPIT ACCESS LOCK</div>
+              <div class="countdown-label">COUNTDOWN TO BOARDING</div>
               <div class="countdown-digits" id="countdownDigits">T - 03</div>
             </div>
           </div>
@@ -359,7 +359,7 @@
             <span>✕ Cancel</span>
           </button>
           <button id="btnProceedCockpit" class="btn-proceed" type="button" disabled>
-            <span>Proceed to Cockpit (Phase 3) →</span>
+            <span>Step Inside the Spaceship →</span>
           </button>
         </div>
       </div>
@@ -368,21 +368,21 @@
     <!-- Phase 3 Cockpit Gateway Ready Screen -->
     <div class="cockpit-preview-modal" id="cockpitModal" aria-hidden="true">
       <div class="cockpit-preview-card">
-        <div class="cockpit-badge">PHASE 2 COMPLETED // READY FOR PHASE 3</div>
+        <div class="cockpit-badge">ROCKET READY • BOARDING APPROVED 🚀</div>
         <h2 class="cockpit-title">WELCOME TO THE COCKPIT</h2>
         <div class="cockpit-selected-pill" id="cockpitActiveVehicle">VEHICLE: LVM3</div>
         <p class="cockpit-info">
-          Launch vehicle configuration has been registered to your cadet flight record. 
-          The spacecraft is fully fueled, telemetry synchronized, and prepared for <strong>Phase 3: Cockpit and Core Scroll Engine</strong>!
+          Your rocket is fueled, safety checks are 100% complete, and your crew is buckled in. 
+          Get ready to take the controls and blast off to explore our solar system!
         </p>
         <div class="cockpit-telemetry-preview">
           <div class="telem-item">
-            <span class="telem-label">NEXT OBJECTIVE</span>
-            <span class="telem-val">LEVEL 1: LEAVING EARTH</span>
+            <span class="telem-label">FIRST MISSION</span>
+            <span class="telem-val">EARTH ORBIT & THE MOON</span>
           </div>
           <div class="telem-item">
-            <span class="telem-label">PROPULSION STATUS</span>
-            <span class="telem-val" style="color: #4ade80;">100% NOMINAL</span>
+            <span class="telem-label">ENGINES</span>
+            <span class="telem-val" style="color: #4ade80;">100% READY</span>
           </div>
           <div class="telem-item">
             <span class="telem-label">XP REWARD</span>
@@ -596,7 +596,7 @@
             <div class="sat-stat"><span class="sat-label">ALTITUDE / SPEED</span><strong id="satAltitude">36,000 km // 11,050 km/h</strong></div>
           </div>
           <div class="sat-desc-box">
-            <h4>MISSION OBJECTIVE & CAPABILITIES</h4>
+            <h4>WHAT DOES THIS SATELLITE DO?</h4>
             <p id="satRole">Provides independent regional satellite-based positioning, navigation and timing (PNT) services for civilian tracking, mobile integration, and disaster alerts across India and 1,500 km surrounding borders.</p>
           </div>
           <div class="holo-dyk-container sat-dyk">
