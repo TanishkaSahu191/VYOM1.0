@@ -56,16 +56,11 @@
   display: none;
 }
 
-/* Top Nav Tab Customization for Phase 6 */
-.nav-tab.sun-nav-tab .tab-badge {
-  background: transparent;
-  font-size: 1.1rem;
-}
 
 /* Header Top Bar */
 .sun-top-bar {
   position: absolute;
-  top: 58px; /* Below global nav */
+  top: 68px; /* Below global nav */
   left: 0;
   right: 0;
   height: 54px;

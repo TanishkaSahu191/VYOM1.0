@@ -578,8 +578,6 @@ body.destination-active .destination-page {
 }
 
 .brand-symbol {
-  width: 32px;
-  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1581,26 +1579,26 @@ body.destination-active .destination-page {
    ======================================================== */
 .global-phase-nav {
   position: fixed;
-  top: 10px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 120;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 5px 14px;
+  gap: 12px;
+  padding: 6px 16px;
   max-width: 98vw;
   /* Claymorphism Capsule Dock */
-  background: rgba(15, 23, 42, 0.9);
+  background: rgba(15, 23, 42, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
   border-radius: 9999px;
   box-shadow: 
-    0 16px 36px rgba(0, 0, 0, 0.55),
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 2px 3px rgba(255, 255, 255, 0.22),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.45);
+    0 20px 45px rgba(0, 0, 0, 0.6),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.5);
   transition: all 250ms ease;
 }
 
@@ -1644,17 +1642,18 @@ body.on-launchpad .global-phase-nav {
 }
 
 .hangar-brand-logo-img {
-  height: 36px;
+  height: 62px;
   width: auto;
-  border-radius: 6px;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35), 0 4px 14px rgba(0, 0, 0, 0.5);
   display: block;
   object-fit: contain;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
 .hangar-brand:hover .hangar-brand-logo-img {
   transform: scale(1.04);
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.6), 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .nav-logo-icon {
@@ -1684,10 +1683,11 @@ body.on-launchpad .global-phase-nav {
 .nav-phase-tabs {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 .nav-phase-tabs::-webkit-scrollbar {
   display: none;
@@ -1703,24 +1703,24 @@ body.on-launchpad .global-phase-nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  height: 32px;
-  padding: 0 11px;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
   flex-shrink: 0;
   white-space: nowrap;
   background: #ffffff !important;
   color: #0f172a !important;
-  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   border-radius: 9999px;
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  font-size: 11px;
+  font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
   user-select: none;
   box-shadow: 
-    0 6px 14px -1px rgba(0, 0, 0, 0.22),
-    0 2px 5px -1px rgba(0, 0, 0, 0.12),
+    0 6px 16px -1px rgba(0, 0, 0, 0.22),
+    0 2px 6px -1px rgba(0, 0, 0, 0.12),
     inset 0 2.5px 3px rgba(255, 255, 255, 1),
     inset 0 -3px 4px rgba(15, 23, 42, 0.14) !important;
   transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -1734,9 +1734,10 @@ body.on-launchpad .global-phase-nav {
 .nav-tab.pitch-nav-tab:hover {
   transform: translateY(-2px);
   color: #0284c7 !important;
+  border-color: #38bdf8 !important;
   box-shadow: 
-    0 10px 20px -2px rgba(0, 0, 0, 0.26),
-    0 4px 8px -1px rgba(0, 0, 0, 0.14),
+    0 10px 22px -2px rgba(0, 0, 0, 0.26),
+    0 4px 10px -1px rgba(0, 0, 0, 0.14),
     inset 0 3px 3px rgba(255, 255, 255, 1),
     inset 0 -3px 4px rgba(15, 23, 42, 0.16) !important;
 }
@@ -1765,30 +1766,34 @@ body.on-launchpad .global-phase-nav {
   color: #0284c7 !important;
   border: 2px solid #38bdf8 !important;
   box-shadow: 
-    0 0 16px rgba(56, 189, 248, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 0 22px rgba(56, 189, 248, 0.6),
+    0 6px 16px rgba(0, 0, 0, 0.22),
     inset 0 2px 3px rgba(255, 255, 255, 1),
     inset 0 -3px 4px rgba(2, 132, 199, 0.25) !important;
 }
 
 .nav-tab .tab-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 1.5px 5px;
-  background: #f1f5f9;
-  color: #334155;
-  border-radius: 9999px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
-  line-height: 1.2;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'Space Grotesk', monospace !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 2.5px 8px !important;
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+  line-height: 1.2 !important;
+  min-width: 28px !important;
+  height: 22px !important;
 }
 
 .nav-tab.active .tab-badge {
-  background: #e0f2fe;
-  color: #0284c7;
+  background: #e0f2fe !important;
+  color: #0284c7 !important;
+  border-color: #38bdf8 !important;
 }
 
 .nav-tab .tab-text {
@@ -1941,6 +1946,21 @@ body.on-launchpad .global-phase-nav {
   flex: 1;
   min-width: 0;
   margin: 0 10px;
+}
+
+.cockpit-mission-title {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 10%, #bae6fd 60%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4));
+  white-space: nowrap;
+  user-select: none;
 }
 
 .cockpit-nav-right {
@@ -2485,47 +2505,14 @@ body.on-launchpad .global-phase-nav {
   display: block;
 }
 
-/* Pilot & Copilot Seats Layer (Foreground Parallax) */
+/* Pilot & Copilot Seats Layer (Foreground Parallax - Removed per user request) */
 .cockpit-seats-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 7;
-  pointer-events: none;
-  overflow: hidden;
+  display: none !important;
 }
 
-.cockpit-seat {
-  position: absolute;
-  bottom: -20px;
-  will-change: transform;
-  transition: transform 70ms cubic-bezier(0.1, 0.9, 0.2, 1);
-  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95));
-}
-
-.cockpit-seat img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.seat-pilot-left {
-  left: 2%;
-  width: 22vw;
-  max-width: 320px;
-  min-width: 190px;
-}
-
-.seat-copilot-right {
-  right: 2%;
-  width: 22vw;
-  max-width: 320px;
-  min-width: 190px;
-}
-
-/* --- Closed-Caption Subtitle Bar (Bottom Center) --- */
+/* --- Closed-Caption Subtitle Bar (Bottom Center - Removed) --- */
 .accessibility-cc-bar {
+  display: none !important;
   position: absolute;
   bottom: 8px;
   left: 50%;
@@ -2664,6 +2651,7 @@ body.on-launchpad .global-phase-nav {
 
 /* --- Level Navigation Ribbon (Top Cockpit HUD) --- */
 .cockpit-level-ribbon {
+  display: none !important;
   position: static;
   transform: none;
   display: inline-flex;

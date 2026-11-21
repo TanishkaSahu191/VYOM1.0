@@ -49,16 +49,11 @@
   cursor: grabbing;
 }
 
-/* Top Nav Tab Customization for Phase 7 */
-.nav-tab.spaceship-nav-tab .tab-badge {
-  background: transparent;
-  font-size: 1.1rem;
-}
 
 /* Header Top Status Bar */
 .ship-top-bar {
   position: absolute;
-  top: 58px; /* Below global nav */
+  top: 68px; /* Below global nav */
   left: 0;
   right: 0;
   height: 52px;

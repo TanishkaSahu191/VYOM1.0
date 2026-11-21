@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./chandrayaan3.css" />
   <link rel="stylesheet" href="./mars.css" />
-  <link rel="stylesheet" href="./aditya.css" />
   <link rel="stylesheet" href="./spaceship.css" />
   <link rel="stylesheet" href="./craft-viewer.css" />
 </head>
@@ -46,12 +45,8 @@
         <span class="tab-badge">05</span>
         <span class="tab-text">Mars</span>
       </button>
-      <button class="nav-tab sun-nav-tab" id="tabPhaseSun" data-phase="6" type="button" role="tab" title="Aditya-L1: Journey to the Sun's Doorstep - Tour to Sun">
+      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="6" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
         <span class="tab-badge">06</span>
-        <span class="tab-text">Tour to Sun</span>
-      </button>
-      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
-        <span class="tab-badge">07</span>
         <span class="tab-text">Spaceship</span>
       </button>
       <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
@@ -204,10 +199,6 @@
             <circle cx="12" cy="12" r="3" fill="#38bdf8" />
           </svg>
         </div>
-        <div class="brand-text">
-          <span class="brand-title">VYOM</span>
-          <span class="brand-subtitle">MISSION HANGAR // LEVEL 0</span>
-        </div>
       </div>
 
       <div class="hangar-hud-status">
@@ -341,7 +332,7 @@
               </div>
               <div class="check-item" id="checkTrajectory">
                 <span class="check-icon">•</span>
-                <span class="check-text">Flight Route: Earth to the Moon</span>
+                <span class="check-text">Flight Route: Mercury to Deep Space</span>
               </div>
             </div>
 
@@ -378,7 +369,7 @@
         <div class="cockpit-telemetry-preview">
           <div class="telem-item">
             <span class="telem-label">FIRST MISSION</span>
-            <span class="telem-val">EARTH ORBIT & THE MOON</span>
+            <span class="telem-val">INNER PLANETS: MERCURY & VENUS</span>
           </div>
           <div class="telem-item">
             <span class="telem-label">ENGINES</span>
@@ -527,35 +518,9 @@
         <div class="cockpit-vehicle-badge" id="cockpitVehicleBadge">LVM3 (ISRO)</div>
       </div>
 
-      <!-- Center: Solar System Levels Navigation Ribbon -->
+      <!-- Center: Cockpit Title -->
       <div class="cockpit-nav-center">
-        <nav class="cockpit-level-ribbon" id="cockpitLevelRibbon" aria-label="Solar System Flight Levels">
-          <button class="lvl-ribbon-btn is-active" data-level="1" type="button" title="Level 1: Atmosphere, LEO Satellites & Moon">
-            <span class="ribbon-tag">LVL 1</span>
-            <span class="ribbon-label">Earth & Moon</span>
-            <span class="ribbon-stars" id="starsLvl1">☆☆☆</span>
-          </button>
-          <button class="lvl-ribbon-btn" data-level="2" type="button" title="Level 2: Mercury, Venus & Mars">
-            <span class="ribbon-tag">LVL 2</span>
-            <span class="ribbon-label">Inner Planets</span>
-            <span class="ribbon-stars" id="starsLvl2">☆☆☆</span>
-          </button>
-          <button class="lvl-ribbon-btn" data-level="3" type="button" title="Level 3: Asteroid Belt & Jupiter">
-            <span class="ribbon-tag">LVL 3</span>
-            <span class="ribbon-label">Asteroids & Jupiter</span>
-            <span class="ribbon-stars" id="starsLvl3">☆☆☆</span>
-          </button>
-          <button class="lvl-ribbon-btn" data-level="4" type="button" title="Level 4: Saturn, Uranus, Neptune, Voyager 1">
-            <span class="ribbon-tag">LVL 4</span>
-            <span class="ribbon-label">Outer Space</span>
-            <span class="ribbon-stars" id="starsLvl4">☆☆☆</span>
-          </button>
-          <button class="lvl-ribbon-btn bonus-btn" data-level="bonus" type="button" title="Bonus Level: Supermassive Black Hole Warp">
-            <span class="ribbon-tag">★ BONUS</span>
-            <span class="ribbon-label">Black Hole</span>
-            <span class="ribbon-stars" id="starsLvlBonus">☆☆☆</span>
-          </button>
-        </nav>
+        <span class="cockpit-mission-title">TRAVEL THE SPACE</span>
       </div>
 
       <!-- Right: Stats, Actions & Controls -->
@@ -1219,12 +1184,12 @@
             <span class="telem-value speed-val" id="cockpitSpeed">28,400 km/h</span>
           </div>
           <div class="telem-block">
-            <span class="telem-title">DISTANCE FROM EARTH:</span>
-            <span class="telem-value dist-val" id="cockpitDistance">384,400 km</span>
+            <span class="telem-title">DISTANCE FROM SUN:</span>
+            <span class="telem-value dist-val" id="cockpitDistance">57,900,000 km</span>
           </div>
           <div class="telem-block">
             <span class="telem-title">CURRENT OBJECT:</span>
-            <span class="telem-value object-val" id="cockpitObject">MARS</span>
+            <span class="telem-value object-val" id="cockpitObject">MERCURY</span>
           </div>
           <div class="telem-block">
             <span class="telem-title">MISSION TIMER:</span>
@@ -1277,21 +1242,7 @@
 
     </div>
 
-    <!-- Pilot & Copilot Flight Seats (Foreground Parallax Layer) -->
-    <div class="cockpit-seats-layer" id="cockpitSeatsLayer" aria-hidden="true">
-      <div class="cockpit-seat seat-left" id="seatPilotLeft">
-        <img src="./assets/cockpit-seat-left.svg" alt="Pilot Flight Seat" />
-      </div>
-      <div class="cockpit-seat seat-right" id="seatCopilotRight">
-        <img src="./assets/cockpit-seat-right.svg" alt="Copilot Flight Seat" />
-      </div>
-    </div>
 
-    <!-- Closed-Caption Accessibility Subtitle Bar (Bottom Center) -->
-    <div class="accessibility-cc-bar" id="accessibilityCcBar">
-      <span class="cc-badge">CC</span>
-      <span class="cc-text" id="ccText">Accessibility closed-caption bar, subtitles by voice assistant. Scroll to travel through solar system.</span>
-    </div>
 
   </section>
 
@@ -1514,240 +1465,7 @@
 </section>
 
   <!-- ========================================================
-       7. PHASE 6: TOUR TO THE SUN (ADITYA-L1 3D SIMULATION)
-       ======================================================== -->
-  <section id="sunStage" class="sun-stage" aria-label="Aditya-L1: Journey to the Sun's Doorstep" style="display: none;">
-    <!-- 3D WebGL Canvas -->
-    <canvas id="sunCanvas"></canvas>
-    <!-- Confetti Canvas for Halo Orbit Insertion Celebration -->
-    <canvas id="sunConfettiCanvas"></canvas>
-
-    <!-- Top Status & Actions Header -->
-    <header class="sun-top-bar">
-      <div class="sun-brand-group">
-        <span class="sun-emblem">SOLAR</span>
-        <div>
-          <div class="sun-main-title" id="sunMainTitle">Aditya-L1: Journey to the Sun</div>
-          <div class="sun-sub-title" id="sunSubTitle">ISRO SOLAR OBSERVATORY PROTOCOL</div>
-        </div>
-      </div>
-
-      <div class="sun-clock-pill">
-        <span class="sun-clock-dot"></span>
-        <span>HALO ORBIT • L1 POINT (1.5M KM)</span>
-      </div>
-
-      <div class="sun-top-actions">
-        <button class="sun-btn gold" id="sunBtnGuardian" type="button" title="Play as Space Weather Guardian protecting Earth">Space Weather Guardian</button>
-        <button class="sun-btn" id="sunBtnInstruments" type="button" title="View all 7 solar payloads">7 Solar Instruments</button>
-        <button class="sun-btn" id="sunBtnQuiz" type="button" title="Take the Solar Mission Quiz">Solar Quiz</button>
-        <button class="sun-btn" id="sunBtnHaloInfo" type="button" title="Learn what makes Lagrange Point 1 special">Halo Orbit Science</button>
-        <button class="sun-btn" id="sunVoiceBtn" type="button" title="Toggle audio narration">Voice: ON</button>
-        <button class="sun-btn" id="sunAudioBtn" type="button" title="Toggle solar audio">Audio: ON</button>
-        <button class="sun-btn" id="sunLangBtn" type="button" title="Switch English / Hindi">हिन्दी</button>
-      </div>
-    </header>
-
-    <!-- Stage Timeline Strip (Stages 1 to 6) -->
-    <nav class="sun-timeline-strip" id="sunTimelineStrip" aria-label="Aditya-L1 Mission Stages">
-      <div class="sun-stage-pill active" data-stage="1">
-        <span class="pill-num">STAGE 01</span>
-        <span class="pill-title">PSLV Liftoff</span>
-      </div>
-      <div class="sun-stage-pill" data-stage="2">
-        <span class="pill-num">STAGE 02</span>
-        <span class="pill-title">Orbit Raising</span>
-      </div>
-      <div class="sun-stage-pill" data-stage="3">
-        <span class="pill-num">STAGE 03</span>
-        <span class="pill-title">TL1I Slingshot</span>
-      </div>
-      <div class="sun-stage-pill" data-stage="4">
-        <span class="pill-num">STAGE 04</span>
-        <span class="pill-title">Deep Space Cruise</span>
-      </div>
-      <div class="sun-stage-pill" data-stage="5">
-        <span class="pill-num">STAGE 05</span>
-        <span class="pill-title">Halo Orbit Insertion</span>
-      </div>
-      <div class="sun-stage-pill" data-stage="6">
-        <span class="pill-num">STAGE 06</span>
-        <span class="pill-title">24/7 Solar Science</span>
-      </div>
-    </nav>
-
-    <!-- Floating Mission Fact Card -->
-    <aside class="sun-fact-card" id="sunFactCard" aria-label="Solar Mission Intelligence">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span class="sun-card-badge" id="sunCardBadge">STAGE 1 OF 6</span>
-        <span style="font-family: monospace; font-size: 0.72rem; color: #94a3b8;">ISRO ISTRAC • L1</span>
-      </div>
-      <h2 class="sun-card-title" id="sunCardTitle">Liftoff on PSLV-C57</h2>
-      <div class="sun-card-sub" id="sunCardSub">Sriharikota • September 2, 2023</div>
-      <p class="sun-card-body" id="sunCardBody">
-        India’s trusted workhorse, PSLV-C57 in XL configuration, launched Aditya-L1 majestically into an elliptical Earth orbit.
-      </p>
-      <div class="sun-facts-list" id="sunFactsList">
-        <!-- Injected dynamically -->
-      </div>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <button class="sun-btn" type="button" onclick="window.AdityaL1Engine.speakStageFact()">Listen</button>
-        <div style="display: flex; gap: 6px;">
-          <button class="sun-btn" id="sunBtnPrev" type="button">← Prev</button>
-          <button class="sun-btn gold" id="sunBtnNext" type="button">Next →</button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Flight Telemetry HUD -->
-    <aside class="sun-telemetry-hud" aria-label="Solar Observatory Telemetry">
-      <div class="sun-hud-header">
-        <span>SOLAR OBSERVATORY</span>
-        <span style="color: #10b981;">● SYNCHRONIZED</span>
-      </div>
-      <div class="sun-gauge-grid">
-        <div class="sun-gauge">
-          <div class="sun-gauge-label">
-            <span>SUN DISTANCE</span>
-            <span class="sun-gauge-val" id="sunValDistance">1.5 Million km (L1)</span>
-          </div>
-          <div class="sun-gauge-track"><div class="sun-gauge-fill" style="width: 85%;"></div></div>
-        </div>
-        <div class="sun-gauge">
-          <div class="sun-gauge-label">
-            <span>SOLAR CONSTANT FLUX</span>
-            <span class="sun-gauge-val" id="sunValFlux">1,390 W/m²</span>
-          </div>
-          <div class="sun-gauge-track"><div class="sun-gauge-fill" style="width: 95%;"></div></div>
-        </div>
-        <div class="sun-gauge">
-          <div class="sun-gauge-label">
-            <span>ORBIT TRAJECTORY</span>
-            <span class="sun-gauge-val" id="sunValOrbit">HALO ORBIT (L1)</span>
-          </div>
-        </div>
-        <div class="sun-gauge">
-          <div class="sun-gauge-label">
-            <span>ECLIPSE STATUS</span>
-            <span class="sun-gauge-val" style="color: #10b981;">0% (ZERO OCCULTATION)</span>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Space Weather Guardian Mode Overlay -->
-    <div class="sun-guardian-overlay" id="sunGuardianOverlay">
-      <div class="sun-guardian-top">
-        <div class="sun-instrument-selector">
-          <span style="font-size: 0.72rem; color: #fbbf24; align-self: center; margin-right: 6px; font-family: monospace;">PAYLOAD:</span>
-          <button class="sun-inst-tab active" data-inst="velc" type="button" title="Coronagraph for CME tracking">VELC</button>
-          <button class="sun-inst-tab" data-inst="suit" type="button" title="UV Imager for Flares">SUIT</button>
-          <button class="sun-inst-tab" data-inst="solexs" type="button" title="Soft X-ray Flare Detector">SoLEXS</button>
-          <button class="sun-inst-tab" data-inst="hel1os" type="button" title="Hard X-ray Explosive Flare Detector">HEL1OS</button>
-          <button class="sun-inst-tab" data-inst="aspex" type="button" title="Solar Wind Particle Spectrometer">ASPEX</button>
-          <button class="sun-inst-tab" data-inst="papa" type="button" title="Plasma Analyser">PAPA</button>
-          <button class="sun-inst-tab" data-inst="mag" type="button" title="Magnetometer">MAG</button>
-        </div>
-
-        <div class="sun-earth-defense-card">
-          <div style="font-size: 0.7rem; color: #06b6d4; margin-bottom: 6px;">EARTH DEFENSE SHIELD STATUS</div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span style="color: #94a3b8;">EARTH HEALTH:</span>
-            <strong id="sunEarthHealthVal" style="color: #10b981;">100%</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span style="color: #94a3b8;">DEFENSE SCORE:</span>
-            <strong id="sunScoreVal" style="color: #fbbf24;">0 PTS</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: #94a3b8;">EARLY WARNINGS:</span>
-            <strong id="sunAlertsVal" style="color: #fff;">0</strong>
-          </div>
-        </div>
-
-        <button class="sun-btn" id="sunBtnExitGuardian" style="height: fit-content;">✕ Exit Guardian Mode</button>
-      </div>
-
-      <!-- Solar Storm Alert Broadcast Bar -->
-      <div class="sun-alert-broadcast-bar">
-        <div id="sunThreatBanner" style="font-family: monospace; font-size: 0.95rem; font-weight: bold; color: #10b981;">
-          ● MONITORING SUN FOR CME ERUPTIONS & FLARES
-        </div>
-        <button class="sun-alert-btn" id="sunAlertBtn" type="button" style="display: none;">
-          BROADCAST SPACE WEATHER ALERT TO EARTH!
-        </button>
-      </div>
-    </div>
-
-    <!-- Scientific Instruments Dialog -->
-    <div class="sun-dialog-overlay" id="sunInstrumentsModal">
-      <div class="sun-dialog-box">
-        <div class="sun-dialog-header">
-          <div class="sun-dialog-title">Aditya-L1 7 Scientific Payloads</div>
-          <button class="sun-dialog-close sun-btn" type="button">✕</button>
-        </div>
-        <p style="font-size: 0.86rem; color: #cbd5e1; line-height: 1.5;">
-          Indigenously developed by leading Indian research institutes (IIA, IUCAA, ISAC/URSC, PRL, VSSC, LEOS) to perform multi-wavelength solar physics from L1.
-        </p>
-        <div class="sun-inst-grid" id="sunInstrumentsGrid"></div>
-      </div>
-    </div>
-
-    <!-- Solar Mission Quiz Dialog -->
-    <div class="sun-dialog-overlay" id="sunQuizModal">
-      <div class="sun-dialog-box">
-        <div class="sun-dialog-header">
-          <div class="sun-dialog-title">Aditya-L1 Solar Mission Quiz</div>
-          <button class="sun-dialog-close sun-btn" type="button">✕</button>
-        </div>
-        <div id="sunQuizContent"></div>
-      </div>
-    </div>
-
-    <!-- Halo Orbit Science Dialog -->
-    <div class="sun-dialog-overlay" id="sunHaloModal">
-      <div class="sun-dialog-box">
-        <div class="sun-dialog-header">
-          <div class="sun-dialog-title">What is a Halo Orbit & Why L1?</div>
-          <button class="sun-dialog-close sun-btn" type="button">✕</button>
-        </div>
-        <div style="font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;">
-          <p style="margin-bottom: 12px;">
-            In 1772, mathematician <strong>Joseph-Louis Lagrange</strong> discovered that in a system of two large bodies in orbit (like the Sun and Earth), there are <strong>five equilibrium points</strong> where gravitational pull and centrifugal force balance out.
-          </p>
-          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 14px;">
-            <div style="font-weight: 700; color: #fbbf24; margin-bottom: 8px;">Key Advantages of Sun-Earth L1:</div>
-            <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              <li><strong>Zero Solar Eclipses:</strong> Earth never passes between Aditya-L1 and the Sun, granting an uninterrupted 24/7 view.</li>
-              <li><strong>Fuel Efficiency:</strong> A 3D Halo Orbit around L1 requires only occasional micro-thruster station-keeping burns.</li>
-              <li><strong>Early CME Warning:</strong> Located 1.5 million km ahead of Earth, detecting storms hours before they hit our electrical infrastructure!</li>
-            </ul>
-          </div>
-          <p style="font-style: italic; color: #94a3b8;">
-            "Stationed at the Sun's doorstep, Aditya-L1 serves as humanity's early warning space sentinel." — ISRO
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Progress Footer -->
-    <footer class="sun-bottom-bar">
-      <div style="display: flex; align-items: center; gap: 12px; font-size: 0.76rem; font-family: monospace; color: #94a3b8;">
-        <span style="color: #fbbf24;">⮃ Scroll or Click to Travel</span>
-        <span>•</span>
-        <span id="sunProgressText">PHASE 1 / 6: LIFTOFF ON PSLV-C57</span>
-      </div>
-      <div class="sun-progress-track">
-        <div class="sun-progress-fill" id="sunProgressFill"></div>
-      </div>
-      <div style="font-family: monospace; font-size: 0.74rem; color: #fbbf24;">
-        ISRO • SUN-EARTH L1 HALO ORBIT
-      </div>
-    </footer>
-  </section>
-
-  <!-- ========================================================
-       8. PHASE 7: MY SPACESHIP (PHOTOREALISTIC 3D ISS INTERIOR)
+       7. PHASE 6: MY SPACESHIP (PHOTOREALISTIC 3D ISS INTERIOR)
        ======================================================== -->
   <section id="spaceshipStage" class="spaceship-stage" aria-label="My Spaceship 3D Interior" style="display: none;">
     <!-- 3D WebGL Canvas -->
@@ -1867,9 +1585,6 @@
 
   <!-- Mars Explorer 3D Astronaut Mission Engine -->
   <script src="./mars.js"></script>
-
-  <!-- Aditya-L1 3D Solar Observatory Simulation Engine -->
-  <script src="./aditya.js"></script>
 
   <!-- My Spaceship Photorealistic 3D Habitation Corridor Engine -->
   <script src="./suit_data.js"></script>

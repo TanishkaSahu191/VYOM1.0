@@ -72,8 +72,6 @@
   const chandrayaanStage = document.getElementById('chandrayaanStage');
   const tabPhaseMars = document.getElementById('tabPhaseMars');
   const marsStage = document.getElementById('marsStage');
-  const tabPhaseSun = document.getElementById('tabPhaseSun');
-  const sunStage = document.getElementById('sunStage');
   const tabPhaseSpaceship = document.getElementById('tabPhaseSpaceship');
   const spaceshipStage = document.getElementById('spaceshipStage');
 
@@ -1228,18 +1226,52 @@
 
   // Phase 4: Scientifically Verified Solar System Checkpoints (NASA, ISRO, ESA)
   const CHECKPOINTS = [
-    // --- LEVEL 1: LEAVING EARTH & THE MOON ---
+    // --- LEVEL 1: INNER PLANETS (MERCURY & VENUS) ---
+    {
+      id: 'mercury',
+      level: 1,
+      z: 140,
+      name: 'MERCURY',
+      title: 'MERCURY // THE METALLIC SWIFT PLANET',
+      distDisplay: '57,900,000 KM FROM SUN',
+      agency: 'NASA • ESA BEPICOLOMBO',
+      agencyBadge: 'ESA',
+      color: '#64748b',
+      fact: "Mercury is the closest planet to the Sun and the smallest in the solar system. It has a massive iron-rich metallic core occupying 85% of its entire planetary radius, mapped by NASA's MESSENGER and ESA/JAXA's BepiColombo.",
+      dyk: "Mercury endures the most violent temperature swings in the solar system: soaring to a scorching +430°C in direct sunlight, and plunging to a frigid -180°C in shadowed craters!",
+      checkpointsList: ['Caloris Impact Basin (1,550 km)', '85% Iron Core Geodynamics', 'ESA BepiColombo Gravitational Assist'],
+      sourceName: 'ESA Science & Technology BepiColombo',
+      sourceUrl: 'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo_overview'
+    },
+    {
+      id: 'venus',
+      level: 1,
+      z: 360,
+      name: 'VENUS',
+      title: 'VENUS // RETROGRADE GREENHOUSE INFERNO',
+      distDisplay: '108,200,000 KM FROM SUN',
+      agency: 'NASA • ESA PLANETARY SCIENCE',
+      agencyBadge: 'NASA',
+      color: '#fbbf24',
+      fact: "Venus is the second planet from the Sun, enveloped in suffocating clouds of concentrated sulfuric acid. A runaway greenhouse effect driven by a 96% CO2 atmosphere traps heat, generating crushing surface pressures of 92 bar and temperatures of 465°C—hot enough to melt lead.",
+      dyk: "Venus rotates in retrograde (backwards East-to-West)! A single sidereal day on Venus (243 Earth days) lasts longer than an entire Venusian year (225 Earth days)!",
+      checkpointsList: ['Clockwise Retrograde Rotation', 'Lead-Melting 465°C Surface Heat', '92 Atmospheres Crushing Pressure'],
+      sourceName: 'NASA Solar System Exploration: Venus',
+      sourceUrl: 'https://science.nasa.gov/venus/'
+    },
+
+    // --- LEVEL 2: EARTH, THE MOON & MARS ---
     {
       id: 'leo-satellites',
-      level: 1,
-      z: 70,
-      name: 'LEO SATELLITE NETWORK',
-      title: 'LOW EARTH ORBIT // SATELLITES & ISS',
-      distDisplay: '420 KM ALTITUDE',
+      level: 2,
+      z: 540,
+      name: 'EARTH & LEO SATELLITE NETWORK',
+      title: 'EARTH // BLUE MARBLE & SATELLITES',
+      distDisplay: '149,600,000 KM FROM SUN',
       agency: 'NASA • ISRO • ESA',
       agencyBadge: 'NASA/ISRO',
       color: '#38bdf8',
-      fact: "Exiting Earth's atmosphere, we enter Low Earth Orbit (LEO) where the International Space Station travels at 27,600 km/h, completing an orbit every 90 minutes. Surrounding it are key navigation and weather constellations including India's NavIC, INSAT-3DR, and the US GPS network.",
+      fact: "Earth is the third planet from the Sun and humanity's home. In Low Earth Orbit (LEO), the International Space Station travels at 27,600 km/h, completing an orbit every 90 minutes. Surrounding it are key navigation and weather constellations including India's NavIC, INSAT-3DR, and the US GPS network.",
       dyk: "GPS satellites experience Einsteinian time dilation! Their atomic clocks run 38 microseconds faster per day than clocks on Earth due to general and special relativity, requiring automated daily corrections.",
       checkpointsList: ['International Space Station (ISS)', 'ISRO NavIC Regional Nav Constellation', 'ISRO INSAT-3DR Weather Sounder', 'US Space Force GPS III Array'],
       sourceName: 'NASA Space Operations & ISRO Earth Observation',
@@ -1247,8 +1279,8 @@
     },
     {
       id: 'moon',
-      level: 1,
-      z: 220,
+      level: 2,
+      z: 640,
       name: 'THE MOON',
       title: 'THE MOON // SHIV SHAKTI & TRANQUILITY',
       distDisplay: '384,400 KM FROM EARTH',
@@ -1261,51 +1293,17 @@
       sourceName: 'ISRO Official Chandrayaan-3 Mission Portal',
       sourceUrl: 'https://www.isro.gov.in/Chandrayaan3.html'
     },
-
-    // --- LEVEL 2: INNER PLANETS ---
-    {
-      id: 'mercury',
-      level: 2,
-      z: 460,
-      name: 'MERCURY',
-      title: 'MERCURY // THE METALLIC SWIFT PLANET',
-      distDisplay: '91,700,000 KM FROM EARTH',
-      agency: 'NASA • ESA BEPICOLOMBO',
-      agencyBadge: 'ESA',
-      color: '#64748b',
-      fact: "Mercury is the smallest planet in the solar system, only slightly larger than Earth's Moon. It has a massive iron-rich metallic core occupying 85% of its entire planetary radius, mapped by NASA's MESSENGER and ESA/JAXA's BepiColombo.",
-      dyk: "Mercury endures the most violent temperature swings in the solar system: soaring to a scorching +430°C in direct sunlight, and plunging to a frigid -180°C in shadowed craters!",
-      checkpointsList: ['Caloris Impact Basin (1,550 km)', '85% Iron Core Geodynamics', 'ESA BepiColombo Gravitational Assist'],
-      sourceName: 'ESA Science & Technology BepiColombo',
-      sourceUrl: 'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo_overview'
-    },
-    {
-      id: 'venus',
-      level: 2,
-      z: 640,
-      name: 'VENUS',
-      title: 'VENUS // RETROGRADE GREENHOUSE INFERNO',
-      distDisplay: '41,400,000 KM FROM EARTH',
-      agency: 'NASA • ESA PLANETARY SCIENCE',
-      agencyBadge: 'NASA',
-      color: '#fbbf24',
-      fact: "Venus is Earth's 'evil twin', enveloped in suffocating clouds of concentrated sulfuric acid. A runaway greenhouse effect driven by a 96% CO2 atmosphere traps heat, generating crushing surface pressures of 92 bar and temperatures of 465°C—hot enough to melt lead.",
-      dyk: "Venus rotates in retrograde (backwards East-to-West)! A single sidereal day on Venus (243 Earth days) lasts longer than an entire Venusian year (225 Earth days)!",
-      checkpointsList: ['Clockwise Retrograde Rotation', 'Lead-Melting 465°C Surface Heat', '92 Atmospheres Crushing Pressure'],
-      sourceName: 'NASA Solar System Exploration: Venus',
-      sourceUrl: 'https://science.nasa.gov/venus/'
-    },
     {
       id: 'mars',
       level: 2,
       z: 840,
       name: 'MARS',
       title: 'MARS // MANGALYAAN & ROVER EXPEDITIONS',
-      distDisplay: '54,600,000 KM FROM EARTH',
+      distDisplay: '227,900,000 KM FROM SUN',
       agency: 'ISRO • NASA VERIFIED INTEL',
       agencyBadge: 'ISRO',
       color: '#ef4444',
-      fact: "Mars hosts Olympus Mons, a titanic shield volcano towering 21.9 km high—nearly 2.5 times the elevation of Mount Everest! India's Mars Orbiter Mission (Mangalyaan) triumphed on its maiden attempt at an unprecedented low cost of $74M, observing methane and coronal escape.",
+      fact: "Mars is the fourth planet from the Sun and hosts Olympus Mons, a titanic shield volcano towering 21.9 km high—nearly 2.5 times the elevation of Mount Everest! India's Mars Orbiter Mission (Mangalyaan) triumphed on its maiden attempt at an unprecedented low cost of $74M, observing methane and coronal escape.",
       dyk: "NASA's Perseverance rover deployed the 1.8-kg Ingenuity helicopter, which completed 72 powered aerodynamic flights through the ultra-thin (1% Earth density) Martian atmosphere, flying for over 2 hours total!",
       checkpointsList: ['Olympus Mons (21.9 km Shield Volcano)', 'ISRO Mangalyaan Maiden Orbital Success', 'NASA Perseverance & Ingenuity 72 Flights'],
       sourceName: 'ISRO Mars Orbiter Mission & NASA Perseverance',
@@ -1929,9 +1927,9 @@
       return g;
     }
 
-    // 5. Level 1: Earth, Moon & Orbiting Satellites (Z = -160)
+    // 5. Earth, Moon & Orbiting Satellites (Z = -540)
     earthGroup = new THREE.Group();
-    earthGroup.position.set(18, -4, -160);
+    earthGroup.position.set(-18, -4, -540);
 
     // 3D Earth using NASA 8K Topography, Bathymetry & Normal Relief Models
     const texLoader = new THREE.TextureLoader();
@@ -2041,7 +2039,7 @@
       metalness: 0.05
     });
     moonMesh = new THREE.Mesh(moonGeo, moonMat);
-    moonMesh.position.set(45, 10, -50);
+    moonMesh.position.set(45, 10, -100);
     moonMesh.userData = { checkpointId: 'moon' };
     clickableObjects3D.push(moonMesh);
 
@@ -2055,8 +2053,8 @@
     earthGroup.add(moonMesh);
     scene3D.add(earthGroup);
 
-    // 6. Level 2: Inner Planets (Mercury, Venus, Mars)
-    // Mercury (Z = -460)
+    // 6. Inner & Neighbor Planets (Mercury Z = -140, Venus Z = -360, Mars Z = -840)
+    // Mercury (Z = -140, 1st from Sun)
     const mercuryGeo = new THREE.SphereGeometry(10, 32, 32);
     const mercuryMat = new THREE.MeshStandardMaterial({
       map: createPlanetTexture('mercury'),
@@ -2064,14 +2062,14 @@
       metalness: 0.2
     });
     mercuryMesh = new THREE.Mesh(mercuryGeo, mercuryMat);
-    mercuryMesh.position.set(-16, 5, -460);
+    mercuryMesh.position.set(-16, 5, -140);
     mercuryMesh.userData = { checkpointId: 'mercury' };
     clickableObjects3D.push(mercuryMesh);
     scene3D.add(mercuryMesh);
 
-    // Venus (Z = -640)
+    // Venus (Z = -360, 2nd from Sun)
     venusGroup = new THREE.Group();
-    venusGroup.position.set(18, -4, -640);
+    venusGroup.position.set(18, -4, -360);
     const venusGeo = new THREE.SphereGeometry(20, 48, 48);
     const venusMat = new THREE.MeshStandardMaterial({
       map: createPlanetTexture('venus'),
@@ -2448,12 +2446,7 @@
 
 
 
-      // Phase 7: Multi-Plane 3D Parallax on Cockpit Interior Structure
-      if (seatPilotLeft && seatCopilotRight) {
-        const sTransform = `translate3d(${normMouseX * 24}px, ${normMouseY * 14}px, 0)`;
-        seatPilotLeft.style.transform = sTransform;
-        seatCopilotRight.style.transform = sTransform;
-      }
+      // Phase 7: Multi-Plane 3D Parallax on Cockpit Interior Structure (Seats removed per user request)
       if (cockpitDashboardOverlay) {
         const tiltX = -normMouseY * 6;
         const tiltY = normMouseX * 7;
@@ -2526,7 +2519,7 @@
     if (z >= 3200) currentLvl = 'bonus';
     else if (z >= 1750) currentLvl = '4';
     else if (z >= 1150) currentLvl = '3';
-    else if (z >= 350) currentLvl = '2';
+    else if (z >= 480) currentLvl = '2';
     else currentLvl = '1';
 
     btns.forEach(btn => {
@@ -2541,45 +2534,48 @@
 
     const progress01 = clamp(currentZ / maxZ, 0, 1);
     let distStr = '0 km';
-    if (currentZ < 100) {
-      const dist = Math.floor(400 + (currentZ / 100) * 35600);
+    if (currentZ < 140) {
+      const dist = Math.floor(46000000 + (currentZ / 140) * 11900000);
       distStr = `${dist.toLocaleString()} km`;
-    } else if (currentZ < 280) {
-      const dist = Math.floor(36000 + ((currentZ - 100) / 180) * 348400);
+    } else if (currentZ < 360) {
+      const dist = Math.floor(57900000 + ((currentZ - 140) / 220) * 50300000);
       distStr = `${dist.toLocaleString()} km`;
-    } else if (currentZ < 550) {
-      const dist = Math.floor(384400 + ((currentZ - 280) / 270) * 76615600);
+    } else if (currentZ < 540) {
+      const dist = Math.floor(108200000 + ((currentZ - 360) / 180) * 41400000);
       distStr = `${dist.toLocaleString()} km`;
-    } else if (currentZ < 780) {
-      const dist = Math.floor(77000000 + ((currentZ - 550) / 230) * 31000000);
+    } else if (currentZ < 660) {
+      const dist = Math.floor(149600000 + ((currentZ - 540) / 120) * 384400);
+      distStr = `${dist.toLocaleString()} km`;
+    } else if (currentZ < 840) {
+      const dist = Math.floor(149984400 + ((currentZ - 660) / 180) * 77915600);
       distStr = `${dist.toLocaleString()} km`;
     } else if (currentZ < 1120) {
-      const dist = Math.floor(108000000 + ((currentZ - 780) / 340) * 117000000);
+      const dist = Math.floor(227900000 + ((currentZ - 840) / 280) * 92100000);
       distStr = `${dist.toLocaleString()} km`;
     } else if (currentZ < 1450) {
-      const dist = Math.floor(225000000 + ((currentZ - 1120) / 330) * 104000000);
+      const dist = Math.floor(320000000 + ((currentZ - 1120) / 330) * 458000000);
       distStr = `${dist.toLocaleString()} km`;
     } else if (currentZ < 1750) {
-      const dist = Math.floor(329000000 + ((currentZ - 1450) / 300) * 449000000);
-      distStr = `${dist.toLocaleString()} km`;
+      const dist = (0.78 + ((currentZ - 1450) / 300) * 0.65).toFixed(2);
+      distStr = `${dist} Billion km`;
     } else if (currentZ < 2120) {
-      const dist = (0.778 + ((currentZ - 1750) / 370) * 0.652).toFixed(2);
+      const dist = (1.43 + ((currentZ - 1750) / 370) * 1.44).toFixed(2);
       distStr = `${dist} Billion km`;
     } else if (currentZ < 2480) {
-      const dist = (1.43 + ((currentZ - 2120) / 360) * 1.44).toFixed(2);
+      const dist = (2.87 + ((currentZ - 2120) / 360) * 1.63).toFixed(2);
       distStr = `${dist} Billion km`;
     } else if (currentZ < 2820) {
-      const dist = (2.87 + ((currentZ - 2480) / 340) * 1.63).toFixed(2);
+      const dist = (4.50 + ((currentZ - 2480) / 340) * 19.5).toFixed(1);
       distStr = `${dist} Billion km`;
     } else if (currentZ < 3200) {
-      const dist = (4.50 + ((currentZ - 2820) / 380) * 19.8).toFixed(1);
+      const dist = (24.0 + ((currentZ - 2820) / 380) * 0.5).toFixed(1);
       distStr = `${dist} Billion km`;
     } else {
       distStr = '26,000 Light-Years';
     }
     if (cockpitDistance) cockpitDistance.textContent = distStr;
 
-    let nearest = 'EARTH';
+    let nearest = 'MERCURY';
     if (currentZ >= 3200) nearest = 'SAGITTARIUS A*';
     else if (currentZ >= 2820) nearest = 'VOYAGER 1';
     else if (currentZ >= 2480) nearest = 'NEPTUNE';
@@ -2587,11 +2583,11 @@
     else if (currentZ >= 1750) nearest = 'SATURN';
     else if (currentZ >= 1450) nearest = 'JUPITER';
     else if (currentZ >= 1120) nearest = 'ASTEROID BELT';
-    else if (currentZ >= 780) nearest = 'MARS';
-    else if (currentZ >= 550) nearest = 'VENUS';
-    else if (currentZ >= 280) nearest = 'MERCURY';
-    else if (currentZ >= 120) nearest = 'THE MOON';
-    else nearest = 'LOW EARTH ORBIT';
+    else if (currentZ >= 760) nearest = 'MARS';
+    else if (currentZ >= 600) nearest = 'THE MOON';
+    else if (currentZ >= 450) nearest = 'EARTH & LEO';
+    else if (currentZ >= 240) nearest = 'VENUS';
+    else nearest = 'MERCURY';
 
     if (cockpitObject) cockpitObject.textContent = nearest;
     if (mfdQuizLvlBadge) mfdQuizLvlBadge.textContent = "LVL " + getActiveLevelKey().toUpperCase();
@@ -2730,7 +2726,7 @@
         mfdTrajectory.textContent = 'BURNING';
       }
       targetZ += 90;
-      speakScientificFact("Sublight propulsion engaged! Welcome aboard the cockpit. Scroll your mouse wheel or swipe to accelerate through Earth orbit towards the Moon and Mars.");
+      speakScientificFact("Sublight propulsion engaged! Welcome aboard the cockpit. Scroll your mouse wheel or swipe to accelerate past Mercury and Venus towards Earth, Mars, and deep space.");
     });
   }
 
@@ -2795,8 +2791,8 @@
       if (!btn) return;
       const lvl = btn.dataset.level;
       let destZ = 0;
-      if (lvl === '1') destZ = 70;
-      else if (lvl === '2') destZ = 440;
+      if (lvl === '1') destZ = 140;
+      else if (lvl === '2') destZ = 540;
       else if (lvl === '3') destZ = 1350;
       else if (lvl === '4') destZ = 1950;
       else if (lvl === 'bonus') destZ = 3380;
@@ -2814,13 +2810,13 @@
     if (currentZ >= 3200) return 'bonus';
     if (currentZ >= 1750) return '4';
     if (currentZ >= 1150) return '3';
-    if (currentZ >= 350) return '2';
+    if (currentZ >= 480) return '2';
     return '1';
   }
 
   const BADGES = {
-    lvl1: { id: 'lvl1', name: 'Orbital Pioneer', icon: '1', desc: 'Mastered Low Earth Orbit, ISS, NavIC, and the Lunar South Pole.' },
-    lvl2: { id: 'lvl2', name: 'Terrestrial Explorer', icon: '2', desc: 'Navigated Mercury, Venus retrograde spin, and Mars rover missions.' },
+    lvl1: { id: 'lvl1', name: 'Inner System Navigator', icon: '1', desc: 'Mastered Mercury’s extreme swings and Venus retrograde greenhouse atmosphere.' },
+    lvl2: { id: 'lvl2', name: 'Terran & Martian Pioneer', icon: '2', desc: 'Explored Earth LEO, the Moon South Pole, and Mars rover missions.' },
     lvl3: { id: 'lvl3', name: 'Jovian Voyager', icon: '3', desc: 'Conquered the Asteroid Belt, 16 Psyche, and Jupiter’s Great Red Spot.' },
     lvl4: { id: 'lvl4', name: 'Deep Space Pioneer', icon: '4', desc: 'Explored Saturn’s rings, sideways Uranus, supersonic Neptune, and Voyager 1.' },
     bonus: { id: 'bonus', name: 'Singularity Master', icon: '5', desc: 'Braved the gravitational lensing and event horizon of Sagittarius A*.' },
@@ -3640,8 +3636,8 @@
     promptLevelTarget = String(levelNum);
 
     const levelDetails = {
-      '1': { title: 'LEVEL 1 COMPLETE: EARTH & THE MOON!', desc: 'You discovered satellites orbiting Earth and visited where Chandrayaan-3 landed on the Moon! Take the Cadet Quiz to earn stars and level up!' },
-      '2': { title: 'LEVEL 2 COMPLETE: THE ROCKY PLANETS & MARS!', desc: 'You visited scorching Mercury, super-hot Venus, and the red planet Mars! Test your space knowledge to collect your next mission badge!' },
+      '1': { title: 'LEVEL 1 COMPLETE: MERCURY & VENUS!', desc: 'You navigated scorching Mercury and super-hot Venus! Take the Cadet Quiz to earn stars and level up!' },
+      '2': { title: 'LEVEL 2 COMPLETE: EARTH, MOON & MARS!', desc: 'You visited Earth orbit, Chandrayaan-3 on the Moon, and the Red Planet Mars! Test your space knowledge to collect your next mission badge!' },
       '3': { title: 'LEVEL 3 COMPLETE: ASTEROIDS & JUPITER!', desc: 'You zoomed through the rocky asteroid belt and saw Jupiter’s giant swirling storm! Ready for the quiz challenge?' },
       '4': { title: 'LEVEL 4 COMPLETE: THE RINGED WORLDS & BEYOND!', desc: 'You explored Saturn’s icy rings, tilted Uranus, stormy Neptune, and Voyager 1 in deep space! Show off your cosmic smarts!' },
       'bonus': { title: '★ BONUS LEVEL: MILKY WAY BLACK HOLE!', desc: 'You reached Sagittarius A* at the very center of our galaxy! Answer the cosmic questions to earn the Black Hole Master badge!' }
@@ -3710,8 +3706,8 @@
   if (btnResultsNextLevel) {
     btnResultsNextLevel.addEventListener('click', () => {
       closeQuizModal();
-      const nextMap = { '1': 440, '2': 1350, '3': 1950, '4': 3380, 'bonus': 3380 };
-      targetZ = nextMap[activeQuizLevel] || 70;
+      const nextMap = { '1': 540, '2': 1350, '3': 1950, '4': 3380, 'bonus': 3380 };
+      targetZ = nextMap[activeQuizLevel] || 140;
       audio.playWarpSound();
     });
   }
@@ -4093,7 +4089,7 @@
     document.body.classList.toggle('on-launchpad', phaseNum === 1);
 
     // 1. Update Tabs
-    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSun, tabPhaseSpaceship].forEach((tab, idx) => {
+    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars, tabPhaseSpaceship].forEach((tab, idx) => {
       if (tab) {
         const isActive = (idx + 1) === phaseNum;
         tab.classList.toggle('active', isActive);
@@ -4108,10 +4104,7 @@
     if (phaseNum !== 5 && marsStage) {
       marsStage.style.display = 'none';
     }
-    if (phaseNum !== 6 && sunStage) {
-      sunStage.style.display = 'none';
-    }
-    if (phaseNum !== 7 && spaceshipStage) {
+    if (phaseNum !== 6 && phaseNum !== 7 && spaceshipStage) {
       spaceshipStage.style.display = 'none';
     }
 
@@ -4172,7 +4165,6 @@
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
       if (marsStage) marsStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
       if (spaceshipStage) spaceshipStage.style.display = 'none';
 
       if (chandrayaanStage) {
@@ -4190,7 +4182,6 @@
       if (cockpitStage) cockpitStage.style.display = 'none';
       if (destinationPage) destinationPage.style.display = 'none';
       if (chandrayaanStage) chandrayaanStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
       if (spaceshipStage) spaceshipStage.style.display = 'none';
 
       if (marsStage) {
@@ -4200,8 +4191,8 @@
         window.MarsExplorerEngine.init();
       }
     }
-    // Phase 6: Tour to The Sun (Aditya-L1)
-    else if (phaseNum === 6) {
+    // Phase 6: My Spaceship (ISS Habitation Corridor)
+    else if (phaseNum === 6 || phaseNum === 7) {
       document.body.classList.remove('in-cockpit');
       document.body.classList.remove('destination-active');
       document.body.classList.remove('in-launch');
@@ -4209,25 +4200,6 @@
       if (destinationPage) destinationPage.style.display = 'none';
       if (chandrayaanStage) chandrayaanStage.style.display = 'none';
       if (marsStage) marsStage.style.display = 'none';
-      if (spaceshipStage) spaceshipStage.style.display = 'none';
-
-      if (sunStage) {
-        sunStage.style.display = 'flex';
-      }
-      if (window.AdityaL1Engine) {
-        window.AdityaL1Engine.init();
-      }
-    }
-    // Phase 7: My Spaceship (ISS Habitation Corridor)
-    else if (phaseNum === 7) {
-      document.body.classList.remove('in-cockpit');
-      document.body.classList.remove('destination-active');
-      document.body.classList.remove('in-launch');
-      if (cockpitStage) cockpitStage.style.display = 'none';
-      if (destinationPage) destinationPage.style.display = 'none';
-      if (chandrayaanStage) chandrayaanStage.style.display = 'none';
-      if (marsStage) marsStage.style.display = 'none';
-      if (sunStage) sunStage.style.display = 'none';
 
       if (spaceshipStage) {
         spaceshipStage.style.display = 'flex';
@@ -4246,8 +4218,7 @@
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
   if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));
   if (tabPhaseMars) tabPhaseMars.addEventListener('click', () => switchToPhase(5));
-  if (tabPhaseSun) tabPhaseSun.addEventListener('click', () => switchToPhase(6));
-  if (tabPhaseSpaceship) tabPhaseSpaceship.addEventListener('click', () => switchToPhase(7));
+  if (tabPhaseSpaceship) tabPhaseSpaceship.addEventListener('click', () => switchToPhase(6));
 
   // Connect Direct Phase 2 -> Phase 3 Transition Triggers
   if (btnProceedCockpit) {
