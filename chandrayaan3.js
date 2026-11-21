@@ -28,6 +28,364 @@
     { id: 'rocks', icon: '🪨', name: 'Boulder field', x: 520, fact: 'LIBS laser fired at the soil here: sulphur and other elements detected!' },
     { id: 'crater', icon: '🕳️', name: 'Crater rim', x: 820, fact: 'Temperature probe: about +60 °C on the surface, but only about −10 °C just 8 cm below.' },
     { id: 'flag', icon: '🇺🇸', name: 'USA flag', x: 1150, fact: '' }
+
+  // ==========================================
+  // 1. CONFIGURATION & TUNABLE PARAMETERS
+  // ==========================================
+  const CONFIG = {
+    lunarGravity: 1.62,           // m/s^2 (Moon gravity is ~1/6th of Earth)
+    mainThrustPower: 3.8,         // Lander main engine acceleration (m/s^2)
+    rcsTorque: 28.0,              // Attitude rotation rate (deg/s)
+    maxSafeVerticalSpeed: 2.2,    // Max soft-touchdown vertical speed (m/s)
+    maxSafeHorizontalSpeed: 1.2,  // Max soft-touchdown horizontal speed (m/s)
+    maxSafeTiltAngle: 10.0,       // Max safe tilt angle (degrees)
+    fuelBurnRate: 1.4,            // Fuel % consumed per second of full thrust
+    startAltitude: 800,           // Initial landing simulator altitude (meters)
+    initialFuel: 100,             // Starting fuel (%)
+    targetCoordinates: '69.37° S, 32.35° E', // Shiv Shakti Point (Lunar South Pole)
+  };
+
+  // ==========================================
+  // 2. BILINGUAL TRANSLATIONS (EN & HI)
+  // ==========================================
+  const TRANSLATIONS = {
+    en: {
+      missionTitle: 'Mission Chandrayaan-3',
+      missionSubtitle: 'ISRO LUNAR EXPLORATION PROTOCOL',
+      storyModeBtn: 'Cinematic Story',
+      pilotModeBtn: '🎮 Pilot Vikram',
+      instrumentsBtn: '🔬 Real Instruments',
+      quizBtn: '🏆 Mission Quiz',
+      c2c3Btn: '🚀 C-2 vs C-3 Story',
+      prevBtn: '← Previous',
+      nextBtn: 'Next Stage →',
+      narratorOn: '🎙️ Voice: ON',
+      narratorOff: '🎙️ Voice: OFF',
+      soundOn: '🔊 Audio: ON',
+      soundOff: '🔇 Audio: MUTED',
+      stages: [
+      {
+              "id": 1,
+              "name": "Liftoff at Sriharikota",
+              "sub": "LVM3 M4 \"Bahubali\" Launch • July 14, 2023",
+              "desc": "India’s heaviest and most powerful rocket, nicknamed \"Bahubali\", roars into the sky from Sriharikota with tremendous power! Twin giant white boosters fire together, blasting Chandrayaan-3 high above Earth’s clouds.",
+              "facts": [
+                      "LVM3 is as tall as a 14-story building (43.5 meters) and weighs as much as 130 elephants!",
+                      "A protective nose cone guarded the spacecraft until it passed through Earth’s thick atmosphere.",
+                      "The solid rocket boosters produce massive thrust to escape Earth’s gravity pull."
+              ]
+      },
+      {
+              "id": 2,
+              "name": "Earth Orbit Slingshot",
+              "sub": "5 Gravity Boosts • July 15 - 25, 2023",
+              "desc": "Instead of burning huge amounts of expensive rocket fuel, ISRO used a genius cosmic trick: Earth’s own gravity! The engine fired 5 times, looping wider and wider like a cosmic slingshot out to 127,600 km.",
+              "facts": [
+                      "Using gravity like a slingshot saved millions of dollars in rocket fuel.",
+                      "With each loop around Earth, the spaceship gained speed and flew higher.",
+                      "At its closest zoom past Earth, the spacecraft travelled at an astonishing 37,000 km/h!"
+              ]
+      },
+      {
+              "id": 3,
+              "name": "Trans-Lunar Injection",
+              "sub": "Slingshot to the Moon • August 1, 2023",
+              "desc": "On August 1, the spacecraft fired its engine for the big leap! This powerful push broke Chandrayaan-3 free from Earth’s orbit, aiming it directly on a 4-day cruise across deep space toward the Moon.",
+              "facts": [
+                      "The spacecraft travelled over 384,000 km across the dark void between Earth and the Moon.",
+                      "It coasted in weightless zero gravity for four days.",
+                      "Scientists calculated the flight path so accurately that they hit the target within seconds!"
+              ]
+      },
+      {
+              "id": 4,
+              "name": "Lunar Orbit Capture",
+              "sub": "Slowing Down at the Moon • August 5 - 16, 2023",
+              "desc": "As Chandrayaan-3 reached the Moon, reverse rocket thrusters fired like high-tech space brakes. This slowed the craft just enough for the Moon’s gentle gravity to catch it into lunar orbit.",
+              "facts": [
+                      "Firing reverse thrusters acts just like stepping on the brakes of a car.",
+                      "The orbit was gently lowered in 4 steps until it was orbiting just 100 km above the Moon.",
+                      "The onboard cameras beamed back crystal-clear photos of lunar craters and mountains."
+              ]
+      },
+      {
+              "id": 5,
+              "name": "Lander Separation",
+              "sub": "Vikram Bids Farewell to PM • August 17, 2023",
+              "desc": "The Vikram Lander (carrying the rover Pragyan inside its belly) unlocked and separated smoothly from the Propulsion Module in Moon orbit, ready to begin its descent to the surface.",
+              "facts": [
+                      "Vikram was named after Dr. Vikram Sarabhai, the father of India’s space program.",
+                      "The mother ship remained safely in orbit to act as a space communication relay to Earth.",
+                      "Special gentle springs pushed Vikram away without bumping."
+              ]
+      },
+      {
+              "id": 6,
+              "name": "The Powered Descent",
+              "sub": "Slowing Down from 30 km High • August 23, 2023",
+              "desc": "The famous \"20 minutes of suspense\"! Vikram fired all 4 bottom engines downward to slow down from supersonic speed. Automatic laser sensors scanned the rocky lunar ground below to find a safe, flat spot.",
+              "facts": [
+                      "Vikram slowed down from 6,000 km/h all the way to a gentle walking speed!",
+                      "Laser eyes and cameras took photos every millisecond to avoid large rocks and deep holes.",
+                      "The lander’s onboard computer made all landing choices completely on its own!"
+              ]
+      },
+      {
+              "id": 7,
+              "name": "Historic Touchdown!",
+              "sub": "Shiv Shakti Point • August 23, 2023 at 18:04 IST",
+              "desc": "History was made! India became the FIRST country in human history to land near the Moon’s mysterious South Pole! The landing site was officially named \"Shiv Shakti Point\".",
+              "facts": [
+                      "India is now celebrated worldwide as the 4th country to successfully land on the Moon!",
+                      "Because the Moon has no air or wind, dust settled down within seconds of touchdown.",
+                      "August 23 is now celebrated across India every year as National Space Day!"
+              ]
+      },
+      {
+              "id": 8,
+              "name": "Pragyan Rover Rolls Out",
+              "sub": "Leaving Tracks on the Moon • August 24, 2023",
+              "desc": "A ramp lowered from Vikram’s side, and out rolled Pragyan—a 6-wheeled robotic space explorer! Its wheels were specially engraved to leave the Indian Ashoka Chakra and ISRO emblem in the moon dust.",
+              "facts": [
+                      "The rover wheels leave India’s National Emblem stamped permanently into the lunar soil.",
+                      "With its rocker-bogie wheels, Pragyan can easily climb over rocks and bumpy ground.",
+                      "Pragyan talks to Vikram, and Vikram beams the discoveries back to scientists on Earth!"
+              ]
+      },
+      {
+              "id": 9,
+              "name": "Discoveries on the Moon",
+              "sub": "Exploring the Lunar Soil • Shiv Shakti Point",
+              "desc": "Pragyan explored the surface, firing laser beams at rocks to uncover what the Moon is made of! It made the incredible discovery of Sulfur (S) on the Moon’s South Pole.",
+              "facts": [
+                      "Pragyan proved the presence of Sulfur, Iron, Titanium, Calcium, and Aluminum in the soil.",
+                      "A heat probe showed surface dust was warm (+60°C), but just 8 cm below the dirt it was freezing (-10°C)!",
+                      "A moonquake detector heard a real lunar seismic rumble on August 26, 2023."
+              ]
+      }
+]
+    },
+    hi: {
+      missionTitle: 'मिशन चंद्रयान-3',
+      missionSubtitle: 'इसरो चंद्र अन्वेषण प्रोटोकॉल',
+      storyModeBtn: 'सिनेमैटिक कहानी',
+      pilotModeBtn: '🎮 विक्रम लैंडर चलाएं',
+      instrumentsBtn: '🔬 वैज्ञानिक उपकरण',
+      quizBtn: '🏆 मिशन क्विज',
+      c2c3Btn: '🚀 C-2 vs C-3 सीख',
+      prevBtn: '← पिछला',
+      nextBtn: 'अगला चरण →',
+      narratorOn: '🎙️ आवाज़: चालू',
+      narratorOff: '🎙️ आवाज़: बंद',
+      soundOn: '🔊 ध्वनि: चालू',
+      soundOff: '🔇 ध्वनि: म्यूट',
+      stages: [
+        {
+          id: 1,
+          name: 'श्रीहरिकोटा से भव्य प्रक्षेपण',
+          sub: 'एलवीएम3 एम4 "बाहुबली" लॉन्च • 14 जुलाई 2023',
+          desc: 'सतीश धवन अंतरिक्ष केंद्र, श्रीहरिकोटा से भारत का सबसे शक्तिशाली रॉकेट LVM3 M4 10,000 kN थ्रस्ट के साथ अंतरिक्ष में उड़ा। ट्विन S200 सॉलिड बूस्टर्स ने चंद्रयान-3 को वायुमंडल के पार पहुंचाया।',
+          facts: [
+            'LVM3 की ऊंचाई 43.5 मीटर और कुल वजन 640 टन है।',
+            '115 किमी की ऊंचाई पर पेलोड फेयरिंग अलग हुई।',
+            'S200 स्ट्रैप-ऑन सॉलिड मोटर्स दुनिया के तीसरे सबसे बड़े सॉलिड बूस्टर हैं।'
+          ]
+        },
+        {
+          id: 2,
+          name: 'पृथ्वी की कक्षा का विस्तार',
+          sub: '5 गुरुत्वाकर्षण थ्रस्ट बर्न्स • 15 - 25 जुलाई 2023',
+          desc: 'सीधे चंद्रमा की ओर भागने के बजाय, इसरो ने भौतिकी और गुरुत्वाकर्षण का चतुराई से उपयोग किया। प्रोपल्शन मॉड्यूल ने 5 बार इंजन फायर कर कक्षा को 1,27,600 किमी तक बढ़ाया।',
+          facts: [
+            'पृथ्वी के गुरुत्वाकर्षण स्लिंगशॉट से करोड़ों रुपये का ईंधन बचा।',
+            'ईबीएन-1 से लेकर ईबीएन-5 तक 5 चरणों में कक्षा बढ़ाई गई।',
+            'पृथ्वी के सबसे नजदीकी बिंदु पर गति 37,000 किमी/घंटा तक पहुंची।'
+          ]
+        },
+        {
+          id: 3,
+          name: 'ट्रांस-लूनर इंजेक्शन',
+          sub: 'चंद्रमा की ओर स्लिंगशॉट • 1 अगस्त 2023',
+          desc: '1 अगस्त की मध्यरात्रि में अंतिम ट्रांस-लूनर इंजेक्शन बर्न पूरा हुआ। इसने चंद्रयान-3 को पृथ्वी के गुरुत्वाकर्षण से मुक्त कर चंद्रमा की ओर सटीक पथ पर धकेल दिया।',
+          facts: [
+            'अंतरिक्ष यान ने चंद्रमा तक 3,84,000 किमी से अधिक की दूरी तय की।',
+            'चार दिनों तक अंतरिक्ष यान शून्य-गुरुत्वाकर्षण में आगे बढ़ा।',
+            'इस सटीक पथ गणना के लिए सेकंड के सौवें हिस्से की सटीकता आवश्यक थी।'
+          ]
+        },
+        {
+          id: 4,
+          name: 'चंद्रमा की कक्षा में प्रवेश',
+          sub: 'चंद्रमा की पकड़ और कक्षा घटाना • 5 - 16 अगस्त 2023',
+          desc: 'चंद्रमा के निकट पहुंचते ही उल्टे थ्रस्टर्स चालू हुए, जिससे चंद्रमा के गुरुत्वाकर्षण ने यान को 164 x 18,074 किमी की कक्षा में पकड़ लिया। फिर इसे घटाकर 100 किमी की गोलाकार कक्षा बनाया गया।',
+          facts: [
+            'रेट्रो-बर्न ने एक उच्च-सटीक अंतरिक्ष ब्रेक की तरह काम किया।',
+            'कक्षा को क्रमशः 170 किमी, 150 किमी और अंत में 100 किमी तक लाया गया।',
+            'यान ने चंद्रमा के गड्ढों की आश्चर्यजनक तस्वीरें भेजीं।'
+          ]
+        },
+        {
+          id: 5,
+          name: 'विक्रम लैंडर का पृथक्करण',
+          sub: 'प्रोपल्शन मॉड्यूल से विदाई • 17 अगस्त 2023',
+          desc: '100 किमी की चंद्र कक्षा में विक्रम लैंडर प्रोपल्शन मॉड्यूल से सुरक्षित अलग हो गया। प्रोपल्शन मॉड्यूल वहीं रहकर पृथ्वी के वायुमंडल का अध्ययन (SHAPE) करने लगा।',
+          facts: [
+            'पायरोटेक्निक लैच के जरिए कोमल पृथक्करण संपन्न हुआ।',
+            'विक्रम ने डी-बूस्ट बर्न कर अपनी न्यूनतम ऊंचाई केवल 25 किमी तक कर ली।',
+            'विक्रम का नाम भारतीय अंतरिक्ष कार्यक्रम के जनक डॉ. विक्रम साराभाई के नाम पर रखा गया है।'
+          ]
+        },
+        {
+          id: 6,
+          name: 'पावर्ड डिसेंट (अंतिम लैंडिंग)',
+          sub: 'खौफ के 20 मिनट • 23 अगस्त 2023',
+          desc: 'विक्रम ने अपने चारों 800 N इंजनों को चालू कर 1.68 किमी/सेकंड की तेज गति को धीमा किया। लेज़र डॉपलर वेलोसीमीटर और कैमरों ने हर सेकंड सुरक्षित समतल जमीन की तलाश की।',
+          facts: [
+            'रफ ब्रेकिंग चरण में ऊंचाई 30 किमी से घटकर 800 मीटर रह गई।',
+            'हजार्ड कैमरों ने चट्टानों से बचने के लिए वास्तविक समय में तस्वीरें लीं।',
+            'लैंडर ने हवा के झोंकों और सेंसर त्रुटियों को अपने आप ठीक किया।'
+          ]
+        },
+        {
+          id: 7,
+          name: 'ऐतिहासिक लैंडिंग (टचडाउन)',
+          sub: 'शिव शक्ति बिंदु • 23 अगस्त 2023, शाम 18:04 IST',
+          desc: 'भारत ने रचा इतिहास! चंद्रमा के दक्षिणी ध्रुव पर उतरने वाला भारत दुनिया का पहला देश और सॉफ्ट-लैंडिंग करने वाला चौथा देश बन गया। इस स्थान का नाम "शिव शक्ति पॉइंट" रखा गया।',
+          facts: [
+            'लैंडिंग निर्देशांक: 69.37° दक्षिण, 32.35° पूर्व।',
+            'वातावरण न होने के कारण थ्रस्टर की धूल कुछ ही पलों में शांत हो गई।',
+            'भारत में अब 23 अगस्त को प्रतिवर्ष "राष्ट्रीय अंतरिक्ष दिवस" मनाया जाता है।'
+          ]
+        },
+        {
+          id: 8,
+          name: 'प्रज्ञान रोवर का बाहर निकलना',
+          sub: 'अशोक चक्र की अमर छाप • 24 अगस्त 2023',
+          desc: 'विक्रम का रैंप खुला। छह पहियों वाला 26 किलोग्राम का प्रज्ञान रोवर अपने सौर पैनल खोलकर चांद की मिट्टी पर उतरा। इसके पहियों पर इसरो का लोगो और राष्ट्रीय प्रतीक (अशोक चक्र) छपे हैं।',
+          facts: [
+            'पहियों के निशान चांद की मिट्टी पर सदियों तक अमिट रहेंगे।',
+            'रॉकर-बोगी सस्पेंशन 50 मिमी ऊंची चट्टानों पर भी आसानी से चढ़ जाता है।',
+            'प्रज्ञान सीधे विक्रम से और विक्रम चंद्रयान-2 ऑर्बिटर के जरिए पृथ्वी से जुड़ता है।'
+          ]
+        },
+        {
+          id: 9,
+          name: 'चांद की सतह पर खोज',
+          sub: 'सल्फर की ऐतिहासिक पुष्टि • शिव शक्ति पॉइंट',
+          desc: 'प्रज्ञान रोवर ने लेजर स्पेक्ट्रोमीटर (LIBS) से चांद की मिट्टी का परीक्षण किया और पहली बार चंद्र दक्षिणी ध्रुव पर सल्फर (गंधक) की पुष्ट उपस्थिति की खोज कर विज्ञान जगत को चौंका दिया।',
+          facts: [
+            'सल्फर, लोहा, टाइटेनियम, कैल्शियम और एल्युमीनियम की पुष्टि की।',
+            'चास्टे (ChaSTE) सेंसर ने सतह पर +60°C और सिर्फ 8 सेमी नीचे -10°C तापमान मापा!',
+            'इल्सा (ILSA) सीस्मोमीटर ने चांद पर प्राकृतिक भूकंपीय तरंगें दर्ज कीं।'
+          ]
+        }
+      ]
+    }
+  };
+
+  // ==========================================
+  // 3. SCIENTIFIC INSTRUMENTS DATA
+  // ==========================================
+  const INSTRUMENTS = [
+    {
+      craft: 'Vikram Lander',
+      name: 'ChaSTE',
+      fullName: "Chandra's Surface Thermophysical Experiment",
+      badge: 'Thermal Probe',
+      desc: 'Penetrated 10 cm into the lunar soil with 10 temperature sensors. Discovered a surprising temperature drop from +60°C at the top regolith to -10°C just 8 cm below!',
+      finding: 'Surface: +60°C | Depth 8cm: -10°C (Incredible thermal insulation of lunar regolith)'
+    },
+    {
+      craft: 'Vikram Lander',
+      name: 'ILSA',
+      fullName: 'Instrument for Lunar Seismic Activity',
+      badge: 'Seismometer',
+      desc: 'High-precision micro-electro-mechanical system (MEMS) seismometer that measured ground vibrations caused by Pragyan rover movements and natural lunar moonquakes.',
+      finding: 'Recorded lunar seismic event on Aug 26, 2023 — proving active lunar geology'
+    },
+    {
+      craft: 'Vikram Lander',
+      name: 'RAMBHA-LP',
+      fullName: 'Radio Anatomy of Moon Bound Hypersensitive ionosphere and Atmosphere',
+      badge: 'Plasma Probe',
+      desc: 'A Langmuir probe that measured near-surface lunar plasma density and how it changes under solar illumination at the polar latitudes.',
+      finding: 'Measured sparse electron density: 5 to 30 million electrons/m³'
+    },
+    {
+      craft: 'Pragyan Rover',
+      name: 'LIBS',
+      fullName: 'Laser-Induced Breakdown Spectroscope',
+      badge: 'Laser Chemical Scanner',
+      desc: 'Fired high-energy laser pulses at lunar soil, creating localized micro-plasma, and analyzed the spectral light emission to identify elements unambiguously.',
+      finding: 'FIRST-EVER in-situ confirmation of Sulfur (S) on the Lunar South Pole!'
+    },
+    {
+      craft: 'Pragyan Rover',
+      name: 'APXS',
+      fullName: 'Alpha Particle X-Ray Spectrometer',
+      badge: 'Radiation Detector',
+      desc: 'Emitted alpha particles and X-rays from radioactive Curium-244 to determine the elemental composition of regolith and rocks near the landing site.',
+      finding: 'Identified major rock-forming elements: Al, Si, Ca, Fe, Ti, Cr, and Mn'
+    },
+    {
+      craft: 'Propulsion Module',
+      name: 'SHAPE',
+      fullName: 'Spectro-polarimetry of Habitable Planet Earth',
+      badge: 'Exoplanet Benchmark',
+      desc: 'Observes Earth in reflected light and near-infrared from lunar orbit to establish a baseline signature for discovering habitable habitable exoplanets across deep space.',
+      finding: 'Earth is being observed as a habitable benchmark for exoplanet searches'
+    }
+  ];
+
+  // ==========================================
+  // 4. MISSION QUIZ (5 QUESTIONS WITH BADGE)
+  // ==========================================
+  const QUIZ_QUESTIONS = [
+    {
+      q: 'Where did Chandrayaan-3 land on the Moon on August 23, 2023?',
+      options: [
+        'Near the Lunar South Pole (Shiv Shakti Point)',
+        'Near the Lunar North Pole',
+        'Sea of Tranquility',
+        'Far side inside South Pole-Aitken basin'
+      ],
+      correct: 0,
+      expl: 'Correct! Chandrayaan-3 made history by becoming the first spacecraft to soft-land near the Lunar South Pole (69.37° S, 32.35° E), officially named Shiv Shakti Point.'
+    },
+    {
+      q: 'Which vital element did the Pragyan rover unequivocally confirm on the lunar south pole for the first time?',
+      options: ['Helium-3', 'Sulfur (S)', 'Gold', 'Liquid Nitrogen'],
+      correct: 1,
+      expl: 'Correct! Pragyan’s LIBS instrument confirmed the presence of Sulfur (S), an essential element for future planetary research and life support.'
+    },
+    {
+      q: 'What is the name of the heavy-lift ISRO launch vehicle that launched Chandrayaan-3?',
+      options: ['PSLV-C57', 'LVM3 M4 ("Bahubali")', 'GSLV Mk II', 'SSLV-D2'],
+      correct: 1,
+      expl: 'Correct! The LVM3 M4 (Launch Vehicle Mark-3), affectionately nicknamed "Bahubali" for its heavy-lift capability, launched Chandrayaan-3.'
+    },
+    {
+      q: 'Why did ISRO use multiple Earth orbit-raising burns instead of a single direct burn?',
+      options: [
+        'To test radio signals',
+        'To save immense fuel using Earth’s gravity slingshot effect',
+        'Because the Moon was too far to aim directly',
+        'To wait for night time on Earth'
+      ],
+      correct: 1,
+      expl: 'Correct! The gravity slingshot technique allowed Chandrayaan-3 to reach the Moon with a modest 440 N engine and minimal propellant cost.'
+    },
+    {
+      q: 'What important improvements helped Chandrayaan-3 land safely where Chandrayaan-2 struggled?',
+      options: [
+        'Stronger shock-absorbing legs, a wider landing area, and smart laser cameras to spot rocks',
+        'Parachutes and airbags',
+        'Lighter rover and smaller battery',
+        'Landing on water instead of rock'
+      ],
+      correct: 0,
+      expl: 'Correct! ISRO followed a "failure-based design philosophy", expanding the landing area to 4x2.4 km, upgrading leg suspension, and adding Laser Doppler Velocimeters.'
+    }
   ];
   const STARS = Array.from({ length: 140 }, () => ({ x: Math.random(), y: Math.random(), r: rnd(.4, 1.6), p: rnd(0, 6) }));
 

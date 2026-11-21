@@ -50,16 +50,6 @@
 }
 
 /* Top Nav Tab Customization for Phase 7 */
-.nav-tab.spaceship-nav-tab {
-  background: linear-gradient(135deg, rgba(203, 213, 225, 0.15), rgba(56, 189, 248, 0.15));
-  border-color: rgba(203, 213, 225, 0.35);
-}
-.nav-tab.spaceship-nav-tab:hover,
-.nav-tab.spaceship-nav-tab.active {
-  background: linear-gradient(135deg, rgba(203, 213, 225, 0.35), rgba(56, 189, 248, 0.35));
-  border-color: #38bdf8;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
-}
 .nav-tab.spaceship-nav-tab .tab-badge {
   background: transparent;
   font-size: 1.1rem;

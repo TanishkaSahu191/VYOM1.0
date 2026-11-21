@@ -38,73 +38,73 @@
       prevBtn: '← Previous',
       nextBtn: 'Next Stage →',
       stages: [
-        {
-          id: 1,
-          name: 'Liftoff on PSLV-C57',
-          sub: 'Satish Dhawan Space Centre, Sriharikota • Sept 2, 2023',
-          desc: 'India’s trusted workhorse, PSLV-C57 in XL configuration with 6 solid strap-on boosters, launched Aditya-L1 majestically into an elliptical Earth orbit. Payload fairing separated at 115 km.',
-          facts: [
-            'PSLV-C57 executed one of its longest flight profiles lasting 63 minutes.',
-            'Placed Aditya-L1 precisely into an initial 235 x 19,500 km Earth orbit.',
-            'Marked India’s first-ever dedicated space-based solar mission.'
-          ]
-        },
-        {
-          id: 2,
-          name: 'Earth Orbit Raising',
-          sub: '4 Elliptical Maneuvers • Sept 3 - 15, 2023',
-          desc: 'Aditya-L1 fired its Liquid Apogee Motor across 4 orbital burns (EBN-1 to EBN-4), systematically expanding its apogee out to 73,000 km before bidding farewell to Earth’s sphere of influence.',
-          facts: [
-            'Each perigee burn increased spacecraft energy using Earth’s gravity assist.',
-            'All scientific instruments underwent preliminary health checks.',
-            'STEPS sensor captured energetic suprathermal ions in Earth’s radiation belts.'
-          ]
-        },
-        {
-          id: 3,
-          name: 'Trans-Lagrangian Point 1 Insertion',
-          sub: 'Slingshot to L1 • Sept 19, 2023',
-          desc: 'A major thruster burn sent Aditya-L1 out of Earth orbit onto a transfer trajectory toward the Sun-Earth L1 point, located 1.5 million km from Earth.',
-          facts: [
-            'Escape velocity injection propelled the craft into interplanetary space.',
-            'Separated from Earth’s gravitational dominance on Sept 30, 2023.',
-            'Traveled in deep space for over 110 days toward the Sun.'
-          ]
-        },
-        {
-          id: 4,
-          name: 'Deep Space Cruise & Solar Wind',
-          sub: '1.5 Million Kilometer Voyage • Oct - Dec 2023',
-          desc: 'During the 4-month cruise phase, Earth shrank in the rear cameras while the Sun grew brighter. Aditya-L1 performed trajectory correction burns while ASPEX and PAPA began streaming solar wind data.',
-          facts: [
-            'L1 is only ~1% of the total 150 million km distance to the Sun.',
-            'Spacecraft experienced harsh interplanetary radiation and solar particle streams.',
-            'SUIT telescope opened its door and captured first-ever 200-400 nm UV images of the Sun.'
-          ]
-        },
-        {
-          id: 5,
-          name: 'L1 Halo Orbit Insertion',
-          sub: 'Lagrange Point 1 Capture • January 6, 2024',
-          desc: 'At 16:00 IST on January 6, 2024, ISRO performed the definitive insertion burn. Aditya-L1 was successfully injected into a periodic 3D Halo Orbit around the Sun-Earth L1 Lagrangian point!',
-          facts: [
-            'Halo orbit period is roughly 177.86 days around the virtual L1 point.',
-            'L1 provides an uninterrupted, continuous 24/7 view of the Sun without eclipses!',
-            'Prime Minister Modi praised the triumph as another landmark in Indian science.'
-          ]
-        },
-        {
-          id: 6,
-          name: 'Continuous Solar Science & Space Weather',
-          sub: 'Watching the Sun 24/7 • Halo Orbit Science Phase',
-          desc: 'From its halo orbit vantage, all 7 payloads monitor the Sun continuously. VELC tracks coronal mass ejections, SUIT inspects solar flares, and X-ray spectrometers send early space weather alerts to protect Earth.',
-          facts: [
-            'VELC captures high-resolution coronagraph images down to 1.05 solar radii.',
-            'Early CME alerts give Earth 15 to 48 hours to protect satellites and power grids.',
-            'Mission life planned for 5+ years of groundbreaking solar physics discoveries.'
-          ]
-        }
-      ]
+      {
+              "id": 1,
+              "name": "Liftoff on PSLV-C57",
+              "sub": "Satish Dhawan Space Centre, Sriharikota • Sept 2, 2023",
+              "desc": "India’s most reliable workhorse rocket, PSLV, launched with 6 strap-on boosters attached to its sides! It blasted Aditya-L1 into space to begin India’s very first mission to study our Sun.",
+              "facts": [
+                      "PSLV is famous as ISRO’s most trusted rocket with dozens of successful spaceflights.",
+                      "Aditya-L1 was first placed into orbit around Earth before beginning its long solar journey.",
+                      "Aditya means \"The Sun\" in Sanskrit!"
+              ]
+      },
+      {
+              "id": 2,
+              "name": "Earth Orbit Boosts",
+              "sub": "4 Gravity Slingshots • Sept 3 - 15, 2023",
+              "desc": "Just like Chandrayaan-3, Aditya-L1 fired its rocket engine 4 times to stretch its orbit further and further away from Earth, gathering speed for the big leap toward the Sun.",
+              "facts": [
+                      "Each engine burn used Earth’s gravity like an invisible rubber band to propel the craft.",
+                      "All 7 scientific telescopes and sensors were tested and passed with flying colors.",
+                      "Instruments began sensing energetic particles from space even before leaving Earth!"
+              ]
+      },
+      {
+              "id": 3,
+              "name": "Slingshot to Lagrange Point 1",
+              "sub": "Leap into Deep Space • Sept 19, 2023",
+              "desc": "With a powerful final engine burn, Aditya-L1 broke free from Earth’s gravity grip and set off on an epic 1.5-million-kilometer voyage toward Lagrange Point 1 (L1)!",
+              "facts": [
+                      "Lagrange Point 1 is a special parking spot in space where the gravity of the Sun and Earth balance out.",
+                      "It left Earth’s gravitational neighborhood on September 30, 2023.",
+                      "The journey through deep space took over 110 days!"
+              ]
+      },
+      {
+              "id": 4,
+              "name": "Deep Space Cruise",
+              "sub": "1.5 Million Kilometer Voyage • Oct - Dec 2023",
+              "desc": "During its 4-month journey, Earth shrank into a small blue marble in the rear cameras while the Sun grew brighter. Aditya-L1 began testing its solar wind particle detectors along the way.",
+              "facts": [
+                      "L1 is located 1.5 million kilometers from Earth—about 4 times further than the Moon!",
+                      "The spacecraft sailed through the solar wind—a stream of charged particles flowing from the Sun.",
+                      "The SUIT telescope snapped its first ultraviolet test images of the Sun’s fiery surface."
+              ]
+      },
+      {
+              "id": 5,
+              "name": "Arrival at Halo Orbit",
+              "sub": "Parking at L1 • January 6, 2024",
+              "desc": "Success! On January 6, 2024, ISRO fired the thrusters to steer Aditya-L1 into a special 3D loop called a \"Halo Orbit\" around Lagrange Point 1. It is now safely parked in space!",
+              "facts": [
+                      "A Halo Orbit is like an invisible rollercoaster loop in space that the satellite rides forever.",
+                      "At L1, the satellite has a 24/7 unobstructed view of the Sun—never blocked by clouds or Earth!",
+                      "India became only the fourth space agency in the world to successfully place a probe at L1."
+              ]
+      },
+      {
+              "id": 6,
+              "name": "Watching the Sun 24/7",
+              "sub": "Solar Science & Space Weather • Halo Orbit",
+              "desc": "From its cosmic vantage point, Aditya-L1 watches the Sun non-stop! Its 7 high-tech cameras and sensors track solar storms, solar flares, and space weather to protect satellites and power grids on Earth.",
+              "facts": [
+                      "Solar flares can disrupt GPS and radio signals on Earth—Aditya-L1 gives early warnings!",
+                      "The VELC instrument creates an artificial solar eclipse inside the camera to see the Sun’s outer glowing crown (Corona).",
+                      "Aditya-L1 will protect Earth from space weather for more than 5 years!"
+              ]
+      }
+]
     },
     hi: {
       missionTitle: 'आदित्य-एल1: सूर्य की दहलीज पर',

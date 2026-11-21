@@ -48,16 +48,6 @@
 }
 
 /* Top Nav Tab Customization for Phase 5 */
-.nav-tab.mars-nav-tab {
-  background: linear-gradient(135deg, rgba(194, 65, 12, 0.2), rgba(234, 88, 12, 0.15));
-  border-color: rgba(249, 115, 22, 0.4);
-}
-.nav-tab.mars-nav-tab:hover,
-.nav-tab.mars-nav-tab.active {
-  background: linear-gradient(135deg, rgba(194, 65, 12, 0.4), rgba(234, 88, 12, 0.35));
-  border-color: var(--mars-orange);
-  box-shadow: 0 0 16px rgba(249, 115, 22, 0.45);
-}
 .nav-tab.mars-nav-tab .tab-badge {
   background: transparent;
   font-size: 1.1rem;

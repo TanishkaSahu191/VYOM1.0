@@ -14,392 +14,790 @@
 
   // --- Spacecraft Engineering Telemetry Data & 3D Component Coordinates ---
   const SPACECRAFT_3D_DATA = {
-    orion: {
-      id: 'orion',
-      name: 'Orion MPCV',
-      subtitle: 'NASA // Deep Space Lunar Crew Exploration Vehicle',
-      agency: 'NASA // USA',
-      agencyClass: 'nasa',
-      agencyBadge: '🇺🇸 NASA // USA',
-      cameraDistance: 6.8,
-      components: [
-        {
-          id: 'orion-docking',
-          num: 1,
-          name: 'NASA Docking System (NDS)',
-          system: 'Mechanisms & Ingress',
-          pos: [0, 2.05, 0],
-          desc: 'Androgynous low-impact docking system featuring an 800 mm hatch and automated laser rangefinders, engineered for docking with Lunar Gateway and human lunar landers.',
-          specs: [
-            { label: 'Type', val: 'NASA Docking System (NDS)' },
-            { label: 'Standard', val: 'IDSS Compliant' },
-            { label: 'Passage', val: '800 mm Vestibule' },
-            { label: 'Sensors', val: 'Optical & LiDAR Target Tracker' }
-          ]
-        },
-        {
-          id: 'orion-cm',
-          num: 2,
-          name: 'Pressurized Crew Module (CM)',
-          system: 'Habitation & Avionics',
-          pos: [0, 1.35, 0.45],
-          desc: 'Double-walled aluminum-lithium habitable cabin engineered for 4 astronauts on missions lasting up to 21 days. Features glass cockpit touchscreen displays and radiation storm shelter.',
-          specs: [
-            { label: 'Crew Capacity', val: '4 Astronauts' },
-            { label: 'Habitable Vol', val: '9.0 m³ (316 cu ft)' },
-            { label: 'Atmosphere', val: '14.7 psi (Sea-Level N2/O2)' },
-            { label: 'Structural Shell', val: 'Al-Li 2195 Alloy' }
-          ]
-        },
-        {
-          id: 'orion-windows',
-          num: 3,
-          name: 'Optical-Grade Viewports',
-          system: 'Optics & Windows',
-          pos: [0.35, 1.45, 0.75],
-          desc: 'Three-layer redundant optical fused silica and aluminosilicate glass windows designed to survive micrometeoroid orbital debris and extreme thermal gradients.',
-          specs: [
-            { label: 'Glass Panes', val: '3-Layer Redundant' },
-            { label: 'Material', val: 'Fused Silica Glass' },
-            { label: 'Coating', val: 'Infrared & UV Reflective' },
-            { label: 'Purpose', val: 'Docking & Earth View' }
-          ]
-        },
-        {
-          id: 'orion-rcs',
-          num: 4,
-          name: 'Reaction Control Thrusters (RCS)',
-          system: 'Attitude Guidance',
-          pos: [1.25, 0.75, 0.4],
-          desc: '16 monopropellant thrusters (160 N each) strategically positioned around the capsule perimeter to provide 3-axis attitude control during deep space orientation and lunar re-entry.',
-          specs: [
-            { label: 'Thrusters', val: '16 Monopropellant Units' },
-            { label: 'Thrust', val: '160 N (36 lbf) each' },
-            { label: 'Propellant', val: 'Hydrazine (N2H4)' },
-            { label: 'Control', val: 'Pitch, Roll & Yaw 3-Axis' }
-          ]
-        },
-        {
-          id: 'orion-heatshield',
-          num: 5,
-          name: 'Avcoat Ablative Heat Shield',
-          system: 'Thermal Protection (TPS)',
-          pos: [0, 0.48, 0],
-          desc: 'World’s largest human spacecraft heat shield (5.0 m diameter). Molded Avcoat ablative composite engineered to withstand 2,800°C re-entry plasma at 40,000 km/h return velocity.',
-          specs: [
-            { label: 'Diameter', val: '5.0 meters (16.5 ft)' },
-            { label: 'Max Temp', val: '2,800°C (5,000°F)' },
-            { label: 'Re-entry Speed', val: '11.2 km/s (Lunar Return)' },
-            { label: 'Material', val: 'Avcoat Composite Resin' }
-          ]
-        },
-        {
-          id: 'orion-esm',
-          num: 6,
-          name: 'European Service Module (ESM)',
-          system: 'Power, ECLSS & Propulsion',
-          pos: [0, -0.28, 0],
-          desc: 'Built by Airbus Defence and Space for ESA. Houses life-support consumable tanks (water, oxygen, nitrogen), active fluid heat radiators, and electrical power generation.',
-          specs: [
-            { label: 'Prime Contractor', val: 'Airbus Defence & Space (ESA)' },
-            { label: 'Fluids Mass', val: '8.6 tonnes consumables' },
-            { label: 'Radiators', val: 'Dual Loop Freon Cooling' },
-            { label: 'Length', val: '4.0 meters' }
-          ]
-        },
-        {
-          id: 'orion-solar',
-          num: 7,
-          name: 'X-Wing Solar Array Wings',
-          system: 'Electrical Power Generation',
-          pos: [2.5, -0.38, 0.5],
-          desc: 'Four articulated solar wings spanning 19 meters tip-to-tip. Packed with 15,000 gallium arsenide triple-junction photovoltaic cells producing 11 kW of electrical power.',
-          specs: [
-            { label: 'Total Wingspan', val: '19.0 meters (62 ft)' },
-            { label: 'Power Output', val: '11 kW at 1 AU' },
-            { label: 'Cell Type', val: 'GaAs Triple-Junction PV' },
-            { label: 'Articulated', val: 'Dual-Axis Tracking' }
-          ]
-        },
-        {
-          id: 'orion-engine',
-          num: 8,
-          name: 'Aerojet AJ10 OMS Main Engine',
-          system: 'Main Orbital Propulsion',
-          pos: [0, -1.25, 0],
-          desc: 'High-reliability space-shuttle heritage Aerojet AJ10-190 bipropellant rocket engine providing 26.7 kN (6,000 lbf) of thrust for trans-lunar injection and lunar orbit insertion.',
-          specs: [
-            { label: 'Thrust', val: '26.7 kN (6,000 lbf)' },
-            { label: 'Propellants', val: 'MMH / MON-3 Hypergolic' },
-            { label: 'Specific Impulse', val: '316 seconds' },
-            { label: 'Gimbal Range', val: '±6° Thrust Vector Control' }
-          ]
-        }
-      ]
-    },
-
-    'crew-dragon': {
-      id: 'crew-dragon',
-      name: 'Crew Dragon (Dragon 2)',
-      subtitle: 'SpaceX // Commercial Autonomous Orbital Crew Capsule',
-      agency: 'SPACEX // USA',
-      agencyClass: 'spacex',
-      agencyBadge: '🚀 SPACEX // USA',
-      cameraDistance: 6.6,
-      components: [
-        {
-          id: 'dragon-nosecone',
-          num: 1,
-          name: 'Pivoting Nose Cone & Docking Port',
-          system: 'Docking & Aerodynamics',
-          pos: [0, 2.05, 0],
-          desc: 'Aerodynamic fairing that rotates open on-orbit to expose the International Docking Adapter (IDA), dragon star trackers, and forward LiDAR laser navigation sensors.',
-          specs: [
-            { label: 'Mechanism', val: 'Motorized Hinge Fairing' },
-            { label: 'Docking Ring', val: 'IDA / NDS Standard' },
-            { label: 'Sensors', val: 'Argos Flash LiDAR + HD Cam' },
-            { label: 'Operation', val: 'Fully Autonomous Approach' }
-          ]
-        },
-        {
-          id: 'dragon-cabin',
-          num: 2,
-          name: 'Pressurized Crew Cabin',
-          system: 'Crew Quarters & Avionics',
-          pos: [0, 1.25, 0.35],
-          desc: 'Carbon composite crew cabin featuring 4 custom carbon-fiber racing seats, 3 touchscreen glass displays running Chromium, and high-efficiency emergency life support.',
-          specs: [
-            { label: 'Capacity', val: 'Up to 4 NASA Astronauts' },
-            { label: 'Displays', val: '3x Ultra-bright Touchscreens' },
-            { label: 'Volume', val: '9.3 m³ (328 cu ft)' },
-            { label: 'Control OS', val: 'Custom Real-time Linux' }
-          ]
-        },
-        {
-          id: 'dragon-superdraco',
-          num: 3,
-          name: 'SuperDraco Launch Abort Engines',
-          system: 'Launch Escape System',
-          pos: [1.12, 0.78, 0.45],
-          desc: '8 3D-printed Inconel rocket engines integrated in side nacelles. Can ignite in 100 milliseconds delivering 120,000 lbs of escape thrust from pad to orbit.',
-          specs: [
-            { label: 'Total Engines', val: '8 SuperDracos in 4 Pods' },
-            { label: 'Total Thrust', val: '580 kN (130,000 lbf)' },
-            { label: 'Fabrication', val: 'Direct Metal Laser Sintering' },
-            { label: 'Response Time', val: '< 100 milliseconds' }
-          ]
-        },
-        {
-          id: 'dragon-draco',
-          num: 4,
-          name: 'Draco Orbital Attitude Thrusters',
-          system: 'Attitude Guidance & Proximity Ops',
-          pos: [0.65, 1.48, 0.55],
-          desc: '16 Draco hypergolic engines generating 400 N each for precision orbital maneuvering, orbital altitude adjustments, and millimeter-accurate ISS docking proximity operations.',
-          specs: [
-            { label: 'Thrusters', val: '16 Hypergolic Dracos' },
-            { label: 'Thrust', val: '400 N (90 lbf) each' },
-            { label: 'Propellants', val: 'MMH & Dinitrogen Tetroxide' },
-            { label: 'Pulse Rate', val: 'Millisecond Pulse Modulation' }
-          ]
-        },
-        {
-          id: 'dragon-heatshield',
-          num: 5,
-          name: 'PICA-X Reusable Heat Shield',
-          system: 'Thermal Protection System',
-          pos: [0, 0.32, 0],
-          desc: 'Phenolic-Impregnated Carbon Ablator developed with NASA Ames. Designed to survive speeds exceeding 11 km/s with minimal ablation, enabling rapid capsule refurbishment and reuse.',
-          specs: [
-            { label: 'Material', val: 'PICA-X (v3 Polymer Ablator)' },
-            { label: 'Reusability', val: 'Multi-flight Certified (5+ flights)' },
-            { label: 'Diameter', val: '4.0 meters (13 ft)' },
-            { label: 'Max Heat', val: '1,950°C Plasma Wave' }
-          ]
-        },
-        {
-          id: 'dragon-solar',
-          num: 6,
-          name: 'Conformal Curved Solar Array',
-          system: 'Power Generation',
-          pos: [0, -0.45, 0.85],
-          desc: 'High-efficiency solar cells curved and laminated seamlessly directly onto half the cylindrical trunk surface, completely eliminating mechanical unfolding mechanisms.',
-          specs: [
-            { label: 'Integration', val: 'Half-Cylinder Body Wrap' },
-            { label: 'Power Output', val: 'Up to 5.0 kW' },
-            { label: 'Simplicity', val: 'Zero Moving Deployable Parts' },
-            { label: 'Cooling', val: 'Integrated Thermal Radiators' }
-          ]
-        },
-        {
-          id: 'dragon-fins',
-          num: 7,
-          name: 'Aerodynamic Stabilizer Fins',
-          system: 'Aerodynamic Trim & Stability',
-          pos: [1.45, -0.62, 0],
-          desc: 'Four symmetrical aerodynamic carbon-composite fins providing passive aerodynamic stabilization to keep the spacecraft facing forward during abort emergency escapes.',
-          specs: [
-            { label: 'Fin Count', val: '4 Fixed Aerodynamic Fins' },
-            { label: 'Material', val: 'Carbon Fiber Composite' },
-            { label: 'Function', val: 'Supersonic Passive Stabilization' },
-            { label: 'Jettison', val: 'Discarded with Trunk at Re-entry' }
-          ]
-        },
-        {
-          id: 'dragon-trunk',
-          num: 8,
-          name: 'Unpressurized Cargo Trunk Bay',
-          system: 'Payload & Thermal Control',
-          pos: [0, -0.85, 0],
-          desc: 'Cylindrical composite trunk providing 37 m³ of cargo volume for ISS battery swaps, science experiments, and external payloads before being discarded prior to atmospheric entry.',
-          specs: [
-            { label: 'Cargo Volume', val: '37 m³ (1,300 cu ft)' },
-            { label: 'Height', val: '3.7 meters' },
-            { label: 'Trunk Diameter', val: '4.0 meters' },
-            { label: 'Status', val: 'Disposable Upper Ascent Structure' }
-          ]
-        }
-      ]
-    },
-
-    gaganyaan: {
-      id: 'gaganyaan',
-      name: 'Gaganyaan Orbital Module',
-      subtitle: 'ISRO // India’s Indigenous Human Spaceflight Programme',
-      agency: 'ISRO // INDIA',
-      agencyClass: 'isro',
-      agencyBadge: '🇮🇳 ISRO // INDIA',
-      cameraDistance: 6.5,
-      components: [
-        {
-          id: 'gaganyaan-parachute',
-          num: 1,
-          name: 'Apex Parachute & Drogue Canister',
-          system: 'Deceleration & Recovery',
-          pos: [0, 2.05, 0],
-          desc: 'Apex compartment housing 2 drogue parachutes and 3 massive main orange-and-white deceleration parachutes engineered by ADRDE Agra for ocean splashdown at 7 m/s.',
-          specs: [
-            { label: 'Developer', val: 'ADRDE (DRDO) & VSSC (ISRO)' },
-            { label: 'Main Canopies', val: '3x Redundant Main Parachutes' },
-            { label: 'Splashdown Speed', val: '~7.5 m/s into Sea' },
-            { label: 'Deployment', val: 'Barometric / Pyrotechnic Mortar' }
-          ]
-        },
-        {
-          id: 'gaganyaan-cm',
-          num: 2,
-          name: 'Pressurized Crew Module (CM)',
-          system: 'Cabin & Human Life Support',
-          pos: [0, 1.25, 0.42],
-          desc: 'Double-walled aluminum alloy habitable pressure cabin designed to support 3 Indian vyomanauts for up to 7 days in a 400 km low Earth orbit with 1 atm cabin pressure.',
-          specs: [
-            { label: 'Crew Capacity', val: '3 Indian Vyomanauts' },
-            { label: 'Cabin Volume', val: '~8.0 m³ Habitable Space' },
-            { label: 'Mission Orbit', val: '400 km Circular LEO' },
-            { label: 'Life Support', val: 'ECLSS (CO2 Scrubbers + O2 Banks)' }
-          ]
-        },
-        {
-          id: 'gaganyaan-viewports',
-          num: 3,
-          name: 'Dual Optical Quartz Viewports',
-          system: 'Observation & Windows',
-          pos: [0.32, 1.35, 0.72],
-          desc: 'Precision quartz glass viewport windows equipped with thermal reflective coatings, providing astronauts visual reference for manual attitude alignment and Earth monitoring.',
-          specs: [
-            { label: 'Material', val: 'Multi-layer Fused Quartz' },
-            { label: 'Thermal Resistance', val: 'Up to 1,200°C' },
-            { label: 'Count', val: '2 Forward Observation Viewports' },
-            { label: 'Visual Field', val: 'Wide Orbital Panorama' }
-          ]
-        },
-        {
-          id: 'gaganyaan-livery',
-          num: 4,
-          name: 'Indian Tricolor & ISRO Insignia',
-          system: 'National Spaceflight Markings',
-          pos: [0, 0.78, 0.75],
-          desc: 'Indian saffron, white, and green tricolor livery with bold ISRO emblem, marking India’s emergence as the 4th nation to indigenously launch humans into space.',
-          specs: [
-            { label: 'Programme', val: 'Human Spaceflight Programme (HSP)' },
-            { label: 'Centre', val: 'Human Space Flight Centre (HSFC), Bengaluru' },
-            { label: 'Launcher', val: 'Human-Rated LVM3 (HRLV)' },
-            { label: 'Significance', val: 'National Flagship Mission' }
-          ]
-        },
-        {
-          id: 'gaganyaan-heatshield',
-          num: 5,
-          name: 'Carbon Phenolic Heat Shield',
-          system: 'Thermal Protection System',
-          pos: [0, 0.42, 0],
-          desc: 'Indigenous carbon-phenolic ablative thermal shield developed by Vikram Sarabhai Space Centre (VSSC) to protect the crew from 2,000°C plasma during 7.8 km/s atmospheric entry.',
-          specs: [
-            { label: 'Developer', val: 'VSSC (Thiruvananthapuram)' },
-            { label: 'Max Re-entry Heat', val: '2,000°C Ablative Plasma' },
-            { label: 'Base Diameter', val: '3.5 meters' },
-            { label: 'Ablator Formulation', val: 'Carbon Phenolic Resin Tiles' }
-          ]
-        },
-        {
-          id: 'gaganyaan-rcs',
-          num: 6,
-          name: 'Bi-Propellant Attitude RCS Thrusters',
-          system: 'Attitude Guidance & Entry Control',
-          pos: [1.02, 0.78, 0.4],
-          desc: '12 bi-propellant reaction control thrusters (100 N each) firing monomethylhydrazine (MMH) and MON-3 for precise 3-axis orientation in orbit and re-entry attitude trim.',
-          specs: [
-            { label: 'Thrusters', val: '12 Bipropellant Blocks (100 N each)' },
-            { label: 'Propellants', val: 'MMH / MON-3 Liquid Fuel' },
-            { label: 'Control', val: 'Pitch, Yaw, Roll Re-entry Control' },
-            { label: 'Redundancy', val: 'Dual Redundant Branch Plumbing' }
-          ]
-        },
-        {
-          id: 'gaganyaan-sm',
-          num: 7,
-          name: 'Service Module & Gold MLI Blanket',
-          system: 'Fluids, Propulsion & Power',
-          pos: [0, -0.35, 0],
-          desc: 'Unpressurized cylindrical service module wrapped in golden aluminized Kapton multi-layer insulation (MLI) blankets, housing fuel tanks, high-pressure helium, and batteries.',
-          specs: [
-            { label: 'Structure', val: 'Unpressurized Cylindrical Module' },
-            { label: 'Thermal Shield', val: 'Gold Kapton MLI Blankets' },
-            { label: 'Propellant Mass', val: '~4.5 tonnes Liquid Propellant' },
-            { label: 'Separation', val: 'Jettisoned prior to Re-entry' }
-          ]
-        },
-        {
-          id: 'gaganyaan-solar',
-          num: 8,
-          name: 'Deployable Solar Array Wings',
-          system: 'Photovoltaic Electrical Power',
-          pos: [2.5, -0.32, 0.3],
-          desc: 'Two foldable solar wings with high-efficiency multi-junction photovoltaic cells that unfold in orbit, generating electrical power to charge onboard lithium-ion battery banks.',
-          specs: [
-            { label: 'Wings', val: '2 Articulated Deployable Wings' },
-            { label: 'Cells', val: 'High-Efficiency Multi-junction PV' },
-            { label: 'Power Output', val: '~3.5 kW in Sunlit Orbit' },
-            { label: 'Battery Support', val: 'Li-Ion Space-Grade Battery Banks' }
-          ]
-        },
-        {
-          id: 'gaganyaan-lam',
-          num: 9,
-          name: 'Liquid Bi-Propellant LAM Engines',
-          system: 'Main Orbital Propulsion',
-          pos: [0, -1.22, 0],
-          desc: 'Two 440 N Liquid Apogee Motor (LAM) heritage engines providing velocity adjustments for 400 km orbit circularization and the critical retro-fire deorbit burn for splashdown.',
-          specs: [
-            { label: 'Engines', val: '2x 440 N Bipropellant LAM Engines' },
-            { label: 'Thrust', val: '880 N Combined Orbital Thrust' },
-            { label: 'Mission Function', val: 'Orbit Insertion & Retro Deorbit Burn' },
-            { label: 'Heritage', val: 'Chandrayaan & Mangalyaan Combat-Proven' }
-          ]
-        }
-      ]
-    }
-  };
+  "orion": {
+    "id": "orion",
+    "name": "Orion MPCV",
+    "subtitle": "NASA // Built to Carry Astronauts to the Moon",
+    "agency": "NASA // USA",
+    "agencyClass": "nasa",
+    "agencyBadge": "🇺🇸 NASA // USA",
+    "cameraDistance": 6.8,
+    "components": [
+      {
+        "id": "orion-docking",
+        "num": 1,
+        "name": "Space Docking Hatch (Air-Lock)",
+        "system": "Docking Door & Guidance",
+        "pos": [
+          0,
+          2.05,
+          0
+        ],
+        "desc": "The spaceship’s front door! It uses automatic lasers and cameras to gently connect with space stations and lunar landers so astronauts can float inside safely.",
+        "specs": [
+          {
+            "label": "Role",
+            "val": "Connects to Lunar Stations"
+          },
+          {
+            "label": "Guidance",
+            "val": "Laser & Camera Auto-Docking"
+          },
+          {
+            "label": "Passage",
+            "val": "80 cm Astronaut Tunnel"
+          },
+          {
+            "label": "Standard",
+            "val": "International Space Docking"
+          }
+        ]
+      },
+      {
+        "id": "orion-cm",
+        "num": 2,
+        "name": "Astronaut Cabin (Crew Module)",
+        "system": "Living Space & Controls",
+        "pos": [
+          0,
+          1.35,
+          0.45
+        ],
+        "desc": "The cozy home for 4 astronauts during their trip to the Moon! It provides fresh air to breathe, comfy seats, touchscreens to fly, and a shelter to protect against solar radiation.",
+        "specs": [
+          {
+            "label": "Crew Capacity",
+            "val": "4 Astronauts"
+          },
+          {
+            "label": "Air Supply",
+            "val": "Earth-like Oxygen & Nitrogen"
+          },
+          {
+            "label": "Mission Length",
+            "val": "Up to 21 Days in Deep Space"
+          },
+          {
+            "label": "Cabin Hull",
+            "val": "Lightweight Aluminum-Lithium Metal"
+          }
+        ]
+      },
+      {
+        "id": "orion-windows",
+        "num": 3,
+        "name": "Deep Space Viewports",
+        "system": "High-Strength Windows",
+        "pos": [
+          0.35,
+          1.45,
+          0.75
+        ],
+        "desc": "Thick 3-layer bulletproof glass windows that give astronauts breathtaking views of Earth and the Moon while blocking harmful UV radiation and tiny space pebbles.",
+        "specs": [
+          {
+            "label": "Glass Panes",
+            "val": "3 Protective Layers"
+          },
+          {
+            "label": "Protection",
+            "val": "Blocks UV Rays & Space Dust"
+          },
+          {
+            "label": "View",
+            "val": "Panoramic Earth & Moon Views"
+          },
+          {
+            "label": "Material",
+            "val": "Fused Silica Quartz Glass"
+          }
+        ]
+      },
+      {
+        "id": "orion-rcs",
+        "num": 4,
+        "name": "Steering Thrusters (RCS)",
+        "system": "Direction & Turn Jets",
+        "pos": [
+          1.25,
+          0.75,
+          0.4
+        ],
+        "desc": "16 small rocket jets placed around the capsule. Firing quick puffs of gas lets astronauts steer, turn, and point the spaceship in any direction in zero gravity.",
+        "specs": [
+          {
+            "label": "Thrusters",
+            "val": "16 Mini Rocket Jets"
+          },
+          {
+            "label": "Function",
+            "val": "Steer Up, Down, Left & Right"
+          },
+          {
+            "label": "Steering",
+            "val": "Full 3-Axis Direction Control"
+          },
+          {
+            "label": "Speed",
+            "val": "Instant Millisecond Puffs"
+          }
+        ]
+      },
+      {
+        "id": "orion-heatshield",
+        "num": 5,
+        "name": "Lunar Heat Shield",
+        "system": "Thermal Re-entry Shield",
+        "pos": [
+          0,
+          0.48,
+          0
+        ],
+        "desc": "The giant protective bottom of the spacecraft! When returning from the Moon at 40,000 km/h, friction with air heats up to 2,800°C. This shield melts away slowly to keep the astronauts safe and cool inside.",
+        "specs": [
+          {
+            "label": "Shield Width",
+            "val": "5.0 meters across (Giant!)"
+          },
+          {
+            "label": "Max Heat",
+            "val": "Withstands 2,800°C (hotter than lava!)"
+          },
+          {
+            "label": "Return Speed",
+            "val": "40,000 km/h from the Moon"
+          },
+          {
+            "label": "Material",
+            "val": "Molded Avcoat Heat Shield"
+          }
+        ]
+      },
+      {
+        "id": "orion-esm",
+        "num": 6,
+        "name": "Service Module (Power & Life Support)",
+        "system": "Engine Room & Supplies",
+        "pos": [
+          0,
+          -0.28,
+          0
+        ],
+        "desc": "Built by European engineers, this is the spaceship’s engine room! It stores tanks of fresh drinking water, clean oxygen, and radiators to keep the cabin comfortable.",
+        "specs": [
+          {
+            "label": "Builder",
+            "val": "European Space Agency (ESA)"
+          },
+          {
+            "label": "Supplies",
+            "val": "Water, Oxygen & Power Tanks"
+          },
+          {
+            "label": "Cooling",
+            "val": "Space Radiators for Cabin Temperature"
+          },
+          {
+            "label": "Length",
+            "val": "4.0 meters"
+          }
+        ]
+      },
+      {
+        "id": "orion-solar",
+        "num": 7,
+        "name": "X-Wing Solar Wings",
+        "system": "Solar Energy Power",
+        "pos": [
+          2.5,
+          -0.38,
+          0.5
+        ],
+        "desc": "Four giant solar wings that fold out like an X! Packed with 15,000 solar cells, they track the Sun to generate clean electricity for all the ship’s computers and lights.",
+        "specs": [
+          {
+            "label": "Wingspan",
+            "val": "19 meters across (as wide as a house!)"
+          },
+          {
+            "label": "Power Output",
+            "val": "11,000 Watts of Solar Energy"
+          },
+          {
+            "label": "Tracking",
+            "val": "Automatically turns to face the Sun"
+          },
+          {
+            "label": "Solar Cells",
+            "val": "Advanced Space Solar Panels"
+          }
+        ]
+      },
+      {
+        "id": "orion-engine",
+        "num": 8,
+        "name": "Main Rocket Engine",
+        "system": "Deep Space Engine",
+        "pos": [
+          0,
+          -1.25,
+          0
+        ],
+        "desc": "The big rocket engine at the back! It fires powerful bursts to push Orion out of Earth’s gravity, fly toward the Moon, and brake into lunar orbit.",
+        "specs": [
+          {
+            "label": "Power",
+            "val": "Strong enough to lift 6 cars!"
+          },
+          {
+            "label": "Mission Role",
+            "val": "Flies the Ship to the Moon & Back"
+          },
+          {
+            "label": "Heritage",
+            "val": "Proven Space Shuttle Rocket Engine"
+          },
+          {
+            "label": "Steering",
+            "val": "Swivels to steer the spacecraft"
+          }
+        ]
+      }
+    ]
+  },
+  "crew-dragon": {
+    "id": "crew-dragon",
+    "name": "Crew Dragon (Dragon 2)",
+    "subtitle": "SpaceX // Commercial Autonomous Astronaut Capsule",
+    "agency": "SPACEX // USA",
+    "agencyClass": "spacex",
+    "agencyBadge": "🚀 SPACEX // USA",
+    "cameraDistance": 6.6,
+    "components": [
+      {
+        "id": "dragon-nosecone",
+        "num": 1,
+        "name": "Pivoting Nose Cone & Docking Door",
+        "system": "Aerodynamic Cap & Air-Lock",
+        "pos": [
+          0,
+          2.05,
+          0
+        ],
+        "desc": "A protective nose cone that opens up like a helmet visor once in space! Inside is the docking ring and laser cameras that allow Crew Dragon to park itself at the International Space Station.",
+        "specs": [
+          {
+            "label": "Nose Cap",
+            "val": "Opens smoothly like a visor in space"
+          },
+          {
+            "label": "Docking",
+            "val": "Fits the International Space Station"
+          },
+          {
+            "label": "Sensors",
+            "val": "Laser cameras that measure distance"
+          },
+          {
+            "label": "Piloting",
+            "val": "Autonomous (computer parks itself!)"
+          }
+        ]
+      },
+      {
+        "id": "dragon-cabin",
+        "num": 2,
+        "name": "Astronaut Touchscreen Cabin",
+        "system": "Living Quarters & Touchscreen Controls",
+        "pos": [
+          0,
+          1.25,
+          0.35
+        ],
+        "desc": "A futuristic spaceship cabin with 4 custom carbon-fiber seats and 3 giant touchscreens! Astronauts wear slim spacesuits and tap the screens just like a tablet.",
+        "specs": [
+          {
+            "label": "Crew Capacity",
+            "val": "Up to 4 Astronauts"
+          },
+          {
+            "label": "Controls",
+            "val": "3 Big HD Touchscreens"
+          },
+          {
+            "label": "Seats",
+            "val": "Custom Sporty Carbon-Fiber Seats"
+          },
+          {
+            "label": "Life Support",
+            "val": "Automatic Clean Air & Climate Control"
+          }
+        ]
+      },
+      {
+        "id": "dragon-superdraco",
+        "num": 3,
+        "name": "SuperDraco Emergency Escape Engines",
+        "system": "Astronaut Safety Eject System",
+        "pos": [
+          1.12,
+          0.78,
+          0.45
+        ],
+        "desc": "8 super-fast 3D-printed rocket engines built into the sides. If something goes wrong during launch, they fire in just 0.1 seconds to carry the astronaut capsule miles away to safety!",
+        "specs": [
+          {
+            "label": "Engines",
+            "val": "8 3D-Printed Escape Engines"
+          },
+          {
+            "label": "Reaction Time",
+            "val": "Instant firing in 0.1 seconds!"
+          },
+          {
+            "label": "Safety Role",
+            "val": "Pulls astronauts away from danger"
+          },
+          {
+            "label": "Speed",
+            "val": "Blasts capsule to 100 km/h in 1.2 sec"
+          }
+        ]
+      },
+      {
+        "id": "dragon-draco",
+        "num": 4,
+        "name": "Draco Maneuvering Thrusters",
+        "system": "Space Steering Jets",
+        "pos": [
+          0.65,
+          1.48,
+          0.55
+        ],
+        "desc": "16 small thrusters that fire tiny puffs to turn the capsule in space and guide it with millimeter accuracy when docking to the Space Station.",
+        "specs": [
+          {
+            "label": "Thrusters",
+            "val": "16 Precision Steering Thrusters"
+          },
+          {
+            "label": "Accuracy",
+            "val": "Millimeter-precise Space Parking"
+          },
+          {
+            "label": "Movement",
+            "val": "Allows moving forward, backward & spinning"
+          },
+          {
+            "label": "Response",
+            "val": "Fires pulses lasting tiny milliseconds"
+          }
+        ]
+      },
+      {
+        "id": "dragon-heatshield",
+        "num": 5,
+        "name": "PICA-X Reusable Heat Shield",
+        "system": "Thermal Plasma Shield",
+        "pos": [
+          0,
+          0.32,
+          0
+        ],
+        "desc": "A state-of-the-art heat shield made with NASA technology. It protects the capsule from 1,950°C glowing plasma when returning through Earth’s atmosphere, and can fly to space again and again!",
+        "specs": [
+          {
+            "label": "Material",
+            "val": "NASA-developed PICA-X Material"
+          },
+          {
+            "label": "Reusability",
+            "val": "Can fly to space 5 or more times!"
+          },
+          {
+            "label": "Heat Resistance",
+            "val": "Survives 1,950°C glowing heat"
+          },
+          {
+            "label": "Diameter",
+            "val": "4.0 meters wide"
+          }
+        ]
+      },
+      {
+        "id": "dragon-solar",
+        "num": 6,
+        "name": "Curved Body Solar Panels",
+        "system": "Sun Power Generators",
+        "pos": [
+          0,
+          -0.45,
+          0.85
+        ],
+        "desc": "Instead of folding wings, Crew Dragon has flexible solar panels wrapped directly around its body cylinder! This clever design means no moving parts that could break.",
+        "specs": [
+          {
+            "label": "Design",
+            "val": "Smooth body-wrapped solar panels"
+          },
+          {
+            "label": "Moving Parts",
+            "val": "Zero moving parts to jam!"
+          },
+          {
+            "label": "Electricity",
+            "val": "Powers cabin displays & life support"
+          },
+          {
+            "label": "Cooling",
+            "val": "Built-in heat radiators on backside"
+          }
+        ]
+      },
+      {
+        "id": "dragon-fins",
+        "num": 7,
+        "name": "Aerodynamic Stabilizer Fins",
+        "system": "Flight Balance Fins",
+        "pos": [
+          1.45,
+          -0.62,
+          0
+        ],
+        "desc": "Four sturdy aerodynamic fins on the trunk. If an emergency launch escape happens at supersonic speed, these fins keep the capsule flying straight and steady like an arrow.",
+        "specs": [
+          {
+            "label": "Fins",
+            "val": "4 Aerodynamic Stabilizers"
+          },
+          {
+            "label": "Material",
+            "val": "Super-strong Carbon Composite"
+          },
+          {
+            "label": "Purpose",
+            "val": "Keeps rocket steady like feathers on an arrow"
+          },
+          {
+            "label": "Disposal",
+            "val": "Separates before re-entering Earth"
+          }
+        ]
+      },
+      {
+        "id": "dragon-trunk",
+        "num": 8,
+        "name": "Cargo Trunk Bay",
+        "system": "Cargo & Equipment Carrier",
+        "pos": [
+          0,
+          -0.85,
+          0
+        ],
+        "desc": "The open trunk at the back of the spaceship! It carries cargo, food, space station batteries, and scientific experiments up to the ISS.",
+        "specs": [
+          {
+            "label": "Cargo Room",
+            "val": "Big enough for giant space station batteries"
+          },
+          {
+            "label": "Height",
+            "val": "3.7 meters tall"
+          },
+          {
+            "label": "Cargo Type",
+            "val": "Science gear, food & spare parts"
+          },
+          {
+            "label": "Return",
+            "val": "Disposed in atmosphere before splashdown"
+          }
+        ]
+      }
+    ]
+  },
+  "gaganyaan": {
+    "id": "gaganyaan",
+    "name": "Gaganyaan Orbital Module",
+    "subtitle": "ISRO // India’s Indigenous Human Spaceflight Programme",
+    "agency": "ISRO // INDIA",
+    "agencyClass": "isro",
+    "agencyBadge": "🇮🇳 ISRO // INDIA",
+    "cameraDistance": 6.5,
+    "components": [
+      {
+        "id": "gaganyaan-parachute",
+        "num": 1,
+        "name": "Ocean Splashdown Parachutes",
+        "system": "Safe Landing Parachutes",
+        "pos": [
+          0,
+          2.05,
+          0
+        ],
+        "desc": "Housed at the top of the capsule are 3 huge orange-and-white parachutes designed by Indian defense scientists. They gently float the astronaut capsule down into the sea at a safe, smooth speed.",
+        "specs": [
+          {
+            "label": "Developer",
+            "val": "ADRDE (DRDO) & ISRO"
+          },
+          {
+            "label": "Main Chutes",
+            "val": "3 Giant Orange & White Parachutes"
+          },
+          {
+            "label": "Landing Speed",
+            "val": "Gentle splash into sea at ~7.5 m/s"
+          },
+          {
+            "label": "Opening",
+            "val": "Automatic sensors deploy chutes at safe height"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-cm",
+        "num": 2,
+        "name": "Vyomanaut Crew Cabin",
+        "system": "Indian Astronaut Living Cabin",
+        "pos": [
+          0,
+          1.25,
+          0.42
+        ],
+        "desc": "The safe, sealed cabin for 3 Indian astronauts (called Vyomanauts!). It keeps air pressure just like on Earth, controls temperature, and lets astronauts live and conduct science experiments for up to 7 days.",
+        "specs": [
+          {
+            "label": "Crew Capacity",
+            "val": "3 Indian Vyomanauts"
+          },
+          {
+            "label": "Cabin Air",
+            "val": "Comfortable Earth-like Air Pressure"
+          },
+          {
+            "label": "Mission Orbit",
+            "val": "400 km high above Earth"
+          },
+          {
+            "label": "Trip Duration",
+            "val": "Up to 7 days in space"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-viewports",
+        "num": 3,
+        "name": "Astronaut Lookout Windows",
+        "system": "High-Strength Quartz Windows",
+        "pos": [
+          0.32,
+          1.35,
+          0.72
+        ],
+        "desc": "Two clear, double-pane quartz glass windows. They give Vyomanauts amazing views of India, Earth’s blue oceans, and starry space while keeping out intense heat and solar radiation.",
+        "specs": [
+          {
+            "label": "Glass",
+            "val": "Heat-proof Fused Quartz Glass"
+          },
+          {
+            "label": "Heat Resistance",
+            "val": "Withstands up to 1,200°C"
+          },
+          {
+            "label": "Window Count",
+            "val": "2 Forward Lookout Windows"
+          },
+          {
+            "label": "View",
+            "val": "Panoramic views of planet Earth"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-livery",
+        "num": 4,
+        "name": "Indian Flag & ISRO Insignia",
+        "system": "Pride of India Space Emblem",
+        "pos": [
+          0,
+          0.78,
+          0.75
+        ],
+        "desc": "Proudly wearing India’s saffron, white, and green tricolor flag and the ISRO logo! Gaganyaan makes India only the 4th nation in human history to send astronauts to space on its own rocket.",
+        "specs": [
+          {
+            "label": "Flagship Mission",
+            "val": "India’s Human Spaceflight Programme"
+          },
+          {
+            "label": "Lead Center",
+            "val": "Human Space Flight Centre (Bengaluru)"
+          },
+          {
+            "label": "Rocket",
+            "val": "Human-Rated LVM3 (HRLV) Rocket"
+          },
+          {
+            "label": "Achievement",
+            "val": "India joins elite human spaceflight nations!"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-heatshield",
+        "num": 5,
+        "name": "Indian Thermal Heat Shield",
+        "system": "Re-entry Heat Protection",
+        "pos": [
+          0,
+          0.42,
+          0
+        ],
+        "desc": "Built by ISRO’s Vikram Sarabhai Space Centre in Kerala, this thick protective shield guards the crew against 2,000°C friction heat as the capsule re-enters Earth’s atmosphere at 28,000 km/h!",
+        "specs": [
+          {
+            "label": "Developed By",
+            "val": "VSSC (ISRO Thiruvananthapuram)"
+          },
+          {
+            "label": "Max Heat",
+            "val": "Resists 2,000°C glowing plasma heat"
+          },
+          {
+            "label": "Diameter",
+            "val": "3.5 meters across"
+          },
+          {
+            "label": "Technology",
+            "val": "Ablative thermal heat shield tiles"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-rcs",
+        "num": 6,
+        "name": "Attitude Control Thrusters (RCS)",
+        "system": "Space Steering Jet System",
+        "pos": [
+          1.02,
+          0.78,
+          0.4
+        ],
+        "desc": "12 precision liquid thrusters on the capsule. They let the astronauts steer the spaceship, keep it facing the right way in orbit, and aim the heat shield forward for safe re-entry.",
+        "specs": [
+          {
+            "label": "Thrusters",
+            "val": "12 Mini Steering Rocket Engines"
+          },
+          {
+            "label": "Role",
+            "val": "Pitches, rolls and turns the spaceship"
+          },
+          {
+            "label": "Safety",
+            "val": "Backup twin fuel pipes for safety"
+          },
+          {
+            "label": "Fuel",
+            "val": "High-reliability liquid space propellant"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-sm",
+        "num": 7,
+        "name": "Golden Service Module",
+        "system": "Engine & Supplies Compartment",
+        "pos": [
+          0,
+          -0.35,
+          0
+        ],
+        "desc": "Wrapped in shiny golden insulation blankets to protect against solar heat! It holds fuel tanks, electrical power, and rocket engines to support the crew cabin throughout the mission.",
+        "specs": [
+          {
+            "label": "Structure",
+            "val": "Golden cylindrical engine room"
+          },
+          {
+            "label": "Insulation",
+            "val": "Shiny gold blankets to block sun heat"
+          },
+          {
+            "label": "Carries",
+            "val": "4.5 tonnes of propellant & power supplies"
+          },
+          {
+            "label": "Separation",
+            "val": "Detaches safely before capsule lands"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-solar",
+        "num": 8,
+        "name": "Deployable Solar Wings",
+        "system": "Clean Solar Electricity",
+        "pos": [
+          2.5,
+          -0.32,
+          0.3
+        ],
+        "desc": "Two foldable solar panels that spread out like wings once in space! They capture sunlight to generate electricity and charge the spaceship’s powerful batteries.",
+        "specs": [
+          {
+            "label": "Wings",
+            "val": "2 Fold-out Solar Wings"
+          },
+          {
+            "label": "Power",
+            "val": "Generates 3,500 Watts of solar energy"
+          },
+          {
+            "label": "Batteries",
+            "val": "Charges high-tech lithium-ion batteries"
+          },
+          {
+            "label": "Cells",
+            "val": "High-efficiency multi-layer solar cells"
+          }
+        ]
+      },
+      {
+        "id": "gaganyaan-lam",
+        "num": 9,
+        "name": "LAM Main Rocket Engines",
+        "system": "Orbital Power Engines",
+        "pos": [
+          0,
+          -1.22,
+          0
+        ],
+        "desc": "Two reliable liquid rocket engines! They fire to boost Gaganyaan into its final circular orbit around Earth, and later fire in reverse (retro-burn) to slow down and begin the journey home.",
+        "specs": [
+          {
+            "label": "Engines",
+            "val": "Twin 440 N Liquid Rocket Motors"
+          },
+          {
+            "label": "Missions",
+            "val": "Same trusted engines used on Mars & Moon missions"
+          },
+          {
+            "label": "Job",
+            "val": "Brakes the capsule to return safely to Earth"
+          },
+          {
+            "label": "Steering",
+            "val": "Precision orbital speed control"
+          }
+        ]
+      }
+    ]
+  }
+};
 
   // --- Viewer State ---
   let modalEl = null;
