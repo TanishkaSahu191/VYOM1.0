@@ -2062,13 +2062,15 @@ body.on-launchpad .global-phase-nav {
   box-shadow: 0 4px 15px rgba(56, 189, 248, 0.5);
 }
 
-/* --- Cockpit Interactive Dashboard Overlays --- */
+/* --- Cockpit Interactive Dashboard Overlays (Compact Sleek Scale) --- */
 .cockpit-dashboard-overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 30%;
+  height: 18%;
+  max-height: 175px;
+  min-height: 120px;
   z-index: 5;
   pointer-events: none;
   display: flex;
@@ -2086,7 +2088,7 @@ body.on-launchpad .global-phase-nav {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 94%;
+  height: 92%;
   background: 
     radial-gradient(ellipse at 50% 100%, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 50%, rgba(2, 6, 23, 0.98) 100%),
     linear-gradient(180deg, #111827 0%, #080c14 35%, #020617 100%);
@@ -2115,7 +2117,7 @@ body.on-launchpad .global-phase-nav {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 94%;
+  height: 92%;
   pointer-events: none;
   z-index: 2;
   border-top: 1.5px solid rgba(56, 189, 248, 0.6);
@@ -2151,16 +2153,16 @@ body.on-launchpad .global-phase-nav {
 /* Left MFD: Orbit Radar & Waveforms */
 .left-mfd {
   left: 14%;
-  bottom: 12%;
+  bottom: 10%;
   width: 18%;
-  height: 68%;
+  height: 74%;
   background: rgba(3, 10, 24, 0.92);
   border: 1px solid rgba(56, 189, 248, 0.45);
   box-shadow: inset 0 0 18px rgba(56, 189, 248, 0.25), 0 8px 24px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  padding: 6px 8px;
-  gap: 4px;
+  padding: 4px 6px;
+  gap: 3px;
 }
 
 .mfd-radar-scope {
@@ -2269,23 +2271,23 @@ body.on-launchpad .global-phase-nav {
 /* Center Screen: Primary Telemetry (Speed, Distance, Object, Timer) */
 .center-mfd {
   left: 33.5%;
-  bottom: 14%;
+  bottom: 10%;
   width: 33%;
-  height: 72%;
+  height: 78%;
   background: rgba(3, 10, 24, 0.94);
   border: 1.5px solid rgba(56, 189, 248, 0.6);
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: inset 0 0 22px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 8px 14px;
+  padding: 5px 10px;
 }
 
 .telemetry-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px 12px;
+  gap: 2px 8px;
 }
 
 .telem-block {
@@ -2295,7 +2297,7 @@ body.on-launchpad .global-phase-nav {
 
 .telem-title {
   font-family: 'Space Grotesk', monospace;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
   color: #94a3b8;
   letter-spacing: 0.08em;
@@ -2303,13 +2305,13 @@ body.on-launchpad .global-phase-nav {
 
 .telem-value {
   font-family: 'Archivo', monospace;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.04em;
 }
 .telem-value.speed-val { color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.6); }
 .telem-value.dist-val { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
-.telem-value.object-val { color: #fbbf24; font-size: 13px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
+.telem-value.object-val { color: #fbbf24; font-size: 11.5px; text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
 .telem-value.timer-val { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.6); }
 
 .assigned-craft-line {
@@ -2317,23 +2319,23 @@ body.on-launchpad .global-phase-nav {
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 4px;
+  padding-top: 2px;
   font-family: 'Space Grotesk', monospace;
-  font-size: 8px;
+  font-size: 7px;
   color: #64748b;
 }
 
 .assigned-craft-line strong {
   color: #38bdf8;
-  font-size: 9px;
+  font-size: 8px;
 }
 
 /* Right Screen: LET'S START THE JOURNEY Button (Exact Match) */
 .right-mfd {
   right: 14%;
-  bottom: 12%;
+  bottom: 10%;
   width: 18%;
-  height: 68%;
+  height: 74%;
   background: rgba(3, 10, 24, 0.92);
   border: 1px solid rgba(56, 189, 248, 0.45);
   box-shadow: inset 0 0 18px rgba(56, 189, 248, 0.25), 0 8px 24px rgba(0, 0, 0, 0.8);
@@ -2341,29 +2343,29 @@ body.on-launchpad .global-phase-nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  gap: 6px;
+  padding: 5px 6px;
+  gap: 3px;
 }
 
 .btn-start-journey {
   position: relative;
   width: 100%;
-  height: 68%;
+  height: 72%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at 50% 50%, #0369a1 0%, #0284c7 55%, #034f77 100%);
-  border: 2px solid #38bdf8;
-  border-radius: 10px;
+  border: 1.5px solid #38bdf8;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.4);
   transition: all 200ms ease;
   overflow: hidden;
 }
 
 .btn-start-journey:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 28px rgba(56, 189, 248, 0.9), inset 0 0 16px rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.85), inset 0 0 14px rgba(255, 255, 255, 0.55);
 }
 
 .btn-start-journey:active {
@@ -2375,9 +2377,9 @@ body.on-launchpad .global-phase-nav {
   flex-direction: column;
   align-items: center;
   font-family: 'Archivo', sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 1.15;
   color: #ffffff;
   letter-spacing: 0.05em;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 12px #38bdf8;
@@ -2385,9 +2387,9 @@ body.on-launchpad .global-phase-nav {
 
 .flight-mode-status {
   font-family: 'Space Grotesk', monospace;
-  font-size: 7.5px;
+  font-size: 7px;
   color: #38bdf8;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   animation: blinkStatus 1.8s infinite ease-in-out;
 }
 
@@ -2399,17 +2401,17 @@ body.on-launchpad .global-phase-nav {
 /* Lower Center Console */
 .lower-mfd {
   left: 37%;
-  bottom: 1.5%;
+  bottom: 1%;
   width: 26%;
-  height: 12%;
+  height: 10%;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   pointer-events: none;
   background: rgba(3, 10, 24, 0.85);
   border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 8px;
-  padding: 4px 10px;
+  border-radius: 6px;
+  padding: 2px 6px;
 }
 
 .lower-meter {
@@ -2417,13 +2419,13 @@ body.on-launchpad .global-phase-nav {
   align-items: center;
   justify-content: space-between;
   font-family: 'Space Grotesk', monospace;
-  font-size: 8px;
+  font-size: 7px;
   color: #64748b;
 }
 
 .mini-meter-track {
   width: 55%;
-  height: 4px;
+  height: 3px;
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 999px;
@@ -2438,10 +2440,10 @@ body.on-launchpad .global-phase-nav {
 .scroll-hint-pill {
   text-align: center;
   font-family: 'Space Grotesk', monospace;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
   color: #38bdf8;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   animation: pulseHint 2s infinite ease-in-out;
 }
 
@@ -2453,15 +2455,15 @@ body.on-launchpad .global-phase-nav {
 /* Steering Flight Yoke */
 .cockpit-yoke-wrapper {
   position: absolute;
-  left: 17%;
-  bottom: 4%;
-  width: 120px;
-  height: 78px;
+  left: 16%;
+  bottom: 2%;
+  width: 80px;
+  height: 52px;
   z-index: 6;
   pointer-events: none;
   transform-origin: 50% 80%;
   will-change: transform;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.9));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.9));
   transition: transform 80ms ease-out;
 }
 
@@ -2513,15 +2515,15 @@ body.on-launchpad .global-phase-nav {
 /* --- Closed-Caption Subtitle Bar (Bottom Center) --- */
 .accessibility-cc-bar {
   position: absolute;
-  bottom: 24px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   display: flex;
   align-items: center;
-  gap: 8px;
-  max-width: min(720px, 90vw);
-  padding: 6px 14px;
+  gap: 6px;
+  max-width: min(640px, 85vw);
+  padding: 4px 10px;
   background: rgba(3, 7, 18, 0.85);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(56, 189, 248, 0.3);
@@ -2822,13 +2824,13 @@ body.on-launchpad .global-phase-nav {
 }
 
 .sat-chip-btn {
-  padding: 3px 2px;
+  padding: 2px 2px;
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 4px;
   color: #cbd5e1;
   font-family: 'Space Grotesk', monospace;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
   cursor: pointer;
   transition: all 140ms ease;
@@ -4228,31 +4230,31 @@ body.on-launchpad .global-phase-nav {
 /* Left MFD Today's Transmission Button */
 .mfd-transmission-btn {
   width: 100%;
-  margin-top: 8px;
-  padding: 8px 10px;
+  margin-top: 3px;
+  padding: 4px 6px;
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(8, 47, 73, 0.6) 100%);
   border: 1px solid rgba(6, 182, 212, 0.5);
-  border-radius: 6px;
+  border-radius: 5px;
   color: #f8fafc;
   cursor: pointer;
   text-align: left;
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.15);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mfd-transmission-btn:hover {
   border-color: #22d3ee;
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(8, 47, 73, 0.85) 100%);
-  box-shadow: 0 0 18px rgba(6, 182, 212, 0.35);
+  box-shadow: 0 0 14px rgba(6, 182, 212, 0.35);
   transform: translateY(-1px);
 }
 
 .mfd-trans-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #38bdf8;
@@ -4260,7 +4262,7 @@ body.on-launchpad .global-phase-nav {
 
 .mfd-trans-live-pill {
   margin-left: auto;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 900;
   background: rgba(34, 197, 94, 0.2);
   border: 1px solid #22c55e;
