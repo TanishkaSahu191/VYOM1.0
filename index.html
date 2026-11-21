@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VYOM - Gamified 3D Space Learning Platform | NASA & ISRO</title>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./chandrayaan3.css" />
 </head>
 <body>
 
@@ -32,6 +33,10 @@
       <button class="nav-tab" id="tabPhase3" data-phase="3" type="button" role="tab" title="Go to Phase 3 Cockpit & Scroll Engine">
         <span class="tab-badge">03</span>
         <span class="tab-text">Cockpit & Journey</span>
+      </button>
+      <button class="nav-tab chandrayaan-nav-tab" id="tabPhaseChandrayaan" data-phase="4" type="button" role="tab" title="Mission Chandrayaan-3: Journey to the Moon">
+        <span class="tab-badge">🇮🇳</span>
+        <span class="tab-text">Chandrayaan-3</span>
       </button>
       <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
         <span class="tab-badge">★</span>
@@ -1477,10 +1482,293 @@
 
   </section>
 
+  <!-- ========================================================
+       5. PHASE 4: MISSION CHANDRAYAAN-3 (3D LUNAR SIMULATION)
+       ======================================================== -->
+  <section id="chandrayaanStage" class="chandrayaan-stage" aria-label="Mission Chandrayaan-3: Journey to the Moon" style="display: none;">
+    <!-- 3D WebGL Canvas -->
+    <canvas id="c3Canvas"></canvas>
+    <!-- Confetti Canvas for Touchdown Celebration -->
+    <canvas id="c3ConfettiCanvas"></canvas>
+
+    <!-- Top Status & Actions Header -->
+    <header class="c3-top-bar">
+      <div class="c3-title-group">
+        <div class="c3-flag-emblem" aria-hidden="true">
+          <div class="band-saffron"></div>
+          <div class="band-white"></div>
+          <div class="band-green"></div>
+        </div>
+        <div>
+          <div class="c3-main-title" id="c3MainTitle">Mission Chandrayaan-3</div>
+          <div class="c3-sub-title" id="c3SubTitle">ISRO LUNAR EXPLORATION PROTOCOL</div>
+        </div>
+      </div>
+
+      <div class="c3-clock-container">
+        <span class="c3-clock-dot"></span>
+        <span id="c3MissionClock">T+ 00:00:00</span>
+      </div>
+
+      <div class="c3-top-actions">
+        <button class="c3-btn c3-btn-gold" id="c3BtnPlayable" type="button" title="Pilot Vikram Lander powered descent">🎮 Pilot Vikram</button>
+        <button class="c3-btn" id="c3BtnInstruments" type="button" title="View scientific instruments">🔬 Real Instruments</button>
+        <button class="c3-btn" id="c3BtnQuiz" type="button" title="Take the 5-Question Mission Quiz">🏆 Mission Quiz</button>
+        <button class="c3-btn" id="c3BtnStoryCompare" type="button" title="Chandrayaan-2 vs Chandrayaan-3 Engineering Upgrades">🚀 C-2 vs C-3</button>
+        <button class="c3-btn" id="c3VoiceToggle" type="button" title="Toggle audio narration">🎙️ Voice: ON</button>
+        <button class="c3-btn" id="c3LangToggle" type="button" title="Switch English / Hindi">हिन्दी</button>
+      </div>
+    </header>
+
+    <!-- Stage Timeline Strip (1 to 9) -->
+    <nav class="c3-timeline-strip" id="c3TimelineStrip" aria-label="Mission Stages">
+      <div class="c3-stage-pill active" data-stage="1">
+        <span class="pill-num">STAGE 01</span>
+        <span class="pill-title">Liftoff</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="2">
+        <span class="pill-num">STAGE 02</span>
+        <span class="pill-title">Orbit Raising</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="3">
+        <span class="pill-num">STAGE 03</span>
+        <span class="pill-title">TLI Slingshot</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="4">
+        <span class="pill-num">STAGE 04</span>
+        <span class="pill-title">Lunar Orbit</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="5">
+        <span class="pill-num">STAGE 05</span>
+        <span class="pill-title">Separation</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="6">
+        <span class="pill-num">STAGE 06</span>
+        <span class="pill-title">Powered Descent</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="7">
+        <span class="pill-num">STAGE 07</span>
+        <span class="pill-title">Touchdown</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="8">
+        <span class="pill-num">STAGE 08</span>
+        <span class="pill-title">Pragyan Rollout</span>
+      </div>
+      <div class="c3-stage-pill" data-stage="9">
+        <span class="pill-num">STAGE 09</span>
+        <span class="pill-title">Surface Science</span>
+      </div>
+    </nav>
+
+    <!-- Floating Mission Fact Card -->
+    <aside class="c3-fact-card" id="c3FactCard" aria-label="Mission Intelligence">
+      <div class="c3-card-header">
+        <span class="c3-card-badge" id="c3CardBadge">STAGE 1 OF 9</span>
+        <span style="font-family: monospace; font-size: 0.72rem; color: #94a3b8;">ISRO ISTRAC</span>
+      </div>
+      <h2 class="c3-card-stage-name" id="c3StageName">Liftoff at Sriharikota</h2>
+      <div class="c3-card-stage-sub" id="c3StageSub">LVM3 M4 "Bahubali" Launch • July 14, 2023</div>
+      <p class="c3-card-body" id="c3StageDesc">
+        India’s heaviest rocket, LVM3 M4, lifts off majestically from Satish Dhawan Space Centre, Sriharikota with 10,000 kN of thrust.
+      </p>
+      <div class="c3-card-facts-list" id="c3FactsList">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="c3-card-footer">
+        <button class="c3-narrator-btn" id="c3CardNarrateBtn" type="button" onclick="window.Chandrayaan3Engine.speakStageFact()">🔊 Listen</button>
+        <div class="c3-card-nav-btns">
+          <button class="c3-btn" id="c3BtnPrev" type="button">← Prev</button>
+          <button class="c3-btn c3-btn-gold" id="c3BtnNext" type="button">Next →</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Telemetry HUD -->
+    <aside class="c3-telemetry-hud" id="c3TelemetryHud" aria-label="Flight Telemetry">
+      <div class="c3-hud-title">
+        <span>TELEMETRY LINK</span>
+        <span style="color: #22c55e;">● ACTIVE</span>
+      </div>
+      <div class="c3-telemetry-grid">
+        <div class="c3-gauge">
+          <div class="c3-gauge-header">
+            <span>ALTITUDE</span>
+            <span class="c3-gauge-val" id="c3ValAltitude">120 km</span>
+          </div>
+          <div class="c3-gauge-track"><div class="c3-gauge-fill" style="width: 80%;"></div></div>
+        </div>
+        <div class="c3-gauge">
+          <div class="c3-gauge-header">
+            <span>VELOCITY</span>
+            <span class="c3-gauge-val" id="c3ValSpeed">9,800 km/h</span>
+          </div>
+          <div class="c3-gauge-track"><div class="c3-gauge-fill" style="width: 65%;"></div></div>
+        </div>
+        <div class="c3-gauge">
+          <div class="c3-gauge-header">
+            <span>TARGET VECTOR</span>
+            <span class="c3-gauge-val" id="c3ValTarget">LUNAR TRAJECTORY</span>
+          </div>
+        </div>
+        <div class="c3-gauge">
+          <div class="c3-gauge-header">
+            <span>TARGET SITE</span>
+            <span class="c3-gauge-val">SHIV SHAKTI (69.37°S)</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Playable Lander Simulator Overlay -->
+    <div class="c3-playable-overlay" id="c3PlayableOverlay">
+      <div class="c3-pilot-hud-top">
+        <div class="c3-pilot-card">
+          <div style="font-size: 0.7rem; color: #ff9933; margin-bottom: 6px;">VIKRAM POWERED DESCENT HUD</div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #94a3b8;">ALTITUDE:</span>
+            <strong id="c3PilotAlt" style="color: #00f2fe;">800 m</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #94a3b8;">VERT SPEED (Vy):</span>
+            <strong id="c3PilotVSpd" style="color: #22c55e;">12.0 m/s</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #94a3b8;">HORIZ SPEED (Vx):</span>
+            <strong id="c3PilotHSpd" style="color: #fff;">0.0 m/s</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #94a3b8;">FUEL REMAINING:</span>
+            <strong id="c3PilotFuel" style="color: #fbbf24;">100%</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: #94a3b8;">TILT ANGLE:</span>
+            <strong id="c3PilotTilt" style="color: #fff;">0.0°</strong>
+          </div>
+        </div>
+
+        <button class="c3-btn" id="c3BtnExitPlayable" style="height: fit-content;">✕ Exit Pilot Mode</button>
+      </div>
+
+      <div class="c3-pilot-controls">
+        <div class="c3-control-keys-hint">
+          <span><span class="c3-key-badge">W</span> or <span class="c3-key-badge">SPACE</span> THRUST</span>
+          <span><span class="c3-key-badge">A</span> / <span class="c3-key-badge">D</span> TILT ATTITUDE</span>
+          <span style="color: #22c55e;">MAX SAFE Vy: 2.2 m/s</span>
+        </div>
+
+        <div class="c3-touch-controls">
+          <button class="c3-touch-btn" id="c3TouchLeft" type="button">◀<span>TILT L</span></button>
+          <button class="c3-touch-btn thrust-btn" id="c3TouchThrust" type="button">🔥<span>THRUST</span></button>
+          <button class="c3-touch-btn" id="c3TouchRight" type="button">▶<span>TILT R</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Playable Landing Result Modal -->
+    <div class="c3-result-modal" id="c3ResultModal">
+      <div class="c3-result-icon" id="c3ResultIcon">🌕🎉</div>
+      <div class="c3-result-title" id="c3ResultTitle">SOFT LANDING ACHIEVED!</div>
+      <div class="c3-result-desc" id="c3ResultDesc">
+        Incredible piloting! Vikram touched down softly at Shiv Shakti Point.
+      </div>
+      <div class="c3-result-stats">
+        <div class="c3-result-stat-item">Touchdown Speed:</div>
+        <div class="c3-result-stat-val" id="c3StatFinalSpd">1.8 m/s</div>
+        <div class="c3-result-stat-item">Fuel Conserved:</div>
+        <div class="c3-result-stat-val" id="c3StatFuelRem">34%</div>
+        <div class="c3-result-stat-item">Touchdown Tilt:</div>
+        <div class="c3-result-stat-val" id="c3StatTilt">2.4°</div>
+        <div class="c3-result-stat-item">Mission Score:</div>
+        <div class="c3-result-stat-val" id="c3StatScore" style="color: #22c55e;">1,540 PTS</div>
+      </div>
+      <button class="c3-btn c3-btn-gold" id="c3BtnRetryFlight" style="width: 100%;">🔄 Retry Landing Descent</button>
+    </div>
+
+    <!-- Stage 9 Rover Driving Controls Hint -->
+    <div class="c3-rover-controls-bar" id="c3RoverHint">
+      <span>🚜 <strong>PRAGYAN ROVER SURFACE DRIVE:</strong></span>
+      <span>Use <kbd style="background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:3px;">W</kbd><kbd style="background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:3px;">A</kbd><kbd style="background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:3px;">S</kbd><kbd style="background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:3px;">D</kbd> or Arrow Keys to drive across the lunar regolith!</span>
+    </div>
+
+    <!-- Scientific Instruments Dialog -->
+    <div class="c3-dialog-overlay" id="c3InstrumentsModal">
+      <div class="c3-dialog-box">
+        <div class="c3-dialog-header">
+          <div class="c3-dialog-title">🔬 Chandrayaan-3 Scientific Payloads</div>
+          <button class="c3-dialog-close" type="button">✕</button>
+        </div>
+        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5;">
+          The scientific instruments designed by ISRO research laboratories carried out groundbreaking in-situ experiments on the lunar south pole regolith and atmosphere.
+        </p>
+        <div class="c3-instruments-grid" id="c3InstrumentsGrid"></div>
+      </div>
+    </div>
+
+    <!-- Mission Quiz Dialog -->
+    <div class="c3-dialog-overlay" id="c3QuizModal">
+      <div class="c3-dialog-box">
+        <div class="c3-dialog-header">
+          <div class="c3-dialog-title">🏆 Chandrayaan-3 Mission Quiz</div>
+          <button class="c3-dialog-close" type="button">✕</button>
+        </div>
+        <div id="c3QuizContent"></div>
+      </div>
+    </div>
+
+    <!-- Chandrayaan-2 vs Chandrayaan-3 Story Dialog -->
+    <div class="c3-dialog-overlay" id="c3StoryModal">
+      <div class="c3-dialog-box">
+        <div class="c3-dialog-header">
+          <div class="c3-dialog-title">🚀 Chandrayaan-2 vs Chandrayaan-3: A Story of Persistence</div>
+          <button class="c3-dialog-close" type="button">✕</button>
+        </div>
+        <div style="font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;">
+          <p style="margin-bottom: 12px;">
+            In September 2019, <strong>Chandrayaan-2's Vikram lander</strong> lost control in the final 2.1 km above the Moon. An attitude control software bottleneck could not compensate for accumulated errors in velocity during the braking phase.
+          </p>
+          <p style="margin-bottom: 12px;">
+            Under ISRO Chairman S. Somanath, the team adopted a revolutionary <strong>"Failure-Based Design Philosophy"</strong>: instead of asking what should go right, they analyzed every possible thing that could go wrong and engineered redundancies.
+          </p>
+          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+            <div style="font-weight: 700; color: #ff9933; margin-bottom: 8px;">Key Engineering Enhancements in Chandrayaan-3:</div>
+            <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+              <li><strong>Expanded Landing Area:</strong> Increased from 500m × 500m to 4.0 km × 2.4 km for immense safety margin.</li>
+              <li><strong>Reinforced Landing Legs:</strong> Tested to absorb impacts up to 3.0 m/s vertical velocity and 12° slope.</li>
+              <li><strong>Laser Doppler Velocimeter (LDV):</strong> Added brand-new 3D laser velocity sensor firing in 4 directions.</li>
+              <li><strong>Central Engine Removed:</strong> Switched from 5 engines to 4 throttleable engines for symmetrical balance.</li>
+              <li><strong>More Fuel Margin:</strong> 150 kg of additional fuel loaded for hover-and-divert contingency maneuvers.</li>
+            </ul>
+          </div>
+          <p style="font-style: italic; color: #94a3b8;">
+            "We learned that failure is not an end, but the greatest teacher in interplanetary exploration." — ISRO
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Progress Footer -->
+    <footer class="c3-bottom-bar">
+      <div class="c3-bottom-left">
+        <span class="c3-scroll-hint">⮃ Scroll or Click to Travel</span>
+        <span>•</span>
+        <span id="c3BottomProgressText">PHASE 1 / 9: LIFTOFF AT SRIHARIKOTA</span>
+      </div>
+      <div class="c3-bottom-progress-track">
+        <div class="c3-bottom-progress-fill" id="c3BottomProgressFill"></div>
+      </div>
+      <div style="font-family: monospace; font-size: 0.74rem; color: #ff9933;">
+        ISRO • 69.37° S (SHIV SHAKTI POINT)
+      </div>
+    </footer>
+  </section>
+
   <!-- Local Offline Three.js Engine -->
   <script src="./assets/three.min.js"></script>
 
   <!-- Component Script -->
   <script src="./script.js"></script>
+
+  <!-- Mission Chandrayaan-3 3D Simulation Engine -->
+  <script src="./chandrayaan3.js"></script>
 </body>
 </html>
