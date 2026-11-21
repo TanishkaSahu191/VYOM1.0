@@ -70,6 +70,8 @@
   const tabPhase3 = document.getElementById('tabPhase3');
   const tabPhaseChandrayaan = document.getElementById('tabPhaseChandrayaan');
   const chandrayaanStage = document.getElementById('chandrayaanStage');
+  const tabPhaseMars = document.getElementById('tabPhaseMars');
+  const marsStage = document.getElementById('marsStage');
 
   // DOM REFERENCES - PHASE 3 (COCKPIT & SCROLL ENGINE)
   const cockpitStage = document.getElementById('cockpitStage');
@@ -4041,7 +4043,7 @@
 
   function switchToPhase(phaseNum) {
     // 1. Update Tabs
-    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan].forEach((tab, idx) => {
+    [tabPhase1, tabPhase2, tabPhase3, tabPhaseChandrayaan, tabPhaseMars].forEach((tab, idx) => {
       if (tab) {
         const isActive = (idx + 1) === phaseNum;
         tab.classList.toggle('active', isActive);
@@ -4052,6 +4054,9 @@
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (phaseNum !== 4 && chandrayaanStage) {
       chandrayaanStage.style.display = 'none';
+    }
+    if (phaseNum !== 5 && marsStage) {
+      marsStage.style.display = 'none';
     }
 
     // Phase 1: Launchpad
@@ -4118,6 +4123,22 @@
         window.Chandrayaan3Engine.init();
       }
     }
+    // Phase 5: Mars Explorer (Fly to Mars)
+    else if (phaseNum === 5) {
+      document.body.classList.remove('in-cockpit');
+      document.body.classList.remove('destination-active');
+      document.body.classList.remove('in-launch');
+      if (cockpitStage) cockpitStage.style.display = 'none';
+      if (destinationPage) destinationPage.style.display = 'none';
+      if (chandrayaanStage) chandrayaanStage.style.display = 'none';
+
+      if (marsStage) {
+        marsStage.style.display = 'flex';
+      }
+      if (window.MarsExplorerEngine) {
+        window.MarsExplorerEngine.init();
+      }
+    }
   }
 
   // Connect Global Phase Tabs
@@ -4125,6 +4146,7 @@
   if (tabPhase2) tabPhase2.addEventListener('click', () => switchToPhase(2));
   if (tabPhase3) tabPhase3.addEventListener('click', () => switchToPhase(3));
   if (tabPhaseChandrayaan) tabPhaseChandrayaan.addEventListener('click', () => switchToPhase(4));
+  if (tabPhaseMars) tabPhaseMars.addEventListener('click', () => switchToPhase(5));
 
   // Connect Direct Phase 2 -> Phase 3 Transition Triggers
   if (btnProceedCockpit) {
