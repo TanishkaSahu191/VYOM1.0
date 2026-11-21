@@ -49,8 +49,8 @@
         <span class="tab-badge">☀️</span>
         <span class="tab-text">Tour to The Sun</span>
       </button>
-      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Photorealistic 3D ISS Habitation Corridor">
-        <span class="tab-badge">🛸</span>
+      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="7" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
+        
         <span class="tab-text">My Spaceship</span>
       </button>
       <button class="nav-tab pitch-nav-tab" id="tabPitchDeck" type="button" role="tab" title="Hackathon Pitch Deck & Guided Demo Tour">
@@ -499,34 +499,7 @@
 
         <div class="top-nav-separator"></div>
 
-        <!-- Quick Avionics Utility Toggles -->
-        <div class="utility-icons-group">
-          <button id="btnOpenLeaderboard" class="cockpit-icon-tool" type="button" title="Cadet Leaderboard">
-            <span>🎖️</span>
-          </button>
-          <button id="btnOpenCertificate" class="cockpit-icon-tool" type="button" title="Space Exploration Certificate">
-            <span>📜</span>
-          </button>
-          <button id="btnTogglePerf" class="cockpit-icon-tool perf-tool-btn" type="button" title="Toggle Graphics Quality (High 60FPS / Eco Mode)">
-            <span class="tool-icon">⚡</span>
-            <span id="perfLabel" class="sr-only">60FPS</span>
-          </button>
-          <button id="btnOpenCredits" class="cockpit-icon-tool credits-tool-btn" type="button" title="NASA & ISRO Scientific Credits">
-            <span>ℹ️</span>
-          </button>
-          <button id="btnVoiceToggle" class="cockpit-icon-tool" type="button" title="Toggle Voice Narration">
-            <span class="tool-icon">🎙</span>
-            <span id="voiceToggleLabel" class="sr-only">VOICE / TEXT</span>
-          </button>
-          <button id="btnMuteToggle" class="cockpit-icon-tool" type="button" title="Mute Audio">
-            <span class="tool-icon" id="muteIcon">🔊</span>
-            <span id="muteLabel" class="sr-only">MUTE</span>
-          </button>
-          <button id="btnCcToggle" class="cockpit-icon-tool cc-active" type="button" title="Toggle Closed Captions">
-            <span class="font-mono font-bold">CC</span>
-          </button>
-        </div>
-      </div>
+       
 
       <!-- Glowing Flight Progress Track -->
       <div class="cockpit-top-progress" id="cockpitPageProgress" style="width: 25%;"></div>
@@ -595,218 +568,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Phase 5: Interactive Knowledge Quiz Modal -->
-    <div id="quizModal" class="quiz-modal" aria-hidden="true">
-      <div class="quiz-modal-backdrop" id="quizBackdrop"></div>
-      <div class="quiz-card">
-        <div class="quiz-header">
-          <div class="quiz-header-meta">
-            <span class="quiz-kicker" id="quizLevelKicker">CADET ACADEMY // LEVEL 1</span>
-            <span class="quiz-score-pill" id="quizScorePill">SCORE: 0 / 5</span>
-            <span class="quiz-xp-tag" id="quizXpTag">+50 XP / QUESTION</span>
-          </div>
-          <button id="btnCloseQuizModal" class="holo-close-btn" type="button" title="Exit Quiz">✕</button>
-        </div>
-
-        <!-- Quiz Active Question Stage -->
-        <div class="quiz-body" id="quizQuestionStage">
-          <div class="quiz-progress-bar">
-            <div class="quiz-progress-fill" id="quizProgressFill" style="width: 20%;"></div>
-          </div>
-          <div class="quiz-q-meta">
-            <span class="quiz-q-num" id="quizQNum">QUESTION 01 OF 05</span>
-            <span class="quiz-q-type-badge" id="quizQTypeBadge">MULTIPLE CHOICE</span>
-          </div>
-          <h3 class="quiz-q-text" id="quizQText">At what velocity does the International Space Station cruise around Earth in Low Earth Orbit?</h3>
-          
-          <!-- Question Interactive View Containers (Rendered dynamically) -->
-          <div class="quiz-interactive-area" id="quizInteractiveArea">
-            <!-- Dynamic: MCQ buttons, Match grid, or Order sorter -->
-          </div>
-
-          <!-- Instant Feedback Intel Banner -->
-          <div class="quiz-feedback-banner is-hidden" id="quizFeedbackBanner">
-            <div class="feedback-status" id="feedbackStatus">
-              <span class="feedback-icon" id="feedbackIcon">✓</span>
-              <strong id="feedbackTitle">CORRECT!</strong>
-            </div>
-            <p class="feedback-intel" id="feedbackIntel">The ISS cruises at approximately 27,600 km/h (7.66 km/s), orbiting the globe once every 90 minutes.</p>
-            <button id="btnNextQuestion" class="btn-next-question" type="button">NEXT QUESTION ➔</button>
-          </div>
-        </div>
-
-        <!-- Quiz Results Screen -->
-        <div class="quiz-results-stage is-hidden" id="quizResultsStage">
-          <div class="results-header">
-            <div class="results-stars" id="resultsStars">
-              <span class="star-item star-anim">★</span>
-              <span class="star-item star-anim">★</span>
-              <span class="star-item star-anim">★</span>
-            </div>
-            <h2 class="results-title" id="resultsTitle">MISSION QUIZ CLEARED!</h2>
-            <p class="results-sub" id="resultsSub">Outstanding astrophysics intel, Space Cadet!</p>
-          </div>
-          <div class="results-stats-row">
-            <div class="res-stat-card">
-              <span class="res-stat-lbl">FINAL SCORE</span>
-              <strong class="res-stat-val" id="resFinalScore">5 / 5</strong>
-            </div>
-            <div class="res-stat-card">
-              <span class="res-stat-lbl">XP AWARDED</span>
-              <strong class="res-stat-val val-gold" id="resFinalXp">+250 XP</strong>
-            </div>
-            <div class="res-stat-card">
-              <span class="res-stat-lbl">ACCURACY</span>
-              <strong class="res-stat-val val-cyan" id="resFinalAccuracy">100%</strong>
-            </div>
-          </div>
-          <div class="unlocked-badge-card" id="resultsBadgeCard">
-            <span class="badge-icon" id="resBadgeIcon">🥉</span>
-            <div class="badge-info">
-              <div class="badge-tag">NEW BADGE UNLOCKED</div>
-              <div class="badge-title" id="resBadgeTitle">Orbital Pioneer</div>
-              <div class="badge-desc" id="resBadgeDesc">Mastered Earth orbit, satellites and Lunar South Pole exploration.</div>
-            </div>
-          </div>
-          <div class="results-actions">
-            <button id="btnResultsNextLevel" class="btn-res-primary" type="button">CONTINUE MISSION ➔</button>
-            <button id="btnResultsRetry" class="btn-res-secondary" type="button">RETRY QUIZ ↺</button>
-            <button id="btnResultsLeaderboard" class="btn-res-secondary" type="button">LEADERBOARD 🏆</button>
-            <button id="btnResultsCertificate" class="btn-res-secondary" type="button">VIEW CERTIFICATE 📜</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Phase 5: Space Academy Global Cadet Leaderboard -->
-    <div id="leaderboardModal" class="leaderboard-modal" aria-hidden="true">
-      <div class="leaderboard-backdrop" id="leaderboardBackdrop"></div>
-      <div class="leaderboard-card">
-        <div class="leaderboard-header">
-          <div class="lb-title-group">
-            <span class="lb-kicker">VYOM SPACE ACADEMY</span>
-            <h2 class="lb-title">GLOBAL CADET LEADERBOARD</h2>
-          </div>
-          <button id="btnCloseLeaderboard" class="holo-close-btn" type="button" title="Close Leaderboard">✕</button>
-        </div>
-        <div class="lb-filter-tabs">
-          <button class="lb-tab active" data-filter="all" type="button">ALL CADETS</button>
-          <button class="lb-tab" data-filter="isro" type="button">ISRO SQUADRON</button>
-          <button class="lb-tab" data-filter="nasa" type="button">NASA SQUADRON</button>
-        </div>
-        <div class="lb-table-container">
-          <table class="lb-table">
-            <thead>
-              <tr>
-                <th>RANK</th>
-                <th>CADET NAME</th>
-                <th>AGENCY</th>
-                <th>ASSIGNED VEHICLE</th>
-                <th>STARS</th>
-                <th>TOTAL XP</th>
-                <th>STATUS</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboardTbody">
-              <!-- Dynamically generated rows including current user -->
-            </tbody>
-          </table>
-        </div>
-        <div class="lb-footer">
-          <span class="lb-tip">💡 Complete all level quizzes and maintain your daily training streak to climb the Space Academy rankings!</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Phase 5: Official Space Exploration & Celestial Mastery Certificate -->
-    <div id="certificateModal" class="certificate-modal" aria-hidden="true">
-      <div class="certificate-backdrop" id="certificateBackdrop"></div>
-      <div class="certificate-card">
-        <div class="cert-toolbar no-print">
-          <div class="cert-tool-left">
-            <span class="cert-kicker">OFFICIAL SPACE EXPLORATION ACCREDITATION</span>
-          </div>
-          <div class="cert-tool-right">
-            <button id="btnPrintCertificate" class="btn-cert-action" type="button" title="Print or Save PDF">🖨️ PRINT / SAVE PDF</button>
-            <button id="btnCloseCertificate" class="holo-close-btn" type="button" title="Close Certificate">✕</button>
-          </div>
-        </div>
-        
-        <!-- Printable Certificate Frame -->
-        <div class="certificate-frame" id="printableCertificate">
-          <div class="cert-border-outer">
-            <div class="cert-border-inner">
-              <div class="cert-header">
-                <div class="cert-logo-left">
-                  <div class="agency-badge badge-isro">ISRO</div>
-                </div>
-                <div class="cert-title-block">
-                  <span class="cert-top-agency">SPACE LEARNING LAB • VYOM ACADEMY</span>
-                  <h1 class="cert-main-title">CERTIFICATE OF CELESTIAL MASTERY</h1>
-                  <span class="cert-sub-title">INTERPLANETARY FLIGHT & SOLAR SYSTEM EXPLORATION</span>
-                </div>
-                <div class="cert-logo-right">
-                  <div class="agency-badge badge-nasa">NASA</div>
-                </div>
-              </div>
-
-              <div class="cert-body">
-                <p class="cert-declaration">THIS IS TO CERTIFY THAT SPACE CADET</p>
-                <div class="cert-cadet-name-wrap">
-                  <input type="text" id="certCadetInput" class="cert-cadet-input" value="Astronaut Cadet" title="Click to edit your name" spellcheck="false" />
-                </div>
-                <p class="cert-text">
-                  has successfully piloted the <strong id="certRocketName">LVM3 Bahubali</strong> through all 4 Solar System flight sectors, verified orbital science across ISRO & NASA mission archives, and mastered the astrophysics of Low Earth Orbit, Inner Terrestrial Planets, the Asteroid Belt, Outer Gas Giants, and the Sagittarius A* Singularity.
-                </p>
-
-                <div class="cert-stats-grid">
-                  <div class="cert-stat-box">
-                    <span class="cert-stat-label">TOTAL XP EARNED</span>
-                    <strong class="cert-stat-val" id="certXpVal">1,250 XP</strong>
-                  </div>
-                  <div class="cert-stat-box">
-                    <span class="cert-stat-label">ACADEMY STARS</span>
-                    <strong class="cert-stat-val" id="certStarsVal">12 ★</strong>
-                  </div>
-                  <div class="cert-stat-box">
-                    <span class="cert-stat-label">CADET RANK</span>
-                    <strong class="cert-stat-val" id="certRankVal">FLIGHT COMMANDER</strong>
-                  </div>
-                  <div class="cert-stat-box">
-                    <span class="cert-stat-label">MISSION STATUS</span>
-                    <strong class="cert-stat-val val-gold">OFFICIALLY VERIFIED</strong>
-                  </div>
-                </div>
-
-                <div class="cert-badges-earned" id="certBadgesList">
-                  <!-- Dynamically rendered badge icons -->
-                </div>
-              </div>
-
-              <div class="cert-footer">
-                <div class="cert-sig-block">
-                  <div class="cert-sig-line">Dr. V. Narayanan</div>
-                  <span class="cert-sig-title">ISRO Mission Director • ISTRAC</span>
-                </div>
-                <div class="cert-seal-wrap">
-                  <div class="cert-gold-seal">
-                    <span>VYOM</span>
-                    <small>OFFICIAL SEAL</small>
-                  </div>
-                  <div class="cert-date" id="certIssueDate">ISSUED: NOVEMBER 2026</div>
-                </div>
-                <div class="cert-sig-block">
-                  <div class="cert-sig-line">Dr. Pamela Melroy</div>
-                  <span class="cert-sig-title">NASA Deep Space Operations</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Phase 6: Today's Transmission Screen (Live NASA APOD & Imagery Feed) -->
     <div id="transmissionModal" class="transmission-modal" aria-hidden="true">
       <div class="transmission-backdrop" id="transmissionBackdrop"></div>
@@ -2240,8 +2001,8 @@
       <div class="ship-brand-group">
         <span class="ship-emblem">🛸</span>
         <div>
-          <div class="ship-main-title">ISS Habitation Module</div>
-          <div class="ship-sub-title">CORE CREW HABITATION CORRIDOR (DESTINY/KIBO)</div>
+          <div class="ship-main-title">Life in Space: Crew Habitat</div>
+          <div class="ship-sub-title">SLEEPING · BATHING · FOOD · CONTROL</div>
         </div>
       </div>
 
@@ -2272,26 +2033,37 @@
       </div>
     </header>
 
-    <!-- Left Camera Presets Bar -->
-    <aside class="ship-presets-bar" aria-label="Camera Presets">
-      <div style="font-size: 0.68rem; color: #38bdf8; font-family: monospace; font-weight: bold; margin-bottom: 4px;">VIEWPORTS:</div>
-      <button class="ship-preset-btn active" data-preset="overview" type="button">
-        <span>🚶</span>
-        <span>Corridor Overview</span>
-      </button>
-      <button class="ship-preset-btn" data-preset="hatch" type="button">
-        <span>🚪</span>
-        <span>Docking Hatch</span>
-      </button>
-      <button class="ship-preset-btn" data-preset="cupola" type="button">
-        <span>🌍</span>
-        <span>Earth Window</span>
-      </button>
-      <button class="ship-preset-btn" data-preset="racks" type="button">
-        <span>🎛️</span>
-        <span>Avionics Racks</span>
-      </button>
+    <!-- Left Crew Units Bar (replaces the old Viewports section) -->
+    <aside class="ship-presets-bar" aria-label="Crew Units">
+      <div class="ship-bar-head">CREW UNITS:</div>
+      <button class="ship-preset-btn active" data-preset="dock" type="button"><span>🚪</span><span>Dock Area</span></button>
+      <button class="ship-preset-btn" data-preset="sleep" type="button"><span>🛏️</span><span>Sleeping Unit</span></button>
+      <button class="ship-preset-btn" data-preset="bath" type="button"><span>🪥</span><span>Bathing Unit</span></button>
+      <button class="ship-preset-btn" data-preset="food" type="button"><span>🍲</span><span>Food Unit</span></button>
+      <button class="ship-preset-btn" data-preset="control" type="button"><span>🎛️</span><span>Control Room</span></button>
     </aside>
+
+    <!-- Game HUD: lives + challenge progress -->
+    <div class="ship-hud" aria-live="polite">
+      <span id="shipLives" title="Lives">❤️❤️❤️</span>
+      <span id="shipStageLabel">Challenge 1 / 4</span>
+      <span id="shipPips"><i></i><i></i><i></i><i></i></span>
+      <button class="ship-btn" id="shipRestartBtn" type="button" title="Restart mission">↻</button>
+    </div>
+
+    <!-- Challenge / choice card -->
+    <div class="ship-mission" id="shipMission" role="region" aria-label="Current challenge">
+      <div class="ship-mission-tag" id="shipMissionTag">Challenge</div>
+      <p class="ship-mission-text" id="shipMissionText"></p>
+      <div class="ship-choices" id="shipChoices"></div>
+      <div class="ship-mission-hint" id="shipMissionHint"></div>
+    </div>
+
+    <div class="ship-toast" id="shipToast" role="status"></div>
+    <div class="ship-flash" id="shipFlash"></div>
+
+    <!-- Story / result dialog (filled by spaceship.js) -->
+    <div class="ship-dialog-overlay" id="shipDialog"><div class="ship-dialog-box" id="shipDialogBox"></div></div>
 
     <!-- Floating Hotspot Inspector Card -->
     <aside class="ship-inspector-card" id="shipInspectorCard" aria-label="Component Telemetry">
@@ -2301,7 +2073,7 @@
       </div>
       <div class="ship-card-sub" id="shipInspectSub">TELEMETRY DATA</div>
       <p class="ship-card-desc" id="shipInspectDesc">
-        Click on any viewport preset or equipment rack to inspect aerospace hardware specifications.
+        Pick a crew unit on the left to look around and learn what it is for.
       </p>
       <div class="ship-card-specs">
         <div class="ship-spec-row">
@@ -2317,13 +2089,13 @@
 
     <!-- Bottom Controls Hint Bar -->
     <div class="ship-controls-bar">
-      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Glide Move</span>
+      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Walk (dock area)</span>
       <span>•</span>
-      <span><span class="ship-kbd">Mouse Drag</span> 360° Free Look</span>
+      <span><span class="ship-kbd">Mouse Drag</span> Look Around</span>
       <span>•</span>
       <span><span class="ship-kbd">Scroll</span> Zoom FOV</span>
       <span>•</span>
-      <span style="color: #38bdf8;">Click Presets on Left to Jump Views</span>
+      <span style="color: #38bdf8;">Click glowing items when prompted</span>
     </div>
   </section>
 
@@ -2343,6 +2115,7 @@
   <script src="./aditya.js"></script>
 
   <!-- My Spaceship Photorealistic 3D Habitation Corridor Engine -->
+  <script src="./suit_data.js"></script>
   <script src="./spaceship.js"></script>
 </body>
 </html>
