@@ -555,7 +555,7 @@
       document.getElementById('shipMissionHint').textContent = hint || '';
       document.getElementById('shipChoices').innerHTML = '';
     }
-    hideMission() { document.getElementById('shipMission').classList.remove('is-open'); }
+    hideMission() { const m = document.getElementById('shipMission'); if (m) m.classList.remove('is-open'); }
     ask(tag, text, choices, hint) {
       const r = this.run;
       return new Promise(res => {
@@ -586,9 +586,9 @@
     // ------------------------------------------
     showIntro() {
       this.introShown = true;
-      this.dialog({ title: 'Life in Space: 4 Challenges',
-        html: '<p>You are an astronaut aboard the spacecraft. Complete <b>4 challenges</b> to learn how crew sleep, wash, groom and eat in <b>zero gravity</b>.</p><ul><li>Each challenge asks you to make a choice.</li><li>A wrong choice costs one of your <b>3 lives</b>.</li><li>Lose all 3 lives and the mission <b>starts again</b> from Challenge 1.</li><li>Between challenges, explore the dock with <span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span>. Drag to look around, scroll to zoom.</li></ul>',
-        btn: 'Begin Mission' }).then(() => this.beginMission());
+      this.freeWalk = true;
+      this.resetAstro(0, 0, 2.5, 0);
+      this.setLightingMode('day');
     }
     beginMission() {
       this.run++; this.lives = CONFIG.lives; this.stage = 0; this.done = {}; this.freeWalk = false; this.hideMission(); this.pouch.userData.carry = false; this.shake = 0;

@@ -2023,11 +2023,22 @@
     hubbleGroup.add(hubbleModel);
     earthGroup.add(hubbleGroup);
 
-    // The Moon with Chandrayaan-3 Shiv Shakti Beacon
-    const moonGeo = new THREE.SphereGeometry(7.2, 32, 32);
+    // 3D Moon with NASA 8K Cartographic Regolith Map & Chandrayaan-3 Shiv Shakti Beacon
+    const moonTexture = texLoader.load(
+      './assets/models/moon/textures/8k_moon.jpg',
+      (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+      },
+      undefined,
+      () => { if (moonMat) moonMat.map = createPlanetTexture('moon'); }
+    );
+
+    const moonGeo = new THREE.SphereGeometry(7.2, 64, 64);
     const moonMat = new THREE.MeshStandardMaterial({
-      map: createPlanetTexture('moon'),
-      roughness: 0.85
+      map: moonTexture,
+      roughness: 0.88,
+      metalness: 0.05
     });
     moonMesh = new THREE.Mesh(moonGeo, moonMat);
     moonMesh.position.set(45, 10, -50);
@@ -2081,11 +2092,22 @@
     marsGroup = new THREE.Group();
     marsGroup.position.set(-16, 5, -840);
 
-    const marsGeo = new THREE.SphereGeometry(17, 48, 48);
+    // 3D Realistic Mars Model with NASA 8K Surface Map
+    const marsTexture = texLoader.load(
+      './assets/models/mars/textures/8k_mars.jpg',
+      (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+      },
+      undefined,
+      () => { if (marsMat) marsMat.map = createPlanetTexture('mars'); }
+    );
+
+    const marsGeo = new THREE.SphereGeometry(17, 64, 64);
     const marsMat = new THREE.MeshStandardMaterial({
-      map: createPlanetTexture('mars'),
-      roughness: 0.72,
-      metalness: 0.15
+      map: marsTexture,
+      roughness: 0.74,
+      metalness: 0.08
     });
     const marsBody = new THREE.Mesh(marsGeo, marsMat);
     marsBody.userData = { checkpointId: 'mars' };
