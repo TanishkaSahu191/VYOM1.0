@@ -1948,6 +1948,21 @@ body.on-launchpad .global-phase-nav {
   margin: 0 10px;
 }
 
+.cockpit-mission-title {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 10%, #bae6fd 60%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4));
+  white-space: nowrap;
+  user-select: none;
+}
+
 .cockpit-nav-right {
   display: flex;
   align-items: center;
