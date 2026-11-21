@@ -583,333 +583,265 @@
   // ==========================================
   const ROCKETS = [
     {
-      id: 'lvm3',
-      name: 'LVM3 (Launch Vehicle Mark-3)',
-      nickname: '"Bahubali" Heavy-Lift',
-      agency: 'isro',
-      agencyDisplay: 'ISRO // INDIA',
-      role: 'Heavy-Lift Planetary Explorer',
-      height: '43.5 m',
+      id: 'orion',
+      name: 'Orion MPCV',
+      nickname: 'Crew Capsule for Moon & Deep Space',
+      agency: 'nasa',
+      agencyDisplay: 'NASA // USA',
+      role: 'Deep Space Lunar Crew Capsule',
+      crew: '4 astronauts',
+      builtFor: 'deep space, Moon missions',
+      returnReuse: 'heat shield for fast return',
+      keyFeature: 'part of the Artemis program',
+      spec1Label: 'CREW',
+      spec1Val: '4 astronauts',
+      spec2Label: 'BUILT FOR',
+      spec2Val: 'deep space, Moon missions',
+      spec3Label: 'RETURN',
+      spec3Val: 'heat shield for fast return',
+      spec4Label: 'KEY FEATURE',
+      spec4Val: 'part of the Artemis program',
+      height: '7.3 m (Module) / 5.0 m dia',
+      diameter: '5.0 m',
+      mass: '25,848 kg',
+      payloadLEO: '4 astronauts + Deep Space Cargo',
+      payloadGTO: 'Trans-Lunar Injection (TLI)',
+      stages: 'Crew Module (CM) + European Service Module (ESM)',
+      propellant: 'Hypergolic MMH / MON-3 & Cryogenic Subsystems',
+      fuelType: 'MMH / MON-3 Hypergolic & ESM Propulsion',
+      description: 'Crew capsule for the Moon and deep space. Engineered with an advanced heat shield for fast return from lunar velocity (40,000+ km/h), serving as a core part of the Artemis program.',
+      notableMissions: ['Artemis I (uncrewed Moon flight)', 'Artemis II (crewed Moon flyby)'],
+      svg: `
+        <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Orion X-Wing Solar Arrays (deployed from ESM) -->
+          <g transform="rotate(-32 70 125)">
+            <rect x="2" y="118" width="46" height="13" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.2" />
+            <line x1="13" y1="118" x2="13" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="24" y1="118" x2="24" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="36" y1="118" x2="36" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+          </g>
+          <g transform="rotate(32 70 125)">
+            <rect x="92" y="118" width="46" height="13" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.2" />
+            <line x1="104" y1="118" x2="104" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="116" y1="118" x2="116" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="127" y1="118" x2="127" y2="131" stroke="#60a5fa" stroke-width="0.8" />
+          </g>
+          <g transform="rotate(-148 70 130)">
+            <rect x="2" y="123" width="46" height="13" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.2" />
+            <line x1="13" y1="123" x2="13" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="24" y1="123" x2="24" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="36" y1="123" x2="36" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+          </g>
+          <g transform="rotate(148 70 130)">
+            <rect x="92" y="123" width="46" height="13" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.2" />
+            <line x1="104" y1="123" x2="104" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="116" y1="123" x2="116" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="127" y1="123" x2="127" y2="136" stroke="#60a5fa" stroke-width="0.8" />
+          </g>
+
+          <!-- Main OMS Engine Nozzle -->
+          <polygon points="63,154 77,154 80,172 60,172" fill="#1e293b" stroke="#0f172a" stroke-width="1.2" />
+          <ellipse cx="70" cy="175" rx="9" ry="4" fill="#38bdf8" opacity="0.85" filter="drop-shadow(0 0 6px #38bdf8)" />
+
+          <!-- European Service Module (ESM) Body -->
+          <rect x="48" y="106" width="44" height="48" rx="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.6" />
+          <rect x="52" y="112" width="16" height="34" fill="#cbd5e1" rx="1" />
+          <rect x="72" y="112" width="16" height="34" fill="#cbd5e1" rx="1" />
+          <line x1="48" y1="122" x2="92" y2="122" stroke="#94a3b8" stroke-width="1" />
+          <line x1="48" y1="134" x2="92" y2="134" stroke="#94a3b8" stroke-width="1" />
+          <line x1="48" y1="144" x2="92" y2="144" stroke="#94a3b8" stroke-width="1" />
+          <text x="70" y="149" font-size="4.8" font-weight="800" fill="#0b3d91" text-anchor="middle" font-family="'Space Grotesk', sans-serif">ESA // ESM</text>
+
+          <!-- Heat Shield Base Ring -->
+          <polygon points="43,106 97,106 95,110 45,110" fill="#334155" stroke="#0f172a" stroke-width="1" />
+
+          <!-- Orion Crew Capsule (Command Module) -->
+          <polygon points="58,45 82,45 97,106 43,106" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
+
+          <!-- Docking Port Apex -->
+          <rect x="62" y="38" width="16" height="7" rx="2" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.2" />
+          <circle cx="70" cy="41" r="2" fill="#0f172a" />
+
+          <!-- Capsule Windows -->
+          <polygon points="62,62 67,62 66,70 60,70" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
+          <polygon points="73,62 78,62 80,70 74,70" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
+
+          <!-- NASA Worm / Artemis Emblem Text -->
+          <text x="70" y="85" font-size="6.8" font-weight="900" fill="#ea580c" text-anchor="middle" font-family="sans-serif" letter-spacing="1">NASA</text>
+          <text x="70" y="95" font-size="4.5" font-weight="700" fill="#64748b" text-anchor="middle" font-family="sans-serif">ARTEMIS</text>
+
+          <!-- RCS Thrusters -->
+          <circle cx="47" cy="98" r="2" fill="#ef4444" />
+          <circle cx="93" cy="98" r="2" fill="#ef4444" />
+        </svg>
+      `
+    },
+    {
+      id: 'crew-dragon',
+      name: 'Crew Dragon',
+      nickname: 'Reusable Crew Capsule',
+      agency: 'spacex',
+      agencyDisplay: 'SPACEX // USA',
+      role: 'Commercial Orbital Crew Capsule',
+      crew: 'up to 4 on NASA flights',
+      builtFor: 'space station trips, private missions',
+      returnReuse: 'capsule is reusable',
+      keyFeature: 'touchscreen controls',
+      spec1Label: 'CREW',
+      spec1Val: 'up to 4 on NASA flights',
+      spec2Label: 'BUILT FOR',
+      spec2Val: 'space station trips, private missions',
+      spec3Label: 'REUSE',
+      spec3Val: 'capsule is reusable',
+      spec4Label: 'KEY FEATURE',
+      spec4Val: 'touchscreen controls',
+      height: '8.1 m (with Trunk) / 4.0 m dia',
       diameter: '4.0 m',
-      mass: '640 tonnes',
-      payloadLEO: '8,000 kg',
-      payloadGTO: '4,000 kg',
-      stages: '3 Stages (Solid, Liquid, Cryo)',
-      propellant: 'Twin S200 Boosters + L110 Liquid Core + C25 Cryogenic Stage',
-      fuelType: 'LOX & Liquid Hydrogen (Cryogenic C25)',
-      description: 'ISRO’s flagship heavy-lifter. Powered the historic Chandrayaan-3 Moon landing, Chandrayaan-2 lunar orbiter, and is the chosen vehicle for India’s Gaganyaan human spaceflight mission.',
-      notableMissions: ['Chandrayaan-3 (Moon South Pole)', 'Chandrayaan-2', 'Gaganyaan TV-D1', 'OneWeb 36-Sat'],
+      mass: '12,519 kg',
+      payloadLEO: 'up to 4 on NASA flights',
+      payloadGTO: 'ISS & Autonomous LEO Rendezvous',
+      stages: 'Autonomous Capsule + Solar Trunk',
+      propellant: 'Hypergolic NTO / MMH Draco Thrusters',
+      fuelType: 'Hypergolic Draco / SuperDraco (MMH / NTO)',
+      description: 'Reusable crew capsule built for space station trips and private missions. Features state-of-the-art touchscreen controls and reusable flight hardware.',
+      notableMissions: ['Demo-2 (2020)', 'Inspiration4 (2021)', 'Axiom Mission 4 (2025)'],
       svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Twin S200 Boosters -->
-          <rect x="18" y="90" width="16" height="150" rx="4" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="18,90 26,65 34,90" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" />
-          <rect x="22" y="240" width="8" height="12" fill="#334155" />
-          
-          <rect x="66" y="90" width="16" height="150" rx="4" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="66,90 74,65 82,90" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" />
-          <rect x="70" y="240" width="8" height="12" fill="#334155" />
+        <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Aerodynamic Trunk Stabilizing Fins -->
+          <polygon points="46,128 28,172 46,172" fill="#ffffff" stroke="#0f172a" stroke-width="1.4" />
+          <polygon points="94,128 112,172 94,172" fill="#ffffff" stroke="#0f172a" stroke-width="1.4" />
 
-          <!-- Center Core L110 + C25 -->
-          <rect x="36" y="55" width="28" height="190" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
-          <path d="M 36 55 Q 50 18 64 55 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
-          
-          <!-- Livery & Stripes -->
-          <rect x="36" y="105" width="28" height="6" fill="#ff9933" />
-          <rect x="36" y="115" width="28" height="6" fill="#138808" />
-          <text x="50" y="145" font-size="7" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">ISRO</text>
-          <text x="50" y="170" font-size="6" font-weight="700" fill="#64748b" text-anchor="middle" font-family="sans-serif">LVM3</text>
+          <!-- Trunk Body with Half Solar Panel Cladding -->
+          <rect x="46" y="116" width="48" height="58" rx="2" fill="#ffffff" stroke="#0f172a" stroke-width="1.6" />
+          <!-- Integrated Curved Solar Panel Surface -->
+          <rect x="70" y="118" width="22" height="54" rx="1" fill="#0f172a" />
+          <line x1="77" y1="118" x2="77" y2="172" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+          <line x1="84" y1="118" x2="84" y2="172" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+          <line x1="70" y1="130" x2="92" y2="130" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+          <line x1="70" y1="142" x2="92" y2="142" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+          <line x1="70" y1="154" x2="92" y2="154" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
+          <line x1="70" y1="164" x2="92" y2="164" stroke="#38bdf8" stroke-width="0.8" opacity="0.6" />
 
-          <!-- Core Engines -->
-          <polygon points="40,245 46,262 42,262" fill="#1e293b" />
-          <polygon points="54,245 60,262 56,262" fill="#1e293b" />
-          
-          <!-- Thruster Glow -->
-          <circle cx="50" cy="265" r="9" fill="#38bdf8" opacity="0.6" filter="blur(4px)" />
+          <!-- Dragon Capsule Body (Smooth Aerodynamic Contour) -->
+          <path d="M 64 36 C 64 36, 70 30, 76 36 C 82 42, 94 85, 94 116 L 46 116 C 46 85, 58 42, 64 36 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
+
+          <!-- Nose Cone / Docking Hatch Cover -->
+          <path d="M 65 37 C 68 32, 72 32, 75 37 L 77 44 L 63 44 Z" fill="#e2e8f0" stroke="#0f172a" stroke-width="1" />
+          <line x1="63" y1="44" x2="77" y2="44" stroke="#0f172a" stroke-width="1.2" />
+
+          <!-- SuperDraco Abort Thruster Nacelles -->
+          <polygon points="50,75 44,92 51,96 55,80" fill="#0f172a" stroke="#334155" stroke-width="1" />
+          <circle cx="48" cy="94" r="1.5" fill="#f97316" />
+          <polygon points="90,75 96,92 89,96 85,80" fill="#0f172a" stroke="#334155" stroke-width="1" />
+          <circle cx="92" cy="94" r="1.5" fill="#f97316" />
+
+          <!-- Modern Panoramic Windows -->
+          <polygon points="62,60 67,60 66,67 61,67" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
+          <polygon points="73,60 78,60 79,67 74,67" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
+          <rect x="68" y="72" width="4" height="4" rx="1" fill="#0284c7" />
+
+          <!-- SpaceX Branding on Trunk -->
+          <text x="58" y="145" font-size="5.2" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="'Space Grotesk', sans-serif" letter-spacing="1">SPACEX</text>
+          <text x="58" y="156" font-size="4" font-weight="700" fill="#64748b" text-anchor="middle" font-family="sans-serif">DRAGON</text>
+
+          <!-- PICA-X Heat Shield Interface Ring -->
+          <line x1="46" y1="116" x2="94" y2="116" stroke="#0f172a" stroke-width="2.5" />
         </svg>
       `
     },
     {
-      id: 'pslv',
-      name: 'PSLV (Polar Satellite Launch Vehicle)',
-      nickname: '"The Workhorse of ISRO"',
+      id: 'gaganyaan',
+      name: 'Gaganyaan',
+      nickname: "India's Crewed Spacecraft",
       agency: 'isro',
       agencyDisplay: 'ISRO // INDIA',
-      role: 'Precision Orbit Launcher',
-      height: '44.0 m',
-      diameter: '2.8 m',
-      mass: '320 tonnes',
-      payloadLEO: '3,800 kg',
-      payloadGTO: '1,425 kg (Sub-GTO)',
-      stages: '4 Stages (Solid-Liquid-Solid-Liquid)',
-      propellant: 'HTPB Solid + UDMH/N2O4 Liquid Vikas + Solid Core + MMH/MON-3 Liquid',
-      fuelType: 'Solid Propellant & Vikas Liquid Engine',
-      description: 'ISRO’s legendary reliable workhorse with over 55+ successful launches. Spearheaded India’s first interplanetary voyage to Mars (Mangalyaan) and the Chandrayaan-1 lunar water discovery.',
-      notableMissions: ['Mangalyaan (Mars Orbiter)', 'Chandrayaan-1', 'Aditya-L1 (Sun Mission)', '104 Satellites World Record'],
+      role: 'Indigenously Engineered Crew Module',
+      crew: 'planned for 3 astronauts',
+      builtFor: 'low Earth orbit, about 400 km up',
+      returnReuse: 'planned about 3 days',
+      keyFeature: "ISRO's first crewed spacecraft",
+      spec1Label: 'CREW',
+      spec1Val: 'planned for 3 astronauts',
+      spec2Label: 'BUILT FOR',
+      spec2Val: 'low Earth orbit, ~400 km up',
+      spec3Label: 'MISSION',
+      spec3Val: 'planned about 3 days',
+      spec4Label: 'KEY FEATURE',
+      spec4Val: "ISRO's first crewed spacecraft",
+      height: '7.0 m (Orbital Module) / 3.5 m dia',
+      diameter: '3.5 m',
+      mass: '8,200 kg',
+      payloadLEO: 'planned for 3 astronauts',
+      payloadGTO: 'Low Earth Orbit (400 km circular)',
+      stages: 'Crew Module (CM) + Service Module (SM)',
+      propellant: 'Liquid Bi-propellant (MMH / MON3)',
+      fuelType: 'Bi-propellant Liquid Propulsion (MMH / MON3)',
+      description: "India's crewed spacecraft designed to take planned 3 astronauts to low Earth orbit, about 400 km up for a planned about 3 days mission. ISRO's first crewed spacecraft milestone.",
+      notableMissions: ['TV-D1 crew escape test (2023)', 'uncrewed test flights (planned)'],
       svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- PSLV Slender Fuselage -->
-          <rect x="41" y="42" width="18" height="205" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
-          <!-- Nose Cone -->
-          <polygon points="41,42 50,15 59,42" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8" />
-          
-          <!-- 6 Strap-on Boosters (PSLV-XL) -->
-          <rect x="33" y="150" width="6" height="85" rx="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="1" />
-          <polygon points="33,150 36,138 39,150" fill="#cbd5e1" stroke="#0f172a" stroke-width="1" />
-          <rect x="61" y="150" width="6" height="85" rx="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="1" />
-          <polygon points="61,150 64,138 67,150" fill="#cbd5e1" stroke="#0f172a" stroke-width="1" />
-          
-          <!-- Stage Separation Rings -->
-          <line x1="41" y1="85" x2="59" y2="85" stroke="#ff9933" stroke-width="2.5" />
-          <line x1="41" y1="125" x2="59" y2="125" stroke="#334155" stroke-width="2" />
-          <line x1="41" y1="175" x2="59" y2="175" stroke="#138808" stroke-width="2.5" />
-          
-          <text x="50" y="105" font-size="5" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">INDIA</text>
-          <text x="50" y="148" font-size="4.5" font-weight="700" fill="#475569" text-anchor="middle" font-family="sans-serif">PSLV</text>
-          
-          <!-- Nozzle -->
-          <polygon points="44,247 56,247 54,260 46,260" fill="#1e293b" />
-          <circle cx="50" cy="264" r="7" fill="#fb923c" opacity="0.6" filter="blur(3px)" />
-        </svg>
-      `
-    },
-    {
-      id: 'gslv',
-      name: 'GSLV Mk II',
-      nickname: '"Cryogenic Pioneer"',
-      agency: 'isro',
-      agencyDisplay: 'ISRO // INDIA',
-      role: 'Geosynchronous Satellite Launcher',
-      height: '51.7 m',
-      diameter: '2.8 m',
-      mass: '420 tonnes',
-      payloadLEO: '5,000 kg',
-      payloadGTO: '2,500 kg',
-      stages: '3 Stages (Solid Core + Liquid Strap-ons + Cryo)',
-      propellant: '4 Vikas Liquid Strap-ons + Solid Core + Indigenous Cryogenic Stage (CUS)',
-      fuelType: 'LOX & Liquid Hydrogen (-250°C CUS Engine)',
-      description: 'Features India’s indigenously developed Cryogenic Upper Stage engine, mastering temperatures colder than deep space to deliver heavy satellites directly into geostationary transfer orbits.',
-      notableMissions: ['NVS-01 (NavIC Navigation)', 'GSAT-7A Military Comm', 'GISAT-1 EOS', 'GSAT-6A'],
-      svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- 4 Large Vikas Liquid Strap-ons -->
-          <rect x="26" y="115" width="11" height="125" rx="3" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="26,115 31.5,95 37,115" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="28,240 35,240 33,252 30,252" fill="#334155" />
-          
-          <rect x="63" y="115" width="11" height="125" rx="3" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="63,115 68.5,95 74,115" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.5" />
-          <polygon points="65,240 72,240 70,252 67,252" fill="#334155" />
+        <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Deployed Solar Array Wings -->
+          <g>
+            <!-- Left Solar Wing -->
+            <rect x="6" y="128" width="42" height="24" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.3" />
+            <line x1="16" y1="128" x2="16" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="27" y1="128" x2="27" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="37" y1="128" x2="37" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="6" y1="140" x2="48" y2="140" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="48" y1="140" x2="52" y2="140" stroke="#475569" stroke-width="2.2" />
 
-          <!-- Core Stage -->
-          <rect x="39" y="55" width="22" height="188" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
-          <!-- Bulbous 3.4m Fairing -->
-          <path d="M 39 55 Q 35 40 50 16 Q 65 40 61 55 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
-          
-          <rect x="39" y="85" width="22" height="5" fill="#ff9933" />
-          <rect x="39" y="94" width="22" height="5" fill="#138808" />
-          <text x="50" y="125" font-size="6" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">ISRO</text>
-          <text x="50" y="145" font-size="5" font-weight="700" fill="#475569" text-anchor="middle" font-family="sans-serif">GSLV</text>
+            <!-- Right Solar Wing -->
+            <rect x="92" y="128" width="42" height="24" rx="2" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.3" />
+            <line x1="103" y1="128" x2="103" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="113" y1="128" x2="113" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="124" y1="128" x2="124" y2="152" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="92" y1="140" x2="134" y2="140" stroke="#60a5fa" stroke-width="0.8" />
+            <line x1="88" y1="140" x2="92" y2="140" stroke="#475569" stroke-width="2.2" />
+          </g>
 
-          <!-- Core Engine -->
-          <polygon points="44,243 56,243 53,258 47,258" fill="#1e293b" />
-          <circle cx="50" cy="262" r="8" fill="#38bdf8" opacity="0.6" filter="blur(4px)" />
-        </svg>
-      `
-    },
-    {
-      id: 'saturn5',
-      name: 'Saturn V',
-      nickname: '"The Apollo Moon Rocket"',
-      agency: 'nasa',
-      agencyDisplay: 'NASA // USA',
-      role: 'Super Heavy Lunar Giant',
-      height: '110.6 m',
-      diameter: '10.1 m',
-      mass: '2,970 tonnes',
-      payloadLEO: '140,000 kg',
-      payloadGTO: '48,600 kg (Trans-Lunar Injection)',
-      stages: '3 Stages (S-IC + S-II + S-IVB)',
-      propellant: '5x F-1 (RP-1/LOX) + 5x J-2 (LH2/LOX) + 1x J-2',
-      fuelType: 'Rocket Kerosene RP-1 & Liquid Hydrogen',
-      description: 'The monumental launch vehicle that propelled humanity to the Moon in July 1969. Generates 7.5 million pounds of thrust from 5 mammoth F-1 engines with a 100% mission success record.',
-      notableMissions: ['Apollo 11 (First Moon Landing)', 'Apollo 8 (Lunar Orbit)', 'Apollo 13', 'Skylab Space Station'],
-      svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Launch Escape Tower (LET) Needle -->
-          <line x1="50" y1="6" x2="50" y2="28" stroke="#ef4444" stroke-width="1.8" />
-          <polygon points="48,28 52,28 50,22" fill="#ef4444" />
-          <!-- Apollo Command Module -->
-          <polygon points="45,36 55,36 50,28" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.2" />
+          <!-- Main Liquid Engines at Base -->
+          <polygon points="63,168 77,168 79,182 61,182" fill="#1e293b" stroke="#0f172a" stroke-width="1.2" />
+          <ellipse cx="70" cy="184" rx="7.5" ry="3.5" fill="#f97316" opacity="0.85" filter="drop-shadow(0 0 5px #f97316)" />
 
-          <!-- Massive S-IVB / S-II / S-IC Fuselage -->
-          <rect x="42" y="36" width="16" height="42" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
-          <rect x="40" y="78" width="20" height="70" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
-          <rect x="38" y="148" width="24" height="98" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+          <!-- Cylindrical Service Module (SM) -->
+          <rect x="52" y="112" width="36" height="56" rx="2" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.6" />
+          <!-- Gold MLI Thermal Insulation Blanket Section -->
+          <rect x="55" y="128" width="30" height="32" fill="#d97706" opacity="0.85" rx="1" />
+          <line x1="55" y1="138" x2="85" y2="138" stroke="#b45309" stroke-width="0.8" />
+          <line x1="55" y1="148" x2="85" y2="148" stroke="#b45309" stroke-width="0.8" />
+          <line x1="65" y1="128" x2="65" y2="160" stroke="#b45309" stroke-width="0.8" />
+          <line x1="75" y1="128" x2="75" y2="160" stroke="#b45309" stroke-width="0.8" />
+          <text x="70" y="123" font-size="4.5" font-weight="800" fill="#0f172a" text-anchor="middle" font-family="'Space Grotesk', sans-serif">SERVICE MODULE</text>
 
-          <!-- Famous Black & White Roll Patterns -->
-          <rect x="40" y="86" width="10" height="24" fill="#0f172a" />
-          <rect x="50" y="110" width="10" height="22" fill="#0f172a" />
-          <rect x="38" y="156" width="12" height="34" fill="#0f172a" />
-          <rect x="50" y="190" width="12" height="34" fill="#0f172a" />
+          <!-- Heat Shield Ring -->
+          <rect x="47" y="108" width="46" height="4" fill="#334155" rx="1" stroke="#0f172a" stroke-width="1" />
 
-          <text x="50" y="142" font-size="5" font-weight="900" fill="#ef4444" text-anchor="middle" font-family="sans-serif">USA</text>
+          <!-- Conical Crew Module (CM) -->
+          <polygon points="60,45 80,45 93,108 47,108" fill="#ffffff" stroke="#0f172a" stroke-width="1.8" />
 
-          <!-- 4 Aerodynamic Tail Fins -->
-          <polygon points="38,230 26,248 38,246" fill="#f8fafc" stroke="#0f172a" stroke-width="1.2" />
-          <polygon points="62,230 74,248 62,246" fill="#f8fafc" stroke="#0f172a" stroke-width="1.2" />
+          <!-- Apex Parachute Compartment -->
+          <rect x="63" y="38" width="14" height="7" rx="2" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.2" />
 
-          <!-- Mammoth F-1 Engine Bells -->
-          <polygon points="40,246 44,246 42,260" fill="#334155" />
-          <polygon points="48,246 52,246 50,262" fill="#334155" />
-          <polygon points="56,246 60,246 58,260" fill="#334155" />
-          <circle cx="50" cy="265" r="10" fill="#f97316" opacity="0.7" filter="blur(4px)" />
-        </svg>
-      `
-    },
-    {
-      id: 'falcon9',
-      name: 'Falcon 9 (Block 5)',
-      nickname: '"The Reusable Booster"',
-      agency: 'nasa',
-      agencyDisplay: 'NASA & SPACEX // USA',
-      role: 'Commercial Orbital Workhorse',
-      height: '70.0 m',
-      diameter: '3.7 m',
-      mass: '549 tonnes',
-      payloadLEO: '22,800 kg',
-      payloadGTO: '8,300 kg',
-      stages: '2 Stages (Autonomous Booster + Vacuum Engine)',
-      propellant: '9x Merlin 1D (RP-1/LOX) + 1x Merlin Vacuum',
-      fuelType: 'Sub-cooled Liquid Oxygen & Densified RP-1 Kerosene',
-      description: 'The world’s first orbital class reusable rocket. Capable of re-entering Earth’s atmosphere, deploying titanium grid fins, and executing precision vertical propulsive landings on drone ships.',
-      notableMissions: ['Crew Dragon Demo-2', 'NASA DART Asteroid Impact', 'NASA IXPE', '250+ Booster Landings'],
-      svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Falcon 9 Slender Booster Body -->
-          <rect x="43" y="38" width="14" height="210" rx="1" fill="#f8fafc" stroke="#0f172a" stroke-width="1.6" />
-          <!-- Dragon Capsule / Fairing -->
-          <polygon points="43,38 50,14 57,38" fill="#f8fafc" stroke="#0f172a" stroke-width="1.6" />
-          
-          <!-- Black Carbon-Composite Interstage -->
-          <rect x="43" y="74" width="14" height="12" fill="#0f172a" />
-          
-          <!-- Titanium Grid Fins -->
-          <rect x="38" y="70" width="5" height="4" fill="#1e293b" />
-          <rect x="57" y="70" width="5" height="4" fill="#1e293b" />
+          <!-- Indian Tricolor Ribbon -->
+          <rect x="48" y="96" width="44" height="3" fill="#ff9933" />
+          <rect x="48" y="99" width="44" height="3" fill="#ffffff" />
+          <rect x="48" y="102" width="44" height="3" fill="#138808" />
 
-          <!-- Falcon 9 Markings & Dragon Logo -->
-          <text x="50" y="115" font-size="5" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">SPACEX</text>
-          <line x1="47" y1="125" x2="53" y2="125" stroke="#3b82f6" stroke-width="1.5" />
-          
-          <!-- Landing Legs Outlines -->
-          <line x1="43" y1="215" x2="40" y2="246" stroke="#0f172a" stroke-width="1.8" />
-          <line x1="57" y1="215" x2="60" y2="246" stroke="#0f172a" stroke-width="1.8" />
+          <!-- Viewports / Windows -->
+          <circle cx="64" cy="65" r="3" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
+          <circle cx="76" cy="65" r="3" fill="#0284c7" stroke="#0f172a" stroke-width="1" />
 
-          <!-- Octaweb 9 Merlin Engines -->
-          <polygon points="45,248 55,248 53,260 47,260" fill="#1e293b" />
-          <circle cx="50" cy="264" r="8" fill="#38bdf8" opacity="0.65" filter="blur(3px)" />
-        </svg>
-      `
-    },
-    {
-      id: 'shuttle',
-      name: 'Space Shuttle (STS)',
-      nickname: '"The Orbital Glider"',
-      agency: 'nasa',
-      agencyDisplay: 'NASA // USA',
-      role: 'Reusable Crewed Spaceplane',
-      height: '56.1 m',
-      diameter: '8.4 m (External Tank)',
-      mass: '2,030 tonnes',
-      payloadLEO: '27,500 kg',
-      payloadGTO: 'N/A (LEO Cargo Bay)',
-      stages: 'Solid Rocket Boosters + External Tank + Orbiter',
-      propellant: '2x Solid Rocket Boosters + 3x RS-25 Main Engines (LH2/LOX)',
-      fuelType: 'Solid APCP & Cryogenic Liquid Hydrogen/Oxygen',
-      description: 'Humanity’s iconic winged spacecraft that flew 135 missions. Deployed and serviced the Hubble Space Telescope across five daring spacewalk repair missions and built the International Space Station.',
-      notableMissions: ['STS-31 (Hubble Deployment)', 'Hubble Servicing Missions 1-5', '37 ISS Assembly Flights', 'STS-95 John Glenn'],
-      svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Giant Rust-Orange External Tank (ET) -->
-          <rect x="42" y="50" width="16" height="185" rx="3" fill="#c2410c" stroke="#0f172a" stroke-width="1.6" />
-          <path d="M 42 50 Q 50 20 58 50 Z" fill="#c2410c" stroke="#0f172a" stroke-width="1.6" />
+          <!-- ISRO Lettering & Gaganyaan -->
+          <text x="70" y="82" font-size="6.5" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">ISRO</text>
+          <text x="70" y="90" font-size="4.5" font-weight="700" fill="#ff9933" text-anchor="middle" font-family="sans-serif">GAGANYAAN</text>
 
-          <!-- Left Solid Rocket Booster (SRB) -->
-          <rect x="25" y="65" width="12" height="175" rx="3" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="25,65 31,45 37,65" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="27,240 35,240 33,254 29,254" fill="#334155" />
-
-          <!-- Right Solid Rocket Booster (SRB) -->
-          <rect x="63" y="65" width="12" height="175" rx="3" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="63,65 69,45 75,65" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="65,240 73,240 71,254 67,254" fill="#334155" />
-
-          <!-- Space Shuttle Orbiter Mounted in Front -->
-          <!-- Delta Wings -->
-          <polygon points="50,115 30,225 70,225" fill="#0f172a" />
-          <!-- Fuselage -->
-          <rect x="46" y="115" width="8" height="110" rx="3" fill="#f8fafc" />
-          <!-- Cockpit Windows -->
-          <path d="M 47 122 Q 50 119 53 122" stroke="#0f172a" stroke-width="1.8" />
-          <!-- Tail Fin -->
-          <polygon points="49,185 51,185 50,225" fill="#0f172a" />
-
-          <!-- 3 RS-25 Engine Nozzles -->
-          <polygon points="47,225 53,225 51,236 49,236" fill="#475569" />
-          <circle cx="50" cy="254" r="9" fill="#f97316" opacity="0.6" filter="blur(4px)" />
-        </svg>
-      `
-    },
-    {
-      id: 'sls',
-      name: 'SLS (Space Launch System)',
-      nickname: '"The Artemis Megarocket"',
-      agency: 'nasa',
-      agencyDisplay: 'NASA // USA',
-      role: 'Deep Space Super Heavy Launcher',
-      height: '98.2 m',
-      diameter: '8.4 m',
-      mass: '2,600 tonnes',
-      payloadLEO: '95,000 kg',
-      payloadGTO: '27,000 kg (Trans-Lunar Injection)',
-      stages: 'Core Stage + 2x 5-Segment SRBs + ICPS',
-      propellant: '2x 5-Segment Solid Boosters + 4x RS-25 Cryogenic Engines',
-      fuelType: 'Liquid Hydrogen & Liquid Oxygen (Orange Core)',
-      description: 'NASA’s premier exploration megarocket engineered to return humans to the Moon under the Artemis program. Generates 8.8 million pounds of thrust—15% more thrust than the historic Saturn V.',
-      notableMissions: ['Artemis I (Orion Lunar Flight)', 'Artemis II (Crewed Flyby)', 'Artemis III (Lunar South Pole)'],
-      svg: `
-        <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Orion Launch Abort System (LAS) -->
-          <line x1="50" y1="8" x2="50" y2="30" stroke="#f8fafc" stroke-width="1.5" />
-          <polygon points="47,30 53,30 50,22" fill="#f8fafc" />
-          <!-- Orion Capsule -->
-          <polygon points="44,42 56,42 50,30" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
-
-          <!-- Twin 5-Segment Solid Boosters (White with Red Striping) -->
-          <rect x="24" y="65" width="13" height="175" rx="3" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="24,65 30.5,42 37,65" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <line x1="24" y1="46" x2="37" y2="46" stroke="#ef4444" stroke-width="2" />
-
-          <rect x="63" y="65" width="13" height="175" rx="3" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <polygon points="63,65 69.5,42 76,65" fill="#f8fafc" stroke="#0f172a" stroke-width="1.4" />
-          <line x1="63" y1="46" x2="76" y2="46" stroke="#ef4444" stroke-width="2" />
-
-          <!-- Rust-Orange Cryogenic Core Stage -->
-          <rect x="39" y="42" width="22" height="198" fill="#ea580c" stroke="#0f172a" stroke-width="1.8" />
-          <text x="50" y="110" font-size="5" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="sans-serif">NASA</text>
-          <text x="50" y="135" font-size="4.5" font-weight="700" fill="#ffedd5" text-anchor="middle" font-family="sans-serif">ARTEMIS</text>
-
-          <!-- 4 RS-25 Engine Bells -->
-          <polygon points="42,240 46,240 44,255" fill="#1e293b" />
-          <polygon points="48,240 52,240 50,257" fill="#1e293b" />
-          <polygon points="54,240 58,240 56,255" fill="#1e293b" />
-          <circle cx="50" cy="262" r="10" fill="#38bdf8" opacity="0.65" filter="blur(4px)" />
+          <!-- RCS Thruster Blocks -->
+          <circle cx="50" cy="80" r="1.8" fill="#ef4444" />
+          <circle cx="90" cy="80" r="1.8" fill="#ef4444" />
         </svg>
       `
     }
   ];
-
   // ==========================================
   // STATE MANAGEMENT (PERSISTENCE) - PHASE 2 & 5
   // ==========================================
@@ -968,6 +900,9 @@
       }
     } catch (e) {
       console.warn('Could not load mission state from localStorage', e);
+    }
+    if (missionState.selectedRocket && !ROCKETS.some(r => r.id === missionState.selectedRocket.id)) {
+      missionState.selectedRocket = ROCKETS.find(r => r.id === 'gaganyaan') || ROCKETS[0];
     }
     checkDailyStreak();
     saveMissionState();
@@ -1042,7 +977,7 @@
       card.innerHTML = `
         <div class="rocket-card-header">
           <span class="agency-badge ${rocket.agency}">
-            ${rocket.agency === 'isro' ? '🇮🇳 ISRO' : '🇺🇸 NASA'}
+            ${rocket.agencyBadgeText || (rocket.agency === 'isro' ? '🇮🇳 ISRO' : (rocket.agency === 'spacex' ? '🚀 SPACEX' : '🇺🇸 NASA'))}
           </span>
           <span class="role-badge">${rocket.role}</span>
         </div>
@@ -1058,20 +993,20 @@
 
         <div class="specs-grid">
           <div class="spec-cell">
-            <span class="spec-label">HEIGHT</span>
-            <span class="spec-value">${rocket.height}</span>
+            <span class="spec-label">${rocket.spec1Label || 'CREW'}</span>
+            <span class="spec-value">${rocket.spec1Val || rocket.crew || rocket.height}</span>
           </div>
           <div class="spec-cell">
-            <span class="spec-label">PAYLOAD (LEO)</span>
-            <span class="spec-value">${rocket.payloadLEO}</span>
+            <span class="spec-label">${rocket.spec2Label || 'BUILT FOR'}</span>
+            <span class="spec-value">${rocket.spec2Val || rocket.builtFor || rocket.payloadLEO}</span>
           </div>
           <div class="spec-cell">
-            <span class="spec-label">PROPULSION</span>
-            <span class="spec-value">${rocket.stages}</span>
+            <span class="spec-label">${rocket.spec3Label || 'RETURN'}</span>
+            <span class="spec-value">${rocket.spec3Val || rocket.returnReuse || rocket.stages}</span>
           </div>
           <div class="spec-cell">
-            <span class="spec-label">PAYLOAD (GTO / TLI)</span>
-            <span class="spec-value">${rocket.payloadGTO}</span>
+            <span class="spec-label">${rocket.spec4Label || 'KEY FEATURE'}</span>
+            <span class="spec-value">${rocket.spec4Val || rocket.keyFeature || rocket.payloadGTO}</span>
           </div>
         </div>
 
@@ -3468,7 +3403,7 @@
     if (!leaderboardModal || !leaderboardTbody) return;
 
     // Build combined leaderboard with current user
-    const userVehicleName = missionState.selectedRocket ? missionState.selectedRocket.name : 'LVM3 Bahubali';
+    const userVehicleName = missionState.selectedRocket ? missionState.selectedRocket.name : 'Gaganyaan';
     const userAgency = missionState.selectedRocket ? missionState.selectedRocket.agency.toUpperCase() : 'ISRO';
     const totalStars = Object.values(missionState.levelStars || {}).reduce((a, b) => a + b, 0);
 
@@ -3531,7 +3466,7 @@
 
     const craft = missionState.selectedRocket;
     if (certRocketName) {
-      certRocketName.textContent = craft ? `${craft.name} (${craft.agency.toUpperCase()})` : 'LVM3 Bahubali (ISRO)';
+      certRocketName.textContent = craft ? `${craft.name} (${craft.agency.toUpperCase()})` : 'Gaganyaan (ISRO)';
     }
     if (certCadetInput) {
       certCadetInput.value = missionState.cadetName || 'Astronaut Cadet';
@@ -4111,7 +4046,7 @@
 
       if (cockpitVehicleBadge) {
         const craft = missionState.selectedRocket;
-        cockpitVehicleBadge.textContent = craft ? `${craft.name} (${craft.agency.toUpperCase()})` : 'LVM3 (ISRO)';
+        cockpitVehicleBadge.textContent = craft ? `${craft.name} (${craft.agency.toUpperCase()})` : 'Gaganyaan (ISRO)';
       }
 
       initThreeEngine();

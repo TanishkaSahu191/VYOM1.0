@@ -817,6 +817,10 @@ body.destination-active .destination-page {
   background: linear-gradient(135deg, #0b3d91 0%, #fc3d21 100%);
   box-shadow: 0 0 6px #38bdf8;
 }
+.spacex-dot {
+  background: linear-gradient(135deg, #005288 0%, #ffffff 100%);
+  box-shadow: 0 0 6px #38bdf8;
+}
 
 .hangar-stats-summary {
   display: flex;
@@ -922,6 +926,9 @@ body.destination-active .destination-page {
 .rocket-card.nasa-card:hover::before {
   background: linear-gradient(90deg, #0b3d91 0%, #38bdf8 50%, #fc3d21 100%);
 }
+.rocket-card.spacex-card:hover::before {
+  background: linear-gradient(90deg, #005288 0%, #ffffff 50%, #00d2ff 100%);
+}
 
 .rocket-card.is-selected {
   border-color: #22c55e;
@@ -957,6 +964,11 @@ body.destination-active .destination-page {
   background: rgba(56, 189, 248, 0.15);
   border: 1px solid rgba(56, 189, 248, 0.45);
   color: #38bdf8;
+}
+.agency-badge.spacex {
+  background: rgba(0, 150, 255, 0.15);
+  border: 1px solid rgba(0, 210, 255, 0.45);
+  color: #67e8f9;
 }
 
 .role-badge {
