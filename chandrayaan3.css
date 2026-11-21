@@ -60,16 +60,6 @@
 }
 
 /* Top Nav Tab Customization for Phase 4 */
-.nav-tab.chandrayaan-nav-tab {
-  background: linear-gradient(135deg, rgba(255, 153, 51, 0.15), rgba(19, 136, 8, 0.15));
-  border-color: rgba(255, 153, 51, 0.4);
-}
-.nav-tab.chandrayaan-nav-tab:hover,
-.nav-tab.chandrayaan-nav-tab.active {
-  background: linear-gradient(135deg, rgba(255, 153, 51, 0.35), rgba(19, 136, 8, 0.35));
-  border-color: var(--c3-saffron);
-  box-shadow: 0 0 16px rgba(255, 153, 51, 0.4);
-}
 .nav-tab.chandrayaan-nav-tab .tab-badge {
   background: transparent;
   color: inherit;
