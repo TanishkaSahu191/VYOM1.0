@@ -130,6 +130,25 @@ Students launch from Earth, step into a realistic spaceship cockpit, and journey
   * 7 indigenous scientific payloads breakdown.
   * 5-question solar mission quiz with unlockable **ISRO Solar Scientist & Space Weather Guardian Certificate**.
 
+### Phase 7: My Spaceship (Photorealistic 3D ISS Habitation Corridor)
+* **Procedural Architectural 3D Spacecraft Interior**:
+  * 36-meter enclosed rectangular habitation corridor with industrial powder-coated aluminum panels and structural bulkheads.
+  * Symmetrical International Standard Payload Racks (ISPRs) packed with toggle switches, circuit breakers, digital LCD telemetry screens, and multi-colored indicator LEDs.
+  * Visible overhead ceiling utilities: flexible corrugated ventilation ducts, color-coded fluid utility pipes, cable conduit raceways, and dual recessed white LED light strips.
+  * Segmented metallic floor divided into rectangular ribbed panels with visible joints, mounting bolts, and recessed NASA zero-G foot restraints.
+* **Pressure-Sealed Docking Hatch (Common Berthing Mechanism)**:
+  * Circular reinforced docking hatch at the far end featuring manual 8-spoke rotating latch wheel, optical inspection port window, pressure equalization valve, and warning stencils.
+* **Cupola Observation Window & Orbital Earth**:
+  * Circular multi-pane observation port on the left wall looking out into the vacuum of space at a rotating 3D Earth ($420\text{ km}$ LEO orbit at $27,600\text{ km/h}$) with atmospheric Fresnel glow.
+* **Interactive Navigation & Lighting Controls**:
+  * First-Person Gliding: `WASD` / Arrow keys to glide forward/backward down the corridor.
+  * 360-degree free look: Click & drag mouse (or touch swipe) to look in any direction.
+  * Scroll wheel: Smooth zoom FOV adjustment.
+  * Quick Camera Viewport Presets: `Corridor Overview`, `Docking Hatch Close-up`, `Earth Observation Window`, `Avionics Racks Close-up`.
+  * Interactive Hotspots: Click on equipment to view ECLSS pressure, atmosphere, and latch telemetry.
+  * Dynamic Lighting Modes: `Day Operational (5000K Soft White)`, `Night Crew Rest (2700K Warm Amber)`, and `Emergency Red Alert`.
+  * Synthesized Web Audio API cabin ventilation fan hum.
+
 ---
 
 ## 📁 Repository Structure
@@ -139,7 +158,7 @@ VYOM/
 ├── assets/
 │   ├── helmet-cutout.png      # High-res astronaut visor cutout asset
 │   └── three.min.js           # Local offline Three.js 3D library (WebGL)
-├── index.html                 # Platform stage router: Cockpit, Chandrayaan-3, Mars & Aditya-L1
+├── index.html                 # Platform stage router: Cockpit, Moon, Mars, Sun & Spaceship
 ├── styles.css                 # Cosmic design system, responsive grid & cockpit HUD
 ├── script.js                  # Pure Three.js 3D cockpit, scroll engine, audio synth & narration
 ├── chandrayaan3.css           # Mission Chandrayaan-3 HUD, dialogs, quiz & pilot overlays
@@ -148,6 +167,8 @@ VYOM/
 ├── mars.js                    # Mars Explorer 3D game engine, rover driving & survival systems
 ├── aditya.css                 # Aditya-L1 solar observatory HUD, CME alerts & guardian console
 ├── aditya.js                  # Aditya-L1 3D simulation engine, halo orbit & CME defense mini-game
+├── spaceship.css              # My Spaceship ISS corridor HUD, lighting modes & inspector cards
+├── spaceship.js               # My Spaceship procedural 3D interior engine & free-look navigation
 ├── .gitignore                 # Clean Git tracking configuration
 └── README.md                  # Comprehensive documentation & phase roadmap
 ```
