@@ -2390,7 +2390,7 @@ body.on-launchpad .global-phase-nav {
 /* --- Closed-Caption Subtitle Bar (Bottom Center) --- */
 .accessibility-cc-bar {
   position: absolute;
-  bottom: 30px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
