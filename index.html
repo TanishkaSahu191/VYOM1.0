@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,7 @@
   <link rel="stylesheet" href="./spaceship.css" />
   <link rel="stylesheet" href="./craft-viewer.css" />
 </head>
+
 <body class="on-launchpad">
 
   <!-- ========================================================
@@ -25,27 +27,33 @@
     </div>
 
     <div class="nav-phase-tabs" role="tablist">
-      <button class="nav-tab active" id="tabPhase1" data-phase="1" type="button" role="tab" title="Go to Phase 1 Launchpad">
+      <button class="nav-tab active" id="tabPhase1" data-phase="1" type="button" role="tab"
+        title="Go to Phase 1 Launchpad">
         <span class="tab-badge">01</span>
         <span class="tab-text">Launchpad</span>
       </button>
-      <button class="nav-tab" id="tabPhase2" data-phase="2" type="button" role="tab" title="Go to Phase 2 Rocket Hangar">
+      <button class="nav-tab" id="tabPhase2" data-phase="2" type="button" role="tab"
+        title="Go to Phase 2 Rocket Hangar">
         <span class="tab-badge">02</span>
         <span class="tab-text">Rocket Hangar</span>
       </button>
-      <button class="nav-tab" id="tabPhase3" data-phase="3" type="button" role="tab" title="Go to Phase 3 Cockpit & Scroll Engine">
+      <button class="nav-tab" id="tabPhase3" data-phase="3" type="button" role="tab"
+        title="Go to Phase 3 Cockpit & Scroll Engine">
         <span class="tab-badge">03</span>
         <span class="tab-text">Cockpit</span>
       </button>
-      <button class="nav-tab chandrayaan-nav-tab" id="tabPhaseChandrayaan" data-phase="4" type="button" role="tab" title="Mission Chandrayaan-3: Journey to the Moon">
+      <button class="nav-tab chandrayaan-nav-tab" id="tabPhaseChandrayaan" data-phase="4" type="button" role="tab"
+        title="Mission Chandrayaan-3: Journey to the Moon">
         <span class="tab-badge">04</span>
         <span class="tab-text">Chandrayaan-3</span>
       </button>
-      <button class="nav-tab mars-nav-tab" id="tabPhaseMars" data-phase="5" type="button" role="tab" title="Mars Explorer: Astronaut Mission - Fly to Mars">
+      <button class="nav-tab mars-nav-tab" id="tabPhaseMars" data-phase="5" type="button" role="tab"
+        title="Mars Explorer: Astronaut Mission - Fly to Mars">
         <span class="tab-badge">05</span>
         <span class="tab-text">Mars</span>
       </button>
-      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="6" type="button" role="tab" title="My Spaceship: Life in Space, 4 astronaut challenges">
+      <button class="nav-tab spaceship-nav-tab" id="tabPhaseSpaceship" data-phase="6" type="button" role="tab"
+        title="My Spaceship: Life in Space, 4 astronaut challenges">
         <span class="tab-badge">06</span>
         <span class="tab-text">Spaceship</span>
       </button>
@@ -77,8 +85,8 @@
 
       <!-- Hero Titles: VYOM Branding -->
       <section class="copy-block" aria-labelledby="hero-title">
-        <h1 id="hero-title">VYOM: Cosmic Odyssey</h1>
-        <p class="subtitle">~ Gamified 3D Space Learning Platform &bull; ISRO &bull; NASA</p>
+        <h1 id="hero-title">VYOM</h1>
+        <p class="subtitle">BEGIN YOUR JOURNEY TO SPACE </p>
       </section>
 
       <!-- Tactile 3D "PUSH ME" Button -->
@@ -188,7 +196,7 @@
        3. PHASE 2: ROCKET SELECTION (GAMIFIED LEARNING HANGAR)
        ======================================================== -->
   <section id="destinationPage" class="destination-page" aria-label="Mission Hangar - Rocket Selection">
-    
+
     <!-- Hangar Top Navigation Bar -->
     <header class="hangar-header">
       <div class="hangar-brand">
@@ -363,7 +371,7 @@
         <h2 class="cockpit-title">WELCOME TO THE COCKPIT</h2>
         <div class="cockpit-selected-pill" id="cockpitActiveVehicle">VEHICLE: LVM3</div>
         <p class="cockpit-info">
-          Your rocket is fueled, safety checks are 100% complete, and your crew is buckled in. 
+          Your rocket is fueled, safety checks are 100% complete, and your crew is buckled in.
           Get ready to take the controls and blast off to explore our solar system!
         </p>
         <div class="cockpit-telemetry-preview">
@@ -416,8 +424,10 @@
 
           <!-- Quick Spacecraft Switcher Tabs -->
           <div class="craft3d-switcher" role="tablist" aria-label="Select Spacecraft to Inspect">
-            <button class="craft3d-switch-btn is-active" data-craft="orion" type="button" role="tab">Orion (NASA)</button>
-            <button class="craft3d-switch-btn" data-craft="crew-dragon" type="button" role="tab">Crew Dragon (SpaceX)</button>
+            <button class="craft3d-switch-btn is-active" data-craft="orion" type="button" role="tab">Orion
+              (NASA)</button>
+            <button class="craft3d-switch-btn" data-craft="crew-dragon" type="button" role="tab">Crew Dragon
+              (SpaceX)</button>
             <button class="craft3d-switch-btn" data-craft="gaganyaan" type="button" role="tab">Gaganyaan (ISRO)</button>
           </div>
 
@@ -433,13 +443,15 @@
             <!-- Viewport Bottom HUD Controls -->
             <div class="craft3d-viewport-controls">
               <div class="craft3d-ctrl-group">
-                <button id="btnCraft3DRotate" class="craft3d-ctrl-btn is-active" type="button" title="Toggle Auto-Rotation">
+                <button id="btnCraft3DRotate" class="craft3d-ctrl-btn is-active" type="button"
+                  title="Toggle Auto-Rotation">
                   <span>Auto-Rotate</span>
                 </button>
                 <button id="btnCraft3DResetCam" class="craft3d-ctrl-btn" type="button" title="Reset Camera View">
                   <span>Reset Angle</span>
                 </button>
-                <button id="btnCraft3DWireframe" class="craft3d-ctrl-btn" type="button" title="Toggle Wireframe Blueprint">
+                <button id="btnCraft3DWireframe" class="craft3d-ctrl-btn" type="button"
+                  title="Toggle Wireframe Blueprint">
                   <span>Wireframe</span>
                 </button>
               </div>
@@ -490,7 +502,7 @@
        4. PHASE 3: COCKPIT & CORE SCROLL ENGINE VIEWPORT
        ======================================================== -->
   <section id="cockpitStage" class="cockpit-stage" aria-label="Spaceship Cockpit Viewport" style="display: none;">
-    
+
     <!-- 3D WebGL Space & Cockpit Canvas -->
     <canvas id="spaceCanvas" class="space-canvas"></canvas>
 
@@ -504,7 +516,8 @@
     <header class="cockpit-top-bar">
       <!-- Left: Navigation & Vehicle Badge -->
       <div class="cockpit-nav-left">
-        <button id="btnReturnToHangar" class="cockpit-tool-btn cockpit-return-btn" type="button" title="Return to Rocket Hangar">
+        <button id="btnReturnToHangar" class="cockpit-tool-btn cockpit-return-btn" type="button"
+          title="Return to Rocket Hangar">
           <span class="tool-icon">←</span>
           <span class="tool-label">HANGAR</span>
         </button>
@@ -524,22 +537,22 @@
       </div>
 
       <!-- Right: Stats, Actions & Controls -->
-      
+
       <div class="cockpit-nav-right"></div>
 
       <!-- Glowing Flight Progress Track -->
       <div class="cockpit-top-progress" id="cockpitPageProgress" style="width: 25%;"></div>
     </header>
 
-    
-      <div class="holo-actions">
-        <button id="btnSpeakFact" class="btn-holo-voice" type="button">
-          <span>Play Narration</span>
-        </button>
-        <button id="btnResumeScroll" class="btn-holo-proceed" type="button">
-          <span>Resume Flight ➔</span>
-        </button>
-      </div>
+
+    <div class="holo-actions">
+      <button id="btnSpeakFact" class="btn-holo-voice" type="button">
+        <span>Play Narration</span>
+      </button>
+      <button id="btnResumeScroll" class="btn-holo-proceed" type="button">
+        <span>Resume Flight ➔</span>
+      </button>
+    </div>
     </div>
 
     <!-- Phase 4: Interactive Satellite Dossier Modal (Clickable LEO Satellites) -->
@@ -555,24 +568,33 @@
         </div>
         <div class="sat-body">
           <div class="sat-stat-grid">
-            <div class="sat-stat"><span class="sat-label">OPERATOR</span><strong id="satOperator">ISRO (India)</strong></div>
-            <div class="sat-stat"><span class="sat-label">LAUNCH VEHICLE</span><strong id="satRocket">PSLV-C41</strong></div>
-            <div class="sat-stat"><span class="sat-label">ORBIT TYPE</span><strong id="satOrbit">Geosynchronous (GEO)</strong></div>
-            <div class="sat-stat"><span class="sat-label">ALTITUDE / SPEED</span><strong id="satAltitude">36,000 km // 11,050 km/h</strong></div>
+            <div class="sat-stat"><span class="sat-label">OPERATOR</span><strong id="satOperator">ISRO (India)</strong>
+            </div>
+            <div class="sat-stat"><span class="sat-label">LAUNCH VEHICLE</span><strong id="satRocket">PSLV-C41</strong>
+            </div>
+            <div class="sat-stat"><span class="sat-label">ORBIT TYPE</span><strong id="satOrbit">Geosynchronous
+                (GEO)</strong></div>
+            <div class="sat-stat"><span class="sat-label">ALTITUDE / SPEED</span><strong id="satAltitude">36,000 km //
+                11,050 km/h</strong></div>
           </div>
           <div class="sat-desc-box">
             <h4>WHAT DOES THIS SATELLITE DO?</h4>
-            <p id="satRole">Provides independent regional satellite-based positioning, navigation and timing (PNT) services for civilian tracking, mobile integration, and disaster alerts across India and 1,500 km surrounding borders.</p>
+            <p id="satRole">Provides independent regional satellite-based positioning, navigation and timing (PNT)
+              services for civilian tracking, mobile integration, and disaster alerts across India and 1,500 km
+              surrounding borders.</p>
           </div>
           <div class="holo-dyk-container sat-dyk">
             <div class="holo-dyk-header">
               <span class="dyk-icon">TIP</span>
               <span class="dyk-title">DID YOU KNOW?</span>
             </div>
-            <p class="holo-dyk-text" id="satDyk">NavIC operates dual-frequency L5 and S-band civilian signals, giving Indian smartphones superior positioning accuracy in equatorial ionospheric conditions compared to standard single-frequency GPS!</p>
+            <p class="holo-dyk-text" id="satDyk">NavIC operates dual-frequency L5 and S-band civilian signals, giving
+              Indian smartphones superior positioning accuracy in equatorial ionospheric conditions compared to standard
+              single-frequency GPS!</p>
           </div>
           <div class="holo-source-container sat-source">
-            <a id="satSourceLink" href="https://www.isro.gov.in/NavIC.html" target="_blank" rel="noopener noreferrer" class="holo-source-link">
+            <a id="satSourceLink" href="https://www.isro.gov.in/NavIC.html" target="_blank" rel="noopener noreferrer"
+              class="holo-source-link">
               <span class="source-icon"></span>
               <span id="satSourceText">Verified Source: ISRO Official NavIC Portal</span>
               <span class="external-icon">→</span>
@@ -587,7 +609,8 @@
       <div class="lvl-complete-card">
         <div class="lvl-complete-kicker">SECTOR CLEARED // READY FOR EVALUATION</div>
         <h3 class="lvl-complete-title" id="lvlCompleteTitle">LEVEL 1: LEAVING EARTH</h3>
-        <p class="lvl-complete-desc" id="lvlCompleteDesc">You have navigated LEO Satellites and the Lunar South Pole! Test your knowledge in the Cadet Academy to earn stars, badges, and +250 XP!</p>
+        <p class="lvl-complete-desc" id="lvlCompleteDesc">You have navigated LEO Satellites and the Lunar South Pole!
+          Test your knowledge in the Cadet Academy to earn stars, badges, and +250 XP!</p>
         <div class="lvl-complete-btns">
           <button id="btnPromptStartQuiz" class="btn-prompt-start" type="button">LAUNCH QUIZ NOW ➔</button>
           <button id="btnPromptDismiss" class="btn-prompt-dismiss" type="button">CRUISE ONWARD</button>
@@ -650,14 +673,16 @@
                 </div>
                 <h3 class="trans-item-title" id="apodTitle">Cosmic Dawn: Deep Space Telescope Feed</h3>
                 <div class="trans-scroll-text">
-                  <p class="trans-explanation" id="apodExplanation">Loading astronomical telemetry from NASA Goddard Space Flight Center...</p>
+                  <p class="trans-explanation" id="apodExplanation">Loading astronomical telemetry from NASA Goddard
+                    Space Flight Center...</p>
                 </div>
                 <div class="trans-intel-actions">
                   <button id="btnListenApod" class="btn-trans-audio" type="button">
                     <span>Voice</span>
                     <span>LISTEN TO INTEL</span>
                   </button>
-                  <a id="btnApodSource" href="https://apod.nasa.gov/" target="_blank" rel="noopener noreferrer" class="btn-trans-source">
+                  <a id="btnApodSource" href="https://apod.nasa.gov/" target="_blank" rel="noopener noreferrer"
+                    class="btn-trans-source">
                     <span>OFFICIAL NASA APOD ARCHIVE</span>
                     <span>→</span>
                   </a>
@@ -669,7 +694,9 @@
           <!-- 2. NASA IMAGE LIBRARY SEARCH PANEL -->
           <div class="trans-panel is-hidden" id="panelLibrary">
             <div class="library-search-bar">
-              <input type="text" id="librarySearchInput" class="library-input" placeholder="Search NASA Image Archives (e.g., Artemis, James Webb, Mars, Jupiter)..." value="Artemis" />
+              <input type="text" id="librarySearchInput" class="library-input"
+                placeholder="Search NASA Image Archives (e.g., Artemis, James Webb, Mars, Jupiter)..."
+                value="Artemis" />
               <button id="btnSearchLibrary" class="btn-search-lib" type="button">SEARCH</button>
             </div>
             <div class="library-quick-tags">
@@ -714,7 +741,9 @@
 
         <div class="credits-body">
           <p class="credits-intro">
-            <strong>VYOM</strong> is an educational interplanetary exploration platform built strictly with authentic, scientifically verified telemetry, cartography, and mission data provided by the world's premier space agencies.
+            <strong>VYOM</strong> is an educational interplanetary exploration platform built strictly with authentic,
+            scientifically verified telemetry, cartography, and mission data provided by the world's premier space
+            agencies.
           </p>
 
           <div class="credits-grid">
@@ -725,15 +754,22 @@
                 <h3>INDIAN SPACE RESEARCH ORGANISATION</h3>
               </div>
               <ul class="citation-list">
-                <li><strong>Chandrayaan-3 Mission:</strong> Lunar South Pole coordinates (Shiv Shakti Point, 69.373° S, 32.319° E), Vikram lander & Pragyan rover telemetry, ChaSTE & ILSA payload discoveries.</li>
-                <li><strong>Mars Orbiter Mission (Mangalyaan):</strong> Mars Color Camera (MCC) imagery, Olympus Mons and Valles Marineris spectral maps, highly elliptical capture orbit data.</li>
-                <li><strong>Aditya-L1 Solar Observatory:</strong> Sun-Earth Lagrangian L1 halo orbit mechanics, VELC & SUIT solar coronagraph research.</li>
-                <li><strong>Satellite Constellation:</strong> NavIC (IRNSS-1I) regional dual-frequency PNT architecture, INSAT-3DR meteorological radiometer tracking.</li>
-                <li><strong>Launch Vehicles:</strong> LVM3 Bahubali, PSLV Workhorse, and GSLV Mk II cryogenic upper stage specifications and flight manifests.</li>
+                <li><strong>Chandrayaan-3 Mission:</strong> Lunar South Pole coordinates (Shiv Shakti Point, 69.373° S,
+                  32.319° E), Vikram lander & Pragyan rover telemetry, ChaSTE & ILSA payload discoveries.</li>
+                <li><strong>Mars Orbiter Mission (Mangalyaan):</strong> Mars Color Camera (MCC) imagery, Olympus Mons
+                  and Valles Marineris spectral maps, highly elliptical capture orbit data.</li>
+                <li><strong>Aditya-L1 Solar Observatory:</strong> Sun-Earth Lagrangian L1 halo orbit mechanics, VELC &
+                  SUIT solar coronagraph research.</li>
+                <li><strong>Satellite Constellation:</strong> NavIC (IRNSS-1I) regional dual-frequency PNT architecture,
+                  INSAT-3DR meteorological radiometer tracking.</li>
+                <li><strong>Launch Vehicles:</strong> LVM3 Bahubali, PSLV Workhorse, and GSLV Mk II cryogenic upper
+                  stage specifications and flight manifests.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: isro.gov.in →</a>
-                <a href="https://www.issdc.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">ISRO Science Data Hub: issdc.gov.in →</a>
+                <a href="https://www.isro.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">Official
+                  Portal: isro.gov.in →</a>
+                <a href="https://www.issdc.gov.in" target="_blank" rel="noopener noreferrer" class="credit-link">ISRO
+                  Science Data Hub: issdc.gov.in →</a>
               </div>
             </div>
 
@@ -744,15 +780,22 @@
                 <h3>NATIONAL AERONAUTICS & SPACE ADMINISTRATION</h3>
               </div>
               <ul class="citation-list">
-                <li><strong>Planetary Cartography:</strong> Visible Earth Blue Marble 2K surface maps, Earth night city lights, Lunar Reconnaissance Orbiter (LRO) crater topography.</li>
-                <li><strong>APOD Relay:</strong> Astronomy Picture of the Day (APOD) daily public API integration via NASA Open APIs (api.nasa.gov).</li>
-                <li><strong>Deep Space Missions:</strong> Voyager 1 interstellar boundary & Golden Record audio telemetry, Curiosity & Perseverance Mars exploration logs, Juno Jovian orbital pass imagery.</li>
-                <li><strong>Space Telescopes:</strong> James Webb Space Telescope (JWST) infrared deep fields, Hubble Space Telescope legacy observations.</li>
-                <li><strong>Fleet Engineering:</strong> Saturn V, Space Shuttle (STS), Falcon 9 Commercial Crew, Space Launch System (SLS) Artemis specifications.</li>
+                <li><strong>Planetary Cartography:</strong> Visible Earth Blue Marble 2K surface maps, Earth night city
+                  lights, Lunar Reconnaissance Orbiter (LRO) crater topography.</li>
+                <li><strong>APOD Relay:</strong> Astronomy Picture of the Day (APOD) daily public API integration via
+                  NASA Open APIs (api.nasa.gov).</li>
+                <li><strong>Deep Space Missions:</strong> Voyager 1 interstellar boundary & Golden Record audio
+                  telemetry, Curiosity & Perseverance Mars exploration logs, Juno Jovian orbital pass imagery.</li>
+                <li><strong>Space Telescopes:</strong> James Webb Space Telescope (JWST) infrared deep fields, Hubble
+                  Space Telescope legacy observations.</li>
+                <li><strong>Fleet Engineering:</strong> Saturn V, Space Shuttle (STS), Falcon 9 Commercial Crew, Space
+                  Launch System (SLS) Artemis specifications.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: nasa.gov →</a>
-                <a href="https://images.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">NASA Image & Video Library →</a>
+                <a href="https://www.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">Official
+                  Portal: nasa.gov →</a>
+                <a href="https://images.nasa.gov" target="_blank" rel="noopener noreferrer" class="credit-link">NASA
+                  Image & Video Library →</a>
               </div>
             </div>
 
@@ -763,18 +806,23 @@
                 <h3>EUROPEAN SPACE AGENCY & COLLABORATIVE COMMISSIONS</h3>
               </div>
               <ul class="citation-list">
-                <li><strong>Astrophysics & Solar Physics:</strong> Solar and Heliospheric Observatory (SOHO), Gaia multi-spectral 3D stellar position catalog.</li>
-                <li><strong>Cassini-Huygens:</strong> Saturnian ring particle structure, Cassini division opacity metrics, Titan atmospheric profiling.</li>
+                <li><strong>Astrophysics & Solar Physics:</strong> Solar and Heliospheric Observatory (SOHO), Gaia
+                  multi-spectral 3D stellar position catalog.</li>
+                <li><strong>Cassini-Huygens:</strong> Saturnian ring particle structure, Cassini division opacity
+                  metrics, Titan atmospheric profiling.</li>
               </ul>
               <div class="agency-footer">
-                <a href="https://www.esa.int" target="_blank" rel="noopener noreferrer" class="credit-link">Official Portal: esa.int →</a>
+                <a href="https://www.esa.int" target="_blank" rel="noopener noreferrer" class="credit-link">Official
+                  Portal: esa.int →</a>
               </div>
             </div>
           </div>
 
           <div class="credits-license-notice">
             <span class="notice-icon"></span>
-            <span>All NASA public domain imagery, ISRO open educational archives, and ESA collaborative scientific discoveries are used strictly for non-commercial educational instruction and space science promotion.</span>
+            <span>All NASA public domain imagery, ISRO open educational archives, and ESA collaborative scientific
+              discoveries are used strictly for non-commercial educational instruction and space science
+              promotion.</span>
           </div>
         </div>
       </div>
@@ -820,9 +868,11 @@
               <div class="pitch-kicker">THE CORE VALUE PROPOSITION</div>
               <h3 class="pitch-headline">"Existing platforms let you VIEW space. VYOM TEACHES it."</h3>
               <p class="pitch-subhead">
-                Most web-based space software (NASA Eyes, Solar System Scope, Google Sky) are passive 3D model viewers. 
-                Students explore aimlessly for a few minutes and leave without retaining underlying astrophysics or mission engineering. 
-                <strong>VYOM solves this by transforming solar system exploration into an active, gamified 3D spacecraft piloting journey.</strong>
+                Most web-based space software (NASA Eyes, Solar System Scope, Google Sky) are passive 3D model viewers.
+                Students explore aimlessly for a few minutes and leave without retaining underlying astrophysics or
+                mission engineering.
+                <strong>VYOM solves this by transforming solar system exploration into an active, gamified 3D spacecraft
+                  piloting journey.</strong>
               </p>
             </div>
 
@@ -830,25 +880,29 @@
               <div class="pillar-card">
                 <div class="pillar-icon">01</div>
                 <h4>1. Authentic Cockpit Viewport</h4>
-                <p>Places the cadet directly inside an enclosed spacecraft cockpit with multi-plane 3D parallax depth, live telemetry (Speed, Distance, Objects), and tactical controls.</p>
+                <p>Places the cadet directly inside an enclosed spacecraft cockpit with multi-plane 3D parallax depth,
+                  live telemetry (Speed, Distance, Objects), and tactical controls.</p>
               </div>
 
               <div class="pillar-card">
                 <div class="pillar-icon">02</div>
                 <h4>2. NASA & ISRO Synergy</h4>
-                <p>Unifies real achievements from both NASA and ISRO—Chandrayaan-3 South Pole, Mangalyaan, and NavIC alongside Apollo 11, Curiosity, and Voyager 1.</p>
+                <p>Unifies real achievements from both NASA and ISRO—Chandrayaan-3 South Pole, Mangalyaan, and NavIC
+                  alongside Apollo 11, Curiosity, and Voyager 1.</p>
               </div>
 
               <div class="pillar-card">
                 <div class="pillar-icon">03</div>
                 <h4>3. Duolingo-Style Learning Loop</h4>
-                <p>Progressive levels, continuous 3D cruising with Web Speech narration, 5-question interactive quizzes, XP, badges, daily streaks, and certified graduation.</p>
+                <p>Progressive levels, continuous 3D cruising with Web Speech narration, 5-question interactive quizzes,
+                  XP, badges, daily streaks, and certified graduation.</p>
               </div>
 
               <div class="pillar-card">
                 <div class="pillar-icon">04</div>
                 <h4>4. Live Mission Telemetry</h4>
-                <p>Cockpit integrates live daily NASA APOD feeds, NASA Image Archive search, and curated ISRO mission dossiers with instant audio readouts.</p>
+                <p>Cockpit integrates live daily NASA APOD feeds, NASA Image Archive search, and curated ISRO mission
+                  dossiers with instant audio readouts.</p>
               </div>
             </div>
           </div>
@@ -858,7 +912,8 @@
             <div class="demo-tour-header">
               <div class="demo-tour-intro">
                 <h3>INTERACTIVE HACKATHON DEMO WALKTHROUGH</h3>
-                <p>Presenting to judges? Use these one-click shortcuts to instantly demonstrate each core phase of the application in seconds:</p>
+                <p>Presenting to judges? Use these one-click shortcuts to instantly demonstrate each core phase of the
+                  application in seconds:</p>
               </div>
               <button id="btnRunFullDemo" class="btn-demo-action auto-btn" type="button">
                 <span>Run Automated Tour (1-Min)</span>
@@ -871,7 +926,8 @@
                 <div class="step-num-col"><span class="step-circle">1</span></div>
                 <div class="step-info-col">
                   <h4>Astronaut Cursor Follower & Launchpad (Phase 1)</h4>
-                  <p>Interactive astronaut video scrubbing, tactile 3D PUSH ME button, pneumatic visor drop, and pure Web Audio synthesizer.</p>
+                  <p>Interactive astronaut video scrubbing, tactile 3D PUSH ME button, pneumatic visor drop, and pure
+                    Web Audio synthesizer.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="phase1" type="button">Demo Step 1 ➔</button>
@@ -883,7 +939,8 @@
                 <div class="step-num-col"><span class="step-circle">2</span></div>
                 <div class="step-info-col">
                   <h4>NASA & ISRO Rocket Hangar (Phase 2)</h4>
-                  <p>Selectable vehicle cards (LVM3, PSLV, Saturn V, Falcon 9), fleet agency filter, and cryogenic pre-flight fueling simulation.</p>
+                  <p>Selectable vehicle cards (LVM3, PSLV, Saturn V, Falcon 9), fleet agency filter, and cryogenic
+                    pre-flight fueling simulation.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="phase2" type="button">Demo Step 2 ➔</button>
@@ -895,7 +952,8 @@
                 <div class="step-num-col"><span class="step-circle">3</span></div>
                 <div class="step-info-col">
                   <h4>Spaceship Cockpit Viewport (Phase 3 & 7)</h4>
-                  <p>Multi-plane parallax with pilot/copilot seats, canopy window frame, live telemetry (Speed, Distance, Timer), and steering flight yoke.</p>
+                  <p>Multi-plane parallax with pilot/copilot seats, canopy window frame, live telemetry (Speed,
+                    Distance, Timer), and steering flight yoke.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="phase3" type="button">Demo Step 3 ➔</button>
@@ -907,7 +965,8 @@
                 <div class="step-num-col"><span class="step-circle">4</span></div>
                 <div class="step-info-col">
                   <h4>Asteroid Belt Exploration & Narration (Phase 4)</h4>
-                  <p>Scroll engine navigates past 200+ rock Asteroid Belt and 16 Psyche with Web Speech API audio narration.</p>
+                  <p>Scroll engine navigates past 200+ rock Asteroid Belt and 16 Psyche with Web Speech API audio
+                    narration.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="asteroid" type="button">Demo Asteroids ➔</button>
@@ -919,7 +978,8 @@
                 <div class="step-num-col"><span class="step-circle">5</span></div>
                 <div class="step-info-col">
                   <h4>Today's Transmission: Live NASA Feed (Phase 6)</h4>
-                  <p>Live NASA APOD image/video telemetry, NASA Image Library search engine, and curated ISRO mission gallery.</p>
+                  <p>Live NASA APOD image/video telemetry, NASA Image Library search engine, and curated ISRO mission
+                    gallery.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="transmission" type="button">Demo APOD Feed ➔</button>
@@ -931,7 +991,8 @@
                 <div class="step-num-col"><span class="step-circle">6</span></div>
                 <div class="step-info-col">
                   <h4>Cadet Academy Quiz & Badges (Phase 5)</h4>
-                  <p>Interactive MCQs, Match-the-Pair and Ordering questions with instant scientific explanations, XP rewards, and streaks.</p>
+                  <p>Interactive MCQs, Match-the-Pair and Ordering questions with instant scientific explanations, XP
+                    rewards, and streaks.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="quiz" type="button">Demo Quiz ➔</button>
@@ -943,7 +1004,8 @@
                 <div class="step-num-col"><span class="step-circle">7</span></div>
                 <div class="step-info-col">
                   <h4>Certificate of Celestial Mastery (Phase 5)</h4>
-                  <p>High-resolution official accredited space exploration certificate with printable print-to-PDF formatting.</p>
+                  <p>High-resolution official accredited space exploration certificate with printable print-to-PDF
+                    formatting.</p>
                 </div>
                 <div class="step-action-col">
                   <button class="btn-step-jump" data-target="certificate" type="button">Demo Certificate ➔</button>
@@ -1029,7 +1091,8 @@
                 <div class="future-icon">01</div>
                 <div class="future-badge">STAGE 1 // ACADEMIC</div>
                 <h4>Teacher Dashboard for Schools & Colleges</h4>
-                <p>Dedicated portal for educators to assign solar system flight sectors as homework, track student quiz scores in real-time, and align modules with CBSE, ICSE, and NGSS curricula.</p>
+                <p>Dedicated portal for educators to assign solar system flight sectors as homework, track student quiz
+                  scores in real-time, and align modules with CBSE, ICSE, and NGSS curricula.</p>
               </div>
 
               <!-- Feature 2 -->
@@ -1037,7 +1100,8 @@
                 <div class="future-icon">02</div>
                 <div class="future-badge">STAGE 2 // REAL-TIME</div>
                 <h4>Live Space News & Launch Manifests</h4>
-                <p>Live countdown tickers and telemetry feeds for upcoming launches: ISRO Gaganyaan crewed spaceflight, Chandrayaan-4 sample return, NASA Artemis II, and Europa Clipper.</p>
+                <p>Live countdown tickers and telemetry feeds for upcoming launches: ISRO Gaganyaan crewed spaceflight,
+                  Chandrayaan-4 sample return, NASA Artemis II, and Europa Clipper.</p>
               </div>
 
               <!-- Feature 3 -->
@@ -1045,7 +1109,8 @@
                 <div class="future-icon">03</div>
                 <div class="future-badge">STAGE 3 // LOCALIZATION</div>
                 <h4>Multilingual Regional Voice Narration</h4>
-                <p>Expand Web Speech API voice synthesis to support Indian regional languages: Hindi (हिंदी), Tamil (தமிழ்), Telugu (తెలుగు), Kannada, and Bengali, democratizing space learning for rural schools.</p>
+                <p>Expand Web Speech API voice synthesis to support Indian regional languages: Hindi (हिंदी), Tamil
+                  (தமிழ்), Telugu (తెలుగు), Kannada, and Bengali, democratizing space learning for rural schools.</p>
               </div>
 
               <!-- Feature 4 -->
@@ -1053,7 +1118,8 @@
                 <div class="future-icon">04</div>
                 <div class="future-badge">STAGE 4 // IMMERSION</div>
                 <h4>WebXR / Augmented Reality (AR Mode)</h4>
-                <p>One-click WebXR integration allowing cadets to spawn 1:1 scale AR models of Chandrayaan-3 Vikram lander, Pragyan rover, or Perseverance rover right on their living room or classroom desk.</p>
+                <p>One-click WebXR integration allowing cadets to spawn 1:1 scale AR models of Chandrayaan-3 Vikram
+                  lander, Pragyan rover, or Perseverance rover right on their living room or classroom desk.</p>
               </div>
 
               <!-- Feature 5 -->
@@ -1061,7 +1127,8 @@
                 <div class="future-icon">05</div>
                 <div class="future-badge">STAGE 5 // COSMIC DEEP FIELD</div>
                 <h4>Interstellar & Exoplanetary Sectors</h4>
-                <p>Expand flight corridor beyond Neptune to the Oort Cloud, Alpha Centauri, habitable exoplanets (TRAPPIST-1e, Proxima b), and James Webb Deep Field galaxies.</p>
+                <p>Expand flight corridor beyond Neptune to the Oort Cloud, Alpha Centauri, habitable exoplanets
+                  (TRAPPIST-1e, Proxima b), and James Webb Deep Field galaxies.</p>
               </div>
 
               <!-- Feature 6 -->
@@ -1069,7 +1136,8 @@
                 <div class="future-icon">06</div>
                 <div class="future-badge">STAGE 6 // COMMUNITY</div>
                 <h4>Duolingo-Style Social Guilds & Clan Wars</h4>
-                <p>Space squads for schools where classrooms compete weekly in astrophysics challenges, earning shared XP to launch collaborative virtual orbital stations.</p>
+                <p>Space squads for schools where classrooms compete weekly in astrophysics challenges, earning shared
+                  XP to launch collaborative virtual orbital stations.</p>
               </div>
             </div>
           </div>
@@ -1083,27 +1151,33 @@
             <div class="tech-grid">
               <div class="tech-item">
                 <strong class="tech-title">Three.js WebGL Engine</strong>
-                <p>Powers the 3D celestial cosmos, 4,000 multi-spectral stars, planet shaders, and interactive 3D satellite mesh raycasting.</p>
+                <p>Powers the 3D celestial cosmos, 4,000 multi-spectral stars, planet shaders, and interactive 3D
+                  satellite mesh raycasting.</p>
               </div>
               <div class="tech-item">
                 <strong class="tech-title">GLSL Atmosphere Shaders</strong>
-                <p>Custom vertex & fragment shader materials simulating Rayleigh scattering and Fresnel rim glow for Earth, Venus, and Neptune.</p>
+                <p>Custom vertex & fragment shader materials simulating Rayleigh scattering and Fresnel rim glow for
+                  Earth, Venus, and Neptune.</p>
               </div>
               <div class="tech-item">
                 <strong class="tech-title">Pure Web Audio Synthesizer</strong>
-                <p>Zero external MP3 audio file dependencies. Synthesizes pneumatic visor locks, rocket thrust roar, and 55Hz binaural cabin hums natively in code.</p>
+                <p>Zero external MP3 audio file dependencies. Synthesizes pneumatic visor locks, rocket thrust roar, and
+                  55Hz binaural cabin hums natively in code.</p>
               </div>
               <div class="tech-item">
                 <strong class="tech-title">Web Speech API Voice Engine</strong>
-                <p>Native client-side speech synthesis providing vocal scientific narration for celestial encounters and NASA transmissions with subtitle sync.</p>
+                <p>Native client-side speech synthesis providing vocal scientific narration for celestial encounters and
+                  NASA transmissions with subtitle sync.</p>
               </div>
               <div class="tech-item">
                 <strong class="tech-title">HTML5 2D Canvas 2K Texture Engine</strong>
-                <p>Procedurally renders 2048x1024 Blue Marble oceans, continents, craters, and Jovian storm bands on demand with zero download weight.</p>
+                <p>Procedurally renders 2048x1024 Blue Marble oceans, continents, craters, and Jovian storm bands on
+                  demand with zero download weight.</p>
               </div>
               <div class="tech-item">
                 <strong class="tech-title">RESTful NASA Open APIs</strong>
-                <p>Direct integration with api.nasa.gov APOD and images-api.nasa.gov search engine with resilient LocalStorage caching.</p>
+                <p>Direct integration with api.nasa.gov APOD and images-api.nasa.gov search engine with resilient
+                  LocalStorage caching.</p>
               </div>
             </div>
           </div>
@@ -1125,7 +1199,7 @@
 
     <!-- Cockpit Interactive Dashboard Overlays (Directly on Dashboard Panels) -->
     <div id="cockpitDashboardOverlay" class="cockpit-dashboard-overlay">
-      
+
       <!-- Left Screen: MFD Radar & Orbit Vector -->
       <div class="mfd-screen left-mfd">
         <div class="mfd-radar-scope">
@@ -1161,12 +1235,14 @@
             <button class="sat-chip-btn" data-sat="navic" type="button" title="ISRO NavIC Constellation">NavIC</button>
             <button class="sat-chip-btn" data-sat="insat" type="button" title="ISRO INSAT-3DR Weather">INSAT</button>
             <button class="sat-chip-btn" data-sat="gps" type="button" title="US Space Force GPS III">GPS III</button>
-            <button class="sat-chip-btn" data-sat="hubble" type="button" title="NASA/ESA Hubble Telescope">Hubble</button>
+            <button class="sat-chip-btn" data-sat="hubble" type="button"
+              title="NASA/ESA Hubble Telescope">Hubble</button>
           </div>
         </div>
 
         <!-- Phase 6: Quick Today's Transmission MFD Button -->
-        <button id="btnOpenTransmissionMfd" class="mfd-transmission-btn" type="button" title="Open Today's Transmission Screen">
+        <button id="btnOpenTransmissionMfd" class="mfd-transmission-btn" type="button"
+          title="Open Today's Transmission Screen">
           <div class="mfd-trans-header">
             <span class="mfd-trans-icon"></span>
             <span class="mfd-trans-title">TODAY'S TRANSMISSION</span>
@@ -1218,11 +1294,15 @@
       <div class="mfd-screen lower-mfd">
         <div class="lower-meter">
           <span>THRUST GIMBAL</span>
-          <div class="mini-meter-track"><div class="mini-meter-fill" id="thrustMeter" style="width: 78%"></div></div>
+          <div class="mini-meter-track">
+            <div class="mini-meter-fill" id="thrustMeter" style="width: 78%"></div>
+          </div>
         </div>
         <div class="lower-meter">
           <span>REACTION CONTROL (RCS)</span>
-          <div class="mini-meter-track"><div class="mini-meter-fill" style="width: 92%; background: #4ade80;"></div></div>
+          <div class="mini-meter-track">
+            <div class="mini-meter-fill" style="width: 92%; background: #4ade80;"></div>
+          </div>
         </div>
         <!-- Phase 5: Quick Level Quiz Button -->
         <button id="btnMfdQuiz" class="mfd-quiz-btn" type="button" title="Launch Current Level Quiz">
@@ -1249,20 +1329,27 @@
   <!-- ========================================================
        5. PHASE 4: MISSION CHANDRAYAAN-3 (3D LUNAR SIMULATION)
        ======================================================== -->
-  <section id="chandrayaanStage" class="chandrayaan-stage" aria-label="Mission Chandrayaan-3: Journey to the Moon" style="display: none;">
+  <section id="chandrayaanStage" class="chandrayaan-stage" aria-label="Mission Chandrayaan-3: Journey to the Moon"
+    style="display: none;">
     <canvas id="c3Canvas"></canvas>
 
     <header class="c3-top-bar">
       <div class="c3-title-group">
-        <div class="c3-flag-emblem" aria-hidden="true"><div class="band-saffron"></div><div class="band-white"></div><div class="band-green"></div></div>
+        <div class="c3-flag-emblem" aria-hidden="true">
+          <div class="band-saffron"></div>
+          <div class="band-white"></div>
+          <div class="band-green"></div>
+        </div>
         <div>
           <div class="c3-main-title" id="c3MainTitle">Mission Chandrayaan-3</div>
           <div class="c3-sub-title" id="c3SubTitle">ISRO LUNAR EXPLORATION PROTOCOL</div>
         </div>
       </div>
-      <div class="c3-clock-container"><span class="c3-clock-dot"></span><span id="c3MissionClock">T+ 00:00:00</span></div>
+      <div class="c3-clock-container"><span class="c3-clock-dot"></span><span id="c3MissionClock">T+ 00:00:00</span>
+      </div>
       <div class="c3-top-actions">
-        <button class="c3-btn" id="c3BtnSkip" type="button" title="Skip the journey and go to the landing">Skip to landing</button>
+        <button class="c3-btn" id="c3BtnSkip" type="button" title="Skip the journey and go to the landing">Skip to
+          landing</button>
         <button class="c3-btn" id="c3VoiceToggle" type="button" title="Toggle audio narration">Voice: ON</button>
         <button class="c3-btn c3-btn-gold" id="c3BtnRestart" type="button" title="Restart the mission">Restart</button>
       </div>
@@ -1273,7 +1360,8 @@
     <aside class="c3-fact-card" id="c3FactCard" aria-label="Mission Intelligence">
       <div class="c3-card-header">
         <span class="c3-card-badge" id="c3CardBadge">STAGE 1 OF 8</span>
-        <button class="c3-narrator-btn" id="c3CardNarrateBtn" type="button" onclick="window.Chandrayaan3Engine.speakStageFact()">Listen</button>
+        <button class="c3-narrator-btn" id="c3CardNarrateBtn" type="button"
+          onclick="window.Chandrayaan3Engine.speakStageFact()">Listen</button>
       </div>
       <h2 class="c3-card-stage-name" id="c3StageName">Launch</h2>
       <div class="c3-card-stage-sub" id="c3StageSub">14 Jul 2023</div>
@@ -1313,7 +1401,9 @@
 
     <footer class="c3-bottom-bar">
       <div class="c3-bottom-left"><span class="c3-scroll-hint" id="c3Hint">Press “Start Countdown”.</span></div>
-      <div class="c3-bottom-progress-track"><div class="c3-bottom-progress-fill" id="c3BottomProgressFill"></div></div>
+      <div class="c3-bottom-progress-track">
+        <div class="c3-bottom-progress-fill" id="c3BottomProgressFill"></div>
+      </div>
       <div class="c3-bottom-right" id="c3BottomProgressText">STAGE 1 / 8</div>
     </footer>
   </section>
@@ -1538,7 +1628,9 @@
     <div class="ship-flash" id="shipFlash"></div>
 
     <!-- Story / result dialog (filled by spaceship.js) -->
-    <div class="ship-dialog-overlay" id="shipDialog"><div class="ship-dialog-box" id="shipDialogBox"></div></div>
+    <div class="ship-dialog-overlay" id="shipDialog">
+      <div class="ship-dialog-box" id="shipDialogBox"></div>
+    </div>
 
     <!-- Floating Hotspot Inspector Card -->
     <aside class="ship-inspector-card" id="shipInspectorCard" aria-label="Component Telemetry">
@@ -1564,7 +1656,8 @@
 
     <!-- Bottom Controls Hint Bar -->
     <div class="ship-controls-bar">
-      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span class="ship-kbd">D</span> Walk (dock area)</span>
+      <span><span class="ship-kbd">W</span><span class="ship-kbd">A</span><span class="ship-kbd">S</span><span
+          class="ship-kbd">D</span> Walk (dock area)</span>
       <span>•</span>
       <span><span class="ship-kbd">Mouse Drag</span> Look Around</span>
       <span>•</span>
@@ -1593,4 +1686,5 @@
   <!-- 3D Spacecraft Rotatable Model & Labeled Components Viewer -->
   <script src="./craft-viewer.js"></script>
 </body>
+
 </html>
