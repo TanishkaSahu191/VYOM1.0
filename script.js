@@ -4103,6 +4103,9 @@
     }
     if (phaseNum !== 5 && marsStage) {
       marsStage.style.display = 'none';
+      if (window.MarsExplorerEngine && window.MarsExplorerEngine.pause) {
+        window.MarsExplorerEngine.pause();
+      }
     }
     if (phaseNum !== 6 && phaseNum !== 7 && spaceshipStage) {
       spaceshipStage.style.display = 'none';
@@ -4189,6 +4192,9 @@
       }
       if (window.MarsExplorerEngine) {
         window.MarsExplorerEngine.init();
+        if (window.MarsExplorerEngine.resume) {
+          window.MarsExplorerEngine.resume();
+        }
       }
     }
     // Phase 6: My Spaceship (ISS Habitation Corridor)

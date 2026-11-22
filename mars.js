@@ -355,6 +355,18 @@
       } catch (e) {}
     }
 
+    pauseAmbience() {
+      if (this.windGain && this.ctx) {
+        this.windGain.gain.setValueAtTime(0, this.ctx.currentTime);
+      }
+    }
+
+    resumeAmbience() {
+      if (this.windGain && this.ctx && !this.isMuted) {
+        this.windGain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+      }
+    }
+
     playBeep(freq = 900, duration = 0.08, type = 'sine') {
       if (this.isMuted) return;
       this.init();
@@ -1115,11 +1127,22 @@
       }
     }
 
-    toggleRover() {
+    pause() {
+      if (this.audio) this.audio.pauseAmbience();
+      if (window.speechSynthesis) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+    }
+
+    resume() {
+      if (this.audio) this.audio.resumeAmbience();
+    }
+
+    toggleRover(force = false) {
       const dist = this.astronautGroup.position.distanceTo(this.roverGroup.position);
       if (!this.player.inRover) {
-        // Enter Rover if close
-        if (dist < 5.0) {
+        // Enter Rover if close or forced (landing sequence completion)
+        if (force || dist < 12.0) {
           this.player.inRover = true;
           this.astronautGroup.visible = false;
           this.audio.playBeep(980, 0.1);
@@ -1614,11 +1637,14 @@
       clearInterval(this.landingTimer);
       this.isLandingSeqActive = false;
       const modal = document.getElementById('marsLandingIntroModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('is-open');
+      }
 
       // Automatically place player in rover so they can drive right away!
       if (!this.player.inRover) {
-        this.toggleRover();
+        this.toggleRover(true);
       }
       this.hasSeenLandingSeq = true;
       this.audio.playRoverEngine();
@@ -1632,13 +1658,17 @@
       const modal = document.getElementById('marsMapModal');
       if (!modal) return;
       modal.style.display = 'flex';
+      modal.classList.add('is-open');
       this.initRadarCanvas();
       this.calculateSelectedRoute();
     }
 
     closeMapModal() {
       const modal = document.getElementById('marsMapModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('is-open');
+      }
     }
 
     toggleMapModal() {
@@ -2045,7 +2075,10 @@
 
     closeTransmitModal() {
       const modal = document.getElementById('marsTransmitModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('is-open');
+      }
     }
 
     toggleTransmitModal() {
@@ -2248,10 +2281,23 @@
         });
       });
 
-      // Dialog Close Buttons
+      // Dialog Close Buttons & Overlay Backdrop Clicks
       document.querySelectorAll('.mars-modal-close').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          e.target.closest('.mars-modal-overlay').classList.remove('is-open');
+          const overlay = e.target.closest('.mars-modal-overlay');
+          if (overlay) {
+            overlay.classList.remove('is-open');
+            overlay.style.display = 'none';
+          }
+        });
+      });
+
+      document.querySelectorAll('.mars-modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove('is-open');
+            overlay.style.display = 'none';
+          }
         });
       });
 
